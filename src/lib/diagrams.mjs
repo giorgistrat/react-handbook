@@ -1,0 +1,582 @@
+// Diagrams injected into the synced notes. Each returns an HTML string with no
+// blank lines, so Markdown treats it as one raw HTML block.
+
+const INK = '#2b2522'
+const PINK = '#d9539f'
+const ORANGE = '#ff7a00'
+
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+const attr = (s) => esc(s).replace(/"/g, '&quot;')
+
+/** Collapse whitespace-only lines and newlines so the block stays one HTML block. */
+function block(html) {
+	return html
+		.split('\n')
+		.map((l) => l.trim())
+		.filter(Boolean)
+		.join('')
+}
+
+function fig(id, caption, inner) {
+	return block(
+		`<figure class="fig fig-${id}">${inner}${caption ? `<figcaption>${caption}</figcaption>` : ''}</figure>`,
+	)
+}
+
+function mermaid(code, caption) {
+	// <pre> is a CommonMark "type 1" HTML block, so blank lines inside are fine.
+	return `<figure class="fig fig-mermaid"><pre class="mermaid">\n${esc(code.trim())}\n</pre>${
+		caption ? `<figcaption>${caption}</figcaption>` : ''
+	}</figure>`
+}
+
+// ─── Pipeline ───────────────────────────────────────────────────────────────
+
+const PIPELINE = [
+	{
+		key: 'trigger',
+		title: 'Trigger',
+		items: ['<code>root.render()</code>', '<code>setState</code> / <code>dispatch</code>', 'lane picked, update queued'],
+		link: 'scheduler-lanes-and-batching',
+	},
+	{
+		key: 'render',
+		title: 'Render phase',
+		tag: 'pure · interruptible',
+		items: ['call components (<code>beginWork</code>)', 'reconcile children (diff)', 'prepare DOM (<code>completeWork</code>)'],
+		link: 'the-work-loop',
+	},
+	{
+		key: 'commit',
+		title: 'Commit phase',
+		tag: 'sync · atomic',
+		items: ['before mutation', 'mutation: DOM writes', 'swap trees', 'layout: <code>useLayoutEffect</code>, refs'],
+		link: 'commit-phase-and-effects',
+	},
+	{ key: 'paint', title: 'Browser', items: ['style / layout', 'paint'] },
+	{
+		key: 'effects',
+		title: 'After paint',
+		items: ['passive effects', '<code>useEffect</code>'],
+		link: 'commit-phase-and-effects',
+	},
+]
+
+export function pipeline({ hrefFor } = {}) {
+	const steps = PIPELINE.map(
+		(s, i) => `
+		<div class="pipe-step pipe-${s.key}">
+			<div class="pipe-head"><span class="pipe-num">${i + 1}</span><span>${s.title}</span></div>
+			${s.tag ? `<span class="pipe-tag">${s.tag}</span>` : ''}
+			<ul>${s.items.map((it) => `<li>${it}</li>`).join('')}</ul>
+			${hrefFor && s.link ? `<a class="pipe-link" href="${hrefFor(s.link)}">Read →</a>` : ''}
+		</div>`,
+	).join('<div class="pipe-arrow" aria-hidden="true">→</div>')
+	return fig('pipeline', 'Every update goes through the same five steps. Only the render phase can pause.', `<div class="pipe">${steps}</div>`)
+}
+
+// ─── Start Here: restaurant analogy ─────────────────────────────────────────
+
+export function restaurant() {
+	const steps = [
+		['🧾', 'Order', 'a click calls <code>setState</code>', 'trigger'],
+		['🍳', 'Kitchen', 'plate prepared off-screen; can pause or restart', 'render'],
+		['🍽️', 'Serve', 'the whole plate, in one go', 'commit'],
+		['🧽', 'Chores', 'wipe the table, update the bill', 'effects'],
+	]
+	return fig(
+		'restaurant',
+		'The restaurant analogy, mapped to React’s phases.',
+		`<div class="pipe">${steps
+			.map(
+				([icon, t, d, k], i) =>
+					`<div class="pipe-step pipe-${k === 'trigger' ? 'trigger' : k}"><div class="pipe-icon">${icon}</div><div class="pipe-head"><span class="pipe-num">${i + 1}</span><span>${t}</span></div><p>${d}</p><span class="pipe-tag">${k}</span></div>`,
+			)
+			.join('<div class="pipe-arrow" aria-hidden="true">→</div>')}</div>`,
+	)
+}
+
+// ─── Fiber: linked tree ────────────────────────────────────────────────────
+
+export function fiberTree() {
+	const W = 118
+	const H = 38
+	const N = {
+		HostRoot: [70, 28],
+		App: [70, 108],
+		Header: [70, 188],
+		main: [270, 188],
+		Counter: [270, 268],
+		p: [470, 268],
+		hi: [470, 348],
+	}
+	const label = { hi: '"hi" (HostText)' }
+	const fill = { HostRoot: '#efe3c8', App: '#f7c4e6', Header: '#f7c4e6', Counter: '#f7c4e6', main: '#a6ece3', p: '#a6ece3', hi: '#ffe08a' }
+	const node = (k) => {
+		const [cx, cy] = N[k]
+		return `<g><rect x="${cx - W / 2}" y="${cy - H / 2}" width="${W}" height="${H}" rx="9" fill="${fill[k]}" stroke="${INK}" stroke-width="2"/><text x="${cx}" y="${cy + 5}" text-anchor="middle" class="t-node">${label[k] ?? k}</text></g>`
+	}
+	const child = (a, b) => {
+		const [x1, y1] = N[a]
+		const [x2, y2] = N[b]
+		if (x1 === x2) return `<path d="M${x1 - 14} ${y1 + H / 2} V${y2 - H / 2 - 4}" class="e-child" marker-end="url(#ah-ink)"/>`
+		return `<path d="M${x1} ${y1 + H / 2} V${y2 - H / 2 - 4}" class="e-child" marker-end="url(#ah-ink)"/>`
+	}
+	const sibling = (a, b) => {
+		const [x1, y1] = N[a]
+		const [x2] = N[b]
+		return `<path d="M${x1 + W / 2} ${y1} H${x2 - W / 2 - 4}" class="e-sibling" marker-end="url(#ah-orange)"/>`
+	}
+	const ret = (a, b) => {
+		const [x1, y1] = N[a]
+		const [x2, y2] = N[b]
+		if (x1 === x2) return `<path d="M${x1 + 14} ${y1 - H / 2} V${y2 + H / 2 + 4}" class="e-return" marker-end="url(#ah-pink)"/>`
+		return `<path d="M${x1 - 30} ${y1 - H / 2} C${x1 - 30} ${y1 - 50} ${x2 + W / 2 + 40} ${y2} ${x2 + W / 2 + 4} ${y2}" class="e-return" marker-end="url(#ah-pink)"/>`
+	}
+	const defs = `<defs>${[
+		['ink', INK],
+		['orange', ORANGE],
+		['pink', PINK],
+	]
+		.map(
+			([id, c]) =>
+				`<marker id="ah-${id}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="${c}"/></marker>`,
+		)
+		.join('')}</defs>`
+	const svg = `<svg viewBox="0 0 560 380" class="diagram-svg" role="img" aria-label="Fiber tree with child, sibling and return pointers">${defs}
+		${child('HostRoot', 'App')}${child('App', 'Header')}${child('main', 'Counter')}${child('p', 'hi')}
+		${sibling('Header', 'main')}${sibling('Counter', 'p')}
+		${ret('App', 'HostRoot')}${ret('Header', 'App')}${ret('main', 'App')}${ret('Counter', 'main')}${ret('p', 'main')}${ret('hi', 'p')}
+		${Object.keys(N).map(node).join('')}
+	</svg>`
+	const legend = `<div class="legend"><span><i class="sw sw-child"></i>child (first child only)</span><span><i class="sw sw-sibling"></i>sibling</span><span><i class="sw sw-return"></i>return (parent)</span></div>`
+	return fig('fiber-tree', 'No children arrays: each fiber points to its first <code>child</code>, its next <code>sibling</code>, and its parent via <code>return</code>.', svg + legend)
+}
+
+export function fiberAnatomy() {
+	const groups = [
+		['Identity', ['tag', 'key', 'elementType', 'type', 'stateNode'], 'pink'],
+		['Tree links', ['return', 'child', 'sibling', 'index', 'ref'], 'teal'],
+		['Props & state', ['pendingProps', 'memoizedProps', 'memoizedState', 'updateQueue', 'dependencies'], 'mustard'],
+		['Effects', ['flags', 'subtreeFlags', 'deletions'], 'orange'],
+		['Scheduling', ['lanes', 'childLanes'], 'plum'],
+		['Double buffering', ['alternate'], 'cream'],
+	]
+	return fig(
+		'anatomy',
+		'A fiber is a plain object. You only need to remember: type, props, state, and links to parent / child / sibling.',
+		`<div class="anatomy"><div class="anatomy-title"><code>FiberNode</code></div><div class="anatomy-grid">${groups
+			.map(
+				([t, fields, c]) =>
+					`<div class="anatomy-group g-${c}"><h5>${t}</h5>${fields.map((f) => `<code>${f}</code>`).join('')}</div>`,
+			)
+			.join('')}</div></div>`,
+	)
+}
+
+export function stackVsFiber() {
+	return fig(
+		'stack-vs-fiber',
+		'The stack reconciler kept its place on the JS call stack. Fiber keeps it in one variable.',
+		`<div class="versus">
+			<div class="vs-card">
+				<h5>Stack reconciler <small>(≤ React 15)</small></h5>
+				<div class="stack">
+					<div class="frame">reconcile(<b>button</b>)</div>
+					<div class="frame">reconcile(<b>Counter</b>)</div>
+					<div class="frame">reconcile(<b>main</b>)</div>
+					<div class="frame">reconcile(<b>App</b>)</div>
+				</div>
+				<p><span class="chip chip-bad">can’t pause</span><span class="chip chip-bad">can’t prioritize</span><span class="chip chip-bad">can’t throw away</span></p>
+			</div>
+			<div class="vs-card">
+				<h5>Fiber <small>(React 16+)</small></h5>
+				<div class="heap">
+					<span class="obj">App</span><span class="obj">main</span><span class="obj on">Counter</span><span class="obj">button</span>
+					<div class="ptr"><code>workInProgress</code> → Counter</div>
+				</div>
+				<p><span class="chip chip-good">pause</span><span class="chip chip-good">resume</span><span class="chip chip-good">prioritize</span><span class="chip chip-good">discard</span></p>
+			</div>
+		</div>`,
+	)
+}
+
+export function doubleBuffer() {
+	const cell = (state, note) => `<div class="db-cell db-${state}"><b>${state === 'current' ? 'current' : state === 'wip' ? 'work-in-progress' : state === 'idle' ? 'scratch (alternate)' : '—'}</b>${note ? `<small>${note}</small>` : ''}</div>`
+	const rows = [
+		['render 1', cell('current', 'on screen'), cell('none', '')],
+		['render 2', cell('idle', 'stays on screen until commit'), cell('wip', 'B.alternate = A → commit → current')],
+		['render 3', cell('wip', 'reused, rebuilt → commit → current'), cell('idle', '')],
+	]
+	return fig(
+		'double-buffer',
+		'Two trees take turns. The commit flips a single pointer: <code>root.current = finishedWork</code>.',
+		`<div class="db"><div class="db-h"></div><div class="db-h">Tree A</div><div class="db-h">Tree B</div>${rows
+			.map(([r, a, b]) => `<div class="db-row">${r}</div>${a}${b}`)
+			.join('')}</div>`,
+	)
+}
+
+// ─── Work loop ─────────────────────────────────────────────────────────────
+
+export function workLoopFlow() {
+	const box = (cx, cy, title, sub, fill) =>
+		`<g><rect x="${cx - 78}" y="${cy - 27}" width="156" height="54" rx="10" fill="${fill}" stroke="${INK}" stroke-width="2"/><text x="${cx}" y="${cy - 2}" text-anchor="middle" class="t-node">${title}</text>${sub ? `<text x="${cx}" y="${cy + 15}" text-anchor="middle" class="t-small">${sub}</text>` : ''}</g>`
+	const diamond = (cx, cy, label) =>
+		`<g><polygon points="${cx},${cy - 32} ${cx + 58},${cy} ${cx},${cy + 32} ${cx - 58},${cy}" fill="#ffe08a" stroke="${INK}" stroke-width="2"/><text x="${cx}" y="${cy + 5}" text-anchor="middle" class="t-node">${label}</text></g>`
+	const lbl = (x, y, t, anchor = 'middle') => `<text x="${x}" y="${y}" text-anchor="${anchor}" class="t-small t-bold">${t}</text>`
+	const arrow = (d, color = INK) => `<path d="${d}" fill="none" stroke="${color}" stroke-width="2" marker-end="url(#wl-ah)"/>`
+	const svg = `<svg viewBox="0 0 680 300" class="diagram-svg" role="img" aria-label="Work loop flowchart"><defs><marker id="wl-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="${INK}"/></marker></defs>
+		${arrow('M253 70 H300')}
+		${arrow('M458 70 H510')}
+		${arrow('M570 38 V16 H175 V41')}${lbl(372, 11, 'yes → go DOWN: workInProgress = child')}
+		${arrow('M570 102 V173')}${lbl(580, 142, 'no', 'start')}
+		${arrow('M492 200 H440')}
+		${arrow('M380 168 V130 H200 V99')}${lbl(290, 124, 'yes → go ACROSS to sibling')}
+		${arrow('M322 200 H235')}${lbl(278, 192, 'no → go UP')}
+		${arrow('M175 232 V270 H570 V229')}${lbl(372, 288, 'no → complete the parent (bubble flags)')}
+		${arrow('M117 200 H88')}${lbl(102, 192, 'yes')}
+		${box(175, 70, 'performUnitOfWork', 'one fiber', '#fcf5e4')}
+		${box(380, 70, 'beginWork ↓', 'call it, or bail out', '#f7c4e6')}
+		${diamond(570, 70, 'child?')}
+		${box(570, 200, 'completeWork ↑', 'create / flag DOM', '#a6ece3')}
+		${diamond(380, 200, 'sibling?')}
+		${diamond(175, 200, 'past root?')}
+		<g><rect x="12" y="182" width="74" height="36" rx="18" fill="#ff7a00" stroke="${INK}" stroke-width="2"/><text x="49" y="205" text-anchor="middle" class="t-node">commit</text></g>
+	</svg>`
+	return fig('workloop', 'Down with <code>beginWork</code>, across to siblings, up with <code>completeWork</code>. No recursion: just one <code>workInProgress</code> pointer.', svg)
+}
+
+/** Interactive step-through of the work loop table. */
+export function workLoopWalker() {
+	const nodes = {
+		HostRoot: [200, 26],
+		App: [200, 84],
+		Fragment: [200, 142],
+		Header: [110, 200],
+		Counter: [290, 200],
+		button: [290, 258],
+		text: [290, 316],
+	}
+	const labels = { text: '"1"' }
+	const edges = [
+		['HostRoot', 'App'],
+		['App', 'Fragment'],
+		['Fragment', 'Header'],
+		['Fragment', 'Counter'],
+		['Counter', 'button'],
+		['button', 'text'],
+	]
+	const svg = `<svg viewBox="0 0 400 340" class="diagram-svg walker-svg">${edges
+		.map(([a, b]) => `<line x1="${nodes[a][0]}" y1="${nodes[a][1] + 16}" x2="${nodes[b][0]}" y2="${nodes[b][1] - 16}" stroke="${INK}" stroke-width="2"/>`)
+		.join('')}${Object.entries(nodes)
+		.map(
+			([k, [x, y]]) =>
+				`<g class="w-node" data-node="${k}"><rect x="${x - 56}" y="${y - 16}" width="112" height="32" rx="8"/><text x="${x}" y="${y + 5}" text-anchor="middle" class="t-node">${labels[k] ?? k}</text></g>`,
+		)
+		.join('')}</svg>`
+	const steps = [
+		{ n: ['HostRoot'], call: 'beginWork', s: 'bail', d: 'No own update, but <code>childLanes</code> has Sync → clone the children.' },
+		{ n: ['App'], call: 'beginWork', s: 'bail', d: 'Same props object, no update, <code>childLanes</code> has Sync → <b>bail out, continue</b>. <code>App()</code> is not called.' },
+		{ n: ['Fragment'], call: 'beginWork', s: 'bail', d: 'Same → bail out, continue.' },
+		{ n: ['Header'], call: 'beginWork', s: 'skip', d: 'Same props, no update, <code>childLanes = 0</code> → <b>skip the whole subtree</b>, return <code>null</code>.' },
+		{ n: ['Header'], call: 'completeUnitOfWork', s: 'skip', d: 'Nothing to complete → move to the sibling.' },
+		{ n: ['Counter'], call: 'beginWork', s: 'render', d: '<code>lanes</code> has Sync → <b>render</b>: <code>Counter()</code> runs, <code>useState</code> → 1, reconcile <code>&lt;button&gt;</code> → reuse fiber.' },
+		{ n: ['button'], call: 'beginWork', s: 'render', d: 'New props object → reconcile its text child <code>"1"</code>.' },
+		{ n: ['text'], call: 'beginWork → completeWork', s: 'complete', d: 'Text changed → flag <code>Update</code>. No child, so climb.' },
+		{ n: ['button'], call: 'completeWork', s: 'complete', d: 'New props → flag <code>Update</code>. Bubble <code>subtreeFlags</code>.' },
+		{ n: ['Counter', 'Fragment', 'App', 'HostRoot'], call: 'completeWork ×4', s: 'complete', d: 'Bubble <code>subtreeFlags</code> up to the root. Done: only <code>Counter()</code> ran.' },
+	]
+	return fig(
+		'walker',
+		'Click <b>Next</b> to walk the loop for one <code>setN(1)</code>. Colors: bailed out, skipped, rendered, completed.',
+		`<div class="walker" data-walker data-steps="${attr(JSON.stringify(steps))}">
+			${svg}
+			<div class="walker-side">
+				<div class="walker-legend"><span class="st st-bail">bail out</span><span class="st st-skip">skipped</span><span class="st st-render">rendered</span><span class="st st-complete">completed</span></div>
+				<div class="walker-step"><span class="walker-count">Step 0 / ${steps.length}</span><div class="walker-call"><code>workLoopSync()</code></div><p class="walker-desc">The button was clicked; <code>setN(1)</code> queued an update with <code>SyncLane</code> and marked <code>childLanes</code> up to the root.</p></div>
+				<div class="btn-row"><button type="button" class="btn btn-ghost" data-act="reset">Reset</button><button type="button" class="btn btn-ghost" data-act="prev">← Prev</button><button type="button" class="btn" data-act="next">Next →</button></div>
+			</div>
+		</div>`,
+	)
+}
+
+// ─── Reconciliation ────────────────────────────────────────────────────────
+
+export function typeChange() {
+	const tree = (root, counter, badge, cls) =>
+		`<div class="mini-tree"><div class="mt-node mt-host">&lt;${root}&gt;</div><div class="mt-edge"></div><div class="mt-node mt-comp ${cls}">&lt;Counter /&gt;<small>${counter}</small></div><span class="chip ${cls === 'gone' ? 'chip-bad' : 'chip-good'}">${badge}</span></div>`
+	return fig(
+		'type-change',
+		'Different type at the same position → React throws the old subtree away, state included.',
+		`<div class="before-after">${tree('div', 'count: 3', 'unmounted', 'gone')}<div class="ba-arrow">→</div>${tree('span', 'count: 0', 'fresh mount', 'fresh')}</div>`,
+	)
+}
+
+export function keysVsIndex() {
+	const row = (k, label, op) => `<li class="op-${op}"><span class="k">${k}</span>${label}<span class="op">${op}</span></li>`
+	return fig(
+		'keys',
+		'Inserting at the front: by index every row is touched; by key the existing rows are kept.',
+		`<div class="versus">
+			<div class="vs-card"><h5>No keys → matched by index</h5><ul class="rows">${row(0, 'Connecticut', 'update')}${row(1, 'Duke', 'update')}${row(2, 'Villanova', 'insert')}</ul></div>
+			<div class="vs-card"><h5>With keys → matched by key</h5><ul class="rows">${row('conn', 'Connecticut', 'insert')}${row('duke', 'Duke', 'keep')}${row('vill', 'Villanova', 'keep')}</ul></div>
+		</div>`,
+	)
+}
+
+// ─── Child reconciliation ──────────────────────────────────────────────────
+
+export function listDiff() {
+	const scenarios = [
+		{ name: 'Append', old: 'abc', next: 'abcd', ops: { d: 'insert' }, lp: [0, 1, 2, 2], note: '1 DOM operation. The lockstep fast path handles it.' },
+		{ name: 'Remove middle', old: 'abc', next: 'ac', ops: {}, del: 'b', lp: [0, 2], note: '1 DOM operation: b is left in the map and deleted.' },
+		{ name: 'Prepend', old: 'abc', next: 'xabc', ops: { x: 'insert' }, lp: [0, 0, 1, 2], note: '1 DOM operation. With index keys it would be 3 updates + 1 insert.' },
+		{ name: 'First → last', old: 'abcd', next: 'bcda', ops: { a: 'move' }, lp: [1, 2, 3, 3], note: '1 move: a’s old index 0 < lastPlacedIndex 3.' },
+		{ name: 'Last → first', old: 'abcd', next: 'dabc', ops: { a: 'move', b: 'move', c: 'move' }, lp: [3, 3, 3, 3], note: '3 moves, though moving d alone would do. The known worst case.' },
+	]
+	const panel = (s, i) => {
+		const oldIdx = Object.fromEntries([...s.old].map((k, j) => [k, j]))
+		return `<div class="ld-panel" data-panel="${i}" ${i ? 'hidden' : ''}>
+			<div class="ld-row"><span class="ld-label">old</span>${[...s.old]
+				.map((k, j) => `<span class="ld-chip ${s.del === k ? 'op-delete' : ''}">${k}<sub>${j}</sub></span>`)
+				.join('')}</div>
+			<div class="ld-row"><span class="ld-label">new</span>${[...s.next]
+				.map((k, j) => {
+					const op = s.ops[k] ?? 'stay'
+					return `<span class="ld-chip op-${op}">${k}${k in oldIdx ? `<sub>${oldIdx[k]}</sub>` : ''}<em>${op}</em><small>lp ${s.lp[j]}</small></span>`
+				})
+				.join('')}</div>
+			<p class="ld-note">${s.note}</p>
+		</div>`
+	}
+	return fig(
+		'listdiff',
+		'Subscript = old index, <code>lp</code> = <code>lastPlacedIndex</code> after that child. An old index smaller than <code>lp</code> means “move”.',
+		`<div class="listdiff" data-tabs>
+			<div class="btn-row tabs">${scenarios.map((s, i) => `<button type="button" class="btn ${i ? 'btn-ghost' : ''}" data-tab="${i}">${s.name}</button>`).join('')}</div>
+			${scenarios.map(panel).join('')}
+			<div class="legend"><span><i class="sw op-stay"></i>stay</span><span><i class="sw op-insert"></i>insert</span><span><i class="sw op-move"></i>move</span><span><i class="sw op-delete"></i>delete</span></div>
+		</div>`,
+	)
+}
+
+// ─── Scheduler ─────────────────────────────────────────────────────────────
+
+export function laneBits() {
+	const named = { 1: ['Sync', 'sync'], 3: ['InputContinuous', 'cont'], 5: ['Default', 'def'], 28: ['Idle', 'idle'], 29: ['Offscreen', 'off'] }
+	const cells = []
+	for (let bit = 0; bit <= 30; bit++) {
+		let cls = ''
+		let title = `bit ${bit}`
+		if (named[bit]) {
+			cls = `lane-${named[bit][1]}`
+			title = `${named[bit][0]}Lane · bit ${bit} · ${2 ** bit}`
+		} else if (bit >= 8 && bit <= 21) {
+			cls = 'lane-trans'
+			title = `TransitionLane · bit ${bit}`
+		} else if (bit >= 22 && bit <= 25) {
+			cls = 'lane-retry'
+			title = `RetryLane · bit ${bit}`
+		}
+		cells.push(`<span class="lane ${cls}" title="${title}">${bit}</span>`)
+	}
+	return fig(
+		'lanes',
+		'Lanes are bits in one 31-bit number. Lower bit = higher priority, and <code>lanes &amp; -lanes</code> picks the most urgent.',
+		`<div class="lanes"><div class="lanes-axis"><span>← higher priority</span><span>lower priority →</span></div><div class="lanes-grid">${cells.join('')}</div>
+		<div class="legend"><span><i class="sw lane-sync"></i>Sync (click, keydown)</span><span><i class="sw lane-cont"></i>InputContinuous (scroll, mousemove)</span><span><i class="sw lane-def"></i>Default (setTimeout, fetch)</span><span><i class="sw lane-trans"></i>Transitions</span><span><i class="sw lane-retry"></i>Retry</span><span><i class="sw lane-idle"></i>Idle</span><span><i class="sw lane-off"></i>Offscreen</span></div></div>`,
+	)
+}
+
+export function batching() {
+	return mermaid(
+		`
+sequenceDiagram
+  participant H as onClick handler
+  participant Q as Update queues
+  participant M as Microtask
+  participant R as Render + commit
+  H->>Q: setCount(c → c + 1) · SyncLane
+  Q-->>M: queueMicrotask (scheduled once)
+  H->>Q: setFlag(true)
+  Note right of Q: microtask already scheduled
+  H->>Q: setText('hi')
+  H-->>M: handler returns
+  M->>R: processRootScheduleInMicrotask
+  R->>R: ONE render with all 3 updates
+`,
+		'<code>setState</code> never renders by itself: it queues, and the microtask renders everything from the same tick at once.',
+	)
+}
+
+export function interruption() {
+	const slice = (x, cls, label = '') =>
+		`<g><rect x="${x}" y="40" width="26" height="34" rx="4" class="${cls}"/>${label ? `<text x="${x + 13}" y="62" text-anchor="middle" class="t-small">${label}</text>` : ''}</g>`
+	const svg = `<svg viewBox="0 0 640 126" class="diagram-svg">
+		<line x1="10" y1="96" x2="630" y2="96" stroke="${INK}" stroke-width="2"/>
+		${[20, 50, 80, 110].map((x) => slice(x, 'sl-discard')).join('')}
+		<path d="M20 34 H136" stroke="${INK}" stroke-width="1.5" stroke-dasharray="3 3"/>
+		<text x="78" y="28" text-anchor="middle" class="t-small">transition WIP · discarded</text>
+		<line x1="152" y1="20" x2="152" y2="96" stroke="${PINK}" stroke-width="3"/>
+		<text x="146" y="116" text-anchor="end" class="t-small t-bold">keydown</text>
+		<rect x="162" y="40" width="96" height="34" rx="4" class="sl-sync"/>
+		<text x="210" y="54" text-anchor="middle" class="t-small t-bold">sync render</text><text x="210" y="68" text-anchor="middle" class="t-small t-bold">+ commit</text>
+		<text x="210" y="116" text-anchor="middle" class="t-small">input updates</text>
+		${[270, 300, 330, 360, 390, 420, 450, 480].map((x) => slice(x, 'sl-trans')).join('')}
+		<text x="390" y="28" text-anchor="middle" class="t-small">transition restarts from the root · 5ms slices</text>
+		<rect x="514" y="40" width="70" height="34" rx="4" class="sl-commit"/>
+		<text x="549" y="62" text-anchor="middle" class="t-small t-bold">commit</text>
+		<text x="630" y="116" text-anchor="end" class="t-small">main thread → time</text>
+	</svg>`
+	return fig(
+		'interruption',
+		'An urgent update mid-transition: the half-built tree is thrown away (nothing was committed, so nothing to undo), then the transition starts over.',
+		svg,
+	)
+}
+
+// ─── Hooks ─────────────────────────────────────────────────────────────────
+
+export function hookList({ states = ['0', '{ current: &lt;button&gt; }', 'deps [0]', 'deps [0]'], fiber = 'Counter' } = {}) {
+	const hooks = ['useState', 'useRef', 'useLayoutEffect', 'useEffect']
+	return fig(
+		'hooklist',
+		'Hooks live in a linked list on <code>fiber.memoizedState</code>, matched purely by call order.',
+		`<div class="chain"><div class="chain-start"><code>${fiber}</code> fiber<small>.memoizedState</small></div>${hooks
+			.map(
+				(h, i) =>
+					`<span class="chain-arrow">→</span><div class="chain-node"><span class="chain-idx">#${i + 1}</span><b>${h}</b><code>${states[i]}</code><small>.next</small></div>`,
+			)
+			.join('')}<span class="chain-arrow">→</span><div class="chain-null">null</div></div>`,
+	)
+}
+
+export function conditionalHooks() {
+	const slot = (n, stored, call, ok) => `<div class="cond-slot ${ok ? 'ok' : 'bad'}"><span class="chain-idx">#${n}</span><small>stored</small><code>${stored}</code><small>called</small><code>${call}</code><b>${ok ? '✓' : '✗'}</b></div>`
+	return fig(
+		'conditional',
+		'Render 2 skips the first hook, so every later call reads the wrong slot.',
+		`<div class="cond">
+			<div class="cond-row"><span class="cond-label">Render 1<br><small>showName = true</small></span>${slot(1, "'Ada'", 'useState', true)}${slot(2, '36', 'useState', true)}${slot(3, 'effect', 'useEffect', true)}</div>
+			<div class="cond-row"><span class="cond-label">Render 2<br><small>showName = false</small></span>${slot(1, "'Ada'", 'useState(36)', false)}${slot(2, '36', 'useEffect', false)}<div class="cond-slot ghost">#3 unused</div></div>
+		</div>`,
+	)
+}
+
+export function updateRing() {
+	const R = 70
+	const cx = 210
+	const cy = 110
+	const pos = (i) => {
+		const a = -Math.PI / 2 + (i * 2 * Math.PI) / 3
+		return [cx + R * Math.cos(a), cy + R * Math.sin(a)]
+	}
+	const ups = ['u1', 'u2', 'u3']
+	const P = ups.map((_, i) => pos(i))
+	const arc = (i, j) => {
+		const [x1, y1] = P[i]
+		const [x2, y2] = P[j]
+		return `<path d="M${x1} ${y1} A${R} ${R} 0 0 1 ${x2} ${y2}" fill="none" stroke="${INK}" stroke-width="2" marker-end="url(#ring-ah)" class="ring-arc"/>`
+	}
+	const svg = `<svg viewBox="0 0 420 220" class="diagram-svg"><defs><marker id="ring-ah" viewBox="0 0 10 10" refX="22" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="${INK}"/></marker></defs>
+		${arc(0, 1)}${arc(1, 2)}${arc(2, 0)}
+		${ups
+			.map(
+				(u, i) =>
+					`<g><circle cx="${P[i][0]}" cy="${P[i][1]}" r="24" fill="${i === 2 ? '#ffb36b' : '#f7c4e6'}" stroke="${INK}" stroke-width="2"/><text x="${P[i][0]}" y="${P[i][1] + 5}" text-anchor="middle" class="t-node">${u}</text></g>`,
+			)
+			.join('')}
+		<text x="${P[2][0] - 30}" y="${P[2][1] + 4}" text-anchor="end" class="t-small t-bold">queue.pending →</text>
+		<text x="${cx}" y="${cy + 5}" text-anchor="middle" class="t-small">.next</text>
+	</svg>`
+	return fig(
+		'ring',
+		'The pending queue is circular: <code>queue.pending</code> points at the <b>last</b> update, and <code>last.next</code> is the first. Appending is O(1).',
+		svg,
+	)
+}
+
+// ─── Commit ────────────────────────────────────────────────────────────────
+
+export function commitPhases() {
+	const steps = [
+		['commit', 'Before mutation', ['DOM still shows the old UI', '<code>getSnapshotBeforeUpdate</code>']],
+		['commit', 'Mutation', ['DOM writes (insert, update, remove)', 'layout-effect cleanups', '<code>useInsertionEffect</code>', 'detach old refs']],
+		['swap', 'Swap', ['<code>root.current = finishedWork</code>']],
+		['commit', 'Layout', ['attach refs', '<code>useLayoutEffect</code> setups', '<code>componentDidMount/Update</code>']],
+		['paint', 'Paint', ['browser draws pixels']],
+		['effects', 'Passive', ['all <code>useEffect</code> cleanups, then all setups', 'SyncLane: flushed before paint']],
+	]
+	return fig(
+		'commit-phases',
+		'Everything left of “Paint” is one synchronous pass. Layout effects run child → parent, before the user sees anything.',
+		`<div class="pipe">${steps
+			.map(
+				([k, t, items], i) =>
+					`<div class="pipe-step pipe-${k}"><div class="pipe-head"><span class="pipe-num">${i + 1}</span><span>${t}</span></div><ul>${items.map((x) => `<li>${x}</li>`).join('')}</ul></div>`,
+			)
+			.join('<div class="pipe-arrow" aria-hidden="true">→</div>')}</div>`,
+	)
+}
+
+export function effectOrder() {
+	const t = (cls, label) => `<span class="eo ${cls}">${label}</span>`
+	return fig(
+		'effect-order',
+		'On update: cleanups before setups, children before parents. On unmount the order flips to parent → child.',
+		`<div class="eo-wrap">
+			<div class="eo-lane"><span class="eo-label">mutation</span>${t('eo-clean', 'C layout cleanup')}${t('eo-clean', 'P layout cleanup')}</div>
+			<div class="eo-lane"><span class="eo-label">layout</span>${t('eo-setup', 'C layout')}${t('eo-setup', 'P layout')}</div>
+			<div class="eo-lane"><span class="eo-label">paint</span><span class="eo eo-paint">🖌 browser paints</span></div>
+			<div class="eo-lane"><span class="eo-label">passive</span>${t('eo-clean', 'C effect cleanup')}${t('eo-clean', 'P effect cleanup')}${t('eo-setup', 'C effect')}${t('eo-setup', 'P effect')}</div>
+		</div>`,
+	)
+}
+
+// ─── End to end ────────────────────────────────────────────────────────────
+
+export function e2eTree() {
+	return block(`
+		<figure class="fig fig-e2e-tree">
+			<div class="tree-list">
+				<div class="tl" style="--d:0"><span class="tl-n tl-root">HostRoot</span></div>
+				<div class="tl" style="--d:1"><span class="tl-n tl-comp">App</span></div>
+				<div class="tl" style="--d:2"><span class="tl-n tl-host">main</span></div>
+				<div class="tl" style="--d:3"><span class="tl-n tl-comp">Header</span></div>
+				<div class="tl" style="--d:4"><span class="tl-n tl-host">h1</span> → <span class="tl-n tl-text">"Clicks"</span></div>
+				<div class="tl" style="--d:3"><span class="tl-n tl-comp tl-hot">Counter</span></div>
+				<div class="tl" style="--d:4"><span class="tl-n tl-host">button</span> → <span class="tl-n tl-text">"0"</span></div>
+			</div>
+			${hookList({ states: ['0', '{ current: &lt;button&gt; }', 'deps [0]', 'deps [0]'] }).replace('<figure class="fig fig-hooklist">', '<div class="nested">').replace(/<figcaption>.*<\/figcaption><\/figure>$/, '</div>')}
+			<figcaption>The <code>current</code> fiber tree after mount, with <code>Counter</code>’s hook list.</figcaption>
+		</figure>`)
+}
+
+export function e2eSequence() {
+	return mermaid(
+		`
+sequenceDiagram
+  autonumber
+  participant B as Browser
+  participant D as React DOM root listener
+  participant C as Counter handler
+  participant S as Microtask
+  participant W as Work loop
+  participant K as Commit
+  B->>D: native click
+  D->>C: dispatchDiscreteEvent → onClick
+  C->>S: setCount(1) · SyncLane · queueMicrotask
+  C-->>B: handler returns, nothing rendered yet
+  S->>W: performSyncWorkOnRoot → renderRootSync
+  W->>W: HostRoot, App, main bail out · Header skipped
+  W->>W: Counter() runs → count = 1
+  W->>K: commitRoot
+  K->>K: mutation: "0" → "1", then root.current = finishedWork
+  K->>K: layout: useLayoutEffect sets width 50px
+  K->>K: passive (SyncLane): document.title = "Clicks: 1"
+  K-->>B: microtask ends → paint
+`,
+		'One click, end to end. Steps 1–4 are the event, 5–7 render, 8–11 commit, 12 paint.',
+	)
+}

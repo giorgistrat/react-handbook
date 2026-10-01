@@ -1,0 +1,139 @@
+---
+import { getCollection } from 'astro:content'
+import Base from '../layouts/Base.astro'
+import NoteCard from '../components/NoteCard.astro'
+import { pipeline } from '../lib/diagrams.mjs'
+import moc from '../lib/moc-intro.json'
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/')
+const notes = (await getCollection('notes')).sort((a, b) => a.data.order - b.data.order)
+const hrefFor = (slug: string) => `${base}notes/${slug}/`
+const intro = moc.introHtml.replace(/href="notes\//g, `href="${base}notes/`)
+---
+
+<Base title="React Internals">
+	<header class="intro wrap">
+		<p class="eyebrow">Notes · React 19.2.5</p>
+		<h1>React Internals</h1>
+		<p class="tagline">How React actually works under the hood…kinda deep.</p>
+		<div class="lead" set:html={intro} />
+		<div class="btn-row">
+			<a class="btn" href={hrefFor('start-here')}>Start reading</a>
+			<a class="btn btn-ghost" href="#notes">All notes</a>
+		</div>
+	</header>
+
+	<section class="wrap section">
+		<h2>The pipeline</h2>
+		<Fragment set:html={pipeline({ hrefFor })} />
+	</section>
+
+	<section class="wrap section" id="notes">
+		<h2>The notes</h2>
+		<p class="section-sub">Read them in order. Each one builds on the ones before it.</p>
+		<div class="grid">
+			{notes.map((n, i) => (
+				<NoteCard
+					href={hrefFor(n.data.slug)}
+					index={i}
+					title={n.data.title.replace('React Internals - ', '')}
+					summary={n.data.summary}
+					level={n.data.level}
+					illus={n.data.illus}
+				/>
+			))}
+		</div>
+	</section>
+</Base>
+
+<style>
+	.intro {
+		padding-top: clamp(40px, 8vw, 88px);
+		padding-bottom: 12px;
+		max-width: 880px;
+		margin-left: max(16px, calc((100% - 1120px) / 2));
+	}
+
+	.eyebrow {
+		display: inline-block;
+		margin: 0 0 18px;
+		padding: 3px 12px;
+		border: 2px solid var(--ink);
+		border-radius: 999px;
+		background: var(--pink);
+		font-size: 13px;
+		font-weight: 800;
+	}
+
+	h1 {
+		font-size: clamp(48px, 9vw, 104px);
+		letter-spacing: -0.055em;
+		line-height: 0.95;
+	}
+
+	.tagline {
+		margin: 14px 0 22px;
+		font-size: clamp(20px, 2.6vw, 28px);
+		font-weight: 800;
+		letter-spacing: -0.03em;
+		color: var(--ink-soft);
+	}
+
+	.lead :global(p) {
+		margin: 0 0 14px;
+		font-size: 17px;
+		max-width: 70ch;
+	}
+
+	.lead :global(code) {
+		background: var(--cream);
+		border-radius: 4px;
+		padding: 0 4px;
+	}
+
+	.lead :global(.callout) {
+		padding: 12px 16px;
+		background: var(--cream);
+		border: 2px solid var(--ink);
+		border-radius: 10px;
+	}
+
+	.lead :global(a) {
+		font-weight: 700;
+		text-decoration-color: var(--orange);
+		text-decoration-thickness: 2px;
+	}
+
+	.btn-row {
+		margin-top: 22px;
+	}
+
+	.section {
+		padding-top: clamp(48px, 7vw, 80px);
+	}
+
+	.section h2 {
+		font-size: clamp(32px, 4.4vw, 46px);
+		text-align: center;
+		margin-bottom: 10px;
+	}
+
+	.section-sub {
+		text-align: center;
+		margin: 0 0 32px;
+		color: var(--ink-soft);
+	}
+
+	.section :global(.fig-pipeline) {
+		margin-top: 28px;
+		background: var(--cream);
+		box-shadow: var(--shadow);
+		border-radius: var(--radius);
+	}
+
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+		gap: 28px 22px;
+	}
+</style>

@@ -1,0 +1,201 @@
+---
+import { getCollection, render } from 'astro:content'
+import Base from '../../layouts/Base.astro'
+import { illustration } from '../../lib/illustrations.mjs'
+import { LEVELS } from '../../lib/notes-meta.mjs'
+
+export async function getStaticPaths() {
+	const notes = (await getCollection('notes')).sort((a, b) => a.data.order - b.data.order)
+	return notes.map((note, i) => ({
+		params: { slug: note.data.slug },
+		props: { note, prev: notes[i - 1], next: notes[i + 1] },
+	}))
+}
+
+const { note, prev, next } = Astro.props
+const { Content, headings } = await render(note)
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/')
+const lvl = LEVELS[note.data.level]
+const toc = headings.filter((h) => h.depth === 2)
+const short = (t: string) => t.replace('React Internals - ', '')
+---
+
+<Base title={`${short(note.data.title)} · React Internals`} description={note.data.summary}>
+	<header class="note-head wrap">
+		<div class="head-text">
+			<a class="btn btn-ghost back" href={base}>← All notes</a>
+			<div class="meta">
+				<span class="pill"><span class={`lvl ${lvl.className}`}></span>{lvl.label}</span>
+				<span class="num">Note {String(note.data.order).padStart(2, '0')}</span>
+			</div>
+			<h1>{short(note.data.title)}</h1>
+			<p class="summary">{note.data.summary}</p>
+		</div>
+		<div class="head-art card">
+			<div class="panel" set:html={illustration(note.data.illus)} />
+		</div>
+	</header>
+
+	<div class="wrap layout">
+		<aside class="toc">
+			<nav class="card toc-card" aria-label="On this page">
+				<p class="toc-title">On this page</p>
+				<ol>
+					{toc.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}
+				</ol>
+			</nav>
+		</aside>
+		<article class="card prose">
+			<Content />
+			{note.data.source && (
+				<p class="source">
+					Primary source: <a href={note.data.source}>{note.data.source.replace(/^https?:\/\//, '')}</a>
+				</p>
+			)}
+		</article>
+	</div>
+
+	<nav class="wrap pager" aria-label="Notes">
+		{prev ? <a class="btn btn-ghost" href={`${base}notes/${prev.data.slug}/`}>← {short(prev.data.title)}</a> : <span />}
+		{next && <a class="btn" href={`${base}notes/${next.data.slug}/`}>{short(next.data.title)} →</a>}
+	</nav>
+</Base>
+
+<style>
+	.note-head {
+		display: grid;
+		grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+		gap: 32px;
+		align-items: center;
+		padding-top: clamp(28px, 5vw, 56px);
+		padding-bottom: clamp(28px, 4vw, 44px);
+	}
+
+	@media (max-width: 760px) {
+		.note-head {
+			grid-template-columns: 1fr;
+		}
+
+		.head-art {
+			display: none;
+		}
+	}
+
+	.back {
+		padding: 0.45em 1em;
+		font-size: 13.5px;
+		margin-bottom: 22px;
+	}
+
+	.meta {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		margin-bottom: 12px;
+	}
+
+	.num {
+		font-weight: 800;
+		font-size: 14px;
+		color: var(--ink-soft);
+	}
+
+	h1 {
+		font-size: clamp(38px, 6vw, 68px);
+		letter-spacing: -0.05em;
+		line-height: 1;
+	}
+
+	.summary {
+		margin: 16px 0 0;
+		font-size: 18px;
+		max-width: 56ch;
+		color: var(--ink-soft);
+	}
+
+	.head-art {
+		padding: 12px;
+	}
+
+	.head-art .panel :global(svg) {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+
+	.layout {
+		display: grid;
+		grid-template-columns: 240px minmax(0, 1fr);
+		gap: 28px;
+		align-items: start;
+	}
+
+	@media (max-width: 1000px) {
+		.layout {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		.toc {
+			display: none;
+		}
+	}
+
+	.toc {
+		position: sticky;
+		top: 20px;
+	}
+
+	.toc-card {
+		padding: 16px 16px 12px;
+		max-height: calc(100vh - 40px);
+		overflow-y: auto;
+	}
+
+	.toc-title {
+		margin: 0 0 8px;
+		font-size: 12px;
+		font-weight: 800;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		color: var(--muted);
+	}
+
+	.toc ol {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		font-size: 14px;
+		line-height: 1.35;
+	}
+
+	.toc li {
+		margin: 0 0 8px;
+	}
+
+	.toc a {
+		text-decoration: none;
+		font-weight: 600;
+	}
+
+	.toc a:hover {
+		text-decoration: underline;
+		text-decoration-color: var(--orange);
+		text-decoration-thickness: 2px;
+	}
+
+	.source {
+		margin-top: 2.5em;
+		padding-top: 1em;
+		border-top: 2px dashed var(--cream-deep);
+		font-size: 14px;
+		overflow-wrap: anywhere;
+	}
+
+	.pager {
+		display: flex;
+		justify-content: space-between;
+		gap: 12px;
+		flex-wrap: wrap;
+		padding-top: 40px;
+	}
+</style>

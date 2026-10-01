@@ -1,0 +1,206 @@
+/* Rendered note content */
+
+.prose {
+	padding: clamp(20px, 4vw, 48px);
+	min-width: 0;
+}
+
+.prose > *:first-child {
+	margin-top: 0;
+}
+
+.prose h2 {
+	font-size: clamp(26px, 3.4vw, 34px);
+	margin: 2.2em 0 0.6em;
+	scroll-margin-top: 24px;
+}
+
+.prose h3 {
+	font-size: clamp(20px, 2.4vw, 24px);
+	margin: 1.8em 0 0.5em;
+	scroll-margin-top: 24px;
+}
+
+.prose h4 {
+	font-size: 18px;
+	margin: 1.5em 0 0.4em;
+}
+
+.prose p,
+.prose ul,
+.prose ol {
+	margin: 0 0 1em;
+	color: var(--ink-soft);
+}
+
+.prose li {
+	margin: 0.3em 0;
+}
+
+.prose li > ul,
+.prose li > ol {
+	margin: 0.3em 0 0;
+}
+
+.prose strong {
+	color: var(--ink);
+}
+
+.prose a {
+	text-decoration: underline;
+	text-decoration-color: var(--orange);
+	text-decoration-thickness: 2px;
+	text-underline-offset: 3px;
+	color: var(--ink);
+	font-weight: 600;
+}
+
+.prose a:hover {
+	background: var(--pink-soft);
+}
+
+.prose :not(pre) > code {
+	background: #fff;
+	border: 1px solid var(--cream-deep);
+	border-radius: 5px;
+	padding: 0.08em 0.35em;
+	color: var(--ink);
+	overflow-wrap: anywhere;
+}
+
+/* Code blocks */
+.prose pre.astro-code {
+	margin: 1.4em 0;
+	padding: 18px 20px;
+	border: 2px solid var(--ink);
+	border-radius: 10px;
+	box-shadow: 0 5px 0 var(--ink);
+	background: #fff !important;
+	overflow-x: auto;
+	font-size: 14px;
+	line-height: 1.6;
+	tab-size: 2;
+}
+
+.prose pre.astro-code code {
+	font-size: inherit;
+}
+
+/* Blockquotes become callouts */
+.prose blockquote {
+	margin: 1.4em 0;
+	padding: 14px 18px 14px 20px;
+	background: var(--pink-soft);
+	border: 2px solid var(--ink);
+	border-radius: 10px;
+	position: relative;
+}
+
+.prose blockquote p {
+	color: var(--ink);
+}
+
+.prose blockquote > :last-child {
+	margin-bottom: 0;
+}
+
+/* Tables */
+.table-wrap {
+	overflow-x: auto;
+	margin: 1.4em 0;
+	border: 2px solid var(--ink);
+	border-radius: 10px;
+	background: #fff;
+}
+
+.prose table {
+	border-collapse: collapse;
+	width: 100%;
+	font-size: 14.5px;
+	line-height: 1.5;
+}
+
+.prose th,
+.prose td {
+	padding: 9px 12px;
+	text-align: left;
+	vertical-align: top;
+	border-bottom: 1px solid var(--cream-deep);
+}
+
+.prose th {
+	background: var(--pink-panel);
+	font-weight: 800;
+	border-bottom: 2px solid var(--ink);
+}
+
+.prose tr:last-child td {
+	border-bottom: 0;
+}
+
+.prose th code,
+.prose td code {
+	white-space: nowrap;
+}
+
+/* Interview Q&A cards */
+.prose details.qa {
+	margin: 0 0 14px;
+	background: #fff;
+	border: 2px solid var(--ink);
+	border-radius: 10px;
+	box-shadow: 0 4px 0 var(--ink);
+}
+
+.prose details.qa summary {
+	cursor: pointer;
+	list-style: none;
+	padding: 14px 48px 14px 18px;
+	font-weight: 700;
+	letter-spacing: -0.01em;
+	position: relative;
+	line-height: 1.4;
+}
+
+.prose details.qa summary::-webkit-details-marker {
+	display: none;
+}
+
+.prose details.qa summary::after {
+	content: '+';
+	position: absolute;
+	right: 14px;
+	top: 50%;
+	translate: 0 -50%;
+	width: 26px;
+	height: 26px;
+	display: grid;
+	place-items: center;
+	border: 2px solid var(--ink);
+	border-radius: 50%;
+	background: var(--orange);
+	font-weight: 800;
+	line-height: 1;
+}
+
+.prose details.qa[open] summary::after {
+	content: '−';
+	background: var(--pink-panel);
+}
+
+.prose details.qa[open] summary {
+	border-bottom: 2px dashed var(--cream-deep);
+}
+
+.prose details.qa > :not(summary) {
+	margin-left: 18px;
+	margin-right: 18px;
+}
+
+.prose details.qa > p:first-of-type {
+	margin-top: 14px;
+}
+
+.prose details.qa > :last-child {
+	margin-bottom: 16px;
+}

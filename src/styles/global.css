@@ -1,0 +1,199 @@
+@import '@fontsource-variable/inter';
+
+:root {
+	--mustard: #f6c744;
+	--mustard-deep: #e7b52b;
+	--pink: #ee95e3;
+	--pink-panel: #e8a6d2;
+	--pink-soft: #f7c4e6;
+	--cream: #fcf5e4;
+	--cream-deep: #efe3c8;
+	--orange: #ff7a00;
+	--orange-soft: #ffb36b;
+	--teal: #62c9bd;
+	--teal-soft: #a6ece3;
+	--plum: #9d7cc9;
+	--plum-soft: #cdb5e8;
+	--ink: #1d1a18;
+	--ink-soft: #4a4440;
+	--muted: #6f665f;
+	--red: #e5484d;
+	--green: #30a46c;
+	--radius: 14px;
+	--shadow: 0 7px 0 var(--ink);
+	--btn-shadow: 0 4px 0 rgba(29, 26, 24, 0.45);
+	--font: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, sans-serif;
+	--mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+	scroll-behavior: smooth;
+}
+
+body {
+	margin: 0;
+	background: var(--mustard);
+	color: var(--ink);
+	font-family: var(--font);
+	font-size: 17px;
+	line-height: 1.65;
+	overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+	font-weight: 800;
+	letter-spacing: -0.035em;
+	line-height: 1.12;
+	margin: 0;
+}
+
+a {
+	color: inherit;
+}
+
+code {
+	font-family: var(--mono);
+	font-size: 0.86em;
+}
+
+img,
+svg {
+	max-width: 100%;
+}
+
+.wrap {
+	width: min(1120px, 100%);
+	margin: 0 auto;
+	padding: 0 16px;
+}
+
+/* ─── Buttons ─────────────────────────────────────────────── */
+
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.4em;
+	padding: 0.62em 1.5em;
+	background: var(--orange);
+	color: var(--ink);
+	border: 2px solid var(--ink);
+	border-radius: 7px;
+	box-shadow: var(--btn-shadow);
+	font: 700 15px/1.2 var(--font);
+	letter-spacing: -0.01em;
+	text-decoration: none;
+	cursor: pointer;
+	transition:
+		transform 0.12s ease,
+		box-shadow 0.12s ease;
+}
+
+.btn:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 5px 0 rgba(29, 26, 24, 0.5);
+}
+
+.btn:active {
+	transform: translateY(3px);
+	box-shadow: 0 1px 0 rgba(29, 26, 24, 0.5);
+}
+
+.btn:focus-visible {
+	outline: 3px solid var(--ink);
+	outline-offset: 3px;
+}
+
+.btn-ghost {
+	background: var(--cream);
+}
+
+.btn-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+
+/* ─── Cards (reference: cream, dark outline, heavy bottom shadow) ─── */
+
+.card {
+	background: var(--cream);
+	border: 2px solid var(--ink);
+	border-radius: var(--radius);
+	box-shadow: var(--shadow);
+}
+
+.panel {
+	background: var(--pink-panel);
+	border-radius: 6px;
+}
+
+/* ─── Level dots / pills ─────────────────────────────────── */
+
+.lvl {
+	display: inline-block;
+	width: 0.72em;
+	height: 0.72em;
+	border-radius: 50%;
+	border: 1.5px solid var(--ink);
+	vertical-align: 0.02em;
+	margin: 0 0.1em;
+}
+
+.lvl-must {
+	background: var(--red);
+}
+
+.lvl-good {
+	background: var(--mustard);
+}
+
+.lvl-skip {
+	background: #fff;
+}
+
+.pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 2px 10px;
+	border: 1.5px solid var(--ink);
+	border-radius: 999px;
+	font-size: 12.5px;
+	font-weight: 700;
+	background: #fff;
+	white-space: nowrap;
+}
+
+.chip {
+	display: inline-block;
+	padding: 1px 9px;
+	margin: 2px 4px 2px 0;
+	border: 1.5px solid var(--ink);
+	border-radius: 999px;
+	font-size: 12.5px;
+	font-weight: 700;
+}
+
+.chip-good {
+	background: var(--teal-soft);
+}
+
+.chip-bad {
+	background: var(--pink-soft);
+}
+
+.site-foot {
+	padding: 48px 0 56px;
+	font-size: 14px;
+	color: var(--ink-soft);
+}
