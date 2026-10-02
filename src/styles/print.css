@@ -1,0 +1,145 @@
+/* Print / PDF export (scripts/export-pdf.mjs, or Cmd+P in a browser) */
+
+@media print {
+	@page {
+		size: A4;
+		margin: 16mm 15mm 18mm;
+	}
+
+	* {
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
+	}
+
+	body {
+		background: #fff;
+		font-size: 11pt;
+		line-height: 1.55;
+	}
+
+	.toc,
+	.pager,
+	.back,
+	.site-foot,
+	.walker .btn-row,
+	.fig-walker figcaption,
+	.listdiff .tabs {
+		display: none !important;
+	}
+
+	.wrap {
+		width: 100%;
+		padding: 0;
+	}
+
+	.note-head {
+		padding: 0 0 8mm;
+		grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+		gap: 8mm;
+	}
+
+	.note-head h1 {
+		font-size: 34pt;
+	}
+
+	.note-head .summary {
+		font-size: 12pt;
+	}
+
+	.head-art {
+		display: block !important;
+		box-shadow: 0 4px 0 var(--ink);
+	}
+
+	.layout {
+		display: block;
+	}
+
+	article.prose {
+		border: 0;
+		box-shadow: none;
+		border-radius: 0;
+		padding: 0;
+		background: #fff;
+	}
+
+	.prose h2 {
+		font-size: 20pt;
+		margin-top: 1.6em;
+		break-after: avoid;
+	}
+
+	.prose h3,
+	.prose h4 {
+		break-after: avoid;
+	}
+
+	.prose p,
+	.prose li {
+		orphans: 3;
+		widows: 3;
+	}
+
+	/* Keep visual units whole */
+	.fig,
+	.prose blockquote,
+	.prose details.qa,
+	.prose tr,
+	.ld-panel,
+	.pipe-step {
+		break-inside: avoid;
+	}
+
+	/* Code: wrap long lines instead of clipping them */
+	.prose pre.astro-code {
+		white-space: pre-wrap;
+		overflow-wrap: anywhere;
+		overflow: visible;
+		font-size: 8.6pt;
+		box-shadow: 0 3px 0 var(--ink);
+	}
+
+	.prose pre.astro-code code {
+		white-space: inherit;
+	}
+
+	/* Tables: no horizontal scrolling on paper */
+	.table-wrap {
+		overflow: visible;
+	}
+
+	.prose table {
+		font-size: 9pt;
+	}
+
+	.prose th code,
+	.prose td code {
+		white-space: normal;
+		overflow-wrap: anywhere;
+	}
+
+	.prose details.qa summary::after {
+		display: none;
+	}
+
+	.prose details.qa summary {
+		padding-right: 18px;
+	}
+
+	.fig {
+		box-shadow: 0 3px 0 var(--ink);
+	}
+
+	.ld-panel[hidden] {
+		display: block !important;
+	}
+
+	.ld-title {
+		font-weight: 800;
+		margin: 10px 0 6px;
+	}
+
+	.source a {
+		overflow-wrap: anywhere;
+	}
+}
