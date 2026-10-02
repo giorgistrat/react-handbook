@@ -41,7 +41,11 @@ const REPLACE_BLOCKS = {
 // Figures inserted after the first paragraph following a heading.
 const INSERT_AFTER = {
 	'start-here': { 'The whole thing in one paragraph': [D.restaurant, D.pipeline] },
-	'render-and-commit': {},
+	'render-and-commit': {
+		'Why render and commit are separate': [A.whySeparateAnim],
+		'"The virtual DOM", precisely': [A.virtualDomAnim],
+		'Render and commit, step by step': [A.renderCommitStepsAnim],
+	},
 	reconciliation: {
 		'Rule 1: different type → throw away the subtree': [A.rule1Anim],
 		'Rule 2: same type → keep it and update': [A.rule2Anim],

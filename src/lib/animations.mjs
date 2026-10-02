@@ -564,3 +564,103 @@ export function e2eAnim() {
 		scenarios: [{ name: 'One click', intro: 'The app from above. The user clicks the button once.', scene, steps }],
 	})
 }
+
+// ═══ Render and Commit ══════════════════════════════════════════════════════
+
+const stages = () =>
+	`<div class="a-row" style="justify-content:center;margin-bottom:12px">${['trigger', 'render', 'commit', 'paint', 'effects']
+		.map((s) => chip(`st-${s}`, s, 'faint'))
+		.join('<span class="a-label">→</span>')}</div>`
+
+export function renderCommitStepsAnim() {
+	const t = (p, s = '', flag = false) =>
+		tree([`${p}-root`, 'HostRoot', { cls: 'root', s }, [[`${p}-counter`, 'Counter', { cls: 'comp', sub: 'count: 0', s, flag }, [[`${p}-button`, 'button', { cls: 'host', s }, [[`${p}-text`, '"0"', { cls: 'text', s, flag }]]]]]]])
+	const scene = `${stages()}
+		<div class="a-cols">
+			${panel('current tree (on screen)', t('c'))}
+			${panel('work-in-progress', t('w', 'ghost', true))}
+			${panel('browser', `<div class="a-col"><div class="a-label">DOM</div><div class="a-dom">&lt;button&gt;<span class="an" data-k="dom">0</span>&lt;/button&gt;</div><div class="a-label">pixels</div>${chip('px', '0')}<div class="a-label">document.title</div>${chip('title', '"Clicked 0"')}</div>`)}
+		</div>`
+	const steps = [
+		{ phase: 'trigger', fn: 'setCount(1)', say: 'The click handler queues an update on <code>Counter</code>’s state hook with <code>SyncLane</code> and schedules the root in a microtask. Nothing renders yet.', set: { 'st-trigger': 'on', 'c-button': 'hl' } },
+		{ phase: 'render', fn: 'beginWork(HostRoot) → bail out, clone children', say: 'Render starts at the root. Nothing to do on the way down to <code>Counter</code>, so those fibers are cloned into the work-in-progress tree.', set: { 'st-trigger': '', 'st-render': 'on', 'c-button': '', 'w-root': 'bail' } },
+		{ phase: 'render', fn: 'Counter() → useState returns 1', say: 'React <b>calls your component</b>. That is all “rendering” means. <code>useState</code> returns 1 on the work-in-progress fiber; the current one still says 0.', set: { 'w-counter': 'run hl' }, txt: { 'w-counter-sub': 'count: 1' } },
+		{ phase: 'render', fn: 'reconcileChildren: <button> vs button fiber → same type, reuse', say: 'The returned <code>&lt;button&gt;</code> is compared with the existing button fiber: same type, so the fiber is reused with new props. Its text child goes from "0" to "1".', set: { 'w-counter': 'run', 'w-button': 'keep', 'w-text': 'keep hl' }, txt: { 'w-text-label': '"1"' } },
+		{ phase: 'render', fn: 'completeWork(text) → Update · effect deps changed → Passive', say: 'On the way back up, the changes are only <b>recorded</b> as flags. The DOM, and the screen, still show 0.', set: { 'w-text': 'keep', 'w-text-flag': '', 'w-counter-flag': '' }, txt: { 'w-text-flag': 'Update', 'w-counter-flag': 'Passive' } },
+		{ phase: 'commit', fn: 'commitTextUpdate(textNode, "0", "1")', say: 'Commit, mutation: the one flagged DOM write happens. The <b>DOM</b> now says 1, but the browser hasn’t <b>painted</b> it yet.', set: { 'st-render': '', 'st-commit': 'on', dom: 'upd' }, txt: { dom: '1' } },
+		{ phase: 'commit', fn: 'root.current = finishedWork', say: 'The work-in-progress tree becomes <code>current</code>. Layout phase: no layout effects or refs here.', set: { dom: '', 'c-root': 'faint', 'c-counter': 'faint', 'c-button': 'faint', 'c-text': 'faint', 'w-root': 'done', 'w-counter': 'done', 'w-button': 'done', 'w-text': 'done', 'w-text-flag': 'ghost', 'w-counter-flag': 'ghost' } },
+		{ phase: 'effects', fn: 'flushPassiveEffects() (SyncLane: at the end of the commit)', say: 'Normally <code>useEffect</code> runs after paint. For a discrete event like a click, React 18+ flushes it synchronously at the end of the commit: <code>document.title = "Clicked 1"</code>.', set: { 'st-commit': '', 'st-effects': 'on', title: 'upd' }, txt: { title: '"Clicked 1"' } },
+		{ phase: 'paint', fn: 'browser: style → layout → paint', say: 'The microtask ends and the browser paints. Only now do the <b>pixels</b> show 1.', set: { 'st-effects': '', 'st-paint': 'on', title: '', px: 'ok' }, txt: { px: '1' } },
+	]
+	return anim({
+		id: 'rc-steps-anim',
+		caption: 'Render works on a copy and only records changes; commit writes the DOM; the browser paints afterwards.',
+		scenarios: [{ name: 'One click', intro: 'The <code>Counter</code> above is clicked once. Watch the two trees, the DOM, and what is actually on screen.', scene, steps }],
+	})
+}
+
+export function whySeparateAnim() {
+	const rows = (p, vals, s = '') => `<div class="a-col">${vals.map((v, i) => chip(`${p}${i}`, v, s)).join('')}</div>`
+	const usd = ['Tea · $10', 'Cake · $20', 'Pie · $30']
+	const eur = ['Tea · €9', 'Cake · €18', 'Pie · €27']
+
+	const react = {
+		name: 'React: render, then commit',
+		intro: 'A transition switches prices to euros. A keystroke arrives halfway through.',
+		scene: `<div class="a-cols">
+			${panel('work-in-progress', rows('w', eur, 'ghost'))}
+			${panel('screen', rows('s', usd))}
+			${panel('status', `<div class="a-col">${chip('state', 'idle')}</div>`)}
+		</div>`,
+		steps: [
+			{ phase: 'render', fn: "startTransition(() => setCurrency('EUR'))", say: 'The update is a transition, so it renders in ~5ms slices.', set: { state: 'upd' }, txt: { state: 'rendering (concurrent)' } },
+			{ phase: 'render', fn: 'slice 1: performUnitOfWork(Tea)', say: 'The first row is rendered <b>into the work-in-progress tree</b>. The screen is untouched.', set: { w0: 'new' } },
+			{ phase: 'render', fn: 'slice 2: performUnitOfWork(Cake)', say: 'Second row. Still nothing visible: the user sees a consistent dollar list.', set: { w1: 'new' } },
+			{ phase: 'event', fn: 'keydown → urgent update → prepareFreshStack()', say: 'An urgent update arrives. React <b>throws the half-built tree away</b>. Nothing was shown, so there is nothing to undo.', set: { w0: 'del', w1: 'del', state: 'bad' }, txt: { state: 'interrupted: WIP discarded' } },
+			{ phase: 'render', fn: 'restart from the root', say: 'After the urgent update, the transition starts over and renders all three rows.', set: { w0: 'new', w1: 'new', w2: 'new', state: 'upd' }, txt: { state: 'rendering again' } },
+			{ phase: 'commit', fn: 'commitRoot()', say: 'Commit applies every change <b>at once</b>, synchronously. The screen jumps from all-dollars to all-euros. Never a mix.', set: { s0: 'ok', s1: 'ok', s2: 'ok', state: 'ok' }, txt: { s0: eur[0], s1: eur[1], s2: eur[2], state: 'committed' } },
+		],
+	}
+	const naive = {
+		name: 'Hypothetical: render writes the DOM',
+		intro: 'What if a renderer wrote to the DOM <b>while</b> rendering? React never does this; this is what the split prevents.',
+		scene: `<div class="a-cols">
+			${panel('screen', rows('s', usd))}
+			${panel('status', `<div class="a-col">${chip('state', 'idle')}</div>`)}
+		</div>`,
+		steps: [
+			{ phase: 'render', fn: "setCurrency('EUR')", say: 'Same update, but each component writes its DOM as soon as it renders.', set: { state: 'upd' }, txt: { state: 'rendering + writing' } },
+			{ phase: 'render', fn: 'render(Tea) → write DOM', say: 'Row one changes on screen immediately.', set: { s0: 'upd' }, txt: { s0: eur[0] } },
+			{ phase: 'render', fn: 'render(Cake) → write DOM', say: 'Row two. The user now sees euros <b>and</b> dollars in the same list.', set: { s1: 'upd' }, txt: { s1: eur[1] } },
+			{ phase: 'event', fn: 'keydown → must stop now', say: 'An urgent update arrives. Pausing leaves the screen <b>half-updated</b>; aborting would mean undoing DOM writes. Neither is safe.', set: { s2: 'bad', state: 'bad' }, txt: { state: 'stuck: inconsistent UI' } },
+			{ phase: 'render', fn: '— why React splits the phases —', say: 'So React keeps all pausable, abortable work in the render phase (pure, off-screen), and makes the commit phase small, synchronous and atomic.', set: { s0: 'bad', s1: 'bad' } },
+		],
+	}
+	return anim({
+		id: 'why-separate-anim',
+		caption: 'Why render and commit are separate: rendering off-screen is what makes pausing and aborting safe.',
+		scenarios: [react, naive],
+	})
+}
+
+export function virtualDomAnim() {
+	const scene = `<div class="a-cols">
+		${panel('React elements', `<div class="a-col">${chip('e1', '{ type: "button", props: { children: 0 } }', 'ghost')}${chip('e2', '{ type: "button", props: { children: 1 } }', 'ghost')}</div>`)}
+		${panel('fiber', `<div class="a-col">${node('f', 'button fiber', { cls: 'host', sub: 'memoizedProps: –', s: 'ghost', flag: true })}${chip('sn', 'stateNode → DOM node #1', 'ghost')}</div>`)}
+		${panel('DOM node', `<div class="a-col">${chip('d', '&lt;button&gt;0&lt;/button&gt; · node #1', 'ghost')}</div>`)}
+	</div>`
+	const steps = [
+		{ phase: 'render', fn: 'Counter() → <button>{0}</button>', say: 'Render 1. JSX produces a <b>React element</b>: a cheap, immutable plain object describing what you want.', set: { e1: 'new hl' } },
+		{ phase: 'render', fn: 'createFiberFromElement(element)', say: 'React creates a <b>fiber</b> for it: a long-lived, mutable record of this button’s position, props and effects.', set: { e1: 'new', f: 'new hl' }, txt: { 'f-sub': 'memoizedProps: { children: 0 }' } },
+		{ phase: 'render', fn: "completeWork → document.createElement('button')", say: 'The real <b>DOM node</b> is created off-screen and linked from <code>fiber.stateNode</code>.', set: { f: 'new', d: 'new hl', sn: 'new' } },
+		{ phase: 'commit', fn: 'appendChild(container, button)', say: 'Commit puts it on screen. The element has done its job and is <b>thrown away</b>.', set: { d: 'done', sn: '', e1: 'gone' } },
+		{ phase: 'render', fn: 'Counter() → <button>{1}</button>', say: 'Render 2 creates a <b>brand-new</b> element object. Elements are never reused.', set: { e1: 'hide', e2: 'new hl', f: 'done', d: '' } },
+		{ phase: 'render', fn: 'reconcile: new element vs current fiber', say: 'React diffs the <b>new element against the fiber</b>, not against the DOM. Same type → the same fiber is kept, with new props, and flagged Update.', set: { e2: 'cmp', f: 'keep hl', 'f-flag': '' }, txt: { 'f-sub': 'memoizedProps: { children: 1 }', 'f-flag': 'Update' } },
+		{ phase: 'commit', fn: 'commitUpdate(fiber.stateNode, …)', say: 'Commit updates the <b>same DOM node</b> (#1) through <code>stateNode</code>. Element 2 is thrown away too. Fiber and DOM node live on; elements come and go.', set: { e2: 'gone', f: 'keep', 'f-flag': 'ghost', d: 'upd' }, txt: { d: '&lt;button&gt;1&lt;/button&gt; · node #1' } },
+	]
+	return anim({
+		id: 'vdom-anim',
+		caption: 'Elements are recreated every render; fibers and DOM nodes persist. React diffs elements against fibers.',
+		scenarios: [{ name: 'Two renders', intro: 'A <code>&lt;button&gt;{count}&lt;/button&gt;</code> renders twice: count 0, then 1.', scene, steps }],
+	})
+}
