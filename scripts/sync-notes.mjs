@@ -17,6 +17,7 @@ import { fileURLToPath } from 'node:url'
 import GithubSlugger from 'github-slugger'
 import { NOTES, VAULT_DIR, MOC_FILE } from '../src/lib/notes-meta.mjs'
 import * as D from '../src/lib/diagrams.mjs'
+import * as A from '../src/lib/animations.mjs'
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const OUT_DIR = path.join(ROOT, 'src/content/notes')
@@ -32,7 +33,7 @@ const REPLACE_BLOCKS = {
 			const jsx = body.split('\n\n')[0]
 			return '```tsx\n' + jsx.trim() + '\n```\n\n' + D.fiberTree()
 		},
-		'render 1:': () => D.doubleBuffer(),
+		'render 1:': () => A.doubleBufferAnim(),
 	},
 	'a-state-update-end-to-end': { HostRoot: () => D.e2eTree() },
 }
@@ -42,8 +43,10 @@ const INSERT_AFTER = {
 	'start-here': { 'The whole thing in one paragraph': [D.restaurant, D.pipeline] },
 	'render-and-commit': {},
 	reconciliation: {
-		'Rule 1: different type → throw away the subtree': [D.typeChange],
-		'Rule 3: keys identify children in a list': [D.keysVsIndex],
+		'Rule 1: different type → throw away the subtree': [A.rule1Anim],
+		'Rule 2: same type → keep it and update': [A.rule2Anim],
+		'Rule 3: keys identify children in a list': [A.keysAnim],
+		'What this means for your code: state is tied to position': [A.positionAnim],
 	},
 	'react-fiber': {
 		"The problem: a call stack can't be paused": [D.stackVsFiber],
@@ -51,24 +54,25 @@ const INSERT_AFTER = {
 	},
 	'hooks-under-the-hood': {
 		'The hook list': [() => D.hookList()],
-		'Why conditional hooks break, concretely': [D.conditionalHooks],
+		'Why conditional hooks break, concretely': [A.conditionalHooksAnim],
+		'Queue processing, step by step': [A.setStateQueueAnim],
 		'`setState`: from call to render': [D.updateRing],
 	},
 	'commit-phase-and-effects': {
 		'The sub-phases of `commitRoot`': [D.commitPhases],
-		'Effect ordering, step by step': [D.effectOrder],
+		'Effect ordering, step by step': [A.effectOrderAnim],
 	},
 	'the-work-loop': {
 		'One unit of work: begin, then maybe complete': [D.workLoopFlow],
-		'The work loop, step by step': [D.workLoopWalker],
+		'The work loop, step by step': [A.workLoopAnim],
 	},
 	'scheduler-lanes-and-batching': {
 		'Lanes: priority as bits': [D.laneBits],
-		'Batching: queue now, render later': [D.batching],
-		'Interruption and restart': [D.interruption],
+		'Batching: queue now, render later': [A.batchingAnim],
+		'Interruption and restart': [A.interruptionAnim],
 	},
-	'child-reconciliation-algorithm': { 'Child reconciliation, step by step': [D.listDiff] },
-	'a-state-update-end-to-end': { 'Render trace: clicking the button once': [D.e2eSequence] },
+	'child-reconciliation-algorithm': { 'Child reconciliation, step by step': [A.listDiffAnim] },
+	'a-state-update-end-to-end': { 'Render trace: clicking the button once': [A.e2eAnim, D.e2eSequence] },
 }
 
 const LEVEL_DOTS = {
@@ -174,6 +178,7 @@ function insertFigures(lines, inserts) {
 	const out = []
 	let pending = null
 	let seenPara = false
+	let inFence = false
 	for (let i = 0; i < lines.length; i++) {
 		const line = lines[i]
 		const h = line.match(/^#{2,4} (.+)$/)
@@ -184,7 +189,15 @@ function insertFigures(lines, inserts) {
 			delete inserts[h[1]]
 			continue
 		}
-		if (pending) {
+		if (pending && /^```/.test(line)) {
+			// a code block right after the heading counts as the first block:
+			// the figure goes after its closing fence, never inside it
+			if (!inFence && !seenPara) seenPara = true
+			inFence = !inFence
+			out.push(line)
+			continue
+		}
+		if (pending && !inFence) {
 			const blank = line.trim() === ''
 			const isPara = !blank && !/^(\||<|>|-|\d+\.|#)/.test(line)
 			if (!seenPara && isPara) seenPara = true

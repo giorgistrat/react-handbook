@@ -1,0 +1,655 @@
+/* Step-through animations (src/lib/anim.mjs + src/scripts/anim.ts) */
+
+.anim .anim-tabs {
+	margin-bottom: 14px;
+}
+
+.anim .anim-tabs .btn {
+	padding: 0.42em 0.95em;
+	font-size: 13.5px;
+}
+
+.anim-scn-title {
+	display: none;
+	font-weight: 800;
+	margin-bottom: 8px;
+}
+
+.anim-stage {
+	position: relative;
+	padding: 14px;
+	border: 2px solid var(--ink);
+	border-radius: 10px;
+	background: var(--cream);
+	overflow-x: auto;
+}
+
+.anim-print {
+	display: none;
+}
+
+/* HUD: phase + function call + explanation */
+.anim-hud {
+	margin-top: 12px;
+	padding: 12px 14px;
+	border: 2px solid var(--ink);
+	border-radius: 10px;
+	background: #fff;
+	min-height: 108px;
+}
+
+.anim-call {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	min-height: 26px;
+}
+
+.anim-fn {
+	display: inline-block;
+	padding: 3px 9px;
+	background: var(--ink);
+	color: #fff;
+	border-radius: 6px;
+	font-size: 13px;
+	overflow-wrap: anywhere;
+	animation: anim-in 0.3s ease;
+}
+
+.anim-phase {
+	display: inline-block;
+	padding: 1px 9px;
+	border: 1.5px solid var(--ink);
+	border-radius: 999px;
+	font-size: 11.5px;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	background: #fff;
+	white-space: nowrap;
+}
+
+.ph-render {
+	background: var(--pink-soft);
+}
+
+.ph-commit {
+	background: var(--teal-soft);
+}
+
+.ph-trigger,
+.ph-event {
+	background: var(--orange-soft);
+}
+
+.ph-schedule {
+	background: #ffe08a;
+}
+
+.ph-paint {
+	background: #fff3c4;
+}
+
+.ph-effects {
+	background: var(--plum-soft);
+}
+
+.anim-say {
+	margin: 8px 0 0;
+	font-size: 15px;
+	line-height: 1.55;
+	color: var(--ink-soft);
+}
+
+.anim-say code {
+	background: var(--cream);
+	border-radius: 4px;
+	padding: 0 4px;
+}
+
+/* Controls */
+.anim-controls {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: 12px;
+	flex-wrap: wrap;
+}
+
+.anim-controls .btn {
+	padding: 0.45em 0.9em;
+	font-size: 14px;
+}
+
+.anim-play {
+	min-width: 104px;
+}
+
+.anim-progress {
+	flex: 1 1 80px;
+	height: 10px;
+	border: 1.5px solid var(--ink);
+	border-radius: 999px;
+	background: #fff;
+	overflow: hidden;
+}
+
+.anim-bar {
+	height: 100%;
+	width: 0;
+	background: var(--orange);
+	transition: width 0.3s ease;
+}
+
+.anim-count {
+	font: 700 13px var(--mono);
+	color: var(--muted);
+	min-width: 48px;
+	text-align: right;
+}
+
+@keyframes anim-in {
+	from {
+		opacity: 0;
+		transform: translateY(4px);
+	}
+}
+
+/* ─── Animated things ───────────────────────────────────── */
+
+.an {
+	transition:
+		background-color 0.35s ease,
+		border-color 0.35s ease,
+		opacity 0.4s ease,
+		transform 0.5s cubic-bezier(0.3, 1.3, 0.5, 1),
+		box-shadow 0.3s ease;
+}
+
+.node {
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-width: 92px;
+	padding: 6px 12px;
+	border: 2px solid var(--ink);
+	border-radius: 9px;
+	background: #fff;
+	font: 700 13.5px var(--mono);
+	line-height: 1.25;
+	position: relative;
+	white-space: nowrap;
+}
+
+.node small {
+	font: 500 11.5px var(--font);
+	color: var(--ink-soft);
+}
+
+.node.comp {
+	background: var(--pink-soft);
+}
+
+.node.host {
+	background: var(--teal-soft);
+}
+
+.node.text {
+	background: #ffe08a;
+}
+
+.node.root {
+	background: var(--cream-deep);
+}
+
+.node.el {
+	border-style: dashed;
+	background: #fff;
+}
+
+.chip-a {
+	display: inline-block;
+	padding: 2px 9px;
+	border: 1.5px solid var(--ink);
+	border-radius: 999px;
+	background: #fff;
+	font: 700 12.5px var(--mono);
+	white-space: nowrap;
+}
+
+.flash {
+	animation: flash 0.7s ease;
+}
+
+@keyframes flash {
+	0% {
+		background-color: var(--orange);
+	}
+}
+
+/* States (data-s tokens) */
+[data-s~='hl'] {
+	box-shadow: 0 0 0 4px #d9539f;
+	transform: scale(1.05);
+	z-index: 1;
+}
+
+[data-s~='cmp'] {
+	box-shadow: 0 0 0 4px var(--orange);
+}
+
+[data-s~='del'] {
+	background: var(--pink-soft) !important;
+	opacity: 0.5;
+	text-decoration: line-through;
+	text-decoration-thickness: 2px;
+}
+
+[data-s~='gone'] {
+	opacity: 0 !important;
+	transform: scale(0.7);
+}
+
+[data-s~='ghost'] {
+	opacity: 0;
+	transform: translateY(-8px) scale(0.85);
+}
+
+[data-s~='faint'] {
+	opacity: 0.35;
+}
+
+[data-s~='new'] {
+	background: #b9f0c9 !important;
+}
+
+[data-s~='keep'] {
+	background: #ffe08a !important;
+}
+
+[data-s~='upd'] {
+	background: var(--orange-soft) !important;
+}
+
+[data-s~='run'] {
+	background: var(--orange) !important;
+}
+
+[data-s~='bail'] {
+	background: #ffe08a !important;
+}
+
+[data-s~='skip'] {
+	background: #d8d2c9 !important;
+}
+
+[data-s~='done'] {
+	background: var(--teal-soft) !important;
+}
+
+[data-s~='ok'] {
+	background: #b9f0c9 !important;
+}
+
+[data-s~='bad'] {
+	background: #ff8a80 !important;
+	border-color: #b3261e !important;
+}
+
+[data-s~='on'] {
+	background: var(--orange) !important;
+}
+
+[data-s~='hide'] {
+	display: none !important;
+}
+
+/* Flag badges that appear on nodes */
+.flag {
+	position: absolute;
+	top: -11px;
+	right: -8px;
+	padding: 0 6px;
+	border: 1.5px solid var(--ink);
+	border-radius: 5px;
+	background: var(--ink);
+	color: #fff;
+	font: 800 10px var(--font);
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
+	text-decoration: none;
+	display: inline-block;
+}
+
+/* ─── Mini trees (org-chart style connectors) ───────────── */
+
+.t-tree {
+	display: flex;
+	justify-content: center;
+}
+
+.t-branch {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.t-kids {
+	display: flex;
+	gap: 14px;
+	padding-top: 16px;
+	position: relative;
+}
+
+.t-kid {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: relative;
+	padding-top: 14px;
+}
+
+.t-kid::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 50%;
+	height: 14px;
+	border-left: 2px solid var(--ink);
+}
+
+.t-kids::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 50%;
+	height: 16px;
+	border-left: 2px solid var(--ink);
+}
+
+.t-kids > .t-kid:not(:only-child)::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	border-top: 2px solid var(--ink);
+	left: 0;
+	right: 0;
+}
+
+.t-kids > .t-kid:first-child:not(:only-child)::after {
+	left: 50%;
+}
+
+.t-kids > .t-kid:last-child:not(:only-child)::after {
+	right: 50%;
+}
+
+/* ─── Layout helpers ────────────────────────────────────── */
+
+.a-cols {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+	gap: 14px;
+	align-items: start;
+}
+
+.a-panel {
+	padding: 10px 12px 14px;
+	border: 2px solid var(--ink);
+	border-radius: 10px;
+	background: #fff;
+	min-width: 0;
+}
+
+.a-panel-title {
+	font-size: 11.5px;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--muted);
+	margin-bottom: 10px;
+}
+
+.a-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+}
+
+.a-col {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	align-items: flex-start;
+}
+
+.a-mid {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	align-items: center;
+	justify-content: center;
+	align-self: center;
+}
+
+.a-label {
+	font-size: 11.5px;
+	font-weight: 800;
+	text-transform: uppercase;
+	color: var(--muted);
+}
+
+.a-log {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	font: 600 12.5px var(--mono);
+}
+
+.a-log .an {
+	padding: 3px 9px;
+	border: 1.5px solid var(--ink);
+	border-radius: 6px;
+	background: #fff;
+}
+
+.a-dom {
+	font: 600 13px var(--mono);
+	line-height: 1.6;
+	padding: 8px 10px;
+	border: 2px dashed var(--ink);
+	border-radius: 8px;
+	background: #fff;
+}
+
+/* A track of absolutely-positioned items that can slide (--x = slot index) */
+.a-track {
+	position: relative;
+	height: 54px;
+	--slot: 66px;
+}
+
+.a-track > .an {
+	position: absolute;
+	left: 0;
+	top: 4px;
+	transform: translateX(calc(var(--x, 0) * var(--slot)));
+}
+
+.a-track > .an[data-s~='ghost'] {
+	transform: translateX(calc(var(--x, 0) * var(--slot))) translateY(-14px) scale(0.85);
+}
+
+.a-track > .an[data-s~='gone'] {
+	transform: translateX(calc(var(--x, 0) * var(--slot))) translateY(14px) scale(0.7);
+}
+
+.a-track > .an[data-s~='hl'] {
+	transform: translateX(calc(var(--x, 0) * var(--slot))) scale(1.06);
+}
+
+.a-track .node {
+	min-width: 56px;
+	padding: 5px 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.an,
+	.anim-bar {
+		transition: none;
+	}
+
+	.flash,
+	.anim-fn {
+		animation: none;
+	}
+}
+
+/* Code lines that light up as they "run" */
+.call {
+	padding: 4px 9px;
+	border: 1.5px solid var(--ink);
+	border-radius: 6px;
+	background: #fff;
+	font-size: 12.5px;
+}
+
+.call code {
+	font-size: inherit;
+}
+
+/* Children slots (state tied to position) */
+.slots {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+.slot {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6px;
+	padding: 8px;
+	border: 2px dashed var(--ink);
+	border-radius: 9px;
+	min-width: 120px;
+}
+
+/* List diff tracks */
+.ld-scene .a-track {
+	margin-bottom: 4px;
+}
+
+.ld-scene .a-track .node small {
+	font-size: 10.5px;
+}
+
+/* Scheduler timeline */
+.a-track.slices {
+	--slot: 38px;
+	height: 44px;
+	min-width: calc(12 * 38px);
+	border-bottom: 2px solid var(--ink);
+}
+
+.slice {
+	width: 34px;
+	height: 34px;
+	display: grid;
+	place-items: center;
+	border: 1.5px solid var(--ink);
+	border-radius: 5px;
+	font: 700 10px var(--font);
+	background: #fff;
+}
+
+.slice.wide2 {
+	width: 72px;
+}
+
+.sl-t {
+	background: var(--teal-soft);
+}
+
+.sl-k {
+	background: var(--pink);
+}
+
+.sl-s {
+	background: var(--orange);
+}
+
+.sl-c {
+	background: #b9f0c9;
+}
+
+/* Hide connectors to nodes that don't exist yet */
+.t-kid:has(> .t-branch > .node:is([data-s~='ghost'], [data-s~='hide']))::before,
+.t-kid:has(> .t-branch > .node:is([data-s~='ghost'], [data-s~='hide']))::after {
+	opacity: 0;
+}
+
+.t-kids:not(:has(> .t-kid > .t-branch > .node:not([data-s~='ghost'], [data-s~='hide'])))::before {
+	opacity: 0;
+}
+
+.t-kid::before,
+.t-kid::after,
+.t-kids::before {
+	transition: opacity 0.4s ease;
+}
+
+/* Beat the prose `code` styles */
+.prose .anim-hud .anim-fn {
+	background: var(--ink);
+	color: #fff;
+	border: 0;
+	padding: 3px 9px;
+	font-size: 13px;
+}
+
+/* Long labels wrap instead of overflowing their panel */
+.a-panel .chip-a,
+.a-panel .node {
+	max-width: 100%;
+	white-space: normal;
+	overflow-wrap: anywhere;
+	text-align: center;
+}
+
+.a-panel .chip-a {
+	text-align: left;
+	border-radius: 12px;
+}
+
+.a-panel .a-dom {
+	overflow-wrap: anywhere;
+	min-width: 0;
+}
+
+.a-panel.wide {
+	grid-column: 1 / -1;
+}
+
+.flag {
+	white-space: nowrap;
+}
+
+@media (max-width: 520px) {
+	.a-track {
+		--slot: 50px;
+	}
+
+	.a-track .node {
+		min-width: 44px;
+		padding: 4px;
+	}
+
+	.node {
+		min-width: 0;
+	}
+}

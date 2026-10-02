@@ -21,9 +21,9 @@
 	.pager,
 	.back,
 	.site-foot,
-	.walker .btn-row,
-	.fig-walker figcaption,
-	.listdiff .tabs {
+	.anim-tabs,
+	.anim-controls,
+	.anim-hud {
 		display: none !important;
 	}
 
@@ -85,7 +85,8 @@
 	.prose blockquote,
 	.prose details.qa,
 	.prose tr,
-	.ld-panel,
+	.anim-stage,
+	.anim-print li,
 	.pipe-step {
 		break-inside: avoid;
 	}
@@ -130,13 +131,51 @@
 		box-shadow: 0 3px 0 var(--ink);
 	}
 
-	.ld-panel[hidden] {
+	/* Animations print at their final state, followed by the list of steps */
+	.anim-scn[hidden] {
 		display: block !important;
 	}
 
-	.ld-title {
-		font-weight: 800;
-		margin: 10px 0 6px;
+	.anim-scn + .anim-scn {
+		margin-top: 8mm;
+	}
+
+	.anim-scn-title {
+		display: block;
+	}
+
+	.anim-print {
+		display: block;
+		margin: 10px 0 0;
+		padding-left: 20px;
+		font-size: 9.5pt;
+		line-height: 1.45;
+		color: var(--ink-soft);
+	}
+
+	.anim-print li {
+		margin: 0 0 5px;
+	}
+
+	.anim-print code {
+		display: inline;
+		margin-right: 6px;
+		padding: 0 5px;
+		background: var(--ink);
+		color: #fff;
+		border-radius: 4px;
+		font-size: 8pt;
+		overflow-wrap: anywhere;
+	}
+
+	.anim-print .anim-phase {
+		margin-right: 6px;
+		font-size: 7pt;
+		padding: 0 6px;
+	}
+
+	.an {
+		transition: none !important;
 	}
 
 	.source a {

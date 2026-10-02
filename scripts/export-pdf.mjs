@@ -55,16 +55,8 @@ try {
 			}
 			// Static versions of the interactive bits
 			document.querySelectorAll('details').forEach((d) => (d.open = true))
-			document.querySelectorAll('[data-walker] [data-act="next"]').forEach((btn) => {
-				for (let k = 0; k < 20; k++) btn.click()
-			})
-			document.querySelectorAll('[data-tabs]').forEach((root) => {
-				const names = [...root.querySelectorAll('[data-tab]')].map((b) => b.textContent)
-				root.querySelectorAll('[data-panel]').forEach((p) => {
-					p.hidden = false
-					p.insertAdjacentHTML('afterbegin', `<div class="ld-title">${names[+p.dataset.panel]}</div>`)
-				})
-			})
+			// Animations: final state of every scenario, plus the printed step list
+			window.dispatchEvent(new Event('beforeprint'))
 			// Links should work from the iPad, so point them at the live site
 			document.querySelectorAll('a[href]').forEach((a) => {
 				const url = new URL(a.getAttribute('href'), location.href)

@@ -6,7 +6,6 @@ const PINK = '#d9539f'
 const ORANGE = '#ff7a00'
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-const attr = (s) => esc(s).replace(/"/g, '&quot;')
 
 /** Collapse whitespace-only lines and newlines so the block stays one HTML block. */
 function block(html) {
@@ -201,22 +200,6 @@ export function stackVsFiber() {
 	)
 }
 
-export function doubleBuffer() {
-	const cell = (state, note) => `<div class="db-cell db-${state}"><b>${state === 'current' ? 'current' : state === 'wip' ? 'work-in-progress' : state === 'idle' ? 'scratch (alternate)' : '—'}</b>${note ? `<small>${note}</small>` : ''}</div>`
-	const rows = [
-		['render 1', cell('current', 'on screen'), cell('none', '')],
-		['render 2', cell('idle', 'stays on screen until commit'), cell('wip', 'B.alternate = A → commit → current')],
-		['render 3', cell('wip', 'reused, rebuilt → commit → current'), cell('idle', '')],
-	]
-	return fig(
-		'double-buffer',
-		'Two trees take turns. The commit flips a single pointer: <code>root.current = finishedWork</code>.',
-		`<div class="db"><div class="db-h"></div><div class="db-h">Tree A</div><div class="db-h">Tree B</div>${rows
-			.map(([r, a, b]) => `<div class="db-row">${r}</div>${a}${b}`)
-			.join('')}</div>`,
-	)
-}
-
 // ─── Work loop ─────────────────────────────────────────────────────────────
 
 export function workLoopFlow() {
@@ -247,120 +230,6 @@ export function workLoopFlow() {
 	return fig('workloop', 'Down with <code>beginWork</code>, across to siblings, up with <code>completeWork</code>. No recursion: just one <code>workInProgress</code> pointer.', svg)
 }
 
-/** Interactive step-through of the work loop table. */
-export function workLoopWalker() {
-	const nodes = {
-		HostRoot: [200, 26],
-		App: [200, 84],
-		Fragment: [200, 142],
-		Header: [110, 200],
-		Counter: [290, 200],
-		button: [290, 258],
-		text: [290, 316],
-	}
-	const labels = { text: '"1"' }
-	const edges = [
-		['HostRoot', 'App'],
-		['App', 'Fragment'],
-		['Fragment', 'Header'],
-		['Fragment', 'Counter'],
-		['Counter', 'button'],
-		['button', 'text'],
-	]
-	const svg = `<svg viewBox="0 0 400 340" class="diagram-svg walker-svg">${edges
-		.map(([a, b]) => `<line x1="${nodes[a][0]}" y1="${nodes[a][1] + 16}" x2="${nodes[b][0]}" y2="${nodes[b][1] - 16}" stroke="${INK}" stroke-width="2"/>`)
-		.join('')}${Object.entries(nodes)
-		.map(
-			([k, [x, y]]) =>
-				`<g class="w-node" data-node="${k}"><rect x="${x - 56}" y="${y - 16}" width="112" height="32" rx="8"/><text x="${x}" y="${y + 5}" text-anchor="middle" class="t-node">${labels[k] ?? k}</text></g>`,
-		)
-		.join('')}</svg>`
-	const steps = [
-		{ n: ['HostRoot'], call: 'beginWork', s: 'bail', d: 'No own update, but <code>childLanes</code> has Sync → clone the children.' },
-		{ n: ['App'], call: 'beginWork', s: 'bail', d: 'Same props object, no update, <code>childLanes</code> has Sync → <b>bail out, continue</b>. <code>App()</code> is not called.' },
-		{ n: ['Fragment'], call: 'beginWork', s: 'bail', d: 'Same → bail out, continue.' },
-		{ n: ['Header'], call: 'beginWork', s: 'skip', d: 'Same props, no update, <code>childLanes = 0</code> → <b>skip the whole subtree</b>, return <code>null</code>.' },
-		{ n: ['Header'], call: 'completeUnitOfWork', s: 'skip', d: 'Nothing to complete → move to the sibling.' },
-		{ n: ['Counter'], call: 'beginWork', s: 'render', d: '<code>lanes</code> has Sync → <b>render</b>: <code>Counter()</code> runs, <code>useState</code> → 1, reconcile <code>&lt;button&gt;</code> → reuse fiber.' },
-		{ n: ['button'], call: 'beginWork', s: 'render', d: 'New props object → reconcile its text child <code>"1"</code>.' },
-		{ n: ['text'], call: 'beginWork → completeWork', s: 'complete', d: 'Text changed → flag <code>Update</code>. No child, so climb.' },
-		{ n: ['button'], call: 'completeWork', s: 'complete', d: 'New props → flag <code>Update</code>. Bubble <code>subtreeFlags</code>.' },
-		{ n: ['Counter', 'Fragment', 'App', 'HostRoot'], call: 'completeWork ×4', s: 'complete', d: 'Bubble <code>subtreeFlags</code> up to the root. Done: only <code>Counter()</code> ran.' },
-	]
-	return fig(
-		'walker',
-		'Click <b>Next</b> to walk the loop for one <code>setN(1)</code>. Colors: bailed out, skipped, rendered, completed.',
-		`<div class="walker" data-walker data-steps="${attr(JSON.stringify(steps))}">
-			${svg}
-			<div class="walker-side">
-				<div class="walker-legend"><span class="st st-bail">bail out</span><span class="st st-skip">skipped</span><span class="st st-render">rendered</span><span class="st st-complete">completed</span></div>
-				<div class="walker-step"><span class="walker-count">Step 0 / ${steps.length}</span><div class="walker-call"><code>workLoopSync()</code></div><p class="walker-desc">The button was clicked; <code>setN(1)</code> queued an update with <code>SyncLane</code> and marked <code>childLanes</code> up to the root.</p></div>
-				<div class="btn-row"><button type="button" class="btn btn-ghost" data-act="reset">Reset</button><button type="button" class="btn btn-ghost" data-act="prev">← Prev</button><button type="button" class="btn" data-act="next">Next →</button></div>
-			</div>
-		</div>`,
-	)
-}
-
-// ─── Reconciliation ────────────────────────────────────────────────────────
-
-export function typeChange() {
-	const tree = (root, counter, badge, cls) =>
-		`<div class="mini-tree"><div class="mt-node mt-host">&lt;${root}&gt;</div><div class="mt-edge"></div><div class="mt-node mt-comp ${cls}">&lt;Counter /&gt;<small>${counter}</small></div><span class="chip ${cls === 'gone' ? 'chip-bad' : 'chip-good'}">${badge}</span></div>`
-	return fig(
-		'type-change',
-		'Different type at the same position → React throws the old subtree away, state included.',
-		`<div class="before-after">${tree('div', 'count: 3', 'unmounted', 'gone')}<div class="ba-arrow">→</div>${tree('span', 'count: 0', 'fresh mount', 'fresh')}</div>`,
-	)
-}
-
-export function keysVsIndex() {
-	const row = (k, label, op) => `<li class="op-${op}"><span class="k">${k}</span>${label}<span class="op">${op}</span></li>`
-	return fig(
-		'keys',
-		'Inserting at the front: by index every row is touched; by key the existing rows are kept.',
-		`<div class="versus">
-			<div class="vs-card"><h5>No keys → matched by index</h5><ul class="rows">${row(0, 'Connecticut', 'update')}${row(1, 'Duke', 'update')}${row(2, 'Villanova', 'insert')}</ul></div>
-			<div class="vs-card"><h5>With keys → matched by key</h5><ul class="rows">${row('conn', 'Connecticut', 'insert')}${row('duke', 'Duke', 'keep')}${row('vill', 'Villanova', 'keep')}</ul></div>
-		</div>`,
-	)
-}
-
-// ─── Child reconciliation ──────────────────────────────────────────────────
-
-export function listDiff() {
-	const scenarios = [
-		{ name: 'Append', old: 'abc', next: 'abcd', ops: { d: 'insert' }, lp: [0, 1, 2, 2], note: '1 DOM operation. The lockstep fast path handles it.' },
-		{ name: 'Remove middle', old: 'abc', next: 'ac', ops: {}, del: 'b', lp: [0, 2], note: '1 DOM operation: b is left in the map and deleted.' },
-		{ name: 'Prepend', old: 'abc', next: 'xabc', ops: { x: 'insert' }, lp: [0, 0, 1, 2], note: '1 DOM operation. With index keys it would be 3 updates + 1 insert.' },
-		{ name: 'First → last', old: 'abcd', next: 'bcda', ops: { a: 'move' }, lp: [1, 2, 3, 3], note: '1 move: a’s old index 0 < lastPlacedIndex 3.' },
-		{ name: 'Last → first', old: 'abcd', next: 'dabc', ops: { a: 'move', b: 'move', c: 'move' }, lp: [3, 3, 3, 3], note: '3 moves, though moving d alone would do. The known worst case.' },
-	]
-	const panel = (s, i) => {
-		const oldIdx = Object.fromEntries([...s.old].map((k, j) => [k, j]))
-		return `<div class="ld-panel" data-panel="${i}" ${i ? 'hidden' : ''}>
-			<div class="ld-row"><span class="ld-label">old</span>${[...s.old]
-				.map((k, j) => `<span class="ld-chip ${s.del === k ? 'op-delete' : ''}">${k}<sub>${j}</sub></span>`)
-				.join('')}</div>
-			<div class="ld-row"><span class="ld-label">new</span>${[...s.next]
-				.map((k, j) => {
-					const op = s.ops[k] ?? 'stay'
-					return `<span class="ld-chip op-${op}">${k}${k in oldIdx ? `<sub>${oldIdx[k]}</sub>` : ''}<em>${op}</em><small>lp ${s.lp[j]}</small></span>`
-				})
-				.join('')}</div>
-			<p class="ld-note">${s.note}</p>
-		</div>`
-	}
-	return fig(
-		'listdiff',
-		'Subscript = old index, <code>lp</code> = <code>lastPlacedIndex</code> after that child. An old index smaller than <code>lp</code> means “move”.',
-		`<div class="listdiff" data-tabs>
-			<div class="btn-row tabs">${scenarios.map((s, i) => `<button type="button" class="btn ${i ? 'btn-ghost' : ''}" data-tab="${i}">${s.name}</button>`).join('')}</div>
-			${scenarios.map(panel).join('')}
-			<div class="legend"><span><i class="sw op-stay"></i>stay</span><span><i class="sw op-insert"></i>insert</span><span><i class="sw op-move"></i>move</span><span><i class="sw op-delete"></i>delete</span></div>
-		</div>`,
-	)
-}
-
 // ─── Scheduler ─────────────────────────────────────────────────────────────
 
 export function laneBits() {
@@ -389,53 +258,6 @@ export function laneBits() {
 	)
 }
 
-export function batching() {
-	return mermaid(
-		`
-sequenceDiagram
-  participant H as onClick handler
-  participant Q as Update queues
-  participant M as Microtask
-  participant R as Render + commit
-  H->>Q: setCount(c → c + 1) · SyncLane
-  Q-->>M: queueMicrotask (scheduled once)
-  H->>Q: setFlag(true)
-  Note right of Q: microtask already scheduled
-  H->>Q: setText('hi')
-  H-->>M: handler returns
-  M->>R: processRootScheduleInMicrotask
-  R->>R: ONE render with all 3 updates
-`,
-		'<code>setState</code> never renders by itself: it queues, and the microtask renders everything from the same tick at once.',
-	)
-}
-
-export function interruption() {
-	const slice = (x, cls, label = '') =>
-		`<g><rect x="${x}" y="40" width="26" height="34" rx="4" class="${cls}"/>${label ? `<text x="${x + 13}" y="62" text-anchor="middle" class="t-small">${label}</text>` : ''}</g>`
-	const svg = `<svg viewBox="0 0 640 126" class="diagram-svg">
-		<line x1="10" y1="96" x2="630" y2="96" stroke="${INK}" stroke-width="2"/>
-		${[20, 50, 80, 110].map((x) => slice(x, 'sl-discard')).join('')}
-		<path d="M20 34 H136" stroke="${INK}" stroke-width="1.5" stroke-dasharray="3 3"/>
-		<text x="78" y="28" text-anchor="middle" class="t-small">transition WIP · discarded</text>
-		<line x1="152" y1="20" x2="152" y2="96" stroke="${PINK}" stroke-width="3"/>
-		<text x="146" y="116" text-anchor="end" class="t-small t-bold">keydown</text>
-		<rect x="162" y="40" width="96" height="34" rx="4" class="sl-sync"/>
-		<text x="210" y="54" text-anchor="middle" class="t-small t-bold">sync render</text><text x="210" y="68" text-anchor="middle" class="t-small t-bold">+ commit</text>
-		<text x="210" y="116" text-anchor="middle" class="t-small">input updates</text>
-		${[270, 300, 330, 360, 390, 420, 450, 480].map((x) => slice(x, 'sl-trans')).join('')}
-		<text x="390" y="28" text-anchor="middle" class="t-small">transition restarts from the root · 5ms slices</text>
-		<rect x="514" y="40" width="70" height="34" rx="4" class="sl-commit"/>
-		<text x="549" y="62" text-anchor="middle" class="t-small t-bold">commit</text>
-		<text x="630" y="116" text-anchor="end" class="t-small">main thread → time</text>
-	</svg>`
-	return fig(
-		'interruption',
-		'An urgent update mid-transition: the half-built tree is thrown away (nothing was committed, so nothing to undo), then the transition starts over.',
-		svg,
-	)
-}
-
 // ─── Hooks ─────────────────────────────────────────────────────────────────
 
 export function hookList({ states = ['0', '{ current: &lt;button&gt; }', 'deps [0]', 'deps [0]'], fiber = 'Counter' } = {}) {
@@ -449,18 +271,6 @@ export function hookList({ states = ['0', '{ current: &lt;button&gt; }', 'deps [
 					`<span class="chain-arrow">→</span><div class="chain-node"><span class="chain-idx">#${i + 1}</span><b>${h}</b><code>${states[i]}</code><small>.next</small></div>`,
 			)
 			.join('')}<span class="chain-arrow">→</span><div class="chain-null">null</div></div>`,
-	)
-}
-
-export function conditionalHooks() {
-	const slot = (n, stored, call, ok) => `<div class="cond-slot ${ok ? 'ok' : 'bad'}"><span class="chain-idx">#${n}</span><small>stored</small><code>${stored}</code><small>called</small><code>${call}</code><b>${ok ? '✓' : '✗'}</b></div>`
-	return fig(
-		'conditional',
-		'Render 2 skips the first hook, so every later call reads the wrong slot.',
-		`<div class="cond">
-			<div class="cond-row"><span class="cond-label">Render 1<br><small>showName = true</small></span>${slot(1, "'Ada'", 'useState', true)}${slot(2, '36', 'useState', true)}${slot(3, 'effect', 'useEffect', true)}</div>
-			<div class="cond-row"><span class="cond-label">Render 2<br><small>showName = false</small></span>${slot(1, "'Ada'", 'useState(36)', false)}${slot(2, '36', 'useEffect', false)}<div class="cond-slot ghost">#3 unused</div></div>
-		</div>`,
 	)
 }
 
@@ -517,20 +327,6 @@ export function commitPhases() {
 					`<div class="pipe-step pipe-${k}"><div class="pipe-head"><span class="pipe-num">${i + 1}</span><span>${t}</span></div><ul>${items.map((x) => `<li>${x}</li>`).join('')}</ul></div>`,
 			)
 			.join('<div class="pipe-arrow" aria-hidden="true">→</div>')}</div>`,
-	)
-}
-
-export function effectOrder() {
-	const t = (cls, label) => `<span class="eo ${cls}">${label}</span>`
-	return fig(
-		'effect-order',
-		'On update: cleanups before setups, children before parents. On unmount the order flips to parent → child.',
-		`<div class="eo-wrap">
-			<div class="eo-lane"><span class="eo-label">mutation</span>${t('eo-clean', 'C layout cleanup')}${t('eo-clean', 'P layout cleanup')}</div>
-			<div class="eo-lane"><span class="eo-label">layout</span>${t('eo-setup', 'C layout')}${t('eo-setup', 'P layout')}</div>
-			<div class="eo-lane"><span class="eo-label">paint</span><span class="eo eo-paint">🖌 browser paints</span></div>
-			<div class="eo-lane"><span class="eo-label">passive</span>${t('eo-clean', 'C effect cleanup')}${t('eo-clean', 'P effect cleanup')}${t('eo-setup', 'C effect')}${t('eo-setup', 'P effect')}</div>
-		</div>`,
 	)
 }
 
