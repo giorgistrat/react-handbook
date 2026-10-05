@@ -25,7 +25,8 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import GithubSlugger from 'github-slugger'
-import { NOTES, VAULT_DIR, MOC_FILE } from '../src/lib/notes-meta.mjs'
+import os from 'node:os'
+import { NOTES, MOC_FILE } from '../src/lib/notes-meta.mjs'
 import * as D from '../src/lib/diagrams.mjs'
 import * as A from '../src/lib/animations.mjs'
 import * as H from '../src/lib/animations-hrw.mjs'
@@ -33,6 +34,9 @@ import * as H from '../src/lib/animations-hrw.mjs'
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const OUT_DIR = path.join(ROOT, 'src/content/notes')
 const CONTENT_DIR = path.join(ROOT, 'content')
+// The Obsidian vault folder these notes come from (override with NEXUS_NOTES_DIR)
+const VAULT_DIR =
+	process.env.NEXUS_NOTES_DIR ?? path.join(os.homedir(), 'Nexus/40 Resources/Engineering/JavaScript/React/React Internals')
 const DEMO = path.join(ROOT, 'examples/how-react-works')
 
 const byTitle = new Map(NOTES.map((n) => [n.file.replace(/\.md$/, ''), n]))

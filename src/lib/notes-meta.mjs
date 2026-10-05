@@ -2,9 +2,6 @@
 // a one-line summary (from the "React Internals" MOC) and which card
 // illustration to draw. Shared by the sync script and the pages.
 
-export const VAULT_DIR =
-	'/Users/giorgiberiashvili/Nexus/40 Resources/Engineering/JavaScript/React/React Internals'
-
 export const MOC_FILE = 'React Internals.md'
 
 export const NOTES = [
