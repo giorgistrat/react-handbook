@@ -78,6 +78,15 @@ export const NOTES = [
 		illus: 'plane',
 		summary: 'One click traced through ~30 real React functions, from the native event to paint and effects.',
 	},
+	{
+		// Site-only: written in content/, not in the vault
+		file: 'How React Works, Start to Finish.md',
+		site: true,
+		slug: 'how-react-works',
+		level: 'must',
+		illus: 'browser',
+		summary: 'A real 2-page app followed from JSX to pixels: Babel output, element objects, every component call, commit, clicks, lists and a page switch.',
+	},
 ]
 
 export const LEVELS = {

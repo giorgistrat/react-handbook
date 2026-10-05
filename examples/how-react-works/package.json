@@ -1,0 +1,21 @@
+{
+  "name": "how-react-works-demo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "compile": "node scripts/compile.mjs",
+    "trace": "node scripts/trace.mjs"
+  },
+  "dependencies": {
+    "react": "19.2.5",
+    "react-dom": "19.2.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^8.0.6",
+    "@babel/preset-react": "^8.0.1",
+    "@vitejs/plugin-react": "^6.1.2",
+    "vite": "^8.3.2"
+  }
+}

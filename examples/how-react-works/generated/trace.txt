@@ -1,0 +1,1304 @@
+### page load
+  createRoot  container #root
+  createFiberRoot
+  listenToAllSupportedEvents
+  jsxDEV  App
+  root.render  <App>
+  requestUpdateLane  HostRoot
+  updateContainerImpl  lane 32
+  scheduleUpdateOnFiber  HostRoot lane 32
+  ensureRootIsScheduled
+  scheduleImmediateRootScheduleTask
+  processRootScheduleInMicrotask
+  performWorkOnRootViaSchedulerTask
+  performWorkOnRoot  lanes 32
+  renderRootSync
+  prepareFreshStack
+  markUpdateLaneFromFiberToRoot  HostRoot
+  beginWork  HostRoot
+  reconcileChildFibersImpl  HostRoot ← <App>
+  createFiberFromTypeAndProps  App
+  beginWork  App
+  renderWithHooks  App (mount)
+  [app] render App
+  mountState  "counter"
+  mountState  "light"
+  jsxDEV  Nav
+  jsxDEV  button
+  jsxDEV  CounterPage
+  jsxDEV  Layout
+  jsxDEV  ThemeContext
+  reconcileChildFibersImpl  App ← <ThemeContext>
+  createFiberFromTypeAndProps  ThemeContext
+  beginWork  ThemeContext
+  reconcileChildFibersImpl  ThemeContext ← <Layout>
+  createFiberFromTypeAndProps  Layout
+  beginWork  Layout
+  renderWithHooks  Layout (mount)
+  [app] render Layout
+  jsxDEV  h1
+  jsxDEV  main
+  jsxDEV  div
+  reconcileChildFibersImpl  Layout ← <div>
+  createFiberFromTypeAndProps  div
+  beginWork  div
+  reconcileChildFibersImpl  div ← array[2]
+  reconcileChildrenArray  div ← [2 children]
+  createFiberFromTypeAndProps  h1
+  placeChild  h1 (new) lastPlacedIndex 0
+  createFiberFromTypeAndProps  main
+  placeChild  main (new) lastPlacedIndex 0
+  beginWork  h1
+  reconcileChildFibersImpl  h1 ← null
+  completeWork  h1
+  beginWork  main
+  reconcileChildFibersImpl  main ← array[3]
+  reconcileChildrenArray  main ← [3 children]
+  createFiberFromTypeAndProps  Nav
+  placeChild  Nav (new) lastPlacedIndex 0
+  createFiberFromTypeAndProps  button
+  placeChild  button (new) lastPlacedIndex 0
+  createFiberFromTypeAndProps  CounterPage
+  placeChild  CounterPage (new) lastPlacedIndex 0
+  beginWork  Nav
+  renderWithHooks  Nav (mount)
+  [app] render Nav counter
+  jsxDEV  button
+  jsxDEV  button
+  jsxDEV  nav
+  reconcileChildFibersImpl  Nav ← <nav>
+  createFiberFromTypeAndProps  nav
+  beginWork  nav
+  reconcileChildFibersImpl  nav ← array[2]
+  reconcileChildrenArray  nav ← [2 children]
+  createFiberFromTypeAndProps  button
+  placeChild  button (new) lastPlacedIndex 0
+  createFiberFromTypeAndProps  button
+  placeChild  button (new) lastPlacedIndex 0
+  beginWork  button
+  reconcileChildFibersImpl  button ← null
+  completeWork  button
+  beginWork  button
+  reconcileChildFibersImpl  button ← null
+  completeWork  button
+  completeWork  nav
+  completeWork  Nav
+  beginWork  button
+  reconcileChildFibersImpl  button ← array[2]
+  reconcileChildrenArray  button ← [2 children]
+  createFiberFromText  "Theme: "
+  placeChild  text "Theme: " (new) lastPlacedIndex 0
+  createFiberFromText  "light"
+  placeChild  text "light" (new) lastPlacedIndex 0
+  beginWork  text "Theme: "
+  completeWork  text "Theme: "
+  beginWork  text "light"
+  completeWork  text "light"
+  completeWork  button
+  beginWork  CounterPage
+  renderWithHooks  CounterPage (mount)
+  [app] render CounterPage
+  mountState  0
+  jsxDEV  h2
+  jsxDEV  Display
+  jsxDEV  button
+  jsxDEV  section
+  reconcileChildFibersImpl  CounterPage ← <section>
+  createFiberFromTypeAndProps  section
+  beginWork  section
+  reconcileChildFibersImpl  section ← array[3]
+  reconcileChildrenArray  section ← [3 children]
+  createFiberFromTypeAndProps  h2
+  placeChild  h2 (new) lastPlacedIndex 0
+  createFiberFromTypeAndProps  Display
+  placeChild  Display (new) lastPlacedIndex 0
+  createFiberFromTypeAndProps  button
+  placeChild  button (new) lastPlacedIndex 0
+  beginWork  h2
+  reconcileChildFibersImpl  h2 ← null
+  completeWork  h2
+  beginWork  Display
+  renderWithHooks  Display (mount)
+  [app] render Display 0
+  jsxDEV  p
+  reconcileChildFibersImpl  Display ← <p>
+  createFiberFromTypeAndProps  p
+  beginWork  p
+  reconcileChildFibersImpl  p ← array[2]
+  reconcileChildrenArray  p ← [2 children]
+  createFiberFromText  "Count: "
+  placeChild  text "Count: " (new) lastPlacedIndex 0
+  createFiberFromText  "0"
+  placeChild  text "0" (new) lastPlacedIndex 0
+  beginWork  text "Count: "
+  completeWork  text "Count: "
+  beginWork  text "0"
+  completeWork  text "0"
+  completeWork  p
+  completeWork  Display
+  beginWork  button
+  reconcileChildFibersImpl  button ← null
+  completeWork  button
+  completeWork  section
+  completeWork  CounterPage
+  completeWork  main
+  completeWork  div
+  completeWork  Layout
+  completeWork  ThemeContext
+  completeWork  App
+  completeWork  HostRoot
+  commitRoot
+  commitBeforeMutationEffects
+  flushMutationEffects
+  commitPlacement  App
+  insertOrAppendPlacementNodeIntoContainer  App is not a DOM node → descend to its child
+  insertOrAppendPlacementNodeIntoContainer  ThemeContext is not a DOM node → descend to its child
+  insertOrAppendPlacementNodeIntoContainer  Layout is not a DOM node → descend to its child
+  insertOrAppendPlacementNodeIntoContainer  appendChild(<div>) into #root
+  flushLayoutEffects
+  commitHookEffectListMount  CounterPage HasEffect|Layout
+  [app] layout effect: button is 88 px wide
+  ensureRootIsScheduled
+  scheduleImmediateRootScheduleTask
+  ensureRootIsScheduled
+  processRootScheduleInMicrotask
+  flushPassiveEffects
+  commitHookEffectListMount  CounterPage HasEffect|Passive
+  [app] effect: set title 0
+
+### click "Add one"
+  dispatchDiscreteEvent  pointerdown (capture listener)
+  dispatchDiscreteEvent  pointerdown (bubble listener)
+  dispatchDiscreteEvent  mousedown (capture listener)
+  dispatchDiscreteEvent  mousedown (bubble listener)
+  dispatchDiscreteEvent  focusin (capture listener)
+  dispatchDiscreteEvent  focusin (bubble listener)
+  dispatchDiscreteEvent  pointerup (capture listener)
+  dispatchDiscreteEvent  pointerup (bubble listener)
+  dispatchDiscreteEvent  mouseup (capture listener)
+  dispatchDiscreteEvent  mouseup (bubble listener)
+  dispatchDiscreteEvent  click (capture listener)
+  dispatchDiscreteEvent  click (bubble listener)
+  dispatchSetState  CounterPage ← 1
+  requestUpdateLane  CounterPage
+  scheduleUpdateOnFiber  CounterPage lane 2
+  ensureRootIsScheduled
+  scheduleImmediateRootScheduleTask
+  processRootScheduleInMicrotask
+  performSyncWorkOnRoot
+  performWorkOnRoot  lanes 2
+  renderRootSync
+  prepareFreshStack
+  markUpdateLaneFromFiberToRoot  CounterPage
+  beginWork  HostRoot
+  bailoutOnAlreadyFinishedWork  HostRoot → children have work
+  beginWork  App
+  bailoutOnAlreadyFinishedWork  App → children have work
+  beginWork  ThemeContext
+  bailoutOnAlreadyFinishedWork  ThemeContext → children have work
+  beginWork  Layout
+  bailoutOnAlreadyFinishedWork  Layout → children have work
+  beginWork  div
+  bailoutOnAlreadyFinishedWork  div → children have work
+  beginWork  h1
+  bailoutOnAlreadyFinishedWork  h1 → skip subtree
+  completeWork  h1
+  beginWork  main
+  bailoutOnAlreadyFinishedWork  main → children have work
+  beginWork  Nav
+  bailoutOnAlreadyFinishedWork  Nav → skip subtree
+  completeWork  Nav
+  beginWork  button
+  bailoutOnAlreadyFinishedWork  button → skip subtree
+  completeWork  button
+  beginWork  CounterPage
+  renderWithHooks  CounterPage (update)
+  [app] render CounterPage
+  updateReducer
+  jsxDEV  h2
+  jsxDEV  Display
+  jsxDEV  button
+  jsxDEV  section
+  reconcileChildFibersImpl  CounterPage ← <section>
+  useFiber  section
+  beginWork  section
+  reconcileChildFibersImpl  section ← array[3]
+  reconcileChildrenArray  section ← [3 children]
+  useFiber  h2
+  placeChild  h2 oldIndex 0 lastPlacedIndex 0
+  useFiber  Display
+  placeChild  Display oldIndex 1 lastPlacedIndex 0
+  useFiber  button
+  placeChild  button oldIndex 2 lastPlacedIndex 1
+  beginWork  h2
+  reconcileChildFibersImpl  h2 ← null
+  completeWork  h2
+  beginWork  Display
+  renderWithHooks  Display (update)
+  [app] render Display 1
+  jsxDEV  p
+  reconcileChildFibersImpl  Display ← <p>
+  useFiber  p
+  beginWork  p
+  reconcileChildFibersImpl  p ← array[2]
+  reconcileChildrenArray  p ← [2 children]
+  useFiber  text "Count: "
+  placeChild  text "Count: " oldIndex 0 lastPlacedIndex 0
+  useFiber  text "0"
+  placeChild  text "1" oldIndex 1 lastPlacedIndex 0
+  beginWork  text "Count: "
+  bailoutOnAlreadyFinishedWork  text "Count: " → skip subtree
+  completeWork  text "Count: "
+  beginWork  text "1"
+  completeWork  text "1"
+  completeWork  p
+  completeWork  Display
+  beginWork  button
+  reconcileChildFibersImpl  button ← null
+  completeWork  button
+  completeWork  section
+  completeWork  CounterPage
+  completeWork  main
+  completeWork  div
+  completeWork  Layout
+  completeWork  ThemeContext
+  completeWork  App
+  completeWork  HostRoot
+  commitRoot
+  commitBeforeMutationEffects
+  flushMutationEffects
+  commitUpdate  h2
+  commitTextUpdate  "0" → "1"
+  commitUpdate  p
+  commitUpdate  button
+  commitUpdate  section
+  flushLayoutEffects
+  commitHookEffectListMount  CounterPage HasEffect|Layout
+  [app] layout effect: button is 88 px wide
+  flushPassiveEffects
+  commitHookEffectListUnmount  CounterPage HasEffect|Passive
+  [app] cleanup: title effect 0
+  commitHookEffectListMount  CounterPage HasEffect|Passive
+  [app] effect: set title 1
+  ensureRootIsScheduled
+  scheduleImmediateRootScheduleTask
+  ensureRootIsScheduled
+  processRootScheduleInMicrotask
+
+### click "Theme"
+  dispatchDiscreteEvent  pointerdown (capture listener)
+  dispatchDiscreteEvent  pointerdown (bubble listener)
+  dispatchDiscreteEvent  mousedown (capture listener)
+  dispatchDiscreteEvent  mousedown (bubble listener)
+  dispatchDiscreteEvent  focusout (capture listener)
+  dispatchDiscreteEvent  focusout (bubble listener)
+  dispatchDiscreteEvent  focusin (capture listener)
+  dispatchDiscreteEvent  focusin (bubble listener)
+  dispatchDiscreteEvent  pointerup (capture listener)
+  dispatchDiscreteEvent  pointerup (bubble listener)
+  dispatchDiscreteEvent  mouseup (capture listener)
+  dispatchDiscreteEvent  mouseup (bubble listener)
+  dispatchDiscreteEvent  click (capture listener)
+  dispatchDiscreteEvent  click (bubble listener)
+  dispatchSetState  App ← "dark"
+  requestUpdateLane  App
+  scheduleUpdateOnFiber  App lane 2
+  ensureRootIsScheduled
+  scheduleImmediateRootScheduleTask
+  processRootScheduleInMicrotask
+  performSyncWorkOnRoot
+  performWorkOnRoot  lanes 2
+  renderRootSync
+  prepareFreshStack
+  markUpdateLaneFromFiberToRoot  App
+  beginWork  HostRoot
+  bailoutOnAlreadyFinishedWork  HostRoot → children have work
+  beginWork  App
+  renderWithHooks  App (update)
+  [app] render App
+  updateReducer
+  updateReducer
+  jsxDEV  Nav
+  jsxDEV  button
+  jsxDEV  CounterPage
+  jsxDEV  Layout
+  jsxDEV  ThemeContext
+  reconcileChildFibersImpl  App ← <ThemeContext>
+  useFiber  ThemeContext
+  beginWork  ThemeContext
+  reconcileChildFibersImpl  ThemeContext ← <Layout>
+  useFiber  Layout
+  beginWork  Layout
+  renderWithHooks  Layout (update)
+  [app] render Layout
+  jsxDEV  h1
+  jsxDEV  main
+  jsxDEV  div
+  reconcileChildFibersImpl  Layout ← <div>
+  useFiber  div
+  beginWork  div
+  reconcileChildFibersImpl  div ← array[2]
+  reconcileChildrenArray  div ← [2 children]
+  useFiber  h1
+  placeChild  h1 oldIndex 0 lastPlacedIndex 0
+  useFiber  main
+  placeChild  main oldIndex 1 lastPlacedIndex 0
+  beginWork  h1
+  reconcileChildFibersImpl  h1 ← null
+  completeWork  h1
+  beginWork  main
+  reconcileChildFibersImpl  main ← array[3]
+  reconcileChildrenArray  main ← [3 children]
+  useFiber  Nav
+  placeChild  Nav oldIndex 0 lastPlacedIndex 0
+  useFiber  button
+  placeChild  button oldIndex 1 lastPlacedIndex 0
+  useFiber  CounterPage
+  placeChild  CounterPage oldIndex 2 lastPlacedIndex 1
+  beginWork  Nav
+  renderWithHooks  Nav (update)
+  [app] render Nav counter
+  jsxDEV  button
+  jsxDEV  button
+  jsxDEV  nav
+  reconcileChildFibersImpl  Nav ← <nav>
+  useFiber  nav
+  beginWork  nav
+  reconcileChildFibersImpl  nav ← array[2]
+  reconcileChildrenArray  nav ← [2 children]
+  useFiber  button
+  placeChild  button oldIndex 0 lastPlacedIndex 0
+  useFiber  button
+  placeChild  button oldIndex 1 lastPlacedIndex 0
+  beginWork  button
+  reconcileChildFibersImpl  button ← null
+  completeWork  button
+  beginWork  button
+  reconcileChildFibersImpl  button ← null
+  completeWork  button
+  completeWork  nav
+  completeWork  Nav
+  beginWork  button
+  reconcileChildFibersImpl  button ← array[2]
+  reconcileChildrenArray  button ← [2 children]
+  useFiber  text "Theme: "
+  placeChild  text "Theme: " oldIndex 0 lastPlacedIndex 0
+  useFiber  text "light"
+  placeChild  text "dark" oldIndex 1 lastPlacedIndex 0
+  beginWork  text "Theme: "
+  bailoutOnAlreadyFinishedWork  text "Theme: " → skip subtree
+  propagateContextChanges  text "Theme: "
+  completeWork  text "Theme: "
+  beginWork  text "dark"
+  completeWork  text "dark"
+  completeWork  button
+  beginWork  CounterPage
+  renderWithHooks  CounterPage (update)
+  [app] render CounterPage
+  updateReducer
+  jsxDEV  h2
+  jsxDEV  Display
+  jsxDEV  button
+  jsxDEV  section
+  reconcileChildFibersImpl  CounterPage ← <section>
+  useFiber  section
+  beginWork  section
+  reconcileChildFibersImpl  section ← array[3]
+  reconcileChildrenArray  section ← [3 children]
+  useFiber  h2
+  placeChild  h2 oldIndex 0 lastPlacedIndex 0
+  useFiber  Display
+  placeChild  Display oldIndex 1 lastPlacedIndex 0
+  useFiber  button
+  placeChild  button oldIndex 2 lastPlacedIndex 1
+  beginWork  h2
+  reconcileChildFibersImpl  h2 ← null
+  completeWork  h2
+  beginWork  Display
+  renderWithHooks  Display (update)
+  [app] render Display 1
+  jsxDEV  p
+  reconcileChildFibersImpl  Display ← <p>
+  useFiber  p
+  beginWork  p
+  reconcileChildFibersImpl  p ← array[2]
+  reconcileChildrenArray  p ← [2 children]
+  useFiber  text "Count: "
+  placeChild  text "Count: " oldIndex 0 lastPlacedIndex 0
+  useFiber  text "1"
+  placeChild  text "1" oldIndex 1 lastPlacedIndex 0
+  beginWork  text "Count: "
+  bailoutOnAlreadyFinishedWork  text "Count: " → skip subtree
+  propagateContextChanges  text "Count: "
+  completeWork  text "Count: "
+  beginWork  text "1"
+  bailoutOnAlreadyFinishedWork  text "1" → skip subtree
+  propagateContextChanges  text "1"
+  completeWork  text "1"
+  completeWork  p
+  completeWork  Display
+  beginWork  button
+  reconcileChildFibersImpl  button ← null
+  completeWork  button
+  completeWork  section
+  completeWork  CounterPage
+  completeWork  main
+  completeWork  div
+  completeWork  Layout
+  completeWork  ThemeContext
+  completeWork  App
+  completeWork  HostRoot
+  commitRoot
+  commitBeforeMutationEffects
+  flushMutationEffects
+  commitUpdate  h1
+  commitUpdate  button
+  commitUpdate  button
+  commitUpdate  nav
+  commitTextUpdate  "light" → "dark"
+  commitUpdate  button
+  commitUpdate  h2
+  commitUpdate  p
+  commitUpdate  button
+  commitUpdate  section
+  commitUpdate  main
+  commitUpdate  div
+  flushLayoutEffects
+  flushPassiveEffects
+  ensureRootIsScheduled
+  scheduleImmediateRootScheduleTask
+  ensureRootIsScheduled
+  processRootScheduleInMicrotask
+
+### click "Todos" (page switch)
+  dispatchDiscreteEvent  pointerdown (capture listener)
+  dispatchDiscreteEvent  pointerdown (bubble listener)
+  dispatchDiscreteEvent  mousedown (capture listener)
+  dispatchDiscreteEvent  mousedown (bubble listener)
+  dispatchDiscreteEvent  focusout (capture listener)
+  dispatchDiscreteEvent  focusout (bubble listener)
+  dispatchDiscreteEvent  focusin (capture listener)
+  dispatchDiscreteEvent  focusin (bubble listener)
+  dispatchDiscreteEvent  pointerup (capture listener)
+  dispatchDiscreteEvent  pointerup (bubble listener)
+  dispatchDiscreteEvent  mouseup (capture listener)
+  dispatchDiscreteEvent  mouseup (bubble listener)
+  dispatchDiscreteEvent  click (capture listener)
+  dispatchDiscreteEvent  click (bubble listener)
+  dispatchSetState  App ← "todos"
+  requestUpdateLane  App
+  scheduleUpdateOnFiber  App lane 2
+  ensureRootIsScheduled
+  scheduleImmediateRootScheduleTask
+  processRootScheduleInMicrotask
+  performSyncWorkOnRoot
+  performWorkOnRoot  lanes 2
+  renderRootSync
+  prepareFreshStack
+  markUpdateLaneFromFiberToRoot  App
+  beginWork  HostRoot
+  bailoutOnAlreadyFinishedWork  HostRoot → children have work
+  beginWork  App
+  renderWithHooks  App (update)
+  [app] render App
+  updateReducer
+  updateReducer
+  jsxDEV  Nav
+  jsxDEV  button
+  jsxDEV  TodosPage
+  jsxDEV  Layout
+  jsxDEV  ThemeContext
+  reconcileChildFibersImpl  App ← <ThemeContext>
+  useFiber  ThemeContext
+  beginWork  ThemeContext
+  reconcileChildFibersImpl  ThemeContext ← <Layout>
+  useFiber  Layout
+  beginWork  Layout
+  renderWithHooks  Layout (update)
+  [app] render Layout
+  jsxDEV  h1
+  jsxDEV  main
+  jsxDEV  div
+  reconcileChildFibersImpl  Layout ← <div>
+  useFiber  div
+  beginWork  div
+  reconcileChildFibersImpl  div ← array[2]
+  reconcileChildrenArray  div ← [2 children]
+  useFiber  h1
+  placeChild  h1 oldIndex 0 lastPlacedIndex 0
+  useFiber  main
+  placeChild  main oldIndex 1 lastPlacedIndex 0
+  beginWork  h1
+  reconcileChildFibersImpl  h1 ← null
+  completeWork  h1
+  beginWork  main
+  reconcileChildFibersImpl  main ← array[3]
+  reconcileChildrenArray  main ← [3 children]
+  useFiber  Nav
+  placeChild  Nav oldIndex 0 lastPlacedIndex 0
+  useFiber  button
+  placeChild  button oldIndex 1 lastPlacedIndex 0
+  createFiberFromTypeAndProps  TodosPage
+  deleteChild  CounterPage
+  placeChild  TodosPage (new) lastPlacedIndex 1
+  beginWork  Nav
+  renderWithHooks  Nav (update)
+  [app] render Nav todos
+  jsxDEV  button
+  jsxDEV  button
+  jsxDEV  nav
+  reconcileChildFibersImpl  Nav ← <nav>
+  useFiber  nav
+  beginWork  nav
+  reconcileChildFibersImpl  nav ← array[2]
+  reconcileChildrenArray  nav ← [2 children]
+  useFiber  button
+  placeChild  button oldIndex 0 lastPlacedIndex 0
+  useFiber  button
+  placeChild  button oldIndex 1 lastPlacedIndex 0
+  beginWork  button
+  reconcileChildFibersImpl  button ← null
+  completeWork  button
+  beginWork  button
+  reconcileChildFibersImpl  button ← null
+  completeWork  button
+  completeWork  nav
+  completeWork  Nav
+  beginWork  button
+  reconcileChildFibersImpl  button ← array[2]
+  reconcileChildrenArray  button ← [2 children]
+  useFiber  text "Theme: "
+  placeChild  text "Theme: " oldIndex 0 lastPlacedIndex 0
+  useFiber  text "dark"
+  placeChild  text "dark" oldIndex 1 lastPlacedIndex 0
+  beginWork  text "Theme: "
+  bailoutOnAlreadyFinishedWork  text "Theme: " → skip subtree
+  completeWork  text "Theme: "
+  beginWork  text "dark"
+  bailoutOnAlreadyFinishedWork  text "dark" → skip subtree
+  completeWork  text "dark"
+  completeWork  button
+  beginWork  TodosPage
+  renderWithHooks  TodosPage (mount)
+  [app] render TodosPage
+  mountState  [{"id":1,"text":"Learn JSX"},{"id":2,"text":"Read about fibe
+  mountState  ""
+  jsxDEV  h2
+  jsxDEV  input
+  jsxDEV  button
+  jsxDEV  form
+  jsxDEV  TodoItem key=1
+  jsxDEV  TodoItem key=2
+  jsxDEV  ul
+  jsxDEV  section
+  reconcileChildFibersImpl  TodosPage ← <section>
+  createFiberFromTypeAndProps  section
+  beginWork  section
+  reconcileChildFibersImpl  section ← array[3]
+  reconcileChildrenArray  section ← [3 children]
+  createFiberFromTypeAndProps  h2
+  placeChild  h2 (new) lastPlacedIndex 0
+  createFiberFromTypeAndProps  form
+  placeChild  form (new) lastPlacedIndex 0
+  createFiberFromTypeAndProps  ul
+  placeChild  ul (new) lastPlacedIndex 0
+  beginWork  h2
+  reconcileChildFibersImpl  h2 ← null
+  completeWork  h2
+  beginWork  form
+  reconcileChildFibersImpl  form ← array[2]
+  reconcileChildrenArray  form ← [2 children]
+  createFiberFromTypeAndProps  input
+  placeChild  input (new) lastPlacedIndex 0
+  createFiberFromTypeAndProps  button
+  placeChild  button (new) lastPlacedIndex 0
+  beginWork  input
+  reconcileChildFibersImpl  input ← undefined
+  completeWork  input
+  beginWork  button
+  reconcileChildFibersImpl  button ← null
+  completeWork  button
+  completeWork  form
+  beginWork  ul
+  reconcileChildFibersImpl  ul ← array[2]
+  reconcileChildrenArray  ul ← [2 children]
+  createFiberFromTypeAndProps  TodoItem
+  placeChild  TodoItem[key=1] (new) lastPlacedIndex 0
+  createFiberFromTypeAndProps  TodoItem
+  placeChild  TodoItem[key=2] (new) lastPlacedIndex 0
+  beginWork  TodoItem[key=1]
+  renderWithHooks  TodoItem[key=1] (mount)
+  [app] render TodoItem 1
+  jsxDEV  button
+  jsxDEV  li
+  reconcileChildFibersImpl  TodoItem[key=1] ← <li>
+  createFiberFromTypeAndProps  li
+  beginWork  li
+  reconcileChildFibersImpl  li ← array[3]
+  reconcileChildrenArray  li ← [3 children]
+  createFiberFromText  "Learn JSX"
+  placeChild  text "Learn JSX" (new) lastPlacedIndex 0
+  createFiberFromText  " "
+  placeChild  text " " (new) lastPlacedIndex 0
+  createFiberFromTypeAndProps  button
+  placeChild  button (new) lastPlacedIndex 0
+  beginWork  text "Learn JSX"
+  completeWork  text "Learn JSX"
+  beginWork  text " "
+  completeWork  text " "
+  beginWork  button
+  reconcileChildFibersImpl  button ← null
+  completeWork  button
+  completeWork  li
+  completeWork  TodoItem[key=1]
+  beginWork  TodoItem[key=2]
+  renderWithHooks  TodoItem[key=2] (mount)
+  [app] render TodoItem 2
+  jsxDEV  button
+  jsxDEV  li
+  reconcileChildFibersImpl  TodoItem[key=2] ← <li>
+  createFiberFromTypeAndProps  li
+  beginWork  li
+  reconcileChildFibersImpl  li ← array[3]
+  reconcileChildrenArray  li ← [3 children]
+  createFiberFromText  "Read about fibers"
+  placeChild  text "Read about fibers" (new) lastPlacedIndex 0
+  createFiberFromText  " "
+  placeChild  text " " (new) lastPlacedIndex 0
+  createFiberFromTypeAndProps  button
+  placeChild  button (new) lastPlacedIndex 0
+  beginWork  text "Read about fibers"
+  completeWork  text "Read about fibers"
+  beginWork  text " "
+  completeWork  text " "
+  beginWork  button
+  reconcileChildFibersImpl  button ← null
+  completeWork  button
+  completeWork  li
+  completeWork  TodoItem[key=2]
+  completeWork  ul
+  completeWork  section
+  completeWork  TodosPage
+  completeWork  main
+  completeWork  div
+  completeWork  Layout
+  completeWork  ThemeContext
+  completeWork  App
+  completeWork  HostRoot
+  commitRoot
+  commitBeforeMutationEffects
+  flushMutationEffects
+  commitUpdate  h1
+  commitDeletionEffectsOnFiber  CounterPage
+  commitDeletionEffectsOnFiber  section
+  commitDeletionEffectsOnFiber  h2
+  commitDeletionEffectsOnFiber  Display
+  commitDeletionEffectsOnFiber  p
+  commitDeletionEffectsOnFiber  text "Count: "
+  commitDeletionEffectsOnFiber  text "1"
+  commitDeletionEffectsOnFiber  button
+  removeChild  <section> from <main>
+  commitUpdate  button
+  commitUpdate  button
+  commitUpdate  nav
+  commitUpdate  button
+  commitPlacement  TodosPage
+  insertOrAppendPlacementNode  TodosPage is not a DOM node → descend to its child
+  insertOrAppendPlacementNode  appendChild(<section>) into <main>
+  commitUpdate  main
+  commitUpdate  div
+  flushLayoutEffects
+  flushPassiveEffects
+  commitHookEffectListUnmount  CounterPage Passive
+  [app] cleanup: title effect 1
+  commitHookEffectListMount  TodosPage HasEffect|Passive
+  [app] effect: subscribe to resize
+  ensureRootIsScheduled
+  scheduleImmediateRootScheduleTask
+  ensureRootIsScheduled
+  processRootScheduleInMicrotask
+
+### type "x" in the input
+  dispatchDiscreteEvent  focusout (capture listener)
+  dispatchDiscreteEvent  focusout (bubble listener)
+  dispatchDiscreteEvent  focusin (capture listener)
+  dispatchDiscreteEvent  focusin (bubble listener)
+  dispatchDiscreteEvent  selectionchange (bubble listener)
+  dispatchDiscreteEvent  keydown (capture listener)
+  dispatchDiscreteEvent  keydown (bubble listener)
+  dispatchDiscreteEvent  keypress (capture listener)
+  dispatchDiscreteEvent  keypress (bubble listener)
+  dispatchDiscreteEvent  textInput (capture listener)
+  dispatchDiscreteEvent  textInput (bubble listener)
+  dispatchDiscreteEvent  input (capture listener)
+  dispatchDiscreteEvent  input (bubble listener)
+  dispatchSetState  TodosPage ← "x"
+  requestUpdateLane  TodosPage
+  scheduleUpdateOnFiber  TodosPage lane 2
+  ensureRootIsScheduled
+  scheduleImmediateRootScheduleTask
+  performSyncWorkOnRoot
+  performWorkOnRoot  lanes 2
+  renderRootSync
+  prepareFreshStack
+  markUpdateLaneFromFiberToRoot  TodosPage
+  beginWork  HostRoot
+  bailoutOnAlreadyFinishedWork  HostRoot → children have work
+  beginWork  App
+  bailoutOnAlreadyFinishedWork  App → children have work
+  beginWork  ThemeContext
+  bailoutOnAlreadyFinishedWork  ThemeContext → children have work
+  beginWork  Layout
+  bailoutOnAlreadyFinishedWork  Layout → children have work
+  beginWork  div
+  bailoutOnAlreadyFinishedWork  div → children have work
+  beginWork  h1
+  bailoutOnAlreadyFinishedWork  h1 → skip subtree
+  completeWork  h1
+  beginWork  main
+  bailoutOnAlreadyFinishedWork  main → children have work
+  beginWork  Nav
+  bailoutOnAlreadyFinishedWork  Nav → skip subtree
+  completeWork  Nav
+  beginWork  button
+  bailoutOnAlreadyFinishedWork  button → skip subtree
+  completeWork  button
+  beginWork  TodosPage
+  renderWithHooks  TodosPage (update)
+  [app] render TodosPage
+  updateReducer
+  updateReducer
+  jsxDEV  h2
+  jsxDEV  input
+  jsxDEV  button
+  jsxDEV  form
+  jsxDEV  TodoItem key=1
+  jsxDEV  TodoItem key=2
+  jsxDEV  ul
+  jsxDEV  section
+  reconcileChildFibersImpl  TodosPage ← <section>
+  useFiber  section
+  beginWork  section
+  reconcileChildFibersImpl  section ← array[3]
+  reconcileChildrenArray  section ← [3 children]
+  useFiber  h2
+  placeChild  h2 oldIndex 0 lastPlacedIndex 0
+  useFiber  form
+  placeChild  form oldIndex 1 lastPlacedIndex 0
+  useFiber  ul
+  placeChild  ul oldIndex 2 lastPlacedIndex 1
+  beginWork  h2
+  reconcileChildFibersImpl  h2 ← null
+  completeWork  h2
+  beginWork  form
+  reconcileChildFibersImpl  form ← array[2]
+  reconcileChildrenArray  form ← [2 children]
+  useFiber  input
+  placeChild  input oldIndex 0 lastPlacedIndex 0
+  useFiber  button
+  placeChild  button oldIndex 1 lastPlacedIndex 0
+  beginWork  input
+  reconcileChildFibersImpl  input ← undefined
+  completeWork  input
+  beginWork  button
+  reconcileChildFibersImpl  button ← null
+  completeWork  button
+  completeWork  form
+  beginWork  ul
+  reconcileChildFibersImpl  ul ← array[2]
+  reconcileChildrenArray  ul ← [2 children]
+  useFiber  TodoItem[key=1]
+  placeChild  TodoItem[key=1] oldIndex 0 lastPlacedIndex 0
+  useFiber  TodoItem[key=2]
+  placeChild  TodoItem[key=2] oldIndex 1 lastPlacedIndex 0
+  beginWork  TodoItem[key=1]
+  renderWithHooks  TodoItem[key=1] (update)
+  [app] render TodoItem 1
+  jsxDEV  button
+  jsxDEV  li
+  reconcileChildFibersImpl  TodoItem[key=1] ← <li>
+  useFiber  li
+  beginWork  li
+  reconcileChildFibersImpl  li ← array[3]
+  reconcileChildrenArray  li ← [3 children]
+  useFiber  text "Learn JSX"
+  placeChild  text "Learn JSX" oldIndex 0 lastPlacedIndex 0
+  useFiber  text " "
+  placeChild  text " " oldIndex 1 lastPlacedIndex 0
+  useFiber  button
+  placeChild  button oldIndex 2 lastPlacedIndex 1
+  beginWork  text "Learn JSX"
+  bailoutOnAlreadyFinishedWork  text "Learn JSX" → skip subtree
+  completeWork  text "Learn JSX"
+  beginWork  text " "
+  bailoutOnAlreadyFinishedWork  text " " → skip subtree
+  completeWork  text " "
+  beginWork  button
+  reconcileChildFibersImpl  button ← null
+  completeWork  button
+  completeWork  li
+  completeWork  TodoItem[key=1]
+  beginWork  TodoItem[key=2]
+  renderWithHooks  TodoItem[key=2] (update)
+  [app] render TodoItem 2
+  jsxDEV  button
+  jsxDEV  li
+  reconcileChildFibersImpl  TodoItem[key=2] ← <li>
+  useFiber  li
+  beginWork  li
+  reconcileChildFibersImpl  li ← array[3]
+  reconcileChildrenArray  li ← [3 children]
+  useFiber  text "Read about fibers"
+  placeChild  text "Read about fibers" oldIndex 0 lastPlacedIndex 0
+  useFiber  text " "
+  placeChild  text " " oldIndex 1 lastPlacedIndex 0
+  useFiber  button
+  placeChild  button oldIndex 2 lastPlacedIndex 1
+  beginWork  text "Read about fibers"
+  bailoutOnAlreadyFinishedWork  text "Read about fibers" → skip subtree
+  completeWork  text "Read about fibers"
+  beginWork  text " "
+  bailoutOnAlreadyFinishedWork  text " " → skip subtree
+  completeWork  text " "
+  beginWork  button
+  reconcileChildFibersImpl  button ← null
+  completeWork  button
+  completeWork  li
+  completeWork  TodoItem[key=2]
+  completeWork  ul
+  completeWork  section
+  completeWork  TodosPage
+  completeWork  main
+  completeWork  div
+  completeWork  Layout
+  completeWork  ThemeContext
+  completeWork  App
+  completeWork  HostRoot
+  commitRoot
+  commitBeforeMutationEffects
+  flushMutationEffects
+  commitUpdate  h2
+  commitUpdate  input
+  commitUpdate  button
+  commitUpdate  form
+  commitUpdate  button
+  commitUpdate  li
+  commitUpdate  button
+  commitUpdate  li
+  commitUpdate  ul
+  commitUpdate  section
+  flushLayoutEffects
+  flushPassiveEffects
+  ensureRootIsScheduled
+  ensureRootIsScheduled
+  processRootScheduleInMicrotask
+  dispatchDiscreteEvent  keyup (capture listener)
+  dispatchDiscreteEvent  keyup (bubble listener)
+  dispatchDiscreteEvent  selectionchange (bubble listener)
+
+### submit the form (add a todo)
+  dispatchDiscreteEvent  pointerdown (capture listener)
+  dispatchDiscreteEvent  pointerdown (bubble listener)
+  dispatchDiscreteEvent  mousedown (capture listener)
+  dispatchDiscreteEvent  mousedown (bubble listener)
+  dispatchDiscreteEvent  change (capture listener)
+  dispatchDiscreteEvent  change (bubble listener)
+  dispatchDiscreteEvent  focusout (capture listener)
+  dispatchDiscreteEvent  focusout (bubble listener)
+  dispatchDiscreteEvent  focusin (capture listener)
+  dispatchDiscreteEvent  focusin (bubble listener)
+  dispatchDiscreteEvent  pointerup (capture listener)
+  dispatchDiscreteEvent  pointerup (bubble listener)
+  dispatchDiscreteEvent  mouseup (capture listener)
+  dispatchDiscreteEvent  mouseup (bubble listener)
+  dispatchDiscreteEvent  click (capture listener)
+  dispatchDiscreteEvent  click (bubble listener)
+  dispatchDiscreteEvent  submit (capture listener)
+  dispatchDiscreteEvent  submit (bubble listener)
+  dispatchSetState  TodosPage ← [{"id":1,"text":"Learn JSX"},{"id":2,"text":"Read about fibe
+  requestUpdateLane  TodosPage
+  scheduleUpdateOnFiber  TodosPage lane 2
+  ensureRootIsScheduled
+  scheduleImmediateRootScheduleTask
+  dispatchSetState  TodosPage ← ""
+  requestUpdateLane  TodosPage
+  scheduleUpdateOnFiber  TodosPage lane 2
+  ensureRootIsScheduled
+  processRootScheduleInMicrotask
+  performSyncWorkOnRoot
+  performWorkOnRoot  lanes 2
+  renderRootSync
+  prepareFreshStack
+  markUpdateLaneFromFiberToRoot  TodosPage
+  markUpdateLaneFromFiberToRoot  TodosPage
+  beginWork  HostRoot
+  bailoutOnAlreadyFinishedWork  HostRoot → children have work
+  beginWork  App
+  bailoutOnAlreadyFinishedWork  App → children have work
+  beginWork  ThemeContext
+  bailoutOnAlreadyFinishedWork  ThemeContext → children have work
+  beginWork  Layout
+  bailoutOnAlreadyFinishedWork  Layout → children have work
+  beginWork  div
+  bailoutOnAlreadyFinishedWork  div → children have work
+  beginWork  h1
+  bailoutOnAlreadyFinishedWork  h1 → skip subtree
+  completeWork  h1
+  beginWork  main
+  bailoutOnAlreadyFinishedWork  main → children have work
+  beginWork  Nav
+  bailoutOnAlreadyFinishedWork  Nav → skip subtree
+  completeWork  Nav
+  beginWork  button
+  bailoutOnAlreadyFinishedWork  button → skip subtree
+  completeWork  button
+  beginWork  TodosPage
+  renderWithHooks  TodosPage (update)
+  [app] render TodosPage
+  updateReducer
+  updateReducer
+  jsxDEV  h2
+  jsxDEV  input
+  jsxDEV  button
+  jsxDEV  form
+  jsxDEV  TodoItem key=1
+  jsxDEV  TodoItem key=2
+  jsxDEV  TodoItem key=3
+  jsxDEV  ul
+  jsxDEV  section
+  reconcileChildFibersImpl  TodosPage ← <section>
+  useFiber  section
+  beginWork  section
+  reconcileChildFibersImpl  section ← array[3]
+  reconcileChildrenArray  section ← [3 children]
+  useFiber  h2
+  placeChild  h2 oldIndex 0 lastPlacedIndex 0
+  useFiber  form
+  placeChild  form oldIndex 1 lastPlacedIndex 0
+  useFiber  ul
+  placeChild  ul oldIndex 2 lastPlacedIndex 1
+  beginWork  h2
+  reconcileChildFibersImpl  h2 ← null
+  completeWork  h2
+  beginWork  form
+  reconcileChildFibersImpl  form ← array[2]
+  reconcileChildrenArray  form ← [2 children]
+  useFiber  input
+  placeChild  input oldIndex 0 lastPlacedIndex 0
+  useFiber  button
+  placeChild  button oldIndex 1 lastPlacedIndex 0
+  beginWork  input
+  reconcileChildFibersImpl  input ← undefined
+  completeWork  input
+  beginWork  button
+  reconcileChildFibersImpl  button ← null
+  completeWork  button
+  completeWork  form
+  beginWork  ul
+  reconcileChildFibersImpl  ul ← array[3]
+  reconcileChildrenArray  ul ← [3 children]
+  useFiber  TodoItem[key=1]
+  placeChild  TodoItem[key=1] oldIndex 0 lastPlacedIndex 0
+  useFiber  TodoItem[key=2]
+  placeChild  TodoItem[key=2] oldIndex 1 lastPlacedIndex 0
+  createFiberFromTypeAndProps  TodoItem
+  placeChild  TodoItem[key=3] (new) lastPlacedIndex 1
+  beginWork  TodoItem[key=1]
+  renderWithHooks  TodoItem[key=1] (update)
+  [app] render TodoItem 1
+  jsxDEV  button
+  jsxDEV  li
+  reconcileChildFibersImpl  TodoItem[key=1] ← <li>
+  useFiber  li
+  beginWork  li
+  reconcileChildFibersImpl  li ← array[3]
+  reconcileChildrenArray  li ← [3 children]
+  useFiber  text "Learn JSX"
+  placeChild  text "Learn JSX" oldIndex 0 lastPlacedIndex 0
+  useFiber  text " "
+  placeChild  text " " oldIndex 1 lastPlacedIndex 0
+  useFiber  button
+  placeChild  button oldIndex 2 lastPlacedIndex 1
+  beginWork  text "Learn JSX"
+  bailoutOnAlreadyFinishedWork  text "Learn JSX" → skip subtree
+  completeWork  text "Learn JSX"
+  beginWork  text " "
+  bailoutOnAlreadyFinishedWork  text " " → skip subtree
+  completeWork  text " "
+  beginWork  button
+  reconcileChildFibersImpl  button ← null
+  completeWork  button
+  completeWork  li
+  completeWork  TodoItem[key=1]
+  beginWork  TodoItem[key=2]
+  renderWithHooks  TodoItem[key=2] (update)
+  [app] render TodoItem 2
+  jsxDEV  button
+  jsxDEV  li
+  reconcileChildFibersImpl  TodoItem[key=2] ← <li>
+  useFiber  li
+  beginWork  li
+  reconcileChildFibersImpl  li ← array[3]
+  reconcileChildrenArray  li ← [3 children]
+  useFiber  text "Read about fibers"
+  placeChild  text "Read about fibers" oldIndex 0 lastPlacedIndex 0
+  useFiber  text " "
+  placeChild  text " " oldIndex 1 lastPlacedIndex 0
+  useFiber  button
+  placeChild  button oldIndex 2 lastPlacedIndex 1
+  beginWork  text "Read about fibers"
+  bailoutOnAlreadyFinishedWork  text "Read about fibers" → skip subtree
+  completeWork  text "Read about fibers"
+  beginWork  text " "
+  bailoutOnAlreadyFinishedWork  text " " → skip subtree
+  completeWork  text " "
+  beginWork  button
+  reconcileChildFibersImpl  button ← null
+  completeWork  button
+  completeWork  li
+  completeWork  TodoItem[key=2]
+  beginWork  TodoItem[key=3]
+  renderWithHooks  TodoItem[key=3] (mount)
+  [app] render TodoItem 3
+  jsxDEV  button
+  jsxDEV  li
+  reconcileChildFibersImpl  TodoItem[key=3] ← <li>
+  createFiberFromTypeAndProps  li
+  beginWork  li
+  reconcileChildFibersImpl  li ← array[3]
+  reconcileChildrenArray  li ← [3 children]
+  createFiberFromText  "x"
+  placeChild  text "x" (new) lastPlacedIndex 0
+  createFiberFromText  " "
+  placeChild  text " " (new) lastPlacedIndex 0
+  createFiberFromTypeAndProps  button
+  placeChild  button (new) lastPlacedIndex 0
+  beginWork  text "x"
+  completeWork  text "x"
+  beginWork  text " "
+  completeWork  text " "
+  beginWork  button
+  reconcileChildFibersImpl  button ← null
+  completeWork  button
+  completeWork  li
+  completeWork  TodoItem[key=3]
+  completeWork  ul
+  completeWork  section
+  completeWork  TodosPage
+  completeWork  main
+  completeWork  div
+  completeWork  Layout
+  completeWork  ThemeContext
+  completeWork  App
+  completeWork  HostRoot
+  commitRoot
+  commitBeforeMutationEffects
+  flushMutationEffects
+  commitUpdate  h2
+  commitUpdate  input
+  commitUpdate  button
+  commitUpdate  form
+  commitUpdate  button
+  commitUpdate  li
+  commitUpdate  button
+  commitUpdate  li
+  commitPlacement  TodoItem[key=3]
+  insertOrAppendPlacementNode  TodoItem[key=3] is not a DOM node → descend to its child
+  insertOrAppendPlacementNode  appendChild(<li>) into <ul>
+  commitUpdate  ul
+  commitUpdate  section
+  flushLayoutEffects
+  flushPassiveEffects
+  ensureRootIsScheduled
+  scheduleImmediateRootScheduleTask
+  ensureRootIsScheduled
+  processRootScheduleInMicrotask
+  dispatchDiscreteEvent  selectionchange (bubble listener)
+
+### click × on the first todo (remove)
+  dispatchDiscreteEvent  pointerdown (capture listener)
+  dispatchDiscreteEvent  pointerdown (bubble listener)
+  dispatchDiscreteEvent  mousedown (capture listener)
+  dispatchDiscreteEvent  mousedown (bubble listener)
+  dispatchDiscreteEvent  focusout (capture listener)
+  dispatchDiscreteEvent  focusout (bubble listener)
+  dispatchDiscreteEvent  focusin (capture listener)
+  dispatchDiscreteEvent  focusin (bubble listener)
+  dispatchDiscreteEvent  pointerup (capture listener)
+  dispatchDiscreteEvent  pointerup (bubble listener)
+  dispatchDiscreteEvent  mouseup (capture listener)
+  dispatchDiscreteEvent  mouseup (bubble listener)
+  dispatchDiscreteEvent  click (capture listener)
+  dispatchDiscreteEvent  click (bubble listener)
+  dispatchSetState  TodosPage ← [{"id":2,"text":"Read about fibers"},{"id":3,"text":"x"}]
+  requestUpdateLane  TodosPage
+  scheduleUpdateOnFiber  TodosPage lane 2
+  ensureRootIsScheduled
+  scheduleImmediateRootScheduleTask
+  processRootScheduleInMicrotask
+  performSyncWorkOnRoot
+  performWorkOnRoot  lanes 2
+  renderRootSync
+  prepareFreshStack
+  markUpdateLaneFromFiberToRoot  TodosPage
+  beginWork  HostRoot
+  bailoutOnAlreadyFinishedWork  HostRoot → children have work
+  beginWork  App
+  bailoutOnAlreadyFinishedWork  App → children have work
+  beginWork  ThemeContext
+  bailoutOnAlreadyFinishedWork  ThemeContext → children have work
+  beginWork  Layout
+  bailoutOnAlreadyFinishedWork  Layout → children have work
+  beginWork  div
+  bailoutOnAlreadyFinishedWork  div → children have work
+  beginWork  h1
+  bailoutOnAlreadyFinishedWork  h1 → skip subtree
+  completeWork  h1
+  beginWork  main
+  bailoutOnAlreadyFinishedWork  main → children have work
+  beginWork  Nav
+  bailoutOnAlreadyFinishedWork  Nav → skip subtree
+  completeWork  Nav
+  beginWork  button
+  bailoutOnAlreadyFinishedWork  button → skip subtree
+  completeWork  button
+  beginWork  TodosPage
+  renderWithHooks  TodosPage (update)
+  [app] render TodosPage
+  updateReducer
+  updateReducer
+  jsxDEV  h2
+  jsxDEV  input
+  jsxDEV  button
+  jsxDEV  form
+  jsxDEV  TodoItem key=2
+  jsxDEV  TodoItem key=3
+  jsxDEV  ul
+  jsxDEV  section
+  reconcileChildFibersImpl  TodosPage ← <section>
+  useFiber  section
+  beginWork  section
+  reconcileChildFibersImpl  section ← array[3]
+  reconcileChildrenArray  section ← [3 children]
+  useFiber  h2
+  placeChild  h2 oldIndex 0 lastPlacedIndex 0
+  useFiber  form
+  placeChild  form oldIndex 1 lastPlacedIndex 0
+  useFiber  ul
+  placeChild  ul oldIndex 2 lastPlacedIndex 1
+  beginWork  h2
+  reconcileChildFibersImpl  h2 ← null
+  completeWork  h2
+  beginWork  form
+  reconcileChildFibersImpl  form ← array[2]
+  reconcileChildrenArray  form ← [2 children]
+  useFiber  input
+  placeChild  input oldIndex 0 lastPlacedIndex 0
+  useFiber  button
+  placeChild  button oldIndex 1 lastPlacedIndex 0
+  beginWork  input
+  reconcileChildFibersImpl  input ← undefined
+  completeWork  input
+  beginWork  button
+  reconcileChildFibersImpl  button ← null
+  completeWork  button
+  completeWork  form
+  beginWork  ul
+  reconcileChildFibersImpl  ul ← array[2]
+  reconcileChildrenArray  ul ← [2 children]
+  mapRemainingChildren
+  useFiber  TodoItem[key=2]
+  placeChild  TodoItem[key=2] oldIndex 1 lastPlacedIndex 0
+  useFiber  TodoItem[key=3]
+  placeChild  TodoItem[key=3] oldIndex 2 lastPlacedIndex 1
+  deleteChild  TodoItem[key=1]
+  beginWork  TodoItem[key=2]
+  renderWithHooks  TodoItem[key=2] (update)
+  [app] render TodoItem 2
+  jsxDEV  button
+  jsxDEV  li
+  reconcileChildFibersImpl  TodoItem[key=2] ← <li>
+  useFiber  li
+  beginWork  li
+  reconcileChildFibersImpl  li ← array[3]
+  reconcileChildrenArray  li ← [3 children]
+  useFiber  text "Read about fibers"
+  placeChild  text "Read about fibers" oldIndex 0 lastPlacedIndex 0
+  useFiber  text " "
+  placeChild  text " " oldIndex 1 lastPlacedIndex 0
+  useFiber  button
+  placeChild  button oldIndex 2 lastPlacedIndex 1
+  beginWork  text "Read about fibers"
+  bailoutOnAlreadyFinishedWork  text "Read about fibers" → skip subtree
+  completeWork  text "Read about fibers"
+  beginWork  text " "
+  bailoutOnAlreadyFinishedWork  text " " → skip subtree
+  completeWork  text " "
+  beginWork  button
+  reconcileChildFibersImpl  button ← null
+  completeWork  button
+  completeWork  li
+  completeWork  TodoItem[key=2]
+  beginWork  TodoItem[key=3]
+  renderWithHooks  TodoItem[key=3] (update)
+  [app] render TodoItem 3
+  jsxDEV  button
+  jsxDEV  li
+  reconcileChildFibersImpl  TodoItem[key=3] ← <li>
+  useFiber  li
+  beginWork  li
+  reconcileChildFibersImpl  li ← array[3]
+  reconcileChildrenArray  li ← [3 children]
+  useFiber  text "x"
+  placeChild  text "x" oldIndex 0 lastPlacedIndex 0
+  useFiber  text " "
+  placeChild  text " " oldIndex 1 lastPlacedIndex 0
+  useFiber  button
+  placeChild  button oldIndex 2 lastPlacedIndex 1
+  beginWork  text "x"
+  bailoutOnAlreadyFinishedWork  text "x" → skip subtree
+  completeWork  text "x"
+  beginWork  text " "
+  bailoutOnAlreadyFinishedWork  text " " → skip subtree
+  completeWork  text " "
+  beginWork  button
+  reconcileChildFibersImpl  button ← null
+  completeWork  button
+  completeWork  li
+  completeWork  TodoItem[key=3]
+  completeWork  ul
+  completeWork  section
+  completeWork  TodosPage
+  completeWork  main
+  completeWork  div
+  completeWork  Layout
+  completeWork  ThemeContext
+  completeWork  App
+  completeWork  HostRoot
+  commitRoot
+  commitBeforeMutationEffects
+  flushMutationEffects
+  commitUpdate  h2
+  commitUpdate  input
+  commitUpdate  button
+  commitUpdate  form
+  commitDeletionEffectsOnFiber  TodoItem[key=1]
+  commitDeletionEffectsOnFiber  li
+  commitDeletionEffectsOnFiber  text "Learn JSX"
+  commitDeletionEffectsOnFiber  text " "
+  commitDeletionEffectsOnFiber  button
+  removeChild  <li> from <ul>
+  dispatchDiscreteEvent  focusout (capture listener)
+  dispatchDiscreteEvent  focusout (bubble listener)
+  commitUpdate  button
+  commitUpdate  li
+  commitUpdate  button
+  commitUpdate  li
+  commitUpdate  ul
+  commitUpdate  section
+  flushLayoutEffects
+  flushPassiveEffects
+  ensureRootIsScheduled
+  scheduleImmediateRootScheduleTask
+  ensureRootIsScheduled
+  processRootScheduleInMicrotask

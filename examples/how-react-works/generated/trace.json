@@ -1,0 +1,5830 @@
+{
+  "react": "19.2.5 (development build served by Vite)",
+  "traced": [
+    "createRoot",
+    "root.render",
+    "jsxDEV",
+    "createFiberRoot",
+    "listenToAllSupportedEvents",
+    "updateContainerImpl",
+    "requestUpdateLane",
+    "dispatchDiscreteEvent",
+    "dispatchSetState",
+    "markUpdateLaneFromFiberToRoot",
+    "scheduleUpdateOnFiber",
+    "ensureRootIsScheduled",
+    "scheduleImmediateRootScheduleTask",
+    "processRootScheduleInMicrotask",
+    "performWorkOnRootViaSchedulerTask",
+    "performSyncWorkOnRoot",
+    "performWorkOnRoot",
+    "renderRootSync",
+    "prepareFreshStack",
+    "beginWork",
+    "renderWithHooks",
+    "mountState",
+    "updateReducer",
+    "bailoutOnAlreadyFinishedWork",
+    "propagateContextChanges",
+    "reconcileChildFibersImpl",
+    "reconcileChildrenArray",
+    "createFiberFromTypeAndProps",
+    "createFiberFromText",
+    "useFiber",
+    "placeChild",
+    "deleteChild",
+    "mapRemainingChildren",
+    "completeWork",
+    "commitRoot",
+    "commitBeforeMutationEffects",
+    "flushMutationEffects",
+    "commitPlacement",
+    "insertOrAppendPlacementNodeIntoContainer",
+    "insertOrAppendPlacementNode",
+    "commitDeletionEffectsOnFiber",
+    "removeChild",
+    "removeChildFromContainer",
+    "commitUpdate",
+    "commitTextUpdate",
+    "commitHookEffectListUnmount",
+    "flushLayoutEffects",
+    "commitHookEffectListMount",
+    "flushPassiveEffects"
+  ],
+  "elements": {
+    "development": {
+      "app": {
+        "$$typeof": "Symbol(react.transitional.element)",
+        "type": "[Function App]",
+        "key": null,
+        "props": {},
+        "_owner": null,
+        "ref": null,
+        "_store": "{…}",
+        "_debugInfo": null,
+        "_debugStack": "{…}",
+        "_debugTask": "{…}"
+      },
+      "p": {
+        "$$typeof": "Symbol(react.transitional.element)",
+        "type": "p",
+        "key": null,
+        "props": {
+          "className": "display",
+          "children": [
+            "Count: ",
+            0
+          ]
+        },
+        "_owner": null,
+        "ref": null,
+        "_store": "{…}",
+        "_debugInfo": null,
+        "_debugStack": "{…}",
+        "_debugTask": "{…}"
+      }
+    },
+    "production": {
+      "app": {
+        "$$typeof": "Symbol(react.transitional.element)",
+        "type": "[Function App]",
+        "key": null,
+        "ref": null,
+        "props": {}
+      },
+      "p": {
+        "$$typeof": "Symbol(react.transitional.element)",
+        "type": "p",
+        "key": null,
+        "ref": null,
+        "props": {
+          "className": "display",
+          "children": [
+            "Count: ",
+            0
+          ]
+        }
+      },
+      "keyed": {
+        "$$typeof": "Symbol(react.transitional.element)",
+        "type": "li",
+        "key": "1",
+        "ref": null,
+        "props": {
+          "className": "light",
+          "children": "Learn JSX"
+        }
+      }
+    }
+  },
+  "phases": [
+    {
+      "label": "page load",
+      "events": [
+        {
+          "fn": "createRoot",
+          "info": "container #root"
+        },
+        {
+          "fn": "createFiberRoot",
+          "info": ""
+        },
+        {
+          "fn": "listenToAllSupportedEvents",
+          "info": ""
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "App"
+        },
+        {
+          "fn": "root.render",
+          "info": "<App>"
+        },
+        {
+          "fn": "requestUpdateLane",
+          "info": "HostRoot"
+        },
+        {
+          "fn": "updateContainerImpl",
+          "info": "lane 32"
+        },
+        {
+          "fn": "scheduleUpdateOnFiber",
+          "info": "HostRoot lane 32"
+        },
+        {
+          "fn": "ensureRootIsScheduled",
+          "info": ""
+        },
+        {
+          "fn": "scheduleImmediateRootScheduleTask",
+          "info": ""
+        },
+        {
+          "fn": "processRootScheduleInMicrotask",
+          "info": ""
+        },
+        {
+          "fn": "performWorkOnRootViaSchedulerTask",
+          "info": ""
+        },
+        {
+          "fn": "performWorkOnRoot",
+          "info": "lanes 32"
+        },
+        {
+          "fn": "renderRootSync",
+          "info": ""
+        },
+        {
+          "fn": "prepareFreshStack",
+          "info": ""
+        },
+        {
+          "fn": "markUpdateLaneFromFiberToRoot",
+          "info": "HostRoot"
+        },
+        {
+          "fn": "beginWork",
+          "info": "HostRoot"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "HostRoot ← <App>"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "App"
+        },
+        {
+          "fn": "beginWork",
+          "info": "App"
+        },
+        {
+          "fn": "renderWithHooks",
+          "info": "App (mount)"
+        },
+        {
+          "app": "render App"
+        },
+        {
+          "fn": "mountState",
+          "info": "\"counter\""
+        },
+        {
+          "fn": "mountState",
+          "info": "\"light\""
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "Nav"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "button"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "CounterPage"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "Layout"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "ThemeContext"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "App ← <ThemeContext>"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "ThemeContext"
+        },
+        {
+          "fn": "beginWork",
+          "info": "ThemeContext"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "ThemeContext ← <Layout>"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "Layout"
+        },
+        {
+          "fn": "beginWork",
+          "info": "Layout"
+        },
+        {
+          "fn": "renderWithHooks",
+          "info": "Layout (mount)"
+        },
+        {
+          "app": "render Layout"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "h1"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "main"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "div"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "Layout ← <div>"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "div"
+        },
+        {
+          "fn": "beginWork",
+          "info": "div"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "div ← array[2]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "div ← [2 children]"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "h1"
+        },
+        {
+          "fn": "placeChild",
+          "info": "h1 (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "main"
+        },
+        {
+          "fn": "placeChild",
+          "info": "main (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "beginWork",
+          "info": "h1"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "h1 ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "h1"
+        },
+        {
+          "fn": "beginWork",
+          "info": "main"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "main ← array[3]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "main ← [3 children]"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "Nav"
+        },
+        {
+          "fn": "placeChild",
+          "info": "Nav (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "button"
+        },
+        {
+          "fn": "placeChild",
+          "info": "button (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "CounterPage"
+        },
+        {
+          "fn": "placeChild",
+          "info": "CounterPage (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "beginWork",
+          "info": "Nav"
+        },
+        {
+          "fn": "renderWithHooks",
+          "info": "Nav (mount)"
+        },
+        {
+          "app": "render Nav counter"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "button"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "button"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "nav"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "Nav ← <nav>"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "nav"
+        },
+        {
+          "fn": "beginWork",
+          "info": "nav"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "nav ← array[2]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "nav ← [2 children]"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "button"
+        },
+        {
+          "fn": "placeChild",
+          "info": "button (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "button"
+        },
+        {
+          "fn": "placeChild",
+          "info": "button (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "button ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "button ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "completeWork",
+          "info": "nav"
+        },
+        {
+          "fn": "completeWork",
+          "info": "Nav"
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "button ← array[2]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "button ← [2 children]"
+        },
+        {
+          "fn": "createFiberFromText",
+          "info": "\"Theme: \""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \"Theme: \" (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "createFiberFromText",
+          "info": "\"light\""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \"light\" (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \"Theme: \""
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \"Theme: \""
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \"light\""
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \"light\""
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "beginWork",
+          "info": "CounterPage"
+        },
+        {
+          "fn": "renderWithHooks",
+          "info": "CounterPage (mount)"
+        },
+        {
+          "app": "render CounterPage"
+        },
+        {
+          "fn": "mountState",
+          "info": "0"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "h2"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "Display"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "button"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "section"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "CounterPage ← <section>"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "section"
+        },
+        {
+          "fn": "beginWork",
+          "info": "section"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "section ← array[3]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "section ← [3 children]"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "h2"
+        },
+        {
+          "fn": "placeChild",
+          "info": "h2 (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "Display"
+        },
+        {
+          "fn": "placeChild",
+          "info": "Display (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "button"
+        },
+        {
+          "fn": "placeChild",
+          "info": "button (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "beginWork",
+          "info": "h2"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "h2 ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "h2"
+        },
+        {
+          "fn": "beginWork",
+          "info": "Display"
+        },
+        {
+          "fn": "renderWithHooks",
+          "info": "Display (mount)"
+        },
+        {
+          "app": "render Display 0"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "p"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "Display ← <p>"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "p"
+        },
+        {
+          "fn": "beginWork",
+          "info": "p"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "p ← array[2]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "p ← [2 children]"
+        },
+        {
+          "fn": "createFiberFromText",
+          "info": "\"Count: \""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \"Count: \" (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "createFiberFromText",
+          "info": "\"0\""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \"0\" (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \"Count: \""
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \"Count: \""
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \"0\""
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \"0\""
+        },
+        {
+          "fn": "completeWork",
+          "info": "p"
+        },
+        {
+          "fn": "completeWork",
+          "info": "Display"
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "button ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "completeWork",
+          "info": "section"
+        },
+        {
+          "fn": "completeWork",
+          "info": "CounterPage"
+        },
+        {
+          "fn": "completeWork",
+          "info": "main"
+        },
+        {
+          "fn": "completeWork",
+          "info": "div"
+        },
+        {
+          "fn": "completeWork",
+          "info": "Layout"
+        },
+        {
+          "fn": "completeWork",
+          "info": "ThemeContext"
+        },
+        {
+          "fn": "completeWork",
+          "info": "App"
+        },
+        {
+          "fn": "completeWork",
+          "info": "HostRoot"
+        },
+        {
+          "fn": "commitRoot",
+          "info": ""
+        },
+        {
+          "fn": "commitBeforeMutationEffects",
+          "info": ""
+        },
+        {
+          "fn": "flushMutationEffects",
+          "info": ""
+        },
+        {
+          "fn": "commitPlacement",
+          "info": "App"
+        },
+        {
+          "fn": "insertOrAppendPlacementNodeIntoContainer",
+          "info": "App is not a DOM node → descend to its child"
+        },
+        {
+          "fn": "insertOrAppendPlacementNodeIntoContainer",
+          "info": "ThemeContext is not a DOM node → descend to its child"
+        },
+        {
+          "fn": "insertOrAppendPlacementNodeIntoContainer",
+          "info": "Layout is not a DOM node → descend to its child"
+        },
+        {
+          "fn": "insertOrAppendPlacementNodeIntoContainer",
+          "info": "appendChild(<div>) into #root"
+        },
+        {
+          "fn": "flushLayoutEffects",
+          "info": ""
+        },
+        {
+          "fn": "commitHookEffectListMount",
+          "info": "CounterPage HasEffect|Layout"
+        },
+        {
+          "app": "layout effect: button is 88 px wide"
+        },
+        {
+          "fn": "ensureRootIsScheduled",
+          "info": ""
+        },
+        {
+          "fn": "scheduleImmediateRootScheduleTask",
+          "info": ""
+        },
+        {
+          "fn": "ensureRootIsScheduled",
+          "info": ""
+        },
+        {
+          "fn": "processRootScheduleInMicrotask",
+          "info": ""
+        },
+        {
+          "fn": "flushPassiveEffects",
+          "info": ""
+        },
+        {
+          "fn": "commitHookEffectListMount",
+          "info": "CounterPage HasEffect|Passive"
+        },
+        {
+          "app": "effect: set title 0"
+        }
+      ]
+    },
+    {
+      "label": "click \"Add one\"",
+      "events": [
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "pointerdown (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "pointerdown (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "mousedown (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "mousedown (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "focusin (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "focusin (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "pointerup (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "pointerup (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "mouseup (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "mouseup (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "click (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "click (bubble listener)"
+        },
+        {
+          "fn": "dispatchSetState",
+          "info": "CounterPage ← 1"
+        },
+        {
+          "fn": "requestUpdateLane",
+          "info": "CounterPage"
+        },
+        {
+          "fn": "scheduleUpdateOnFiber",
+          "info": "CounterPage lane 2"
+        },
+        {
+          "fn": "ensureRootIsScheduled",
+          "info": ""
+        },
+        {
+          "fn": "scheduleImmediateRootScheduleTask",
+          "info": ""
+        },
+        {
+          "fn": "processRootScheduleInMicrotask",
+          "info": ""
+        },
+        {
+          "fn": "performSyncWorkOnRoot",
+          "info": ""
+        },
+        {
+          "fn": "performWorkOnRoot",
+          "info": "lanes 2"
+        },
+        {
+          "fn": "renderRootSync",
+          "info": ""
+        },
+        {
+          "fn": "prepareFreshStack",
+          "info": ""
+        },
+        {
+          "fn": "markUpdateLaneFromFiberToRoot",
+          "info": "CounterPage"
+        },
+        {
+          "fn": "beginWork",
+          "info": "HostRoot"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "HostRoot → children have work"
+        },
+        {
+          "fn": "beginWork",
+          "info": "App"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "App → children have work"
+        },
+        {
+          "fn": "beginWork",
+          "info": "ThemeContext"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "ThemeContext → children have work"
+        },
+        {
+          "fn": "beginWork",
+          "info": "Layout"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "Layout → children have work"
+        },
+        {
+          "fn": "beginWork",
+          "info": "div"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "div → children have work"
+        },
+        {
+          "fn": "beginWork",
+          "info": "h1"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "h1 → skip subtree"
+        },
+        {
+          "fn": "completeWork",
+          "info": "h1"
+        },
+        {
+          "fn": "beginWork",
+          "info": "main"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "main → children have work"
+        },
+        {
+          "fn": "beginWork",
+          "info": "Nav"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "Nav → skip subtree"
+        },
+        {
+          "fn": "completeWork",
+          "info": "Nav"
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "button → skip subtree"
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "beginWork",
+          "info": "CounterPage"
+        },
+        {
+          "fn": "renderWithHooks",
+          "info": "CounterPage (update)"
+        },
+        {
+          "app": "render CounterPage"
+        },
+        {
+          "fn": "updateReducer",
+          "info": ""
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "h2"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "Display"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "button"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "section"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "CounterPage ← <section>"
+        },
+        {
+          "fn": "useFiber",
+          "info": "section"
+        },
+        {
+          "fn": "beginWork",
+          "info": "section"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "section ← array[3]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "section ← [3 children]"
+        },
+        {
+          "fn": "useFiber",
+          "info": "h2"
+        },
+        {
+          "fn": "placeChild",
+          "info": "h2 oldIndex 0 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "Display"
+        },
+        {
+          "fn": "placeChild",
+          "info": "Display oldIndex 1 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "button"
+        },
+        {
+          "fn": "placeChild",
+          "info": "button oldIndex 2 lastPlacedIndex 1"
+        },
+        {
+          "fn": "beginWork",
+          "info": "h2"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "h2 ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "h2"
+        },
+        {
+          "fn": "beginWork",
+          "info": "Display"
+        },
+        {
+          "fn": "renderWithHooks",
+          "info": "Display (update)"
+        },
+        {
+          "app": "render Display 1"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "p"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "Display ← <p>"
+        },
+        {
+          "fn": "useFiber",
+          "info": "p"
+        },
+        {
+          "fn": "beginWork",
+          "info": "p"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "p ← array[2]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "p ← [2 children]"
+        },
+        {
+          "fn": "useFiber",
+          "info": "text \"Count: \""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \"Count: \" oldIndex 0 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "text \"0\""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \"1\" oldIndex 1 lastPlacedIndex 0"
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \"Count: \""
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "text \"Count: \" → skip subtree"
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \"Count: \""
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \"1\""
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \"1\""
+        },
+        {
+          "fn": "completeWork",
+          "info": "p"
+        },
+        {
+          "fn": "completeWork",
+          "info": "Display"
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "button ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "completeWork",
+          "info": "section"
+        },
+        {
+          "fn": "completeWork",
+          "info": "CounterPage"
+        },
+        {
+          "fn": "completeWork",
+          "info": "main"
+        },
+        {
+          "fn": "completeWork",
+          "info": "div"
+        },
+        {
+          "fn": "completeWork",
+          "info": "Layout"
+        },
+        {
+          "fn": "completeWork",
+          "info": "ThemeContext"
+        },
+        {
+          "fn": "completeWork",
+          "info": "App"
+        },
+        {
+          "fn": "completeWork",
+          "info": "HostRoot"
+        },
+        {
+          "fn": "commitRoot",
+          "info": ""
+        },
+        {
+          "fn": "commitBeforeMutationEffects",
+          "info": ""
+        },
+        {
+          "fn": "flushMutationEffects",
+          "info": ""
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "h2"
+        },
+        {
+          "fn": "commitTextUpdate",
+          "info": "\"0\" → \"1\""
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "p"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "button"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "section"
+        },
+        {
+          "fn": "flushLayoutEffects",
+          "info": ""
+        },
+        {
+          "fn": "commitHookEffectListMount",
+          "info": "CounterPage HasEffect|Layout"
+        },
+        {
+          "app": "layout effect: button is 88 px wide"
+        },
+        {
+          "fn": "flushPassiveEffects",
+          "info": ""
+        },
+        {
+          "fn": "commitHookEffectListUnmount",
+          "info": "CounterPage HasEffect|Passive"
+        },
+        {
+          "app": "cleanup: title effect 0"
+        },
+        {
+          "fn": "commitHookEffectListMount",
+          "info": "CounterPage HasEffect|Passive"
+        },
+        {
+          "app": "effect: set title 1"
+        },
+        {
+          "fn": "ensureRootIsScheduled",
+          "info": ""
+        },
+        {
+          "fn": "scheduleImmediateRootScheduleTask",
+          "info": ""
+        },
+        {
+          "fn": "ensureRootIsScheduled",
+          "info": ""
+        },
+        {
+          "fn": "processRootScheduleInMicrotask",
+          "info": ""
+        }
+      ]
+    },
+    {
+      "label": "click \"Theme\"",
+      "events": [
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "pointerdown (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "pointerdown (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "mousedown (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "mousedown (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "focusout (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "focusout (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "focusin (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "focusin (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "pointerup (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "pointerup (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "mouseup (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "mouseup (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "click (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "click (bubble listener)"
+        },
+        {
+          "fn": "dispatchSetState",
+          "info": "App ← \"dark\""
+        },
+        {
+          "fn": "requestUpdateLane",
+          "info": "App"
+        },
+        {
+          "fn": "scheduleUpdateOnFiber",
+          "info": "App lane 2"
+        },
+        {
+          "fn": "ensureRootIsScheduled",
+          "info": ""
+        },
+        {
+          "fn": "scheduleImmediateRootScheduleTask",
+          "info": ""
+        },
+        {
+          "fn": "processRootScheduleInMicrotask",
+          "info": ""
+        },
+        {
+          "fn": "performSyncWorkOnRoot",
+          "info": ""
+        },
+        {
+          "fn": "performWorkOnRoot",
+          "info": "lanes 2"
+        },
+        {
+          "fn": "renderRootSync",
+          "info": ""
+        },
+        {
+          "fn": "prepareFreshStack",
+          "info": ""
+        },
+        {
+          "fn": "markUpdateLaneFromFiberToRoot",
+          "info": "App"
+        },
+        {
+          "fn": "beginWork",
+          "info": "HostRoot"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "HostRoot → children have work"
+        },
+        {
+          "fn": "beginWork",
+          "info": "App"
+        },
+        {
+          "fn": "renderWithHooks",
+          "info": "App (update)"
+        },
+        {
+          "app": "render App"
+        },
+        {
+          "fn": "updateReducer",
+          "info": ""
+        },
+        {
+          "fn": "updateReducer",
+          "info": ""
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "Nav"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "button"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "CounterPage"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "Layout"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "ThemeContext"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "App ← <ThemeContext>"
+        },
+        {
+          "fn": "useFiber",
+          "info": "ThemeContext"
+        },
+        {
+          "fn": "beginWork",
+          "info": "ThemeContext"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "ThemeContext ← <Layout>"
+        },
+        {
+          "fn": "useFiber",
+          "info": "Layout"
+        },
+        {
+          "fn": "beginWork",
+          "info": "Layout"
+        },
+        {
+          "fn": "renderWithHooks",
+          "info": "Layout (update)"
+        },
+        {
+          "app": "render Layout"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "h1"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "main"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "div"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "Layout ← <div>"
+        },
+        {
+          "fn": "useFiber",
+          "info": "div"
+        },
+        {
+          "fn": "beginWork",
+          "info": "div"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "div ← array[2]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "div ← [2 children]"
+        },
+        {
+          "fn": "useFiber",
+          "info": "h1"
+        },
+        {
+          "fn": "placeChild",
+          "info": "h1 oldIndex 0 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "main"
+        },
+        {
+          "fn": "placeChild",
+          "info": "main oldIndex 1 lastPlacedIndex 0"
+        },
+        {
+          "fn": "beginWork",
+          "info": "h1"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "h1 ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "h1"
+        },
+        {
+          "fn": "beginWork",
+          "info": "main"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "main ← array[3]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "main ← [3 children]"
+        },
+        {
+          "fn": "useFiber",
+          "info": "Nav"
+        },
+        {
+          "fn": "placeChild",
+          "info": "Nav oldIndex 0 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "button"
+        },
+        {
+          "fn": "placeChild",
+          "info": "button oldIndex 1 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "CounterPage"
+        },
+        {
+          "fn": "placeChild",
+          "info": "CounterPage oldIndex 2 lastPlacedIndex 1"
+        },
+        {
+          "fn": "beginWork",
+          "info": "Nav"
+        },
+        {
+          "fn": "renderWithHooks",
+          "info": "Nav (update)"
+        },
+        {
+          "app": "render Nav counter"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "button"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "button"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "nav"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "Nav ← <nav>"
+        },
+        {
+          "fn": "useFiber",
+          "info": "nav"
+        },
+        {
+          "fn": "beginWork",
+          "info": "nav"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "nav ← array[2]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "nav ← [2 children]"
+        },
+        {
+          "fn": "useFiber",
+          "info": "button"
+        },
+        {
+          "fn": "placeChild",
+          "info": "button oldIndex 0 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "button"
+        },
+        {
+          "fn": "placeChild",
+          "info": "button oldIndex 1 lastPlacedIndex 0"
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "button ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "button ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "completeWork",
+          "info": "nav"
+        },
+        {
+          "fn": "completeWork",
+          "info": "Nav"
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "button ← array[2]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "button ← [2 children]"
+        },
+        {
+          "fn": "useFiber",
+          "info": "text \"Theme: \""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \"Theme: \" oldIndex 0 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "text \"light\""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \"dark\" oldIndex 1 lastPlacedIndex 0"
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \"Theme: \""
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "text \"Theme: \" → skip subtree"
+        },
+        {
+          "fn": "propagateContextChanges",
+          "info": "text \"Theme: \""
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \"Theme: \""
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \"dark\""
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \"dark\""
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "beginWork",
+          "info": "CounterPage"
+        },
+        {
+          "fn": "renderWithHooks",
+          "info": "CounterPage (update)"
+        },
+        {
+          "app": "render CounterPage"
+        },
+        {
+          "fn": "updateReducer",
+          "info": ""
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "h2"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "Display"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "button"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "section"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "CounterPage ← <section>"
+        },
+        {
+          "fn": "useFiber",
+          "info": "section"
+        },
+        {
+          "fn": "beginWork",
+          "info": "section"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "section ← array[3]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "section ← [3 children]"
+        },
+        {
+          "fn": "useFiber",
+          "info": "h2"
+        },
+        {
+          "fn": "placeChild",
+          "info": "h2 oldIndex 0 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "Display"
+        },
+        {
+          "fn": "placeChild",
+          "info": "Display oldIndex 1 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "button"
+        },
+        {
+          "fn": "placeChild",
+          "info": "button oldIndex 2 lastPlacedIndex 1"
+        },
+        {
+          "fn": "beginWork",
+          "info": "h2"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "h2 ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "h2"
+        },
+        {
+          "fn": "beginWork",
+          "info": "Display"
+        },
+        {
+          "fn": "renderWithHooks",
+          "info": "Display (update)"
+        },
+        {
+          "app": "render Display 1"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "p"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "Display ← <p>"
+        },
+        {
+          "fn": "useFiber",
+          "info": "p"
+        },
+        {
+          "fn": "beginWork",
+          "info": "p"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "p ← array[2]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "p ← [2 children]"
+        },
+        {
+          "fn": "useFiber",
+          "info": "text \"Count: \""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \"Count: \" oldIndex 0 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "text \"1\""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \"1\" oldIndex 1 lastPlacedIndex 0"
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \"Count: \""
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "text \"Count: \" → skip subtree"
+        },
+        {
+          "fn": "propagateContextChanges",
+          "info": "text \"Count: \""
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \"Count: \""
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \"1\""
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "text \"1\" → skip subtree"
+        },
+        {
+          "fn": "propagateContextChanges",
+          "info": "text \"1\""
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \"1\""
+        },
+        {
+          "fn": "completeWork",
+          "info": "p"
+        },
+        {
+          "fn": "completeWork",
+          "info": "Display"
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "button ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "completeWork",
+          "info": "section"
+        },
+        {
+          "fn": "completeWork",
+          "info": "CounterPage"
+        },
+        {
+          "fn": "completeWork",
+          "info": "main"
+        },
+        {
+          "fn": "completeWork",
+          "info": "div"
+        },
+        {
+          "fn": "completeWork",
+          "info": "Layout"
+        },
+        {
+          "fn": "completeWork",
+          "info": "ThemeContext"
+        },
+        {
+          "fn": "completeWork",
+          "info": "App"
+        },
+        {
+          "fn": "completeWork",
+          "info": "HostRoot"
+        },
+        {
+          "fn": "commitRoot",
+          "info": ""
+        },
+        {
+          "fn": "commitBeforeMutationEffects",
+          "info": ""
+        },
+        {
+          "fn": "flushMutationEffects",
+          "info": ""
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "h1"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "button"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "button"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "nav"
+        },
+        {
+          "fn": "commitTextUpdate",
+          "info": "\"light\" → \"dark\""
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "button"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "h2"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "p"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "button"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "section"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "main"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "div"
+        },
+        {
+          "fn": "flushLayoutEffects",
+          "info": ""
+        },
+        {
+          "fn": "flushPassiveEffects",
+          "info": ""
+        },
+        {
+          "fn": "ensureRootIsScheduled",
+          "info": ""
+        },
+        {
+          "fn": "scheduleImmediateRootScheduleTask",
+          "info": ""
+        },
+        {
+          "fn": "ensureRootIsScheduled",
+          "info": ""
+        },
+        {
+          "fn": "processRootScheduleInMicrotask",
+          "info": ""
+        }
+      ]
+    },
+    {
+      "label": "click \"Todos\" (page switch)",
+      "events": [
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "pointerdown (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "pointerdown (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "mousedown (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "mousedown (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "focusout (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "focusout (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "focusin (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "focusin (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "pointerup (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "pointerup (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "mouseup (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "mouseup (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "click (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "click (bubble listener)"
+        },
+        {
+          "fn": "dispatchSetState",
+          "info": "App ← \"todos\""
+        },
+        {
+          "fn": "requestUpdateLane",
+          "info": "App"
+        },
+        {
+          "fn": "scheduleUpdateOnFiber",
+          "info": "App lane 2"
+        },
+        {
+          "fn": "ensureRootIsScheduled",
+          "info": ""
+        },
+        {
+          "fn": "scheduleImmediateRootScheduleTask",
+          "info": ""
+        },
+        {
+          "fn": "processRootScheduleInMicrotask",
+          "info": ""
+        },
+        {
+          "fn": "performSyncWorkOnRoot",
+          "info": ""
+        },
+        {
+          "fn": "performWorkOnRoot",
+          "info": "lanes 2"
+        },
+        {
+          "fn": "renderRootSync",
+          "info": ""
+        },
+        {
+          "fn": "prepareFreshStack",
+          "info": ""
+        },
+        {
+          "fn": "markUpdateLaneFromFiberToRoot",
+          "info": "App"
+        },
+        {
+          "fn": "beginWork",
+          "info": "HostRoot"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "HostRoot → children have work"
+        },
+        {
+          "fn": "beginWork",
+          "info": "App"
+        },
+        {
+          "fn": "renderWithHooks",
+          "info": "App (update)"
+        },
+        {
+          "app": "render App"
+        },
+        {
+          "fn": "updateReducer",
+          "info": ""
+        },
+        {
+          "fn": "updateReducer",
+          "info": ""
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "Nav"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "button"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "TodosPage"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "Layout"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "ThemeContext"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "App ← <ThemeContext>"
+        },
+        {
+          "fn": "useFiber",
+          "info": "ThemeContext"
+        },
+        {
+          "fn": "beginWork",
+          "info": "ThemeContext"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "ThemeContext ← <Layout>"
+        },
+        {
+          "fn": "useFiber",
+          "info": "Layout"
+        },
+        {
+          "fn": "beginWork",
+          "info": "Layout"
+        },
+        {
+          "fn": "renderWithHooks",
+          "info": "Layout (update)"
+        },
+        {
+          "app": "render Layout"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "h1"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "main"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "div"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "Layout ← <div>"
+        },
+        {
+          "fn": "useFiber",
+          "info": "div"
+        },
+        {
+          "fn": "beginWork",
+          "info": "div"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "div ← array[2]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "div ← [2 children]"
+        },
+        {
+          "fn": "useFiber",
+          "info": "h1"
+        },
+        {
+          "fn": "placeChild",
+          "info": "h1 oldIndex 0 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "main"
+        },
+        {
+          "fn": "placeChild",
+          "info": "main oldIndex 1 lastPlacedIndex 0"
+        },
+        {
+          "fn": "beginWork",
+          "info": "h1"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "h1 ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "h1"
+        },
+        {
+          "fn": "beginWork",
+          "info": "main"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "main ← array[3]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "main ← [3 children]"
+        },
+        {
+          "fn": "useFiber",
+          "info": "Nav"
+        },
+        {
+          "fn": "placeChild",
+          "info": "Nav oldIndex 0 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "button"
+        },
+        {
+          "fn": "placeChild",
+          "info": "button oldIndex 1 lastPlacedIndex 0"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "TodosPage"
+        },
+        {
+          "fn": "deleteChild",
+          "info": "CounterPage"
+        },
+        {
+          "fn": "placeChild",
+          "info": "TodosPage (new) lastPlacedIndex 1"
+        },
+        {
+          "fn": "beginWork",
+          "info": "Nav"
+        },
+        {
+          "fn": "renderWithHooks",
+          "info": "Nav (update)"
+        },
+        {
+          "app": "render Nav todos"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "button"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "button"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "nav"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "Nav ← <nav>"
+        },
+        {
+          "fn": "useFiber",
+          "info": "nav"
+        },
+        {
+          "fn": "beginWork",
+          "info": "nav"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "nav ← array[2]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "nav ← [2 children]"
+        },
+        {
+          "fn": "useFiber",
+          "info": "button"
+        },
+        {
+          "fn": "placeChild",
+          "info": "button oldIndex 0 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "button"
+        },
+        {
+          "fn": "placeChild",
+          "info": "button oldIndex 1 lastPlacedIndex 0"
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "button ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "button ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "completeWork",
+          "info": "nav"
+        },
+        {
+          "fn": "completeWork",
+          "info": "Nav"
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "button ← array[2]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "button ← [2 children]"
+        },
+        {
+          "fn": "useFiber",
+          "info": "text \"Theme: \""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \"Theme: \" oldIndex 0 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "text \"dark\""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \"dark\" oldIndex 1 lastPlacedIndex 0"
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \"Theme: \""
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "text \"Theme: \" → skip subtree"
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \"Theme: \""
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \"dark\""
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "text \"dark\" → skip subtree"
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \"dark\""
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "beginWork",
+          "info": "TodosPage"
+        },
+        {
+          "fn": "renderWithHooks",
+          "info": "TodosPage (mount)"
+        },
+        {
+          "app": "render TodosPage"
+        },
+        {
+          "fn": "mountState",
+          "info": "[{\"id\":1,\"text\":\"Learn JSX\"},{\"id\":2,\"text\":\"Read about fibe"
+        },
+        {
+          "fn": "mountState",
+          "info": "\"\""
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "h2"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "input"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "button"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "form"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "TodoItem key=1"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "TodoItem key=2"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "ul"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "section"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "TodosPage ← <section>"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "section"
+        },
+        {
+          "fn": "beginWork",
+          "info": "section"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "section ← array[3]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "section ← [3 children]"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "h2"
+        },
+        {
+          "fn": "placeChild",
+          "info": "h2 (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "form"
+        },
+        {
+          "fn": "placeChild",
+          "info": "form (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "ul"
+        },
+        {
+          "fn": "placeChild",
+          "info": "ul (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "beginWork",
+          "info": "h2"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "h2 ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "h2"
+        },
+        {
+          "fn": "beginWork",
+          "info": "form"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "form ← array[2]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "form ← [2 children]"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "input"
+        },
+        {
+          "fn": "placeChild",
+          "info": "input (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "button"
+        },
+        {
+          "fn": "placeChild",
+          "info": "button (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "beginWork",
+          "info": "input"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "input ← undefined"
+        },
+        {
+          "fn": "completeWork",
+          "info": "input"
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "button ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "completeWork",
+          "info": "form"
+        },
+        {
+          "fn": "beginWork",
+          "info": "ul"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "ul ← array[2]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "ul ← [2 children]"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "TodoItem"
+        },
+        {
+          "fn": "placeChild",
+          "info": "TodoItem[key=1] (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "TodoItem"
+        },
+        {
+          "fn": "placeChild",
+          "info": "TodoItem[key=2] (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "beginWork",
+          "info": "TodoItem[key=1]"
+        },
+        {
+          "fn": "renderWithHooks",
+          "info": "TodoItem[key=1] (mount)"
+        },
+        {
+          "app": "render TodoItem 1"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "button"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "li"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "TodoItem[key=1] ← <li>"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "li"
+        },
+        {
+          "fn": "beginWork",
+          "info": "li"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "li ← array[3]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "li ← [3 children]"
+        },
+        {
+          "fn": "createFiberFromText",
+          "info": "\"Learn JSX\""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \"Learn JSX\" (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "createFiberFromText",
+          "info": "\" \""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \" \" (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "button"
+        },
+        {
+          "fn": "placeChild",
+          "info": "button (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \"Learn JSX\""
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \"Learn JSX\""
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \" \""
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \" \""
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "button ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "completeWork",
+          "info": "li"
+        },
+        {
+          "fn": "completeWork",
+          "info": "TodoItem[key=1]"
+        },
+        {
+          "fn": "beginWork",
+          "info": "TodoItem[key=2]"
+        },
+        {
+          "fn": "renderWithHooks",
+          "info": "TodoItem[key=2] (mount)"
+        },
+        {
+          "app": "render TodoItem 2"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "button"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "li"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "TodoItem[key=2] ← <li>"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "li"
+        },
+        {
+          "fn": "beginWork",
+          "info": "li"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "li ← array[3]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "li ← [3 children]"
+        },
+        {
+          "fn": "createFiberFromText",
+          "info": "\"Read about fibers\""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \"Read about fibers\" (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "createFiberFromText",
+          "info": "\" \""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \" \" (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "button"
+        },
+        {
+          "fn": "placeChild",
+          "info": "button (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \"Read about fibers\""
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \"Read about fibers\""
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \" \""
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \" \""
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "button ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "completeWork",
+          "info": "li"
+        },
+        {
+          "fn": "completeWork",
+          "info": "TodoItem[key=2]"
+        },
+        {
+          "fn": "completeWork",
+          "info": "ul"
+        },
+        {
+          "fn": "completeWork",
+          "info": "section"
+        },
+        {
+          "fn": "completeWork",
+          "info": "TodosPage"
+        },
+        {
+          "fn": "completeWork",
+          "info": "main"
+        },
+        {
+          "fn": "completeWork",
+          "info": "div"
+        },
+        {
+          "fn": "completeWork",
+          "info": "Layout"
+        },
+        {
+          "fn": "completeWork",
+          "info": "ThemeContext"
+        },
+        {
+          "fn": "completeWork",
+          "info": "App"
+        },
+        {
+          "fn": "completeWork",
+          "info": "HostRoot"
+        },
+        {
+          "fn": "commitRoot",
+          "info": ""
+        },
+        {
+          "fn": "commitBeforeMutationEffects",
+          "info": ""
+        },
+        {
+          "fn": "flushMutationEffects",
+          "info": ""
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "h1"
+        },
+        {
+          "fn": "commitDeletionEffectsOnFiber",
+          "info": "CounterPage"
+        },
+        {
+          "fn": "commitDeletionEffectsOnFiber",
+          "info": "section"
+        },
+        {
+          "fn": "commitDeletionEffectsOnFiber",
+          "info": "h2"
+        },
+        {
+          "fn": "commitDeletionEffectsOnFiber",
+          "info": "Display"
+        },
+        {
+          "fn": "commitDeletionEffectsOnFiber",
+          "info": "p"
+        },
+        {
+          "fn": "commitDeletionEffectsOnFiber",
+          "info": "text \"Count: \""
+        },
+        {
+          "fn": "commitDeletionEffectsOnFiber",
+          "info": "text \"1\""
+        },
+        {
+          "fn": "commitDeletionEffectsOnFiber",
+          "info": "button"
+        },
+        {
+          "fn": "removeChild",
+          "info": "<section> from <main>"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "button"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "button"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "nav"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "button"
+        },
+        {
+          "fn": "commitPlacement",
+          "info": "TodosPage"
+        },
+        {
+          "fn": "insertOrAppendPlacementNode",
+          "info": "TodosPage is not a DOM node → descend to its child"
+        },
+        {
+          "fn": "insertOrAppendPlacementNode",
+          "info": "appendChild(<section>) into <main>"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "main"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "div"
+        },
+        {
+          "fn": "flushLayoutEffects",
+          "info": ""
+        },
+        {
+          "fn": "flushPassiveEffects",
+          "info": ""
+        },
+        {
+          "fn": "commitHookEffectListUnmount",
+          "info": "CounterPage Passive"
+        },
+        {
+          "app": "cleanup: title effect 1"
+        },
+        {
+          "fn": "commitHookEffectListMount",
+          "info": "TodosPage HasEffect|Passive"
+        },
+        {
+          "app": "effect: subscribe to resize"
+        },
+        {
+          "fn": "ensureRootIsScheduled",
+          "info": ""
+        },
+        {
+          "fn": "scheduleImmediateRootScheduleTask",
+          "info": ""
+        },
+        {
+          "fn": "ensureRootIsScheduled",
+          "info": ""
+        },
+        {
+          "fn": "processRootScheduleInMicrotask",
+          "info": ""
+        }
+      ]
+    },
+    {
+      "label": "type \"x\" in the input",
+      "events": [
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "focusout (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "focusout (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "focusin (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "focusin (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "selectionchange (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "keydown (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "keydown (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "keypress (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "keypress (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "textInput (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "textInput (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "input (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "input (bubble listener)"
+        },
+        {
+          "fn": "dispatchSetState",
+          "info": "TodosPage ← \"x\""
+        },
+        {
+          "fn": "requestUpdateLane",
+          "info": "TodosPage"
+        },
+        {
+          "fn": "scheduleUpdateOnFiber",
+          "info": "TodosPage lane 2"
+        },
+        {
+          "fn": "ensureRootIsScheduled",
+          "info": ""
+        },
+        {
+          "fn": "scheduleImmediateRootScheduleTask",
+          "info": ""
+        },
+        {
+          "fn": "performSyncWorkOnRoot",
+          "info": ""
+        },
+        {
+          "fn": "performWorkOnRoot",
+          "info": "lanes 2"
+        },
+        {
+          "fn": "renderRootSync",
+          "info": ""
+        },
+        {
+          "fn": "prepareFreshStack",
+          "info": ""
+        },
+        {
+          "fn": "markUpdateLaneFromFiberToRoot",
+          "info": "TodosPage"
+        },
+        {
+          "fn": "beginWork",
+          "info": "HostRoot"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "HostRoot → children have work"
+        },
+        {
+          "fn": "beginWork",
+          "info": "App"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "App → children have work"
+        },
+        {
+          "fn": "beginWork",
+          "info": "ThemeContext"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "ThemeContext → children have work"
+        },
+        {
+          "fn": "beginWork",
+          "info": "Layout"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "Layout → children have work"
+        },
+        {
+          "fn": "beginWork",
+          "info": "div"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "div → children have work"
+        },
+        {
+          "fn": "beginWork",
+          "info": "h1"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "h1 → skip subtree"
+        },
+        {
+          "fn": "completeWork",
+          "info": "h1"
+        },
+        {
+          "fn": "beginWork",
+          "info": "main"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "main → children have work"
+        },
+        {
+          "fn": "beginWork",
+          "info": "Nav"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "Nav → skip subtree"
+        },
+        {
+          "fn": "completeWork",
+          "info": "Nav"
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "button → skip subtree"
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "beginWork",
+          "info": "TodosPage"
+        },
+        {
+          "fn": "renderWithHooks",
+          "info": "TodosPage (update)"
+        },
+        {
+          "app": "render TodosPage"
+        },
+        {
+          "fn": "updateReducer",
+          "info": ""
+        },
+        {
+          "fn": "updateReducer",
+          "info": ""
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "h2"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "input"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "button"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "form"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "TodoItem key=1"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "TodoItem key=2"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "ul"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "section"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "TodosPage ← <section>"
+        },
+        {
+          "fn": "useFiber",
+          "info": "section"
+        },
+        {
+          "fn": "beginWork",
+          "info": "section"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "section ← array[3]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "section ← [3 children]"
+        },
+        {
+          "fn": "useFiber",
+          "info": "h2"
+        },
+        {
+          "fn": "placeChild",
+          "info": "h2 oldIndex 0 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "form"
+        },
+        {
+          "fn": "placeChild",
+          "info": "form oldIndex 1 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "ul"
+        },
+        {
+          "fn": "placeChild",
+          "info": "ul oldIndex 2 lastPlacedIndex 1"
+        },
+        {
+          "fn": "beginWork",
+          "info": "h2"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "h2 ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "h2"
+        },
+        {
+          "fn": "beginWork",
+          "info": "form"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "form ← array[2]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "form ← [2 children]"
+        },
+        {
+          "fn": "useFiber",
+          "info": "input"
+        },
+        {
+          "fn": "placeChild",
+          "info": "input oldIndex 0 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "button"
+        },
+        {
+          "fn": "placeChild",
+          "info": "button oldIndex 1 lastPlacedIndex 0"
+        },
+        {
+          "fn": "beginWork",
+          "info": "input"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "input ← undefined"
+        },
+        {
+          "fn": "completeWork",
+          "info": "input"
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "button ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "completeWork",
+          "info": "form"
+        },
+        {
+          "fn": "beginWork",
+          "info": "ul"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "ul ← array[2]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "ul ← [2 children]"
+        },
+        {
+          "fn": "useFiber",
+          "info": "TodoItem[key=1]"
+        },
+        {
+          "fn": "placeChild",
+          "info": "TodoItem[key=1] oldIndex 0 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "TodoItem[key=2]"
+        },
+        {
+          "fn": "placeChild",
+          "info": "TodoItem[key=2] oldIndex 1 lastPlacedIndex 0"
+        },
+        {
+          "fn": "beginWork",
+          "info": "TodoItem[key=1]"
+        },
+        {
+          "fn": "renderWithHooks",
+          "info": "TodoItem[key=1] (update)"
+        },
+        {
+          "app": "render TodoItem 1"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "button"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "li"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "TodoItem[key=1] ← <li>"
+        },
+        {
+          "fn": "useFiber",
+          "info": "li"
+        },
+        {
+          "fn": "beginWork",
+          "info": "li"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "li ← array[3]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "li ← [3 children]"
+        },
+        {
+          "fn": "useFiber",
+          "info": "text \"Learn JSX\""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \"Learn JSX\" oldIndex 0 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "text \" \""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \" \" oldIndex 1 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "button"
+        },
+        {
+          "fn": "placeChild",
+          "info": "button oldIndex 2 lastPlacedIndex 1"
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \"Learn JSX\""
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "text \"Learn JSX\" → skip subtree"
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \"Learn JSX\""
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \" \""
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "text \" \" → skip subtree"
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \" \""
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "button ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "completeWork",
+          "info": "li"
+        },
+        {
+          "fn": "completeWork",
+          "info": "TodoItem[key=1]"
+        },
+        {
+          "fn": "beginWork",
+          "info": "TodoItem[key=2]"
+        },
+        {
+          "fn": "renderWithHooks",
+          "info": "TodoItem[key=2] (update)"
+        },
+        {
+          "app": "render TodoItem 2"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "button"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "li"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "TodoItem[key=2] ← <li>"
+        },
+        {
+          "fn": "useFiber",
+          "info": "li"
+        },
+        {
+          "fn": "beginWork",
+          "info": "li"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "li ← array[3]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "li ← [3 children]"
+        },
+        {
+          "fn": "useFiber",
+          "info": "text \"Read about fibers\""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \"Read about fibers\" oldIndex 0 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "text \" \""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \" \" oldIndex 1 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "button"
+        },
+        {
+          "fn": "placeChild",
+          "info": "button oldIndex 2 lastPlacedIndex 1"
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \"Read about fibers\""
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "text \"Read about fibers\" → skip subtree"
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \"Read about fibers\""
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \" \""
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "text \" \" → skip subtree"
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \" \""
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "button ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "completeWork",
+          "info": "li"
+        },
+        {
+          "fn": "completeWork",
+          "info": "TodoItem[key=2]"
+        },
+        {
+          "fn": "completeWork",
+          "info": "ul"
+        },
+        {
+          "fn": "completeWork",
+          "info": "section"
+        },
+        {
+          "fn": "completeWork",
+          "info": "TodosPage"
+        },
+        {
+          "fn": "completeWork",
+          "info": "main"
+        },
+        {
+          "fn": "completeWork",
+          "info": "div"
+        },
+        {
+          "fn": "completeWork",
+          "info": "Layout"
+        },
+        {
+          "fn": "completeWork",
+          "info": "ThemeContext"
+        },
+        {
+          "fn": "completeWork",
+          "info": "App"
+        },
+        {
+          "fn": "completeWork",
+          "info": "HostRoot"
+        },
+        {
+          "fn": "commitRoot",
+          "info": ""
+        },
+        {
+          "fn": "commitBeforeMutationEffects",
+          "info": ""
+        },
+        {
+          "fn": "flushMutationEffects",
+          "info": ""
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "h2"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "input"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "button"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "form"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "button"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "li"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "button"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "li"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "ul"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "section"
+        },
+        {
+          "fn": "flushLayoutEffects",
+          "info": ""
+        },
+        {
+          "fn": "flushPassiveEffects",
+          "info": ""
+        },
+        {
+          "fn": "ensureRootIsScheduled",
+          "info": ""
+        },
+        {
+          "fn": "ensureRootIsScheduled",
+          "info": ""
+        },
+        {
+          "fn": "processRootScheduleInMicrotask",
+          "info": ""
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "keyup (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "keyup (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "selectionchange (bubble listener)"
+        }
+      ]
+    },
+    {
+      "label": "submit the form (add a todo)",
+      "events": [
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "pointerdown (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "pointerdown (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "mousedown (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "mousedown (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "change (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "change (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "focusout (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "focusout (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "focusin (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "focusin (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "pointerup (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "pointerup (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "mouseup (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "mouseup (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "click (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "click (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "submit (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "submit (bubble listener)"
+        },
+        {
+          "fn": "dispatchSetState",
+          "info": "TodosPage ← [{\"id\":1,\"text\":\"Learn JSX\"},{\"id\":2,\"text\":\"Read about fibe"
+        },
+        {
+          "fn": "requestUpdateLane",
+          "info": "TodosPage"
+        },
+        {
+          "fn": "scheduleUpdateOnFiber",
+          "info": "TodosPage lane 2"
+        },
+        {
+          "fn": "ensureRootIsScheduled",
+          "info": ""
+        },
+        {
+          "fn": "scheduleImmediateRootScheduleTask",
+          "info": ""
+        },
+        {
+          "fn": "dispatchSetState",
+          "info": "TodosPage ← \"\""
+        },
+        {
+          "fn": "requestUpdateLane",
+          "info": "TodosPage"
+        },
+        {
+          "fn": "scheduleUpdateOnFiber",
+          "info": "TodosPage lane 2"
+        },
+        {
+          "fn": "ensureRootIsScheduled",
+          "info": ""
+        },
+        {
+          "fn": "processRootScheduleInMicrotask",
+          "info": ""
+        },
+        {
+          "fn": "performSyncWorkOnRoot",
+          "info": ""
+        },
+        {
+          "fn": "performWorkOnRoot",
+          "info": "lanes 2"
+        },
+        {
+          "fn": "renderRootSync",
+          "info": ""
+        },
+        {
+          "fn": "prepareFreshStack",
+          "info": ""
+        },
+        {
+          "fn": "markUpdateLaneFromFiberToRoot",
+          "info": "TodosPage"
+        },
+        {
+          "fn": "markUpdateLaneFromFiberToRoot",
+          "info": "TodosPage"
+        },
+        {
+          "fn": "beginWork",
+          "info": "HostRoot"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "HostRoot → children have work"
+        },
+        {
+          "fn": "beginWork",
+          "info": "App"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "App → children have work"
+        },
+        {
+          "fn": "beginWork",
+          "info": "ThemeContext"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "ThemeContext → children have work"
+        },
+        {
+          "fn": "beginWork",
+          "info": "Layout"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "Layout → children have work"
+        },
+        {
+          "fn": "beginWork",
+          "info": "div"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "div → children have work"
+        },
+        {
+          "fn": "beginWork",
+          "info": "h1"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "h1 → skip subtree"
+        },
+        {
+          "fn": "completeWork",
+          "info": "h1"
+        },
+        {
+          "fn": "beginWork",
+          "info": "main"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "main → children have work"
+        },
+        {
+          "fn": "beginWork",
+          "info": "Nav"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "Nav → skip subtree"
+        },
+        {
+          "fn": "completeWork",
+          "info": "Nav"
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "button → skip subtree"
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "beginWork",
+          "info": "TodosPage"
+        },
+        {
+          "fn": "renderWithHooks",
+          "info": "TodosPage (update)"
+        },
+        {
+          "app": "render TodosPage"
+        },
+        {
+          "fn": "updateReducer",
+          "info": ""
+        },
+        {
+          "fn": "updateReducer",
+          "info": ""
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "h2"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "input"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "button"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "form"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "TodoItem key=1"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "TodoItem key=2"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "TodoItem key=3"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "ul"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "section"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "TodosPage ← <section>"
+        },
+        {
+          "fn": "useFiber",
+          "info": "section"
+        },
+        {
+          "fn": "beginWork",
+          "info": "section"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "section ← array[3]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "section ← [3 children]"
+        },
+        {
+          "fn": "useFiber",
+          "info": "h2"
+        },
+        {
+          "fn": "placeChild",
+          "info": "h2 oldIndex 0 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "form"
+        },
+        {
+          "fn": "placeChild",
+          "info": "form oldIndex 1 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "ul"
+        },
+        {
+          "fn": "placeChild",
+          "info": "ul oldIndex 2 lastPlacedIndex 1"
+        },
+        {
+          "fn": "beginWork",
+          "info": "h2"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "h2 ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "h2"
+        },
+        {
+          "fn": "beginWork",
+          "info": "form"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "form ← array[2]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "form ← [2 children]"
+        },
+        {
+          "fn": "useFiber",
+          "info": "input"
+        },
+        {
+          "fn": "placeChild",
+          "info": "input oldIndex 0 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "button"
+        },
+        {
+          "fn": "placeChild",
+          "info": "button oldIndex 1 lastPlacedIndex 0"
+        },
+        {
+          "fn": "beginWork",
+          "info": "input"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "input ← undefined"
+        },
+        {
+          "fn": "completeWork",
+          "info": "input"
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "button ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "completeWork",
+          "info": "form"
+        },
+        {
+          "fn": "beginWork",
+          "info": "ul"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "ul ← array[3]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "ul ← [3 children]"
+        },
+        {
+          "fn": "useFiber",
+          "info": "TodoItem[key=1]"
+        },
+        {
+          "fn": "placeChild",
+          "info": "TodoItem[key=1] oldIndex 0 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "TodoItem[key=2]"
+        },
+        {
+          "fn": "placeChild",
+          "info": "TodoItem[key=2] oldIndex 1 lastPlacedIndex 0"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "TodoItem"
+        },
+        {
+          "fn": "placeChild",
+          "info": "TodoItem[key=3] (new) lastPlacedIndex 1"
+        },
+        {
+          "fn": "beginWork",
+          "info": "TodoItem[key=1]"
+        },
+        {
+          "fn": "renderWithHooks",
+          "info": "TodoItem[key=1] (update)"
+        },
+        {
+          "app": "render TodoItem 1"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "button"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "li"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "TodoItem[key=1] ← <li>"
+        },
+        {
+          "fn": "useFiber",
+          "info": "li"
+        },
+        {
+          "fn": "beginWork",
+          "info": "li"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "li ← array[3]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "li ← [3 children]"
+        },
+        {
+          "fn": "useFiber",
+          "info": "text \"Learn JSX\""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \"Learn JSX\" oldIndex 0 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "text \" \""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \" \" oldIndex 1 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "button"
+        },
+        {
+          "fn": "placeChild",
+          "info": "button oldIndex 2 lastPlacedIndex 1"
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \"Learn JSX\""
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "text \"Learn JSX\" → skip subtree"
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \"Learn JSX\""
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \" \""
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "text \" \" → skip subtree"
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \" \""
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "button ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "completeWork",
+          "info": "li"
+        },
+        {
+          "fn": "completeWork",
+          "info": "TodoItem[key=1]"
+        },
+        {
+          "fn": "beginWork",
+          "info": "TodoItem[key=2]"
+        },
+        {
+          "fn": "renderWithHooks",
+          "info": "TodoItem[key=2] (update)"
+        },
+        {
+          "app": "render TodoItem 2"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "button"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "li"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "TodoItem[key=2] ← <li>"
+        },
+        {
+          "fn": "useFiber",
+          "info": "li"
+        },
+        {
+          "fn": "beginWork",
+          "info": "li"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "li ← array[3]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "li ← [3 children]"
+        },
+        {
+          "fn": "useFiber",
+          "info": "text \"Read about fibers\""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \"Read about fibers\" oldIndex 0 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "text \" \""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \" \" oldIndex 1 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "button"
+        },
+        {
+          "fn": "placeChild",
+          "info": "button oldIndex 2 lastPlacedIndex 1"
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \"Read about fibers\""
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "text \"Read about fibers\" → skip subtree"
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \"Read about fibers\""
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \" \""
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "text \" \" → skip subtree"
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \" \""
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "button ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "completeWork",
+          "info": "li"
+        },
+        {
+          "fn": "completeWork",
+          "info": "TodoItem[key=2]"
+        },
+        {
+          "fn": "beginWork",
+          "info": "TodoItem[key=3]"
+        },
+        {
+          "fn": "renderWithHooks",
+          "info": "TodoItem[key=3] (mount)"
+        },
+        {
+          "app": "render TodoItem 3"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "button"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "li"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "TodoItem[key=3] ← <li>"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "li"
+        },
+        {
+          "fn": "beginWork",
+          "info": "li"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "li ← array[3]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "li ← [3 children]"
+        },
+        {
+          "fn": "createFiberFromText",
+          "info": "\"x\""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \"x\" (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "createFiberFromText",
+          "info": "\" \""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \" \" (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "createFiberFromTypeAndProps",
+          "info": "button"
+        },
+        {
+          "fn": "placeChild",
+          "info": "button (new) lastPlacedIndex 0"
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \"x\""
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \"x\""
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \" \""
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \" \""
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "button ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "completeWork",
+          "info": "li"
+        },
+        {
+          "fn": "completeWork",
+          "info": "TodoItem[key=3]"
+        },
+        {
+          "fn": "completeWork",
+          "info": "ul"
+        },
+        {
+          "fn": "completeWork",
+          "info": "section"
+        },
+        {
+          "fn": "completeWork",
+          "info": "TodosPage"
+        },
+        {
+          "fn": "completeWork",
+          "info": "main"
+        },
+        {
+          "fn": "completeWork",
+          "info": "div"
+        },
+        {
+          "fn": "completeWork",
+          "info": "Layout"
+        },
+        {
+          "fn": "completeWork",
+          "info": "ThemeContext"
+        },
+        {
+          "fn": "completeWork",
+          "info": "App"
+        },
+        {
+          "fn": "completeWork",
+          "info": "HostRoot"
+        },
+        {
+          "fn": "commitRoot",
+          "info": ""
+        },
+        {
+          "fn": "commitBeforeMutationEffects",
+          "info": ""
+        },
+        {
+          "fn": "flushMutationEffects",
+          "info": ""
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "h2"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "input"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "button"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "form"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "button"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "li"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "button"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "li"
+        },
+        {
+          "fn": "commitPlacement",
+          "info": "TodoItem[key=3]"
+        },
+        {
+          "fn": "insertOrAppendPlacementNode",
+          "info": "TodoItem[key=3] is not a DOM node → descend to its child"
+        },
+        {
+          "fn": "insertOrAppendPlacementNode",
+          "info": "appendChild(<li>) into <ul>"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "ul"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "section"
+        },
+        {
+          "fn": "flushLayoutEffects",
+          "info": ""
+        },
+        {
+          "fn": "flushPassiveEffects",
+          "info": ""
+        },
+        {
+          "fn": "ensureRootIsScheduled",
+          "info": ""
+        },
+        {
+          "fn": "scheduleImmediateRootScheduleTask",
+          "info": ""
+        },
+        {
+          "fn": "ensureRootIsScheduled",
+          "info": ""
+        },
+        {
+          "fn": "processRootScheduleInMicrotask",
+          "info": ""
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "selectionchange (bubble listener)"
+        }
+      ]
+    },
+    {
+      "label": "click × on the first todo (remove)",
+      "events": [
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "pointerdown (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "pointerdown (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "mousedown (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "mousedown (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "focusout (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "focusout (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "focusin (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "focusin (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "pointerup (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "pointerup (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "mouseup (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "mouseup (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "click (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "click (bubble listener)"
+        },
+        {
+          "fn": "dispatchSetState",
+          "info": "TodosPage ← [{\"id\":2,\"text\":\"Read about fibers\"},{\"id\":3,\"text\":\"x\"}]"
+        },
+        {
+          "fn": "requestUpdateLane",
+          "info": "TodosPage"
+        },
+        {
+          "fn": "scheduleUpdateOnFiber",
+          "info": "TodosPage lane 2"
+        },
+        {
+          "fn": "ensureRootIsScheduled",
+          "info": ""
+        },
+        {
+          "fn": "scheduleImmediateRootScheduleTask",
+          "info": ""
+        },
+        {
+          "fn": "processRootScheduleInMicrotask",
+          "info": ""
+        },
+        {
+          "fn": "performSyncWorkOnRoot",
+          "info": ""
+        },
+        {
+          "fn": "performWorkOnRoot",
+          "info": "lanes 2"
+        },
+        {
+          "fn": "renderRootSync",
+          "info": ""
+        },
+        {
+          "fn": "prepareFreshStack",
+          "info": ""
+        },
+        {
+          "fn": "markUpdateLaneFromFiberToRoot",
+          "info": "TodosPage"
+        },
+        {
+          "fn": "beginWork",
+          "info": "HostRoot"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "HostRoot → children have work"
+        },
+        {
+          "fn": "beginWork",
+          "info": "App"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "App → children have work"
+        },
+        {
+          "fn": "beginWork",
+          "info": "ThemeContext"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "ThemeContext → children have work"
+        },
+        {
+          "fn": "beginWork",
+          "info": "Layout"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "Layout → children have work"
+        },
+        {
+          "fn": "beginWork",
+          "info": "div"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "div → children have work"
+        },
+        {
+          "fn": "beginWork",
+          "info": "h1"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "h1 → skip subtree"
+        },
+        {
+          "fn": "completeWork",
+          "info": "h1"
+        },
+        {
+          "fn": "beginWork",
+          "info": "main"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "main → children have work"
+        },
+        {
+          "fn": "beginWork",
+          "info": "Nav"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "Nav → skip subtree"
+        },
+        {
+          "fn": "completeWork",
+          "info": "Nav"
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "button → skip subtree"
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "beginWork",
+          "info": "TodosPage"
+        },
+        {
+          "fn": "renderWithHooks",
+          "info": "TodosPage (update)"
+        },
+        {
+          "app": "render TodosPage"
+        },
+        {
+          "fn": "updateReducer",
+          "info": ""
+        },
+        {
+          "fn": "updateReducer",
+          "info": ""
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "h2"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "input"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "button"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "form"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "TodoItem key=2"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "TodoItem key=3"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "ul"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "section"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "TodosPage ← <section>"
+        },
+        {
+          "fn": "useFiber",
+          "info": "section"
+        },
+        {
+          "fn": "beginWork",
+          "info": "section"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "section ← array[3]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "section ← [3 children]"
+        },
+        {
+          "fn": "useFiber",
+          "info": "h2"
+        },
+        {
+          "fn": "placeChild",
+          "info": "h2 oldIndex 0 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "form"
+        },
+        {
+          "fn": "placeChild",
+          "info": "form oldIndex 1 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "ul"
+        },
+        {
+          "fn": "placeChild",
+          "info": "ul oldIndex 2 lastPlacedIndex 1"
+        },
+        {
+          "fn": "beginWork",
+          "info": "h2"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "h2 ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "h2"
+        },
+        {
+          "fn": "beginWork",
+          "info": "form"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "form ← array[2]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "form ← [2 children]"
+        },
+        {
+          "fn": "useFiber",
+          "info": "input"
+        },
+        {
+          "fn": "placeChild",
+          "info": "input oldIndex 0 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "button"
+        },
+        {
+          "fn": "placeChild",
+          "info": "button oldIndex 1 lastPlacedIndex 0"
+        },
+        {
+          "fn": "beginWork",
+          "info": "input"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "input ← undefined"
+        },
+        {
+          "fn": "completeWork",
+          "info": "input"
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "button ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "completeWork",
+          "info": "form"
+        },
+        {
+          "fn": "beginWork",
+          "info": "ul"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "ul ← array[2]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "ul ← [2 children]"
+        },
+        {
+          "fn": "mapRemainingChildren",
+          "info": ""
+        },
+        {
+          "fn": "useFiber",
+          "info": "TodoItem[key=2]"
+        },
+        {
+          "fn": "placeChild",
+          "info": "TodoItem[key=2] oldIndex 1 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "TodoItem[key=3]"
+        },
+        {
+          "fn": "placeChild",
+          "info": "TodoItem[key=3] oldIndex 2 lastPlacedIndex 1"
+        },
+        {
+          "fn": "deleteChild",
+          "info": "TodoItem[key=1]"
+        },
+        {
+          "fn": "beginWork",
+          "info": "TodoItem[key=2]"
+        },
+        {
+          "fn": "renderWithHooks",
+          "info": "TodoItem[key=2] (update)"
+        },
+        {
+          "app": "render TodoItem 2"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "button"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "li"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "TodoItem[key=2] ← <li>"
+        },
+        {
+          "fn": "useFiber",
+          "info": "li"
+        },
+        {
+          "fn": "beginWork",
+          "info": "li"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "li ← array[3]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "li ← [3 children]"
+        },
+        {
+          "fn": "useFiber",
+          "info": "text \"Read about fibers\""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \"Read about fibers\" oldIndex 0 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "text \" \""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \" \" oldIndex 1 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "button"
+        },
+        {
+          "fn": "placeChild",
+          "info": "button oldIndex 2 lastPlacedIndex 1"
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \"Read about fibers\""
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "text \"Read about fibers\" → skip subtree"
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \"Read about fibers\""
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \" \""
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "text \" \" → skip subtree"
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \" \""
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "button ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "completeWork",
+          "info": "li"
+        },
+        {
+          "fn": "completeWork",
+          "info": "TodoItem[key=2]"
+        },
+        {
+          "fn": "beginWork",
+          "info": "TodoItem[key=3]"
+        },
+        {
+          "fn": "renderWithHooks",
+          "info": "TodoItem[key=3] (update)"
+        },
+        {
+          "app": "render TodoItem 3"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "button"
+        },
+        {
+          "fn": "jsxDEV",
+          "info": "li"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "TodoItem[key=3] ← <li>"
+        },
+        {
+          "fn": "useFiber",
+          "info": "li"
+        },
+        {
+          "fn": "beginWork",
+          "info": "li"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "li ← array[3]"
+        },
+        {
+          "fn": "reconcileChildrenArray",
+          "info": "li ← [3 children]"
+        },
+        {
+          "fn": "useFiber",
+          "info": "text \"x\""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \"x\" oldIndex 0 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "text \" \""
+        },
+        {
+          "fn": "placeChild",
+          "info": "text \" \" oldIndex 1 lastPlacedIndex 0"
+        },
+        {
+          "fn": "useFiber",
+          "info": "button"
+        },
+        {
+          "fn": "placeChild",
+          "info": "button oldIndex 2 lastPlacedIndex 1"
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \"x\""
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "text \"x\" → skip subtree"
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \"x\""
+        },
+        {
+          "fn": "beginWork",
+          "info": "text \" \""
+        },
+        {
+          "fn": "bailoutOnAlreadyFinishedWork",
+          "info": "text \" \" → skip subtree"
+        },
+        {
+          "fn": "completeWork",
+          "info": "text \" \""
+        },
+        {
+          "fn": "beginWork",
+          "info": "button"
+        },
+        {
+          "fn": "reconcileChildFibersImpl",
+          "info": "button ← null"
+        },
+        {
+          "fn": "completeWork",
+          "info": "button"
+        },
+        {
+          "fn": "completeWork",
+          "info": "li"
+        },
+        {
+          "fn": "completeWork",
+          "info": "TodoItem[key=3]"
+        },
+        {
+          "fn": "completeWork",
+          "info": "ul"
+        },
+        {
+          "fn": "completeWork",
+          "info": "section"
+        },
+        {
+          "fn": "completeWork",
+          "info": "TodosPage"
+        },
+        {
+          "fn": "completeWork",
+          "info": "main"
+        },
+        {
+          "fn": "completeWork",
+          "info": "div"
+        },
+        {
+          "fn": "completeWork",
+          "info": "Layout"
+        },
+        {
+          "fn": "completeWork",
+          "info": "ThemeContext"
+        },
+        {
+          "fn": "completeWork",
+          "info": "App"
+        },
+        {
+          "fn": "completeWork",
+          "info": "HostRoot"
+        },
+        {
+          "fn": "commitRoot",
+          "info": ""
+        },
+        {
+          "fn": "commitBeforeMutationEffects",
+          "info": ""
+        },
+        {
+          "fn": "flushMutationEffects",
+          "info": ""
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "h2"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "input"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "button"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "form"
+        },
+        {
+          "fn": "commitDeletionEffectsOnFiber",
+          "info": "TodoItem[key=1]"
+        },
+        {
+          "fn": "commitDeletionEffectsOnFiber",
+          "info": "li"
+        },
+        {
+          "fn": "commitDeletionEffectsOnFiber",
+          "info": "text \"Learn JSX\""
+        },
+        {
+          "fn": "commitDeletionEffectsOnFiber",
+          "info": "text \" \""
+        },
+        {
+          "fn": "commitDeletionEffectsOnFiber",
+          "info": "button"
+        },
+        {
+          "fn": "removeChild",
+          "info": "<li> from <ul>"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "focusout (capture listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
+          "info": "focusout (bubble listener)"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "button"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "li"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "button"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "li"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "ul"
+        },
+        {
+          "fn": "commitUpdate",
+          "info": "section"
+        },
+        {
+          "fn": "flushLayoutEffects",
+          "info": ""
+        },
+        {
+          "fn": "flushPassiveEffects",
+          "info": ""
+        },
+        {
+          "fn": "ensureRootIsScheduled",
+          "info": ""
+        },
+        {
+          "fn": "scheduleImmediateRootScheduleTask",
+          "info": ""
+        },
+        {
+          "fn": "ensureRootIsScheduled",
+          "info": ""
+        },
+        {
+          "fn": "processRootScheduleInMicrotask",
+          "info": ""
+        }
+      ]
+    }
+  ],
+  "snapshots": [
+    {
+      "label": "after first render",
+      "tree": {
+        "name": "HostRoot",
+        "tag": 3,
+        "children": [
+          {
+            "name": "App",
+            "tag": 0,
+            "hooks": [
+              "\"counter\"",
+              "\"light\""
+            ],
+            "children": [
+              {
+                "name": "ThemeContext",
+                "tag": 10,
+                "children": [
+                  {
+                    "name": "Layout",
+                    "tag": 0,
+                    "hooks": [],
+                    "children": [
+                      {
+                        "name": "div",
+                        "tag": 5,
+                        "dom": "div",
+                        "children": [
+                          {
+                            "name": "h1",
+                            "tag": 5,
+                            "dom": "h1"
+                          },
+                          {
+                            "name": "main",
+                            "tag": 5,
+                            "dom": "main",
+                            "children": [
+                              {
+                                "name": "Nav",
+                                "tag": 0,
+                                "hooks": [],
+                                "children": [
+                                  {
+                                    "name": "nav",
+                                    "tag": 5,
+                                    "dom": "nav",
+                                    "children": [
+                                      {
+                                        "name": "button",
+                                        "tag": 5,
+                                        "dom": "button"
+                                      },
+                                      {
+                                        "name": "button",
+                                        "tag": 5,
+                                        "dom": "button"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "button",
+                                "tag": 5,
+                                "dom": "button",
+                                "children": [
+                                  {
+                                    "name": "text \"Theme: \"",
+                                    "tag": 6,
+                                    "dom": "#text"
+                                  },
+                                  {
+                                    "name": "text \"light\"",
+                                    "tag": 6,
+                                    "dom": "#text"
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "CounterPage",
+                                "tag": 0,
+                                "hooks": [
+                                  "0",
+                                  "ref",
+                                  "effect",
+                                  "effect"
+                                ],
+                                "children": [
+                                  {
+                                    "name": "section",
+                                    "tag": 5,
+                                    "dom": "section",
+                                    "children": [
+                                      {
+                                        "name": "h2",
+                                        "tag": 5,
+                                        "dom": "h2"
+                                      },
+                                      {
+                                        "name": "Display",
+                                        "tag": 0,
+                                        "hooks": [],
+                                        "children": [
+                                          {
+                                            "name": "p",
+                                            "tag": 5,
+                                            "dom": "p",
+                                            "children": [
+                                              {
+                                                "name": "text \"Count: \"",
+                                                "tag": 6,
+                                                "dom": "#text"
+                                              },
+                                              {
+                                                "name": "text \"0\"",
+                                                "tag": 6,
+                                                "dom": "#text"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "button",
+                                        "tag": 5,
+                                        "dom": "button"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "html": "<div class=\"layout light\"><h1>How React Works</h1><main><nav><button aria-current=\"true\">Counter</button><button aria-current=\"false\">Todos</button></nav><button class=\"theme\">Theme: light</button><section><h2>Counter</h2><p class=\"display\">Count: 0</p><button>Add one</button></section></main></div>"
+    },
+    {
+      "label": "on the Todos page",
+      "tree": {
+        "name": "HostRoot",
+        "tag": 3,
+        "children": [
+          {
+            "name": "App",
+            "tag": 0,
+            "hooks": [
+              "\"todos\"",
+              "\"dark\""
+            ],
+            "children": [
+              {
+                "name": "ThemeContext",
+                "tag": 10,
+                "children": [
+                  {
+                    "name": "Layout",
+                    "tag": 0,
+                    "hooks": [],
+                    "children": [
+                      {
+                        "name": "div",
+                        "tag": 5,
+                        "dom": "div",
+                        "children": [
+                          {
+                            "name": "h1",
+                            "tag": 5,
+                            "dom": "h1"
+                          },
+                          {
+                            "name": "main",
+                            "tag": 5,
+                            "dom": "main",
+                            "children": [
+                              {
+                                "name": "Nav",
+                                "tag": 0,
+                                "hooks": [],
+                                "children": [
+                                  {
+                                    "name": "nav",
+                                    "tag": 5,
+                                    "dom": "nav",
+                                    "children": [
+                                      {
+                                        "name": "button",
+                                        "tag": 5,
+                                        "dom": "button"
+                                      },
+                                      {
+                                        "name": "button",
+                                        "tag": 5,
+                                        "dom": "button"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "button",
+                                "tag": 5,
+                                "dom": "button",
+                                "children": [
+                                  {
+                                    "name": "text \"Theme: \"",
+                                    "tag": 6,
+                                    "dom": "#text"
+                                  },
+                                  {
+                                    "name": "text \"dark\"",
+                                    "tag": 6,
+                                    "dom": "#text"
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "TodosPage",
+                                "tag": 0,
+                                "hooks": [
+                                  "[{\"id\":1,\"text\":\"Learn JSX\"},{\"id\":2,\"text\":\"Read about fibe",
+                                  "\"\"",
+                                  "effect"
+                                ],
+                                "children": [
+                                  {
+                                    "name": "section",
+                                    "tag": 5,
+                                    "dom": "section",
+                                    "children": [
+                                      {
+                                        "name": "h2",
+                                        "tag": 5,
+                                        "dom": "h2"
+                                      },
+                                      {
+                                        "name": "form",
+                                        "tag": 5,
+                                        "dom": "form",
+                                        "children": [
+                                          {
+                                            "name": "input",
+                                            "tag": 5,
+                                            "dom": "input"
+                                          },
+                                          {
+                                            "name": "button",
+                                            "tag": 5,
+                                            "dom": "button"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "ul",
+                                        "tag": 5,
+                                        "dom": "ul",
+                                        "children": [
+                                          {
+                                            "name": "TodoItem[key=1]",
+                                            "tag": 0,
+                                            "hooks": [],
+                                            "children": [
+                                              {
+                                                "name": "li",
+                                                "tag": 5,
+                                                "dom": "li",
+                                                "children": [
+                                                  {
+                                                    "name": "text \"Learn JSX\"",
+                                                    "tag": 6,
+                                                    "dom": "#text"
+                                                  },
+                                                  {
+                                                    "name": "text \" \"",
+                                                    "tag": 6,
+                                                    "dom": "#text"
+                                                  },
+                                                  {
+                                                    "name": "button",
+                                                    "tag": 5,
+                                                    "dom": "button"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "name": "TodoItem[key=2]",
+                                            "tag": 0,
+                                            "hooks": [],
+                                            "children": [
+                                              {
+                                                "name": "li",
+                                                "tag": 5,
+                                                "dom": "li",
+                                                "children": [
+                                                  {
+                                                    "name": "text \"Read about fibers\"",
+                                                    "tag": 6,
+                                                    "dom": "#text"
+                                                  },
+                                                  {
+                                                    "name": "text \" \"",
+                                                    "tag": 6,
+                                                    "dom": "#text"
+                                                  },
+                                                  {
+                                                    "name": "button",
+                                                    "tag": 5,
+                                                    "dom": "button"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "html": "<div class=\"layout dark\"><h1>How React Works</h1><main><nav><button aria-current=\"false\">Counter</button><button aria-current=\"true\">Todos</button></nav><button class=\"theme\">Theme: dark</button><section><h2>Todos</h2><form><input placeholder=\"New todo\" value=\"\"><button>Add</button></form><ul><li class=\"dark\">Learn JSX <button>×</button></li><li class=\"dark\">Read about fibers <button>×</button></li></ul></section></main></div>"
+    },
+    {
+      "label": "after removing a todo",
+      "tree": {
+        "name": "HostRoot",
+        "tag": 3,
+        "children": [
+          {
+            "name": "App",
+            "tag": 0,
+            "hooks": [
+              "\"todos\"",
+              "\"dark\""
+            ],
+            "children": [
+              {
+                "name": "ThemeContext",
+                "tag": 10,
+                "children": [
+                  {
+                    "name": "Layout",
+                    "tag": 0,
+                    "hooks": [],
+                    "children": [
+                      {
+                        "name": "div",
+                        "tag": 5,
+                        "dom": "div",
+                        "children": [
+                          {
+                            "name": "h1",
+                            "tag": 5,
+                            "dom": "h1"
+                          },
+                          {
+                            "name": "main",
+                            "tag": 5,
+                            "dom": "main",
+                            "children": [
+                              {
+                                "name": "Nav",
+                                "tag": 0,
+                                "hooks": [],
+                                "children": [
+                                  {
+                                    "name": "nav",
+                                    "tag": 5,
+                                    "dom": "nav",
+                                    "children": [
+                                      {
+                                        "name": "button",
+                                        "tag": 5,
+                                        "dom": "button"
+                                      },
+                                      {
+                                        "name": "button",
+                                        "tag": 5,
+                                        "dom": "button"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "button",
+                                "tag": 5,
+                                "dom": "button",
+                                "children": [
+                                  {
+                                    "name": "text \"Theme: \"",
+                                    "tag": 6,
+                                    "dom": "#text"
+                                  },
+                                  {
+                                    "name": "text \"dark\"",
+                                    "tag": 6,
+                                    "dom": "#text"
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "TodosPage",
+                                "tag": 0,
+                                "hooks": [
+                                  "[{\"id\":2,\"text\":\"Read about fibers\"},{\"id\":3,\"text\":\"x\"}]",
+                                  "\"\"",
+                                  "effect"
+                                ],
+                                "children": [
+                                  {
+                                    "name": "section",
+                                    "tag": 5,
+                                    "dom": "section",
+                                    "children": [
+                                      {
+                                        "name": "h2",
+                                        "tag": 5,
+                                        "dom": "h2"
+                                      },
+                                      {
+                                        "name": "form",
+                                        "tag": 5,
+                                        "dom": "form",
+                                        "children": [
+                                          {
+                                            "name": "input",
+                                            "tag": 5,
+                                            "dom": "input"
+                                          },
+                                          {
+                                            "name": "button",
+                                            "tag": 5,
+                                            "dom": "button"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "ul",
+                                        "tag": 5,
+                                        "dom": "ul",
+                                        "children": [
+                                          {
+                                            "name": "TodoItem[key=2]",
+                                            "tag": 0,
+                                            "hooks": [],
+                                            "children": [
+                                              {
+                                                "name": "li",
+                                                "tag": 5,
+                                                "dom": "li",
+                                                "children": [
+                                                  {
+                                                    "name": "text \"Read about fibers\"",
+                                                    "tag": 6,
+                                                    "dom": "#text"
+                                                  },
+                                                  {
+                                                    "name": "text \" \"",
+                                                    "tag": 6,
+                                                    "dom": "#text"
+                                                  },
+                                                  {
+                                                    "name": "button",
+                                                    "tag": 5,
+                                                    "dom": "button"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "name": "TodoItem[key=3]",
+                                            "tag": 0,
+                                            "hooks": [],
+                                            "children": [
+                                              {
+                                                "name": "li",
+                                                "tag": 5,
+                                                "dom": "li",
+                                                "children": [
+                                                  {
+                                                    "name": "text \"x\"",
+                                                    "tag": 6,
+                                                    "dom": "#text"
+                                                  },
+                                                  {
+                                                    "name": "text \" \"",
+                                                    "tag": 6,
+                                                    "dom": "#text"
+                                                  },
+                                                  {
+                                                    "name": "button",
+                                                    "tag": 5,
+                                                    "dom": "button"
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "html": "<div class=\"layout dark\"><h1>How React Works</h1><main><nav><button aria-current=\"false\">Counter</button><button aria-current=\"true\">Todos</button></nav><button class=\"theme\">Theme: dark</button><section><h2>Todos</h2><form><input placeholder=\"New todo\" value=\"\"><button>Add</button></form><ul><li class=\"dark\">Read about fibers <button>×</button></li><li class=\"dark\">x <button>×</button></li></ul></section></main></div>"
+    }
+  ]
+}

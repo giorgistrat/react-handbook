@@ -156,7 +156,7 @@ class Anim {
 		const tick = () => {
 			if (this.i >= this.scn.steps.length) return this.stop()
 			this.go(this.i + 1)
-			this.timer = window.setTimeout(tick, DELAY)
+			this.timer = window.setTimeout(tick, Number(this.root.dataset.delay) || DELAY)
 		}
 		this.timer = window.setTimeout(tick, 350)
 	}

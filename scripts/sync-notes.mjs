@@ -10,6 +10,16 @@
 //   - "Interview Q&A" paragraphs → collapsible <details> cards
 //   - ASCII diagrams → HTML/SVG/Mermaid figures
 //   - extra figures inserted after selected headings
+//
+// Site-only notes (NOTES entries with `site: true`) are read from content/
+// instead of the vault, and may use build-time markers that pull in real
+// output from the demo app (examples/how-react-works):
+//   <!-- source file="App.jsx" -->                      the demo's source
+//   <!-- compiled file="App" mode="automatic" fn="App" --> Babel / Vite output
+//   <!-- trace phase="page load" from="createRoot" to="root.render" -->
+//   <!-- tree snapshot="0" -->                          a recorded fiber tree
+//   <!-- element which="production.app" -->            a recorded element object
+//   <!-- figure name="bootAnim" -->                     an animation or diagram
 
 import fs from 'node:fs'
 import path from 'node:path'
@@ -18,9 +28,12 @@ import GithubSlugger from 'github-slugger'
 import { NOTES, VAULT_DIR, MOC_FILE } from '../src/lib/notes-meta.mjs'
 import * as D from '../src/lib/diagrams.mjs'
 import * as A from '../src/lib/animations.mjs'
+import * as H from '../src/lib/animations-hrw.mjs'
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const OUT_DIR = path.join(ROOT, 'src/content/notes')
+const CONTENT_DIR = path.join(ROOT, 'content')
+const DEMO = path.join(ROOT, 'examples/how-react-works')
 
 const byTitle = new Map(NOTES.map((n) => [n.file.replace(/\.md$/, ''), n]))
 const MOC_TITLE = MOC_FILE.replace(/\.md$/, '')
@@ -222,9 +235,80 @@ function insertFigures(lines, inserts) {
 	return out
 }
 
+// ─── Build-time markers (site-only notes) ──────────────────────────────────
+
+const NOISY_EVENTS = /^(pointer|mouse|focus|selection|key|textInput)/
+
+function traceLines(trace, { phase, from, to, all }) {
+	const p = trace.phases.find((x) => x.label === phase)
+	if (!p) throw new Error(`trace: no phase "${phase}"`)
+	const text = (e) => (e.app ? `[app] ${e.app}` : `${e.fn}${e.info ? `  ${e.info}` : ''}`)
+	let events = p.events
+	if (!all)
+		events = events.filter(
+			(e) => !(e.fn === 'dispatchDiscreteEvent' && NOISY_EVENTS.test(e.info)) && !(e.fn === 'reconcileChildFibersImpl' && / ← (null|undefined)$/.test(e.info)),
+		)
+	const lines = events.map(text)
+	const start = from ? lines.findIndex((l) => l.startsWith(from)) : 0
+	if (start < 0) throw new Error(`trace: "${from}" not found in phase "${phase}"`)
+	let end = lines.length - 1
+	if (to) {
+		end = lines.findIndex((l, i) => i >= start && l.startsWith(to))
+		if (end < 0) throw new Error(`trace: "${to}" not found after "${from}" in phase "${phase}"`)
+	}
+	return lines.slice(start, end + 1)
+}
+
+function treeLines(node, depth = 0) {
+	const extra = [node.hooks ? `hooks: [${node.hooks.join(', ')}]` : '', node.dom ? `→ <${node.dom}>` : ''].filter(Boolean).join('  ')
+	return [`${'  '.repeat(depth)}${node.name}  (tag ${node.tag})${extra ? '  ' + extra : ''}`, ...(node.children ?? []).flatMap((c) => treeLines(c, depth + 1))]
+}
+
+function extractFunction(code, name) {
+	const lines = code.split('\n')
+	const start = lines.findIndex((l) => new RegExp(`^(export )?function ${name}\\(`).test(l))
+	if (start < 0) throw new Error(`compiled: function ${name} not found`)
+	const end = lines.findIndex((l, i) => i > start && l === '}')
+	return lines.slice(start, end + 1).join('\n')
+}
+
+function expandMarkers(md) {
+	let trace
+	const getTrace = () => (trace ??= JSON.parse(fs.readFileSync(path.join(DEMO, 'generated/trace.json'), 'utf8')))
+	const fence = (lang, body) => '```' + lang + '\n' + body.replace(/\n+$/, '') + '\n```'
+	return md.replace(/^<!-- (source|compiled|trace|tree|element|figure)((?:\s+\w+="[^"]*")*)\s*-->$/gm, (_, kind, rawAttrs) => {
+		const a = Object.fromEntries([...rawAttrs.matchAll(/(\w+)="([^"]*)"/g)].map((m) => [m[1], m[2].replaceAll('&quot;', '"')]))
+		switch (kind) {
+			case 'source': {
+				const ext = path.extname(a.file).slice(1)
+				return fence({ jsx: 'jsx', js: 'js', html: 'html', css: 'css' }[ext] ?? 'text', fs.readFileSync(path.join(DEMO, a.file.includes('/') ? a.file : `src/${a.file}`), 'utf8'))
+			}
+			case 'compiled': {
+				let code = fs.readFileSync(path.join(DEMO, 'generated/compiled', a.mode, `${a.file}.js`), 'utf8')
+				if (a.fn) code = extractFunction(code, a.fn)
+				return fence('js', code)
+			}
+			case 'trace':
+				return fence('text', traceLines(getTrace(), a).join('\n'))
+			case 'tree':
+				return fence('text', treeLines(getTrace().snapshots[Number(a.snapshot)].tree).join('\n'))
+			case 'element': {
+				const value = a.which.split('.').reduce((o, k) => o[k], getTrace().elements)
+				return fence('js', JSON.stringify(value, null, 2).replace(/^(\s*)"([$\w]+)":/gm, '$1$2:'))
+			}
+			case 'figure': {
+				const build = H[a.name] ?? A[a.name] ?? D[a.name]
+				if (!build) throw new Error(`figure: unknown "${a.name}"`)
+				return '\n' + build() + '\n'
+			}
+		}
+	})
+}
+
 function convertNote(note, raw, order) {
 	const fm = raw.match(/^---\n([\s\S]*?)\n---\n/)
 	let body = fm ? raw.slice(fm[0].length) : raw
+	if (note.site) body = expandMarkers(body)
 	const titleMatch = body.match(/^# (.+)$/m)
 	const title = titleMatch ? titleMatch[1].trim() : note.file.replace(/\.md$/, '')
 	body = body.replace(/^# .+\n/m, '')
@@ -277,7 +361,7 @@ fs.mkdirSync(OUT_DIR, { recursive: true })
 for (const f of fs.readdirSync(OUT_DIR)) if (f.endsWith('.md')) fs.rmSync(path.join(OUT_DIR, f))
 
 NOTES.forEach((note, i) => {
-	const raw = fs.readFileSync(path.join(VAULT_DIR, note.file), 'utf8')
+	const raw = fs.readFileSync(path.join(note.site ? CONTENT_DIR : VAULT_DIR, note.file), 'utf8')
 	fs.writeFileSync(path.join(OUT_DIR, `${note.slug}.md`), convertNote(note, raw, i))
 })
 

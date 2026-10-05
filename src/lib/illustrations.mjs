@@ -176,6 +176,26 @@ const ILLUSTRATIONS = {
 		)
 		return frame(scene(rows) + `<path d="M186 96 l14 -8" stroke="${INK}" stroke-width="2"/><polygon points="200,88 192,86 196,94" fill="${INK}"/>`)
 	},
+	browser() {
+		const o = { ox: 176, oy: 70, s: 7 }
+		const cubes = [
+			box({ ...o, x: 0, y: 0, z: 0, w: 2, d: 2, h: 2, color: C.pink }),
+			box({ ...o, x: -3, y: 3, z: 0, w: 2, d: 2, h: 2, color: C.teal }),
+			box({ ...o, x: 3, y: 3, z: 0, w: 2, d: 2, h: 2, color: C.mustard }),
+		]
+		const link = (a, b) => `<line x1="${cubes[a].topCenter[0]}" y1="${cubes[a].topCenter[1]}" x2="${cubes[b].topCenter[0]}" y2="${cubes[b].topCenter[1]}" stroke="${INK}" stroke-width="1.8"/>`
+		return frame(
+			`<g stroke="${INK}" stroke-width="1.8" stroke-linejoin="round">` +
+				`<rect x="22" y="26" width="102" height="78" rx="8" fill="#fffdf6"/>` +
+				`<path d="M22 34 a8 8 0 0 1 8 -8 h86 a8 8 0 0 1 8 8 v8 h-102 z" fill="${C.orange[1]}"/>` +
+				`<circle cx="32" cy="34" r="2.6" fill="#fff"/><circle cx="41" cy="34" r="2.6" fill="#fff"/>` +
+				`</g>` +
+				`<text x="73" y="80" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-weight="800" font-size="22" fill="${INK}">&lt;/&gt;</text>` +
+				`<path d="M130 66 h18" stroke="${INK}" stroke-width="2"/><polygon points="150,66 143,62 143,70" fill="${INK}"/>` +
+				link(0, 1) + link(0, 2) + scene(cubes) +
+				figure(204, 132, 0.9, C.plum[1]),
+		)
+	},
 	plane() {
 		return frame(
 			`<g stroke="${INK}" stroke-width="1.8" stroke-linejoin="round">` +

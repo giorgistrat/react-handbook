@@ -1,7 +1,7 @@
 // Builder for step-through animations. The client runtime lives in
 // src/scripts/anim.ts; styles in src/styles/anim.css.
 //
-// anim({ id, caption, scenarios: [{ name, intro, scene, steps }] })
+// anim({ id, caption, delay?, scenarios: [{ name, intro, scene, steps }] })  (delay: ms per step when playing)
 //
 // scene: HTML. Elements that change carry data-k="key" (and optionally an
 //        initial data-s="state tokens").
@@ -29,7 +29,7 @@ const PHASES = {
 	event: 'event',
 }
 
-export function anim({ id, caption, scenarios }) {
+export function anim({ id, caption, scenarios, delay }) {
 	const multi = scenarios.length > 1
 	const tabs = multi
 		? `<div class="btn-row anim-tabs" role="tablist">${scenarios
@@ -52,7 +52,7 @@ export function anim({ id, caption, scenarios }) {
 		})
 		.join('')
 	return oneLine(`
-		<figure class="fig anim fig-${id}" data-anim>
+		<figure class="fig anim fig-${id}" data-anim${delay ? ` data-delay="${delay}"` : ''}>
 			${tabs}
 			${scns}
 			<div class="anim-hud" aria-live="polite">

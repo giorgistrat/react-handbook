@@ -1,0 +1,9 @@
+body { margin: 0; font: 16px/1.5 system-ui, sans-serif; background: #f6c744; }
+.layout { max-width: 520px; margin: 32px auto; padding: 24px; border: 2px solid #1d1a18; border-radius: 14px; background: #fcf5e4; box-shadow: 0 7px 0 #1d1a18; }
+.layout.dark { background: #2b2522; color: #fcf5e4; }
+nav { display: flex; gap: 8px; margin-bottom: 12px; }
+button { font: inherit; padding: 4px 12px; border: 2px solid #1d1a18; border-radius: 7px; background: #ff7a00; cursor: pointer; }
+button[aria-current='true'] { background: #ee95e3; }
+.display { font-size: 28px; font-weight: 800; }
+input { font: inherit; padding: 4px 8px; border: 2px solid #1d1a18; border-radius: 7px; }
+li.dark { color: #ee95e3; }

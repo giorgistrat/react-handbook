@@ -653,3 +653,73 @@
 		min-width: 0;
 	}
 }
+
+/* Compact trees (How React Works) */
+.t-compact .t-kids {
+	gap: 8px;
+	padding-top: 12px;
+}
+
+.t-compact .t-kid {
+	padding-top: 10px;
+}
+
+.t-compact .t-kid::before {
+	height: 10px;
+}
+
+.t-compact .t-kids::before {
+	height: 12px;
+}
+
+.node.sm {
+	min-width: 0;
+	padding: 3px 8px;
+	font-size: 11.5px;
+	border-radius: 7px;
+}
+
+.node.sm small {
+	font-size: 10px;
+}
+
+/* Element objects as they are created */
+.el-obj {
+	padding: 5px 9px;
+	border: 1.5px dashed var(--ink);
+	border-radius: 8px;
+	background: #fff;
+	font: 500 12px var(--mono);
+	overflow-wrap: anywhere;
+}
+
+.dom-row {
+	white-space: nowrap;
+	border-radius: 4px;
+	padding: 0 4px;
+}
+
+/* Items on a sliding track always fit their slot */
+.a-track > .node {
+	width: calc(var(--slot) - 8px);
+	min-width: 0;
+	overflow: hidden;
+}
+
+/* Wide trees: start at the left edge and scroll, instead of overflowing
+   on both sides (a centered flex box can't be scrolled to its left edge) */
+.t-tree {
+	width: max-content;
+	min-width: 100%;
+}
+
+@media (max-width: 520px) {
+	.t-compact .t-kids {
+		gap: 5px;
+	}
+
+	.node.sm {
+		padding: 2px 5px;
+		font-size: 10.5px;
+	}
+}

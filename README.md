@@ -23,6 +23,23 @@ npm run build    # syncs + builds to dist/
 - `src/scripts/client.ts` adds the interactive bits: the work-loop walker,
   list-diff tabs, table wrapping and Mermaid rendering.
 
+## Site-only card: How React Works, Start to Finish
+
+`content/How React Works, Start to Finish.md` is written in this repo (not the
+vault). It follows the demo app in `examples/how-react-works` and uses
+build-time markers (`<!-- source -->`, `<!-- compiled -->`, `<!-- trace -->`,
+`<!-- tree -->`, `<!-- element -->`, `<!-- figure -->`, documented at the top of
+`scripts/sync-notes.mjs`) that pull in real output:
+
+```bash
+cd examples/how-react-works
+npm install
+npm run compile   # Babel (automatic / dev / classic) + Vite output → generated/compiled
+npm run trace     # React call order via Chrome DevTools logpoints → generated/trace.json
+```
+
+Its animations live in `src/lib/animations-hrw.mjs`.
+
 ## Stack
 
 Astro 7 (static output, Shiki highlighting), Mermaid (loaded only on pages

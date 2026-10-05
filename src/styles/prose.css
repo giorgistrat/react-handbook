@@ -204,3 +204,55 @@
 .prose details.qa > :last-child {
 	margin-bottom: 16px;
 }
+
+/* "Under the hood" blocks: the source-level layer of a step */
+.prose details.deep {
+	margin: 1.2em 0;
+	border: 2px solid var(--ink);
+	border-radius: 10px;
+	background: #fff;
+}
+
+.prose details.deep > summary {
+	cursor: pointer;
+	list-style: none;
+	padding: 10px 14px;
+	font-weight: 800;
+	font-size: 14.5px;
+	background: var(--teal-soft);
+	border-radius: 8px;
+}
+
+.prose details.deep > summary::-webkit-details-marker {
+	display: none;
+}
+
+.prose details.deep > summary::before {
+	content: '▸ ';
+}
+
+.prose details.deep[open] > summary {
+	border-bottom: 2px solid var(--ink);
+	border-radius: 8px 8px 0 0;
+}
+
+.prose details.deep[open] > summary::before {
+	content: '▾ ';
+}
+
+.prose details.deep > :not(summary) {
+	margin-left: 16px;
+	margin-right: 16px;
+}
+
+.prose details.deep > p:first-of-type {
+	margin-top: 14px;
+}
+
+.prose details.deep > :last-child {
+	margin-bottom: 16px;
+}
+
+.prose details.deep pre.astro-code {
+	box-shadow: none;
+}
