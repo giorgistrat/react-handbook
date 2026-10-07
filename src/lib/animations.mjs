@@ -384,7 +384,6 @@ export function workLoopAnim() {
 		{ cls: 'root' },
 		[['App', 'App', { cls: 'comp' }, [['Fragment', 'Fragment', { cls: 'comp' }, [['Header', 'Header', { cls: 'comp' }], ['Counter', 'Counter', { cls: 'comp' }, [['button', 'button', { cls: 'host' }, [['text', '"1"', { cls: 'text' }]]]]]]]]]],
 	])
-	const legend = `<div class="a-row" style="justify-content:center;margin-top:14px">${['bail', 'skip', 'run', 'done'].map((s, i) => `<span class="an chip-a" data-s="${s}">${['bailed out', 'skipped', 'rendered', 'completed'][i]}</span>`).join('')}</div>`
 	const raw = [
 		[['HostRoot'], 'beginWork(HostRoot)', 'bail', 'No own update, but <code>childLanes</code> has Sync → clone the children and continue.'],
 		[['App'], 'beginWork(App)', 'bail', 'Same props object, no update, <code>childLanes</code> has Sync → <b>bail out, continue</b>. <code>App()</code> is not called.'],
@@ -412,7 +411,7 @@ export function workLoopAnim() {
 	return anim({
 		id: 'workloop-anim',
 		caption: 'The work loop for one <code>setN(1)</code>: down with <code>beginWork</code>, across, and up with <code>completeWork</code>.',
-		scenarios: [{ name: 'setN(1)', intro: 'The button was clicked; <code>setN(1)</code> queued an update with <code>SyncLane</code> and marked <code>childLanes</code> up to the root.', scene: scene + legend, steps }],
+		scenarios: [{ name: 'setN(1)', intro: 'The button was clicked; <code>setN(1)</code> queued an update with <code>SyncLane</code> and marked <code>childLanes</code> up to the root.', scene, steps }],
 	})
 }
 
@@ -662,5 +661,36 @@ export function virtualDomAnim() {
 		id: 'vdom-anim',
 		caption: 'Elements are recreated every render; fibers and DOM nodes persist. React diffs elements against fibers.',
 		scenarios: [{ name: 'Two renders', intro: 'A <code>&lt;button&gt;{count}&lt;/button&gt;</code> renders twice: count 0, then 1.', scene, steps }],
+	})
+}
+
+// ═══ Start Here ═════════════════════════════════════════════════════════════
+
+export function restaurantAnim() {
+	const station = (k, icon, title, sub, s = '') =>
+		`<div class="an station" data-k="${k}"${s ? ` data-s="${s}"` : ''}><span class="st-icon">${icon}</span><b>${title}</b><small data-k="${k}-sub">${sub}</small></div>`
+	const scene = `<div class="stations">
+		${station('order', '🧾', 'Order', 'nothing ordered')}
+		<span class="st-arrow">→</span>
+		${station('kitchen', '🍳', 'Kitchen counter', 'empty')}
+		<span class="st-arrow">→</span>
+		${station('table', '🍽️', 'Table (what the customer sees)', 'yesterday’s plate')}
+		<span class="st-arrow">→</span>
+		${station('chores', '🧽', 'Chores', '—')}
+	</div>
+	<div class="a-row" style="justify-content:center;margin-top:12px">${chip('react', 'in React: –')}</div>`
+	const steps = [
+		{ phase: 'trigger', fn: 'setState(…)', say: 'A customer <b>orders</b>. In React: an event handler calls <code>setState</code>. The order is written down; nothing is cooked yet.', set: { order: 'new hl', react: 'upd' }, txt: { 'order-sub': 'new order on the rail', react: 'in React: update queued + render scheduled' } },
+		{ phase: 'render', fn: 'render phase', say: 'The <b>kitchen</b> starts preparing the plate on the counter, where the customer can’t see it. In React: your components are called and the new tree is worked out.', set: { order: 'done', kitchen: 'run hl' }, txt: { 'kitchen-sub': 'plate being prepared', react: 'in React: components run, changes are recorded' } },
+		{ phase: 'render', fn: 'urgent order arrives', say: 'A more urgent order comes in. The cook can <b>pause</b> or <b>throw the plate away</b> and start again: nothing has been served. In React: transition renders can be interrupted and discarded.', set: { kitchen: 'bad hl' }, txt: { 'kitchen-sub': 'paused / thrown away', react: 'in React: interrupted render, nothing to undo' } },
+		{ phase: 'render', fn: 'render finished', say: 'The plate is ready on the counter. The customer <b>still sees the old table</b>.', set: { kitchen: 'done' }, txt: { 'kitchen-sub': 'plate ready', react: 'in React: work-in-progress tree complete' } },
+		{ phase: 'commit', fn: 'commit phase', say: 'The waiter <b>serves the whole plate in one go</b>. The customer never gets half a plate. In React: all DOM changes are applied synchronously, at once.', set: { kitchen: 'faint', table: 'new hl' }, txt: { 'table-sub': 'today’s plate, all at once', react: 'in React: DOM updated atomically' } },
+		{ phase: 'paint', fn: 'browser paints', say: 'The customer looks at the table and sees the food. In React: the browser paints.', set: { table: 'ok' }, txt: { react: 'in React: pixels on screen' } },
+		{ phase: 'effects', fn: 'useEffect', say: 'Afterwards the staff do the <b>follow-up chores</b>: wipe the table, update the bill. In React: <code>useEffect</code> runs.', set: { chores: 'done hl' }, txt: { 'chores-sub': 'wipe table, update bill', react: 'in React: effects run after paint' } },
+	]
+	return anim({
+		id: 'restaurant-anim',
+		caption: 'The restaurant analogy, animated: order → kitchen → serve → chores is trigger → render → commit → effects.',
+		scenarios: [{ name: 'One order', intro: 'The restaurant from the paragraph above. Press <b>Play</b>.', scene, steps }],
 	})
 }

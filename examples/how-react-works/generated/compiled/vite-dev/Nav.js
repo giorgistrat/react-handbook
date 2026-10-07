@@ -1,6 +1,6 @@
 import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/Nav.jsx");const _jsxDEV = __vite__cjsImport1_react_jsxDevRuntime["jsxDEV"];import { log } from "/src/trace.js";
 var _jsxFileName = "/project/src/Nav.jsx";
-import __vite__cjsImport1_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=41e8deac";
+import __vite__cjsImport1_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=8b2aef9b";
 export function Nav({ page, onNavigate }) {
 	log("render Nav", page);
 	return /* @__PURE__ */ _jsxDEV("nav", { children: [/* @__PURE__ */ _jsxDEV("button", {

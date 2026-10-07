@@ -3,6 +3,7 @@ import { illustration } from '../lib/illustrations.mjs'
 import { LEVELS } from '../lib/notes-meta.mjs'
 
 interface Props {
+	slug: string
 	href: string
 	index: number
 	title: string
@@ -10,16 +11,19 @@ interface Props {
 	level: 'must' | 'good' | 'skip'
 	illus: string
 }
-const { href, index, title, summary, level, illus } = Astro.props
+const { slug, href, index, title, summary, level, illus } = Astro.props
 const lvl = LEVELS[level]
 ---
 
-<article class="note-card card">
+<article class="note-card card" data-card={slug}>
 	<a class="panel note-art" href={href} tabindex="-1" aria-hidden="true" set:html={illustration(illus)} />
 	<div class="note-body">
 		<div class="note-meta">
 			<span class="note-num">{String(index).padStart(2, '0')}</span>
-			<span class="pill"><span class={`lvl ${lvl.className}`}></span>{lvl.label}</span>
+			<span class="note-pills">
+				<span class="pill read-pill" hidden>✓ Read</span>
+				<span class="pill"><span class={`lvl ${lvl.className}`}></span>{lvl.label}</span>
+			</span>
 		</div>
 		<h3><a href={href}>{title}</a></h3>
 		<p>{summary}</p>

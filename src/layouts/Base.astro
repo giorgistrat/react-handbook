@@ -3,6 +3,7 @@ import '../styles/global.css'
 import '../styles/prose.css'
 import '../styles/diagrams.css'
 import '../styles/anim.css'
+import '../styles/ui.css'
 import '../styles/print.css'
 
 interface Props {
@@ -10,6 +11,9 @@ interface Props {
 	description?: string
 }
 const { title, description = 'How React works under the hood: fiber, reconciliation, the work loop, commit, scheduling and hooks.' } = Astro.props
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/')
+const canonical = new URL(Astro.url.pathname, Astro.site).href
+const ogImage = new URL(`${base}og.png`, Astro.site).href
 ---
 
 <!doctype html>
@@ -18,14 +22,55 @@ const { title, description = 'How React works under the hood: fiber, reconciliat
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="description" content={description} />
-		<link rel="icon" href={`${import.meta.env.BASE_URL.replace(/\/?$/, "/")}favicon.svg`} type="image/svg+xml" />
+		<meta name="theme-color" content="#f6c744" media="(prefers-color-scheme: light)" />
+		<meta name="theme-color" content="#1b1714" media="(prefers-color-scheme: dark)" />
+		<link rel="canonical" href={canonical} />
+		<meta property="og:type" content="article" />
+		<meta property="og:site_name" content="React Internals" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonical} />
+		<meta property="og:image" content={ogImage} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
 		<title>{title}</title>
+		<script is:inline>
+			// Apply the saved theme before the first paint (no flash).
+			try {
+				const t = localStorage.getItem('theme')
+				if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t
+			} catch (e) {}
+		</script>
 	</head>
-	<body>
+	<body data-base={base}>
+		<div class="toolbar island" data-pagefind-ignore>
+			<button type="button" class="btn btn-ghost tb-btn" data-search-open aria-label="Search the notes (press /)" title="Search (/)">
+				<svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2.2"></circle><path d="M13 13l4.5 4.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></path></svg>
+				<span class="tb-label">Search</span>
+			</button>
+			<button type="button" class="btn btn-ghost tb-btn" data-theme-toggle aria-label="Toggle dark mode" title="Toggle dark mode">
+				<svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><circle cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="2"></circle><path d="M10 3a7 7 0 0 1 0 14z" fill="currentColor"></path></svg>
+			</button>
+		</div>
+
 		<slot />
+
 		<footer class="site-foot wrap">
 			Built from the <em>React Internals</em> notes in the Nexus vault · checked against the React 19.2.5 source.
 		</footer>
+
+		<dialog class="search-dlg island" aria-label="Search the notes" data-pagefind-ignore>
+			<form method="dialog" class="search-form" role="search">
+				<svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2.2"></circle><path d="M13 13l4.5 4.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></path></svg>
+				<input type="search" class="search-input" placeholder="Search all notes… e.g. bailout, lanes, useEffect" aria-label="Search" autocomplete="off" />
+				<button type="submit" class="btn btn-ghost search-close" aria-label="Close search">Esc</button>
+			</form>
+			<p class="search-status" aria-live="polite"></p>
+			<ol class="search-results"></ol>
+		</dialog>
+
 		<script src="../scripts/client.ts"></script>
 	</body>
 </html>

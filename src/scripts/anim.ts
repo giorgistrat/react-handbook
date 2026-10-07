@@ -86,8 +86,10 @@ class Anim {
 	phase: HTMLElement
 	say: HTMLElement
 	count: HTMLElement
-	bar: HTMLElement
+	range: HTMLInputElement
 	play: HTMLButtonElement
+	speedBtn: HTMLButtonElement
+	speed = 1
 
 	constructor(public root: HTMLElement) {
 		this.scenarios = [...root.querySelectorAll<HTMLElement>('[data-anim-scn]')].map((el) => new Scenario(el))
@@ -95,8 +97,20 @@ class Anim {
 		this.phase = root.querySelector('.anim-call .anim-phase')!
 		this.say = root.querySelector('.anim-say')!
 		this.count = root.querySelector('.anim-count')!
-		this.bar = root.querySelector('.anim-bar')!
+		this.range = root.querySelector('.anim-range')!
 		this.play = root.querySelector('.anim-play')!
+		this.speedBtn = root.querySelector('.anim-speed')!
+
+		// Drag or click the slider to jump to any step
+		this.range.addEventListener('input', () => {
+			this.stop()
+			this.go(Number(this.range.value))
+		})
+
+		// Pause when the animation scrolls out of view
+		new IntersectionObserver((entries) => {
+			if (!entries[0].isIntersecting && this.timer) this.stop()
+		}).observe(root)
 
 		root.addEventListener('click', (e) => {
 			const t = e.target as HTMLElement
@@ -105,6 +119,7 @@ class Anim {
 			const act = t.closest<HTMLElement>('[data-act]')?.dataset.act
 			if (!act) return
 			if (act === 'play') return this.timer ? this.stop() : this.start()
+			if (act === 'speed') return this.cycleSpeed()
 			this.stop()
 			if (act === 'next') this.go(this.i + 1)
 			if (act === 'prev') this.go(this.i - 1)
@@ -146,7 +161,9 @@ class Anim {
 		this.phase.textContent = st?.phase ? (PHASE_LABEL[st.phase] ?? st.phase) : ''
 		this.say.innerHTML = st ? (st.say ?? '') : this.scn.intro || 'Press <b>Play</b>, or step through with the arrows.'
 		this.count.textContent = `${this.i} / ${n}`
-		this.bar.style.width = `${n ? (this.i / n) * 100 : 0}%`
+		this.range.max = String(n)
+		this.range.value = String(this.i)
+		this.range.style.setProperty('--fill', `${n ? (this.i / n) * 100 : 0}%`)
 	}
 
 	start() {
@@ -156,7 +173,7 @@ class Anim {
 		const tick = () => {
 			if (this.i >= this.scn.steps.length) return this.stop()
 			this.go(this.i + 1)
-			this.timer = window.setTimeout(tick, Number(this.root.dataset.delay) || DELAY)
+			this.timer = window.setTimeout(tick, (Number(this.root.dataset.delay) || DELAY) / this.speed)
 		}
 		this.timer = window.setTimeout(tick, 350)
 	}
@@ -166,6 +183,17 @@ class Anim {
 		this.timer = undefined
 		this.play.textContent = this.i >= this.scn.steps.length && this.i > 0 ? '↺ Replay' : '▶ Play'
 		this.root.classList.remove('playing')
+	}
+
+	cycleSpeed() {
+		const speeds = [1, 2, 0.5]
+		this.speed = speeds[(speeds.indexOf(this.speed) + 1) % speeds.length]
+		this.speedBtn.textContent = `${this.speed}×`
+		this.speedBtn.setAttribute('aria-label', `Playback speed ${this.speed}×`)
+		if (this.timer) {
+			this.stop()
+			this.start()
+		}
 	}
 
 	/** Final state of every scenario, for printing. */

@@ -25,7 +25,7 @@ go**. The customer never gets half a plate. This is the **commit phase**.
 After serving, the staff do the follow-up chores: wiping the table, updating
 the bill. These are the **effects**.
 
-<figure class="fig fig-restaurant"><div class="pipe"><div class="pipe-step pipe-trigger"><div class="pipe-icon">🧾</div><div class="pipe-head"><span class="pipe-num">1</span><span>Order</span></div><p>a click calls <code>setState</code></p><span class="pipe-tag">trigger</span></div><div class="pipe-arrow" aria-hidden="true">→</div><div class="pipe-step pipe-render"><div class="pipe-icon">🍳</div><div class="pipe-head"><span class="pipe-num">2</span><span>Kitchen</span></div><p>plate prepared off-screen; can pause or restart</p><span class="pipe-tag">render</span></div><div class="pipe-arrow" aria-hidden="true">→</div><div class="pipe-step pipe-commit"><div class="pipe-icon">🍽️</div><div class="pipe-head"><span class="pipe-num">3</span><span>Serve</span></div><p>the whole plate, in one go</p><span class="pipe-tag">commit</span></div><div class="pipe-arrow" aria-hidden="true">→</div><div class="pipe-step pipe-effects"><div class="pipe-icon">🧽</div><div class="pipe-head"><span class="pipe-num">4</span><span>Chores</span></div><p>wipe the table, update the bill</p><span class="pipe-tag">effects</span></div></div><figcaption>The restaurant analogy, mapped to React’s phases.</figcaption></figure>
+<figure class="fig anim fig-restaurant-anim" data-anim data-pagefind-ignore><div class="anim-scn" data-anim-scn="0"  data-steps="[{&quot;phase&quot;:&quot;trigger&quot;,&quot;fn&quot;:&quot;setState(…)&quot;,&quot;say&quot;:&quot;A customer &lt;b&gt;orders&lt;/b&gt;. In React: an event handler calls &lt;code&gt;setState&lt;/code&gt;. The order is written down; nothing is cooked yet.&quot;,&quot;set&quot;:{&quot;order&quot;:&quot;new hl&quot;,&quot;react&quot;:&quot;upd&quot;},&quot;txt&quot;:{&quot;order-sub&quot;:&quot;new order on the rail&quot;,&quot;react&quot;:&quot;in React: update queued + render scheduled&quot;}},{&quot;phase&quot;:&quot;render&quot;,&quot;fn&quot;:&quot;render phase&quot;,&quot;say&quot;:&quot;The &lt;b&gt;kitchen&lt;/b&gt; starts preparing the plate on the counter, where the customer can’t see it. In React: your components are called and the new tree is worked out.&quot;,&quot;set&quot;:{&quot;order&quot;:&quot;done&quot;,&quot;kitchen&quot;:&quot;run hl&quot;},&quot;txt&quot;:{&quot;kitchen-sub&quot;:&quot;plate being prepared&quot;,&quot;react&quot;:&quot;in React: components run, changes are recorded&quot;}},{&quot;phase&quot;:&quot;render&quot;,&quot;fn&quot;:&quot;urgent order arrives&quot;,&quot;say&quot;:&quot;A more urgent order comes in. The cook can &lt;b&gt;pause&lt;/b&gt; or &lt;b&gt;throw the plate away&lt;/b&gt; and start again: nothing has been served. In React: transition renders can be interrupted and discarded.&quot;,&quot;set&quot;:{&quot;kitchen&quot;:&quot;bad hl&quot;},&quot;txt&quot;:{&quot;kitchen-sub&quot;:&quot;paused / thrown away&quot;,&quot;react&quot;:&quot;in React: interrupted render, nothing to undo&quot;}},{&quot;phase&quot;:&quot;render&quot;,&quot;fn&quot;:&quot;render finished&quot;,&quot;say&quot;:&quot;The plate is ready on the counter. The customer &lt;b&gt;still sees the old table&lt;/b&gt;.&quot;,&quot;set&quot;:{&quot;kitchen&quot;:&quot;done&quot;},&quot;txt&quot;:{&quot;kitchen-sub&quot;:&quot;plate ready&quot;,&quot;react&quot;:&quot;in React: work-in-progress tree complete&quot;}},{&quot;phase&quot;:&quot;commit&quot;,&quot;fn&quot;:&quot;commit phase&quot;,&quot;say&quot;:&quot;The waiter &lt;b&gt;serves the whole plate in one go&lt;/b&gt;. The customer never gets half a plate. In React: all DOM changes are applied synchronously, at once.&quot;,&quot;set&quot;:{&quot;kitchen&quot;:&quot;faint&quot;,&quot;table&quot;:&quot;new hl&quot;},&quot;txt&quot;:{&quot;table-sub&quot;:&quot;today’s plate, all at once&quot;,&quot;react&quot;:&quot;in React: DOM updated atomically&quot;}},{&quot;phase&quot;:&quot;paint&quot;,&quot;fn&quot;:&quot;browser paints&quot;,&quot;say&quot;:&quot;The customer looks at the table and sees the food. In React: the browser paints.&quot;,&quot;set&quot;:{&quot;table&quot;:&quot;ok&quot;},&quot;txt&quot;:{&quot;react&quot;:&quot;in React: pixels on screen&quot;}},{&quot;phase&quot;:&quot;effects&quot;,&quot;fn&quot;:&quot;useEffect&quot;,&quot;say&quot;:&quot;Afterwards the staff do the &lt;b&gt;follow-up chores&lt;/b&gt;: wipe the table, update the bill. In React: &lt;code&gt;useEffect&lt;/code&gt; runs.&quot;,&quot;set&quot;:{&quot;chores&quot;:&quot;done hl&quot;},&quot;txt&quot;:{&quot;chores-sub&quot;:&quot;wipe table, update bill&quot;,&quot;react&quot;:&quot;in React: effects run after paint&quot;}}]" data-intro="The restaurant from the paragraph above. Press &lt;b&gt;Play&lt;/b&gt;."><div class="anim-stage"><div class="stations"><div class="an station" data-k="order"><span class="st-icon">🧾</span><b>Order</b><small data-k="order-sub">nothing ordered</small></div><span class="st-arrow">→</span><div class="an station" data-k="kitchen"><span class="st-icon">🍳</span><b>Kitchen counter</b><small data-k="kitchen-sub">empty</small></div><span class="st-arrow">→</span><div class="an station" data-k="table"><span class="st-icon">🍽️</span><b>Table (what the customer sees)</b><small data-k="table-sub">yesterday’s plate</small></div><span class="st-arrow">→</span><div class="an station" data-k="chores"><span class="st-icon">🧽</span><b>Chores</b><small data-k="chores-sub">—</small></div></div><div class="a-row" style="justify-content:center;margin-top:12px"><span class="an chip-a" data-k="react">in React: –</span></div></div><ol class="anim-print"><li><span class="anim-phase ph-trigger">trigger</span><code>setState(…)</code><span>A customer <b>orders</b>. In React: an event handler calls <code>setState</code>. The order is written down; nothing is cooked yet.</span></li><li><span class="anim-phase ph-render">render phase</span><code>render phase</code><span>The <b>kitchen</b> starts preparing the plate on the counter, where the customer can’t see it. In React: your components are called and the new tree is worked out.</span></li><li><span class="anim-phase ph-render">render phase</span><code>urgent order arrives</code><span>A more urgent order comes in. The cook can <b>pause</b> or <b>throw the plate away</b> and start again: nothing has been served. In React: transition renders can be interrupted and discarded.</span></li><li><span class="anim-phase ph-render">render phase</span><code>render finished</code><span>The plate is ready on the counter. The customer <b>still sees the old table</b>.</span></li><li><span class="anim-phase ph-commit">commit phase</span><code>commit phase</code><span>The waiter <b>serves the whole plate in one go</b>. The customer never gets half a plate. In React: all DOM changes are applied synchronously, at once.</span></li><li><span class="anim-phase ph-paint">browser</span><code>browser paints</code><span>The customer looks at the table and sees the food. In React: the browser paints.</span></li><li><span class="anim-phase ph-effects">after paint</span><code>useEffect</code><span>Afterwards the staff do the <b>follow-up chores</b>: wipe the table, update the bill. In React: <code>useEffect</code> runs.</span></li></ol></div><div class="anim-legend" aria-label="Colour legend"><span><i class="an lg-sw" data-s="hl"></i>current step</span><span><i class="an lg-sw" data-s="run"></i>component running</span><span><i class="an lg-sw" data-s="new"></i>created</span><span><i class="an lg-sw" data-s="upd"></i>updated / moved</span><span><i class="an lg-sw" data-s="done"></i>completed</span><span><i class="an lg-sw" data-s="ok"></i>ok</span><span><i class="an lg-sw" data-s="bad"></i>wrong</span></div><div class="anim-hud" aria-live="polite"><div class="anim-call"><span class="anim-phase" hidden></span><code class="anim-fn" hidden></code></div><p class="anim-say"></p></div><div class="anim-controls"><button type="button" class="btn btn-ghost anim-btn" data-act="restart" aria-label="Restart">↺</button><button type="button" class="btn btn-ghost anim-btn" data-act="prev" aria-label="Previous step">←</button><button type="button" class="btn anim-play" data-act="play">▶ Play</button><button type="button" class="btn btn-ghost anim-btn" data-act="next" aria-label="Next step">→</button><input type="range" class="anim-range" min="0" max="0" value="0" step="1" aria-label="Step" /><span class="anim-count">0 / 0</span><button type="button" class="btn btn-ghost anim-btn anim-speed" data-act="speed" aria-label="Playback speed">1×</button></div><figcaption>The restaurant analogy, animated: order → kitchen → serve → chores is trigger → render → commit → effects.</figcaption></figure>
 <figure class="fig fig-pipeline"><div class="pipe"><div class="pipe-step pipe-trigger"><div class="pipe-head"><span class="pipe-num">1</span><span>Trigger</span></div><ul><li><code>root.render()</code></li><li><code>setState</code> / <code>dispatch</code></li><li>lane picked, update queued</li></ul></div><div class="pipe-arrow" aria-hidden="true">→</div><div class="pipe-step pipe-render"><div class="pipe-head"><span class="pipe-num">2</span><span>Render phase</span></div><span class="pipe-tag">pure · interruptible</span><ul><li>call components (<code>beginWork</code>)</li><li>reconcile children (diff)</li><li>prepare DOM (<code>completeWork</code>)</li></ul></div><div class="pipe-arrow" aria-hidden="true">→</div><div class="pipe-step pipe-commit"><div class="pipe-head"><span class="pipe-num">3</span><span>Commit phase</span></div><span class="pipe-tag">sync · atomic</span><ul><li>before mutation</li><li>mutation: DOM writes</li><li>swap trees</li><li>layout: <code>useLayoutEffect</code>, refs</li></ul></div><div class="pipe-arrow" aria-hidden="true">→</div><div class="pipe-step pipe-paint"><div class="pipe-head"><span class="pipe-num">4</span><span>Browser</span></div><ul><li>style / layout</li><li>paint</li></ul></div><div class="pipe-arrow" aria-hidden="true">→</div><div class="pipe-step pipe-effects"><div class="pipe-head"><span class="pipe-num">5</span><span>After paint</span></div><ul><li>passive effects</li><li><code>useEffect</code></li></ul></div></div><figcaption>Every update goes through the same five steps. Only the render phase can pause.</figcaption></figure>
 
 In real terms: **your components return elements → React compares them with
@@ -176,38 +176,101 @@ Each term has a short explanation, a label, and a link to the note that goes dee
 
 Short answers you can say out loud. Each one links to the note that goes deeper.
 
-1. <span class="lvl lvl-must" title="Must know"></span> **What happens when you call `setState`?**
-   React queues an update on that component's fiber, gives it a priority, and schedules a render. It doesn't render immediately, so several updates get batched. During render it recalculates the state, compares the output, and in the commit it applies only what changed to the DOM. → [A State Update, End to End](../a-state-update-end-to-end/)
-2. <span class="lvl lvl-must" title="Must know"></span> **What is reconciliation?**
-   Comparing the new elements with the previous tree to decide what to keep, update, create or delete. It's O(n) because of two rules: a different type means a new subtree, and keys identify list items. → [Reconciliation](../reconciliation/)
-3. <span class="lvl lvl-must" title="Must know"></span> **What is React Fiber and why was it introduced?**
-   It's React's engine since v16. Each component instance is a fiber object, linked into a tree that a loop processes one unit at a time. Unlike the old recursive engine, it can pause, prioritize and discard work, which is what makes concurrent features possible. → [React Fiber](../react-fiber/)
-4. <span class="lvl lvl-must" title="Must know"></span> **What are the render and commit phases?**
-   Render: React calls your components and works out what changed. It's pure and can be interrupted. Commit: React applies the changes to the DOM synchronously, then runs layout effects. The browser paints, then `useEffect` runs. → [Render and Commit](../render-and-commit/)
-5. <span class="lvl lvl-must" title="Must know"></span> **Is the virtual DOM compared with the real DOM?**
-   No. React compares new elements with its previous fiber tree, which it keeps in memory. It never reads the DOM to find differences. → [Render and Commit](../render-and-commit/)
-6. <span class="lvl lvl-must" title="Must know"></span> **Why do keys matter, and why are index keys bad?**
-   Keys let React match items across renders even when they move. With index keys, inserting or reordering makes React reuse the wrong item's state and DOM node. → [Child Reconciliation Algorithm](../child-reconciliation-algorithm/)
-7. <span class="lvl lvl-must" title="Must know"></span> **Why can't you call hooks conditionally?**
-   Hooks are stored in a list on the fiber and matched by call order. Skipping one shifts every later hook onto the wrong data. → [Hooks Under the Hood](../hooks-under-the-hood/)
-8. <span class="lvl lvl-must" title="Must know"></span> **Why does `setCount(count + 1)` three times only add one?**
-   All three calls use the same `count` from that render. Use the updater form, `setCount(c => c + 1)`, to chain them. → [Hooks Under the Hood](../hooks-under-the-hood/)
-9. <span class="lvl lvl-must" title="Must know"></span> **`useEffect` vs `useLayoutEffect`?**
-   Layout effects run after the DOM update but before paint, which is good for measuring and avoiding flicker. Regular effects run after paint and don't block it. → [Commit Phase and Effects](../commit-phase-and-effects/)
-10. <span class="lvl lvl-must" title="Must know"></span> **Why does a child re-render when the parent re-renders?**
-    The parent creates a new props object every render, and React compares props by reference. Use `memo`, or pass the child in as `children` so the element is created higher up. → [The Work Loop](../the-work-loop/)
-11. <span class="lvl lvl-must" title="Must know"></span> **What is automatic batching?**
-    Several state updates in the same event or tick produce one render. Since React 18 this also works in promises, timeouts and native listeners. → [Scheduler, Lanes and Batching](../scheduler-lanes-and-batching/)
-12. <span class="lvl lvl-must" title="Must know"></span> **Why must components be pure?**
-    React may call them multiple times or throw a render away (Strict Mode, interrupted transitions). Side effects in render would run an unpredictable number of times. → [Render and Commit](../render-and-commit/)
-13. <span class="lvl lvl-good" title="Good to know"></span> **Does React 18+ always render concurrently?**
-    No. Normal updates render synchronously. Only transitions and deferred values use the interruptible mode. → [Scheduler, Lanes and Batching](../scheduler-lanes-and-batching/)
-14. <span class="lvl lvl-good" title="Good to know"></span> **How does `startTransition` keep typing responsive?**
-    It marks the update as low priority. React renders it in small chunks, yields to the browser between them, and abandons it if an urgent update (a keystroke) arrives. → [Scheduler, Lanes and Batching](../scheduler-lanes-and-batching/)
-15. <span class="lvl lvl-good" title="Good to know"></span> **Why does changing a `key` reset a component's state?**
-    State is tied to type, position and key. A new key means React treats it as a different component: it unmounts the old one and mounts a fresh one. → [Reconciliation](../reconciliation/)
-16. <span class="lvl lvl-good" title="Good to know"></span> **What's double buffering in React?**
-    React builds the next tree as a draft (`workInProgress`) next to the visible one (`current`), and the commit swaps a pointer. The user never sees a half-built tree. → [React Fiber](../react-fiber/)
+<details class="qa"><summary><span class="lvl lvl-must" title="Must know"></span> What happens when you call <code>setState</code>?</summary>
+
+React queues an update on that component's fiber, gives it a priority, and schedules a render. It doesn't render immediately, so several updates get batched. During render it recalculates the state, compares the output, and in the commit it applies only what changed to the DOM. → [A State Update, End to End](../a-state-update-end-to-end/)
+
+</details>
+
+<details class="qa"><summary><span class="lvl lvl-must" title="Must know"></span> What is reconciliation?</summary>
+
+Comparing the new elements with the previous tree to decide what to keep, update, create or delete. It's O(n) because of two rules: a different type means a new subtree, and keys identify list items. → [Reconciliation](../reconciliation/)
+
+</details>
+
+<details class="qa"><summary><span class="lvl lvl-must" title="Must know"></span> What is React Fiber and why was it introduced?</summary>
+
+It's React's engine since v16. Each component instance is a fiber object, linked into a tree that a loop processes one unit at a time. Unlike the old recursive engine, it can pause, prioritize and discard work, which is what makes concurrent features possible. → [React Fiber](../react-fiber/)
+
+</details>
+
+<details class="qa"><summary><span class="lvl lvl-must" title="Must know"></span> What are the render and commit phases?</summary>
+
+Render: React calls your components and works out what changed. It's pure and can be interrupted. Commit: React applies the changes to the DOM synchronously, then runs layout effects. The browser paints, then `useEffect` runs. → [Render and Commit](../render-and-commit/)
+
+</details>
+
+<details class="qa"><summary><span class="lvl lvl-must" title="Must know"></span> Is the virtual DOM compared with the real DOM?</summary>
+
+No. React compares new elements with its previous fiber tree, which it keeps in memory. It never reads the DOM to find differences. → [Render and Commit](../render-and-commit/)
+
+</details>
+
+<details class="qa"><summary><span class="lvl lvl-must" title="Must know"></span> Why do keys matter, and why are index keys bad?</summary>
+
+Keys let React match items across renders even when they move. With index keys, inserting or reordering makes React reuse the wrong item's state and DOM node. → [Child Reconciliation Algorithm](../child-reconciliation-algorithm/)
+
+</details>
+
+<details class="qa"><summary><span class="lvl lvl-must" title="Must know"></span> Why can't you call hooks conditionally?</summary>
+
+Hooks are stored in a list on the fiber and matched by call order. Skipping one shifts every later hook onto the wrong data. → [Hooks Under the Hood](../hooks-under-the-hood/)
+
+</details>
+
+<details class="qa"><summary><span class="lvl lvl-must" title="Must know"></span> Why does <code>setCount(count + 1)</code> three times only add one?</summary>
+
+All three calls use the same `count` from that render. Use the updater form, `setCount(c => c + 1)`, to chain them. → [Hooks Under the Hood](../hooks-under-the-hood/)
+
+</details>
+
+<details class="qa"><summary><span class="lvl lvl-must" title="Must know"></span> <code>useEffect</code> vs <code>useLayoutEffect</code>?</summary>
+
+Layout effects run after the DOM update but before paint, which is good for measuring and avoiding flicker. Regular effects run after paint and don't block it. → [Commit Phase and Effects](../commit-phase-and-effects/)
+
+</details>
+
+<details class="qa"><summary><span class="lvl lvl-must" title="Must know"></span> Why does a child re-render when the parent re-renders?</summary>
+
+The parent creates a new props object every render, and React compares props by reference. Use `memo`, or pass the child in as `children` so the element is created higher up. → [The Work Loop](../the-work-loop/)
+
+</details>
+
+<details class="qa"><summary><span class="lvl lvl-must" title="Must know"></span> What is automatic batching?</summary>
+
+Several state updates in the same event or tick produce one render. Since React 18 this also works in promises, timeouts and native listeners. → [Scheduler, Lanes and Batching](../scheduler-lanes-and-batching/)
+
+</details>
+
+<details class="qa"><summary><span class="lvl lvl-must" title="Must know"></span> Why must components be pure?</summary>
+
+React may call them multiple times or throw a render away (Strict Mode, interrupted transitions). Side effects in render would run an unpredictable number of times. → [Render and Commit](../render-and-commit/)
+
+</details>
+
+<details class="qa"><summary><span class="lvl lvl-good" title="Good to know"></span> Does React 18+ always render concurrently?</summary>
+
+No. Normal updates render synchronously. Only transitions and deferred values use the interruptible mode. → [Scheduler, Lanes and Batching](../scheduler-lanes-and-batching/)
+
+</details>
+
+<details class="qa"><summary><span class="lvl lvl-good" title="Good to know"></span> How does <code>startTransition</code> keep typing responsive?</summary>
+
+It marks the update as low priority. React renders it in small chunks, yields to the browser between them, and abandons it if an urgent update (a keystroke) arrives. → [Scheduler, Lanes and Batching](../scheduler-lanes-and-batching/)
+
+</details>
+
+<details class="qa"><summary><span class="lvl lvl-good" title="Good to know"></span> Why does changing a <code>key</code> reset a component's state?</summary>
+
+State is tied to type, position and key. A new key means React treats it as a different component: it unmounts the old one and mounts a fresh one. → [Reconciliation](../reconciliation/)
+
+</details>
+
+<details class="qa"><summary><span class="lvl lvl-good" title="Good to know"></span> What's double buffering in React?</summary>
+
+React builds the next tree as a draft (`workInProgress`) next to the visible one (`current`), and the commit swaps a pointer. The user never sees a half-built tree. → [React Fiber](../react-fiber/)
+
+</details>
 
 ## Self-check
 

@@ -56,7 +56,7 @@
 }
 
 .prose a:hover {
-	background: var(--pink-soft);
+	background: color-mix(in srgb, var(--pink) 35%, transparent);
 }
 
 .prose :not(pre) > code {

@@ -20,8 +20,13 @@ npm run build    # syncs + builds to dist/
   decide where each one goes. The sync fails loudly if a target heading or
   ASCII block disappears from a note.
 - `src/lib/illustrations.mjs` draws the isometric card illustrations.
-- `src/scripts/client.ts` adds the interactive bits: the work-loop walker,
-  list-diff tabs, table wrapping and Mermaid rendering.
+- `src/scripts/client.ts` adds the interactive bits: search (Pagefind), the
+  theme toggle, the current-section highlight in the table of contents, read
+  tracking, copy buttons, heading links, the Interview Q&A quiz and the
+  self-check checkboxes. Everything a viewer marks is kept in their browser
+  (`localStorage`) only.
+- `src/scripts/anim.ts` runs the step-through animations (slider, speed,
+  pause when off-screen); `src/lib/anim.mjs` builds them and their legend.
 
 ## Site-only card: How React Works, Start to Finish
 
@@ -42,10 +47,10 @@ Its animations live in `src/lib/animations-hrw.mjs`.
 
 ## Stack
 
-Astro 7 (static output, Shiki highlighting), Mermaid (loaded only on pages
-with sequence diagrams), Inter via Fontsource. `lodash-es` is pinned through
-`overrides` to a patched release, because Mermaid's parser dependency pulls an
-older one.
+Astro 7 (static output, Shiki highlighting), Pagefind (static search index,
+built by `npm run build`), Inter via Fontsource. Diagrams are hand-written
+HTML/SVG; there is no diagram library. `node scripts/og-image.mjs`
+regenerates the link-preview image `public/og.png`.
 
 ## Deploying to GitHub Pages
 

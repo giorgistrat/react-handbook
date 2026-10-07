@@ -19,6 +19,35 @@ const oneLine = (html) =>
 		.filter(Boolean)
 		.join('')
 
+// What each state colour means, shown under every animation that uses it.
+const LEGEND = [
+	['hl', 'current step'],
+	['cmp', 'being compared'],
+	['run', 'component running'],
+	['new', 'created'],
+	['keep', 'reused / kept'],
+	['upd', 'updated / moved'],
+	['bail', 'bailed out'],
+	['skip', 'skipped'],
+	['done', 'completed'],
+	['del', 'deleted'],
+	['ok', 'ok'],
+	['bad', 'wrong'],
+]
+
+function legendFor(scenarios) {
+	const used = new Set()
+	for (const s of scenarios) {
+		for (const m of s.scene.matchAll(/data-s="([^"]*)"/g)) m[1].split(/\s+/).forEach((t) => used.add(t))
+		for (const st of s.steps) for (const v of Object.values(st.set ?? {})) v.split(/\s+/).forEach((t) => used.add(t))
+	}
+	const items = LEGEND.filter(([t]) => used.has(t))
+	if (items.length < 2) return ''
+	return `<div class="anim-legend" aria-label="Colour legend">${items
+		.map(([t, label]) => `<span><i class="an lg-sw" data-s="${t}"></i>${label}</span>`)
+		.join('')}</div>`
+}
+
 const PHASES = {
 	trigger: 'trigger',
 	schedule: 'schedule',
@@ -52,9 +81,10 @@ export function anim({ id, caption, scenarios, delay }) {
 		})
 		.join('')
 	return oneLine(`
-		<figure class="fig anim fig-${id}" data-anim${delay ? ` data-delay="${delay}"` : ''}>
+		<figure class="fig anim fig-${id}" data-anim${delay ? ` data-delay="${delay}"` : ''} data-pagefind-ignore>
 			${tabs}
 			${scns}
+			${legendFor(scenarios)}
 			<div class="anim-hud" aria-live="polite">
 				<div class="anim-call"><span class="anim-phase" hidden></span><code class="anim-fn" hidden></code></div>
 				<p class="anim-say"></p>
@@ -64,8 +94,9 @@ export function anim({ id, caption, scenarios, delay }) {
 				<button type="button" class="btn btn-ghost anim-btn" data-act="prev" aria-label="Previous step">←</button>
 				<button type="button" class="btn anim-play" data-act="play">▶ Play</button>
 				<button type="button" class="btn btn-ghost anim-btn" data-act="next" aria-label="Next step">→</button>
-				<div class="anim-progress"><div class="anim-bar"></div></div>
+				<input type="range" class="anim-range" min="0" max="0" value="0" step="1" aria-label="Step" />
 				<span class="anim-count">0 / 0</span>
+				<button type="button" class="btn btn-ghost anim-btn anim-speed" data-act="speed" aria-label="Playback speed">1×</button>
 			</div>
 			${caption ? `<figcaption>${caption}</figcaption>` : ''}
 		</figure>`)

@@ -3655,15 +3655,15 @@
         },
         {
           "fn": "dispatchDiscreteEvent",
+          "info": "selectionchange (bubble listener)"
+        },
+        {
+          "fn": "dispatchDiscreteEvent",
           "info": "keyup (capture listener)"
         },
         {
           "fn": "dispatchDiscreteEvent",
           "info": "keyup (bubble listener)"
-        },
-        {
-          "fn": "dispatchDiscreteEvent",
-          "info": "selectionchange (bubble listener)"
         }
       ]
     },

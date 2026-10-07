@@ -562,45 +562,128 @@
 	border-top: 2px dashed var(--cream-deep);
 }
 
-/* ─── Mermaid ────────────────────────────────────────────── */
+/* ─── Sequence diagram (HTML) ────────────────────────────── */
 
-.fig-mermaid pre.mermaid {
-	margin: 0;
-	background: transparent;
-	text-align: center;
-	font-family: var(--font);
-	white-space: pre;
-	overflow-x: auto;
-	color: transparent;
-}
-
-.fig-mermaid pre.mermaid[data-processed] {
-	color: inherit;
-	white-space: normal;
-}
-
-.fig-mermaid pre.mermaid svg {
-	max-width: 100%;
-	height: auto;
-}
-
-.fig-ring .diagram-svg {
-	max-width: 440px;
-	margin: 0 auto;
-}
-
-.fig-commit-phases .pipe {
+.seq {
 	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr));
-	gap: 12px;
+	grid-template-columns: 26px repeat(var(--actors), minmax(64px, 1fr));
+	column-gap: 6px;
+	row-gap: 0;
+	overflow-x: auto;
+	font-size: 13px;
 }
 
-.fig-commit-phases .pipe-arrow {
-	display: none;
+.seq-actor {
+	grid-row: 1;
+	align-self: end;
+	margin-bottom: 8px;
+	padding: 5px 4px;
+	border: 2px solid var(--ink);
+	border-radius: 8px;
+	text-align: center;
+	font-weight: 800;
+	font-size: 12px;
+	line-height: 1.2;
+	background: var(--pink-soft);
 }
 
-@container (max-width: 560px) {
-	.fig-commit-phases .pipe {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
+.seq-a1 { background: var(--teal-soft); }
+.seq-a2 { background: var(--orange-soft); }
+.seq-a3 { background: #ffe08a; }
+.seq-a4 { background: var(--plum-soft); }
+.seq-a5 { background: #b9f0c9; }
+
+.seq-life {
+	justify-self: center;
+	width: 0;
+	border-left: 2px dashed rgba(29, 26, 24, 0.35);
+	z-index: 0;
+}
+
+.seq-num {
+	align-self: center;
+	justify-self: center;
+	display: grid;
+	place-items: center;
+	width: 22px;
+	height: 22px;
+	border-radius: 50%;
+	background: var(--ink);
+	color: #fff;
+	font: 800 11px var(--font);
+}
+
+.seq-label {
+	padding: 6px 4px 2px;
+	color: var(--ink-soft);
+	line-height: 1.35;
+	z-index: 1;
+}
+
+.seq-label-r {
+	text-align: right;
+}
+
+.seq-label code {
+	font-size: 0.86em;
+	background: var(--cream);
+	border-radius: 4px;
+	padding: 0 3px;
+	overflow-wrap: anywhere;
+}
+
+.seq-msg {
+	position: relative;
+	height: 14px;
+	z-index: 1;
+}
+
+/* the arrow runs from the middle of the first column to the middle of the last */
+.seq-right,
+.seq-left {
+	--inset: calc(100% / var(--span, 2) / 2);
+}
+
+.seq-right::before,
+.seq-left::before {
+	content: '';
+	position: absolute;
+	top: 6px;
+	left: var(--inset);
+	right: var(--inset);
+	border-top: 2px solid var(--ink);
+}
+
+.seq-reply::before {
+	border-top-style: dashed;
+}
+
+.seq-right::after,
+.seq-left::after {
+	content: '';
+	position: absolute;
+	top: 2px;
+	border: 5px solid transparent;
+}
+
+.seq-right::after {
+	right: calc(var(--inset) - 6px);
+	border-left: 8px solid var(--ink);
+}
+
+.seq-left::after {
+	left: calc(var(--inset) - 6px);
+	border-right: 8px solid var(--ink);
+}
+
+.seq-self::before {
+	content: '';
+	position: absolute;
+	left: 50%;
+	top: -2px;
+	width: 22px;
+	height: 12px;
+	border: 2px solid var(--ink);
+	border-left: 0;
+	border-radius: 0 8px 8px 0;
 }

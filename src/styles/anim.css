@@ -126,20 +126,97 @@
 	min-width: 104px;
 }
 
-.anim-progress {
-	flex: 1 1 80px;
+.anim-range {
+	flex: 1 1 100px;
+	min-width: 80px;
+	height: 26px;
+	margin: 0;
+	background: transparent;
+	cursor: pointer;
+	appearance: none;
+	-webkit-appearance: none;
+	--fill: 0%;
+}
+
+.anim-range::-webkit-slider-runnable-track {
 	height: 10px;
 	border: 1.5px solid var(--ink);
 	border-radius: 999px;
-	background: #fff;
-	overflow: hidden;
+	background: linear-gradient(90deg, var(--orange) var(--fill), #fff var(--fill));
 }
 
-.anim-bar {
-	height: 100%;
-	width: 0;
-	background: var(--orange);
-	transition: width 0.3s ease;
+.anim-range::-moz-range-track {
+	height: 10px;
+	border: 1.5px solid var(--ink);
+	border-radius: 999px;
+	background: linear-gradient(90deg, var(--orange) var(--fill), #fff var(--fill));
+}
+
+.anim-range::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	width: 18px;
+	height: 18px;
+	margin-top: -5.5px;
+	border: 2px solid var(--ink);
+	border-radius: 50%;
+	background: #fff;
+}
+
+.anim-range::-moz-range-thumb {
+	width: 16px;
+	height: 16px;
+	border: 2px solid var(--ink);
+	border-radius: 50%;
+	background: #fff;
+}
+
+.anim-range:focus-visible {
+	outline: 3px solid var(--ink);
+	outline-offset: 2px;
+	border-radius: 999px;
+}
+
+.anim-speed {
+	min-width: 48px;
+	font-variant-numeric: tabular-nums;
+}
+
+/* Colour legend */
+.anim-legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px 14px;
+	margin-top: 10px;
+	font-size: 12.5px;
+	color: var(--ink-soft);
+}
+
+.anim-legend span {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.lg-sw {
+	display: inline-block;
+	width: 18px;
+	height: 12px;
+	border: 1.5px solid var(--ink);
+	border-radius: 4px;
+	background: #fff;
+	transform: none !important;
+}
+
+.lg-sw[data-s~='hl'] {
+	box-shadow: 0 0 0 2px #d9539f;
+}
+
+.lg-sw[data-s~='cmp'] {
+	box-shadow: 0 0 0 2px var(--orange);
+}
+
+.lg-sw[data-s~='del'] {
+	opacity: 1;
 }
 
 .anim-count {
@@ -497,8 +574,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.an,
-	.anim-bar {
+	.an {
 		transition: none;
 	}
 
@@ -721,5 +797,53 @@
 	.node.sm {
 		padding: 2px 5px;
 		font-size: 10.5px;
+	}
+}
+
+/* Restaurant analogy */
+.stations {
+	display: flex;
+	align-items: stretch;
+	gap: 8px;
+}
+
+.station {
+	flex: 1 1 0;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 4px;
+	padding: 10px 8px;
+	border: 2px solid var(--ink);
+	border-radius: 10px;
+	background: #fff;
+	text-align: center;
+	font-size: 13.5px;
+	line-height: 1.3;
+}
+
+.station small {
+	color: var(--ink-soft);
+	font-size: 12px;
+}
+
+.st-icon {
+	font-size: 28px;
+	line-height: 1;
+}
+
+.st-arrow {
+	align-self: center;
+	font-weight: 800;
+}
+
+@container (max-width: 560px) {
+	.stations {
+		flex-direction: column;
+	}
+
+	.st-arrow {
+		transform: rotate(90deg);
 	}
 }

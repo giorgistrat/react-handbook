@@ -892,9 +892,9 @@
   ensureRootIsScheduled
   ensureRootIsScheduled
   processRootScheduleInMicrotask
+  dispatchDiscreteEvent  selectionchange (bubble listener)
   dispatchDiscreteEvent  keyup (capture listener)
   dispatchDiscreteEvent  keyup (bubble listener)
-  dispatchDiscreteEvent  selectionchange (bubble listener)
 
 ### submit the form (add a todo)
   dispatchDiscreteEvent  pointerdown (capture listener)

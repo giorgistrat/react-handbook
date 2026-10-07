@@ -57,7 +57,7 @@ const REPLACE_BLOCKS = {
 
 // Figures inserted after the first paragraph following a heading.
 const INSERT_AFTER = {
-	'start-here': { 'The whole thing in one paragraph': [D.restaurant, D.pipeline] },
+	'start-here': { 'The whole thing in one paragraph': [A.restaurantAnim, D.pipeline] },
 	'render-and-commit': {
 		'Why render and commit are separate': [A.whySeparateAnim],
 		'"The virtual DOM", precisely': [A.virtualDomAnim],
@@ -194,6 +194,43 @@ function convertQA(lines) {
 	return out
 }
 
+/**
+ * Numbered interview questions ("1. 🔴 **Question?**" followed by an indented
+ * answer) → the same collapsible Q&A cards, so quiz mode works on them too.
+ */
+function convertNumberedQA(lines, sectionTitles) {
+	const out = []
+	let inSection = false
+	let current = null
+	const flush = () => {
+		if (!current) return
+		out.push(`<details class="qa"><summary>${current.dot}${inlineHtml(current.q)}</summary>`, '', current.body.join('\n').trim(), '', '</details>', '')
+		current = null
+	}
+	for (const line of lines) {
+		if (/^#{1,6} /.test(line)) {
+			flush()
+			inSection = sectionTitles.some((t) => line.replace(/^#+ /, '') === t)
+			out.push(line)
+			continue
+		}
+		const m = inSection && line.match(/^\d+\.\s+((?:<span class="lvl[^>]*><\/span>\s*)?)\*\*(.+?)\*\*\s*$/)
+		if (m) {
+			flush()
+			current = { dot: m[1].trim() ? m[1].trim() + ' ' : '', q: m[2], body: [] }
+			continue
+		}
+		if (current && (line.startsWith('   ') || line.trim() === '')) {
+			current.body.push(line.replace(/^ {3,4}/, ''))
+			continue
+		}
+		flush()
+		out.push(line)
+	}
+	flush()
+	return out
+}
+
 function insertFigures(lines, inserts) {
 	if (!inserts) return lines
 	const out = []
@@ -276,6 +313,36 @@ function extractFunction(code, name) {
 	return lines.slice(start, end + 1).join('\n')
 }
 
+const TRACE_KIND = [
+	['event', /^dispatchDiscreteEvent$/],
+	['elements', /^jsxDEV$/],
+	['commit', /^(commit|flush|insertOrAppend|removeChild)/],
+	['schedule', /^(createRoot|createFiberRoot|listenToAllSupportedEvents|root\.render|updateContainerImpl|requestUpdateLane|dispatchSetState|markUpdateLaneFromFiberToRoot|scheduleUpdateOnFiber|ensureRootIsScheduled|scheduleImmediateRootScheduleTask|processRootScheduleInMicrotask|performWorkOnRootViaSchedulerTask|performSyncWorkOnRoot|performWorkOnRoot|renderRootSync|prepareFreshStack)$/],
+]
+const TRACE_LEGEND = [
+	['event', 'browser event'],
+	['schedule', 'scheduling'],
+	['render', 'render phase'],
+	['elements', 'element created'],
+	['commit', 'commit phase'],
+	['app', 'your component’s log()'],
+]
+
+/** A recorded trace as coloured HTML: one line per call, tagged by kind. */
+function traceHtml(lines) {
+	const esc = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+	const body = lines
+		.map((l) => {
+			if (l.startsWith('[app] ')) return `<span class="tr-l tr-app">${esc(l)}</span>`
+			const [fn, ...rest] = l.split('  ')
+			const kind = TRACE_KIND.find(([, re]) => re.test(fn))?.[0] ?? 'render'
+			return `<span class="tr-l tr-${kind}"><b>${esc(fn)}</b>${rest.length ? `  <i>${esc(rest.join('  '))}</i>` : ''}</span>`
+		})
+		.join('')
+	const legend = TRACE_LEGEND.map(([k, label]) => `<span><i class="trl-${k}"></i>${label}</span>`).join('')
+	return `\n<div class="trace-legend">${legend}</div>\n<pre class="trace">${body}</pre>\n`
+}
+
 function expandMarkers(md) {
 	let trace
 	const getTrace = () => (trace ??= JSON.parse(fs.readFileSync(path.join(DEMO, 'generated/trace.json'), 'utf8')))
@@ -293,7 +360,7 @@ function expandMarkers(md) {
 				return fence('js', code)
 			}
 			case 'trace':
-				return fence('text', traceLines(getTrace(), a).join('\n'))
+				return traceHtml(traceLines(getTrace(), a))
 			case 'tree':
 				return fence('text', treeLines(getTrace().snapshots[Number(a.snapshot)].tree).join('\n'))
 			case 'element': {
@@ -339,6 +406,7 @@ function convertNote(note, raw, order) {
 
 	let lines = parts.join('\n').split('\n')
 	lines = convertQA(lines)
+	lines = convertNumberedQA(lines, ['Top interview questions'])
 	lines = insertFigures(lines, { ...(INSERT_AFTER[note.slug] ?? {}) })
 
 	const front = [

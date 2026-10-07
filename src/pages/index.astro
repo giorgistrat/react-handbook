@@ -30,10 +30,11 @@ const intro = moc.introHtml.replace(/href="notes\//g, `href="${base}notes/`)
 
 	<section class="wrap section" id="notes">
 		<h2>The notes</h2>
-		<p class="section-sub">Read them in order. Each one builds on the ones before it.</p>
+		<p class="section-sub">Read them in order. Each one builds on the ones before it. <span class="read-progress" data-read-progress hidden></span></p>
 		<div class="grid">
 			{notes.map((n, i) => (
 				<NoteCard
+					slug={n.data.slug}
 					href={hrefFor(n.data.slug)}
 					index={i}
 					title={n.data.title.replace('React Internals - ', '')}
@@ -51,7 +52,7 @@ const intro = moc.introHtml.replace(/href="notes\//g, `href="${base}notes/`)
 		padding-top: clamp(40px, 8vw, 88px);
 		padding-bottom: 12px;
 		max-width: 880px;
-		margin-left: max(16px, calc((100% - 1120px) / 2));
+		margin-left: max(0px, calc((100% - 1120px) / 2));
 	}
 
 	.eyebrow {

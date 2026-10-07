@@ -1,6 +1,18 @@
 /* Print / PDF export (scripts/export-pdf.mjs, or Cmd+P in a browser) */
 
 @media print {
+	/* always print the light theme */
+	:root:not(#print-light) {
+		--page: #fff;
+		--ink: #1d1a18;
+		--ink-soft: #4a4440;
+		--muted: #6f665f;
+		--cream: #fcf5e4;
+		--cream-deep: #efe3c8;
+		--shadow: 0 7px 0 #1d1a18;
+		color-scheme: light;
+	}
+
 	@page {
 		size: A4;
 		margin: 16mm 15mm 18mm;
@@ -102,6 +114,27 @@
 
 	.prose pre.astro-code code {
 		white-space: inherit;
+	}
+
+	.trace .tr-l {
+		white-space: pre-wrap;
+		overflow-wrap: anywhere;
+	}
+
+	.prose pre.trace {
+		font-size: 8.4pt;
+		overflow: visible;
+	}
+
+	.toolbar,
+	.toc-mobile,
+	.read-row,
+	.qa-tools,
+	.qa-grade,
+	.copy-btn,
+	.heading-link,
+	.search-dlg {
+		display: none !important;
 	}
 
 	/* Tables: no horizontal scrolling on paper */

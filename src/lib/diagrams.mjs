@@ -22,13 +22,6 @@ function fig(id, caption, inner) {
 	)
 }
 
-function mermaid(code, caption) {
-	// <pre> is a CommonMark "type 1" HTML block, so blank lines inside are fine.
-	return `<figure class="fig fig-mermaid"><pre class="mermaid">\n${esc(code.trim())}\n</pre>${
-		caption ? `<figcaption>${caption}</figcaption>` : ''
-	}</figure>`
-}
-
 // ─── Pipeline ───────────────────────────────────────────────────────────────
 
 const PIPELINE = [
@@ -72,27 +65,6 @@ export function pipeline({ hrefFor } = {}) {
 		</div>`,
 	).join('<div class="pipe-arrow" aria-hidden="true">→</div>')
 	return fig('pipeline', 'Every update goes through the same five steps. Only the render phase can pause.', `<div class="pipe">${steps}</div>`)
-}
-
-// ─── Start Here: restaurant analogy ─────────────────────────────────────────
-
-export function restaurant() {
-	const steps = [
-		['🧾', 'Order', 'a click calls <code>setState</code>', 'trigger'],
-		['🍳', 'Kitchen', 'plate prepared off-screen; can pause or restart', 'render'],
-		['🍽️', 'Serve', 'the whole plate, in one go', 'commit'],
-		['🧽', 'Chores', 'wipe the table, update the bill', 'effects'],
-	]
-	return fig(
-		'restaurant',
-		'The restaurant analogy, mapped to React’s phases.',
-		`<div class="pipe">${steps
-			.map(
-				([icon, t, d, k], i) =>
-					`<div class="pipe-step pipe-${k === 'trigger' ? 'trigger' : k}"><div class="pipe-icon">${icon}</div><div class="pipe-head"><span class="pipe-num">${i + 1}</span><span>${t}</span></div><p>${d}</p><span class="pipe-tag">${k}</span></div>`,
-			)
-			.join('<div class="pipe-arrow" aria-hidden="true">→</div>')}</div>`,
-	)
 }
 
 // ─── Fiber: linked tree ────────────────────────────────────────────────────
@@ -349,30 +321,47 @@ export function e2eTree() {
 		</figure>`)
 }
 
+/** A sequence diagram drawn in HTML: one column per actor, one row per message. */
+function sequence({ actors, messages, caption, id }) {
+	const n = actors.length
+	const head = actors.map((a, i) => `<div class="seq-actor seq-a${i % 6}" style="grid-column:${i + 2}">${a}</div>`).join('')
+	const rows = messages
+		.map(([from, to, label, phase], k) => {
+			const lo = Math.min(from, to) + 2
+			const hi = Math.max(from, to) + 2
+			const self = from === to
+			const dir = self ? 'self' : to > from ? 'right' : 'left'
+			const reply = phase === 'reply' ? ' seq-reply' : ''
+			// self-messages get a 3-column-wide label; near the right edge it grows leftwards
+			const alignRight = self && lo + 3 > n + 2
+			const labelCols = !self ? `${lo} / ${hi + 1}` : alignRight ? `${lo - 2} / ${lo + 1}` : `${lo} / ${lo + 3}`
+			return `<div class="seq-num" style="grid-row:${k * 2 + 2} / span 2">${k + 1}</div>
+				<div class="seq-msg seq-${dir}${reply}" style="grid-column:${self ? `${lo} / ${lo + 1}` : `${lo} / ${hi + 1}`};grid-row:${k * 2 + 3};--span:${hi - lo + 1}"></div>
+				<div class="seq-label${alignRight ? ' seq-label-r' : ''}" style="grid-column:${labelCols};grid-row:${k * 2 + 2}">${label}</div>`
+		})
+		.join('')
+	const lifelines = actors.map((_, i) => `<div class="seq-life" style="grid-column:${i + 2};grid-row:2 / ${messages.length * 2 + 2}"></div>`).join('')
+	return fig(id, caption, `<div class="seq" style="--actors:${n}">${head}${lifelines}${rows}</div>`)
+}
+
 export function e2eSequence() {
-	return mermaid(
-		`
-sequenceDiagram
-  autonumber
-  participant B as Browser
-  participant D as React DOM root listener
-  participant C as Counter handler
-  participant S as Microtask
-  participant W as Work loop
-  participant K as Commit
-  B->>D: native click
-  D->>C: dispatchDiscreteEvent → onClick
-  C->>S: setCount(1) · SyncLane · queueMicrotask
-  C-->>B: handler returns, nothing rendered yet
-  S->>W: performSyncWorkOnRoot → renderRootSync
-  W->>W: HostRoot, App, main bail out · Header skipped
-  W->>W: Counter() runs → count = 1
-  W->>K: commitRoot
-  K->>K: mutation: "0" → "1", then root.current = finishedWork
-  K->>K: layout: useLayoutEffect sets width 50px
-  K->>K: passive (SyncLane): document.title = "Clicks: 1"
-  K-->>B: microtask ends → paint
-`,
-		'One click, end to end. Steps 1–4 are the event, 5–7 render, 8–11 commit, 12 paint.',
-	)
+	return sequence({
+		id: 'seq',
+		actors: ['Browser', 'React root listener', 'Counter handler', 'Microtask', 'Work loop', 'Commit'],
+		messages: [
+			[0, 1, 'native <code>click</code>'],
+			[1, 2, '<code>dispatchDiscreteEvent</code> → <code>onClick</code>'],
+			[2, 3, '<code>setCount(1)</code> · SyncLane · <code>queueMicrotask</code>'],
+			[2, 0, 'handler returns, nothing rendered yet', 'reply'],
+			[3, 4, '<code>performSyncWorkOnRoot</code> → <code>renderRootSync</code>'],
+			[4, 4, 'HostRoot, App, main bail out · Header skipped'],
+			[4, 4, '<code>Counter()</code> runs → count = 1'],
+			[4, 5, '<code>commitRoot</code>'],
+			[5, 5, 'mutation: "0" → "1", then <code>root.current = finishedWork</code>'],
+			[5, 5, 'layout: <code>useLayoutEffect</code> sets width 50px'],
+			[5, 5, 'passive (SyncLane): <code>document.title = "Clicks: 1"</code>'],
+			[5, 0, 'microtask ends → paint', 'reply'],
+		],
+		caption: 'One click, end to end. Steps 1–4 are the event, 5–7 render, 8–11 commit, 12 paint.',
+	})
 }

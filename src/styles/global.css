@@ -24,10 +24,72 @@
 	--btn-shadow: 0 4px 0 rgba(29, 26, 24, 0.45);
 	--font: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, sans-serif;
 	--mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+	--page: var(--mustard);
+	color-scheme: light;
+}
+
+/* ─── Dark mode ───────────────────────────────────────────────
+   Only the page "chrome" (background, cards, prose text) changes.
+   Figures, animations, code, tables, Q&A cards, buttons and chips are
+   light "islands": they reset the tokens below so they look the same
+   in both themes. Follows the system setting unless the toggle chose. */
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme='light']) {
+		--page: #1b1714;
+		--ink: #f2e9d8;
+		--ink-soft: #d6cab7;
+		--muted: #a99c8c;
+		--cream: #29221e;
+		--cream-deep: #3d332c;
+		--shadow: 0 7px 0 #000;
+		--btn-shadow: 0 4px 0 rgba(0, 0, 0, 0.6);
+		color-scheme: dark;
+	}
+}
+
+:root[data-theme='dark'] {
+	--page: #1b1714;
+	--ink: #f2e9d8;
+	--ink-soft: #d6cab7;
+	--muted: #a99c8c;
+	--cream: #29221e;
+	--cream-deep: #3d332c;
+	--shadow: 0 7px 0 #000;
+	--btn-shadow: 0 4px 0 rgba(0, 0, 0, 0.6);
+	color-scheme: dark;
+}
+
+.fig,
+.prose pre,
+.table-wrap,
+.prose details.qa,
+.prose details.deep,
+.prose blockquote,
+.prose :not(pre) > code,
+.btn,
+.pill,
+.chip,
+.panel,
+.eyebrow,
+.island {
+	--ink: #1d1a18;
+	--ink-soft: #4a4440;
+	--muted: #6f665f;
+	--cream: #fcf5e4;
+	--cream-deep: #efe3c8;
+	--shadow: 0 7px 0 #1d1a18;
+	--btn-shadow: 0 4px 0 rgba(29, 26, 24, 0.45);
+	color: var(--ink);
 }
 
 * {
 	box-sizing: border-box;
+}
+
+/* `hidden` must win over component display rules (pills, chips, …) */
+[hidden] {
+	display: none !important;
 }
 
 html {
@@ -37,7 +99,7 @@ html {
 
 body {
 	margin: 0;
-	background: var(--mustard);
+	background: var(--page);
 	color: var(--ink);
 	font-family: var(--font);
 	font-size: 17px;

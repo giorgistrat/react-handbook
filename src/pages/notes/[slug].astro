@@ -28,7 +28,7 @@ const short = (t: string) => t.replace('React Internals - ', '')
 				<span class="pill"><span class={`lvl ${lvl.className}`}></span>{lvl.label}</span>
 				<span class="num">Note {String(note.data.order).padStart(2, '0')}</span>
 			</div>
-			<h1>{short(note.data.title)}</h1>
+			<h1 data-pagefind-meta="title">{short(note.data.title)}</h1>
 			<p class="summary">{note.data.summary}</p>
 		</div>
 		<div class="head-art card">
@@ -45,7 +45,13 @@ const short = (t: string) => t.replace('React Internals - ', '')
 				</ol>
 			</nav>
 		</aside>
-		<article class="card prose">
+		<details class="toc-mobile card" data-pagefind-ignore>
+			<summary>On this page <span>· {toc.length} sections</span></summary>
+			<ol>
+				{toc.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}
+			</ol>
+		</details>
+		<article class="card prose" data-pagefind-body data-slug={note.data.slug}>
 			<Content />
 			{note.data.source && (
 				<p class="source">
@@ -53,6 +59,10 @@ const short = (t: string) => t.replace('React Internals - ', '')
 				</p>
 			)}
 		</article>
+	</div>
+
+	<div class="wrap read-row" data-pagefind-ignore>
+		<button type="button" class="btn btn-ghost" data-mark-read={note.data.slug} aria-pressed="false">Mark as read</button>
 	</div>
 
 	<nav class="wrap pager" aria-label="Notes">
@@ -137,6 +147,16 @@ const short = (t: string) => t.replace('React Internals - ', '')
 
 		.toc {
 			display: none;
+		}
+	}
+
+	.toc-mobile {
+		display: none;
+	}
+
+	@media (max-width: 1000px) {
+		.toc-mobile {
+			display: block;
 		}
 	}
 

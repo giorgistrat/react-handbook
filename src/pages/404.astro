@@ -1,0 +1,74 @@
+---
+import Base from '../layouts/Base.astro'
+import { illustration } from '../lib/illustrations.mjs'
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/')
+---
+
+<Base title="Page not found · React Internals" description="This page doesn’t exist.">
+	<main class="wrap nf">
+		<div class="card nf-card">
+			<div class="panel" set:html={illustration('loop')} />
+			<div class="nf-text">
+				<p class="nf-code">404 · bailed out</p>
+				<h1>Nothing to render here</h1>
+				<p>This page doesn’t exist. Maybe the link moved, or a key changed. Try searching, or start from the list of notes.</p>
+				<div class="btn-row">
+					<a class="btn" href={base}>All notes</a>
+					<button type="button" class="btn btn-ghost" data-search-open-alt>Search</button>
+				</div>
+			</div>
+		</div>
+	</main>
+</Base>
+
+<script>
+	document.querySelector('[data-search-open-alt]')?.addEventListener('click', () =>
+		document.querySelector<HTMLButtonElement>('[data-search-open]')?.click(),
+	)
+</script>
+
+<style>
+	.nf {
+		padding-top: clamp(60px, 12vw, 120px);
+	}
+
+	.nf-card {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+		gap: 24px;
+		align-items: center;
+		padding: 18px;
+		max-width: 860px;
+		margin: 0 auto;
+	}
+
+	@media (max-width: 640px) {
+		.nf-card {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	.nf-card .panel :global(svg) {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+
+	.nf-code {
+		margin: 0 0 8px;
+		font: 700 14px var(--mono);
+		color: var(--muted);
+	}
+
+	h1 {
+		font-size: clamp(32px, 5vw, 48px);
+		letter-spacing: -0.045em;
+		margin-bottom: 12px;
+	}
+
+	.nf-text > p:not(.nf-code) {
+		color: var(--ink-soft);
+		margin: 0 0 18px;
+	}
+</style>
