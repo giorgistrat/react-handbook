@@ -10,13 +10,16 @@
 }
 
 .prose h2 {
-	font-size: clamp(26px, 3.4vw, 34px);
-	margin: 2.2em 0 0.6em;
+	font-size: clamp(24px, 3vw, 30px);
+	margin: 2.2em 0 0.7em;
+	padding-bottom: 0.35em;
+	border-bottom: 1px dashed var(--cream-deep);
 	scroll-margin-top: 64px;
 }
 
 .prose h3 {
-	font-size: clamp(20px, 2.4vw, 24px);
+	font-size: clamp(18px, 2.2vw, 21px);
+	color: var(--accent);
 	margin: 1.8em 0 0.5em;
 	scroll-margin-top: 64px;
 }
@@ -48,7 +51,7 @@
 
 .prose a {
 	text-decoration: underline;
-	text-decoration-color: var(--orange);
+	text-decoration-color: var(--accent);
 	text-decoration-thickness: 2px;
 	text-underline-offset: 3px;
 	color: var(--ink);
@@ -56,15 +59,15 @@
 }
 
 .prose a:hover {
-	background: color-mix(in srgb, var(--pink) 35%, transparent);
+	background: color-mix(in srgb, var(--accent) 16%, transparent);
 }
 
 .prose :not(pre) > code {
-	background: #fff;
+	background: var(--surface);
 	border: 1px solid var(--cream-deep);
-	border-radius: 5px;
+	border-radius: 2px;
 	padding: 0.08em 0.35em;
-	color: var(--ink);
+	color: var(--accent);
 	overflow-wrap: anywhere;
 }
 
@@ -72,10 +75,10 @@
 .prose pre.astro-code {
 	margin: 1.4em 0;
 	padding: 18px 20px;
-	border: 2px solid var(--ink);
-	border-radius: 10px;
-	box-shadow: 0 5px 0 var(--ink);
-	background: #fff !important;
+	border: 1.5px solid var(--line);
+	border-radius: var(--radius);
+	box-shadow: none;
+	background: var(--surface) !important;
 	overflow-x: auto;
 	font-size: 14px;
 	line-height: 1.6;
@@ -86,13 +89,24 @@
 	font-size: inherit;
 }
 
+/* Shiki emits both themes as variables (astro.config.mjs) */
+.astro-code,
+.astro-code span {
+	color: var(--shiki-dark);
+}
+
+:root[data-theme='light'] .astro-code,
+:root[data-theme='light'] .astro-code span {
+	color: var(--shiki-light);
+}
+
 /* Blockquotes become callouts */
 .prose blockquote {
 	margin: 1.4em 0;
 	padding: 14px 18px 14px 20px;
 	background: var(--pink-soft);
-	border: 2px solid var(--ink);
-	border-radius: 10px;
+	border: 1.5px solid var(--line);
+	border-radius: var(--radius);
 	position: relative;
 }
 
@@ -108,9 +122,9 @@
 .table-wrap {
 	overflow-x: auto;
 	margin: 1.4em 0;
-	border: 2px solid var(--ink);
-	border-radius: 10px;
-	background: #fff;
+	border: 1.5px solid var(--line);
+	border-radius: var(--radius);
+	background: var(--surface);
 }
 
 .prose table {
@@ -131,7 +145,7 @@
 .prose th {
 	background: var(--pink-panel);
 	font-weight: 800;
-	border-bottom: 2px solid var(--ink);
+	border-bottom: 1.5px solid var(--line);
 }
 
 .prose tr:last-child td {
@@ -146,10 +160,10 @@
 /* Interview Q&A cards */
 .prose details.qa {
 	margin: 0 0 14px;
-	background: #fff;
-	border: 2px solid var(--ink);
-	border-radius: 10px;
-	box-shadow: 0 4px 0 var(--ink);
+	background: var(--surface);
+	border: 1.5px solid var(--line);
+	border-radius: var(--radius);
+	box-shadow: none;
 }
 
 .prose details.qa summary {
@@ -176,9 +190,10 @@
 	height: 26px;
 	display: grid;
 	place-items: center;
-	border: 2px solid var(--ink);
+	border: 1.5px solid var(--line);
 	border-radius: 50%;
 	background: var(--orange);
+	color: var(--on-hi);
 	font-weight: 800;
 	line-height: 1;
 }
@@ -186,6 +201,7 @@
 .prose details.qa[open] summary::after {
 	content: '−';
 	background: var(--pink-panel);
+	color: var(--ink);
 }
 
 .prose details.qa[open] summary {
@@ -208,9 +224,9 @@
 /* "Under the hood" blocks: the source-level layer of a step */
 .prose details.deep {
 	margin: 1.2em 0;
-	border: 2px solid var(--ink);
-	border-radius: 10px;
-	background: #fff;
+	border: 1.5px solid var(--line);
+	border-radius: var(--radius);
+	background: var(--surface);
 }
 
 .prose details.deep > summary {
@@ -220,7 +236,7 @@
 	font-weight: 800;
 	font-size: 14.5px;
 	background: var(--teal-soft);
-	border-radius: 8px;
+	border-radius: var(--radius);
 }
 
 .prose details.deep > summary::-webkit-details-marker {
@@ -232,7 +248,7 @@
 }
 
 .prose details.deep[open] > summary {
-	border-bottom: 2px solid var(--ink);
+	border-bottom: 1.5px solid var(--line);
 	border-radius: 8px 8px 0 0;
 }
 

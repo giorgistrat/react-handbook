@@ -7,7 +7,9 @@ export default defineConfig({
 	base: '/react-internals',
 	markdown: {
 		shikiConfig: {
-			theme: 'github-light',
+			// Both themes are emitted as CSS variables; prose.css picks one per site theme.
+			themes: { light: 'github-light', dark: 'github-dark' },
+			defaultColor: false,
 			langAlias: { text: 'plaintext' },
 			wrap: false,
 		},

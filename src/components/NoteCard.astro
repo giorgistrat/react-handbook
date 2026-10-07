@@ -19,7 +19,7 @@ const lvl = LEVELS[level]
 	<a class="panel note-art" href={href} tabindex="-1" aria-hidden="true" set:html={illustration(illus)} />
 	<div class="note-body">
 		<div class="note-meta">
-			<span class="note-num">{String(index).padStart(2, '0')}</span>
+			<span class="note-num">Sheet {String(index).padStart(2, '0')}</span>
 			<span class="note-pills">
 				<span class="pill read-pill" hidden>✓ Read</span>
 				<span class="pill"><span class={`lvl ${lvl.className}`}></span>{lvl.label}</span>
@@ -40,7 +40,7 @@ const lvl = LEVELS[level]
 	}
 
 	.note-card:hover {
-		transform: translateY(-3px);
+		border-color: var(--orange);
 	}
 
 	.note-art {
@@ -70,13 +70,14 @@ const lvl = LEVELS[level]
 	}
 
 	.note-num {
-		font-weight: 800;
-		font-size: 14px;
-		color: var(--muted);
+		font: 500 12.5px var(--mono);
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--accent);
 	}
 
 	h3 {
-		font-size: clamp(24px, 2.6vw, 30px);
+		font-size: clamp(21px, 2.3vw, 25px);
 		margin-bottom: 10px;
 	}
 

@@ -1,86 +1,120 @@
 @import '@fontsource-variable/inter';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/500.css';
+@import '@fontsource/ibm-plex-mono/600.css';
+
+/* ─── Blueprint (default) ─────────────────────────────────────
+   An engineering drawing: blue paper, chalk-white lines, yellow
+   pencil for what matters. The names below are kept from the first
+   design; their values are the blueprint ones.
+   - soft tints (*-soft, cream*) are backgrounds for ink text
+   - strong colors (orange, mustard, red, green) are backgrounds for
+     --on-hi text, or lines/marks */
 
 :root {
-	--mustard: #f6c744;
-	--mustard-deep: #e7b52b;
-	--pink: #ee95e3;
-	--pink-panel: #e8a6d2;
-	--pink-soft: #f7c4e6;
-	--cream: #fcf5e4;
-	--cream-deep: #efe3c8;
-	--orange: #ff7a00;
-	--orange-soft: #ffb36b;
-	--teal: #62c9bd;
-	--teal-soft: #a6ece3;
-	--plum: #9d7cc9;
-	--plum-soft: #cdb5e8;
-	--ink: #1d1a18;
-	--ink-soft: #4a4440;
-	--muted: #6f665f;
-	--red: #e5484d;
-	--green: #30a46c;
-	--radius: 14px;
-	--shadow: 0 7px 0 var(--ink);
-	--btn-shadow: 0 4px 0 rgba(29, 26, 24, 0.45);
+	--page: #0e2a4f;
+	--grid: rgba(150, 196, 255, 0.07);
+	--grid-major: rgba(150, 196, 255, 0.13);
+	--cream: #11345f;
+	--surface: #153d6c;
+	--cream-deep: #24548a;
+	--line: #8fb9e8;
+	--ink: #eaf3ff;
+	--ink-soft: #c2d7f0;
+	--muted: #8eaed4;
+	--accent: #7fd1ff;
+	--hl: #ff9ecf;
+	--on-hi: #0b2240;
+	--on-ink: #0e2a4f;
+
+	--orange: #ffd166;
+	--mustard: #ffd166;
+	--red: #ff7b7b;
+	--green: #6ee2a0;
+	--teal: #6ee7d2;
+	--plum: #c4a7ff;
+	--pink: #7d4a9a;
+	--pink-panel: #0f2e57;
+	--orange-soft: #574420;
+	--mustard-soft: #4f4a1f;
+	--pink-soft: #4a3266;
+	--teal-soft: #145259;
+	--plum-soft: #363478;
+	--green-soft: #1b5545;
+	--red-soft: #5d2638;
+	--gray-soft: #2a4a72;
+
+	--hue-amber: #ffb347;
+	--hue-yellow: #ffd166;
+	--hue-pink: #ff9ecf;
+	--hue-teal: #6ee7d2;
+	--hue-plum: #c4a7ff;
+	--hue-chalk: #eaf3ff;
+
+	--tr-event: rgba(255, 179, 71, 0.1);
+	--tr-schedule: rgba(255, 209, 102, 0.08);
+	--tr-commit: rgba(110, 231, 210, 0.08);
+	--tr-render-ink: #ffb3dc;
+	--tr-elements-ink: #ffe08a;
+	--tr-commit-ink: #8ff0df;
+
+	--radius: 4px;
+	--shadow: none;
+	--btn-shadow: none;
 	--font: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, sans-serif;
-	--mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-	--page: var(--mustard);
-	color-scheme: light;
-}
-
-/* ─── Dark mode ───────────────────────────────────────────────
-   Only the page "chrome" (background, cards, prose text) changes.
-   Figures, animations, code, tables, Q&A cards, buttons and chips are
-   light "islands": they reset the tokens below so they look the same
-   in both themes. Follows the system setting unless the toggle chose. */
-
-@media (prefers-color-scheme: dark) {
-	:root:not([data-theme='light']) {
-		--page: #1b1714;
-		--ink: #f2e9d8;
-		--ink-soft: #d6cab7;
-		--muted: #a99c8c;
-		--cream: #29221e;
-		--cream-deep: #3d332c;
-		--shadow: 0 7px 0 #000;
-		--btn-shadow: 0 4px 0 rgba(0, 0, 0, 0.6);
-		color-scheme: dark;
-	}
-}
-
-:root[data-theme='dark'] {
-	--page: #1b1714;
-	--ink: #f2e9d8;
-	--ink-soft: #d6cab7;
-	--muted: #a99c8c;
-	--cream: #29221e;
-	--cream-deep: #3d332c;
-	--shadow: 0 7px 0 #000;
-	--btn-shadow: 0 4px 0 rgba(0, 0, 0, 0.6);
+	--mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 	color-scheme: dark;
 }
 
-.fig,
-.prose pre,
-.table-wrap,
-.prose details.qa,
-.prose details.deep,
-.prose blockquote,
-.prose :not(pre) > code,
-.btn,
-.pill,
-.chip,
-.panel,
-.eyebrow,
-.island {
-	--ink: #1d1a18;
-	--ink-soft: #4a4440;
-	--muted: #6f665f;
-	--cream: #fcf5e4;
-	--cream-deep: #efe3c8;
-	--shadow: 0 7px 0 #1d1a18;
-	--btn-shadow: 0 4px 0 rgba(29, 26, 24, 0.45);
-	color: var(--ink);
+/* ─── Whiteprint (theme toggle, and always for print / PDF) ─── */
+
+:root[data-theme='light'] {
+	--page: #f3f7fc;
+	--grid: rgba(13, 61, 120, 0.05);
+	--grid-major: rgba(13, 61, 120, 0.09);
+	--cream: #ffffff;
+	--surface: #f6f9fd;
+	--cream-deep: #d3e0f0;
+	--line: #4f7fb8;
+	--ink: #0c2d57;
+	--ink-soft: #2c4c75;
+	--muted: #5b7497;
+	--accent: #0b63c5;
+	--hl: #c2307f;
+	--on-hi: #0b2240;
+	--on-ink: #ffffff;
+
+	--orange: #ffc53d;
+	--mustard: #ffc53d;
+	--red: #e5484d;
+	--green: #2f9e66;
+	--teal: #1f9e8f;
+	--plum: #7a5cc4;
+	--pink: #f1b3e2;
+	--pink-panel: #e8f0fa;
+	--orange-soft: #ffe6c4;
+	--mustard-soft: #fff0bf;
+	--pink-soft: #f6def0;
+	--teal-soft: #d2f1eb;
+	--plum-soft: #e5dcf7;
+	--green-soft: #d3f4de;
+	--red-soft: #ffdcdc;
+	--gray-soft: #e2e6ec;
+
+	--hue-amber: #ff9d2e;
+	--hue-yellow: #f5c542;
+	--hue-pink: #e58ccb;
+	--hue-teal: #3fbfae;
+	--hue-plum: #9d7cc9;
+	--hue-chalk: #9fb8d6;
+
+	--tr-event: #fff4e8;
+	--tr-schedule: #fffbea;
+	--tr-commit: #eefaf8;
+	--tr-render-ink: #b0307a;
+	--tr-elements-ink: #8a6d00;
+	--tr-commit-ink: #1f7a71;
+	color-scheme: light;
 }
 
 * {
@@ -99,7 +133,17 @@ html {
 
 body {
 	margin: 0;
-	background: var(--page);
+	background-color: var(--page);
+	background-image:
+		linear-gradient(var(--grid-major) 1px, transparent 1px),
+		linear-gradient(90deg, var(--grid-major) 1px, transparent 1px),
+		linear-gradient(var(--grid) 1px, transparent 1px),
+		linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+	background-size:
+		100px 100px,
+		100px 100px,
+		20px 20px,
+		20px 20px;
 	color: var(--ink);
 	font-family: var(--font);
 	font-size: 17px;
@@ -112,10 +156,16 @@ h2,
 h3,
 h4,
 h5 {
-	font-weight: 800;
-	letter-spacing: -0.035em;
-	line-height: 1.12;
+	font-family: var(--mono);
+	font-weight: 600;
+	letter-spacing: -0.03em;
+	line-height: 1.15;
 	margin: 0;
+}
+
+::selection {
+	background: var(--orange);
+	color: var(--on-hi);
 }
 
 a {
@@ -145,38 +195,54 @@ svg {
 	align-items: center;
 	justify-content: center;
 	gap: 0.4em;
-	padding: 0.62em 1.5em;
-	background: var(--orange);
-	color: var(--ink);
-	border: 2px solid var(--ink);
-	border-radius: 7px;
-	box-shadow: var(--btn-shadow);
-	font: 700 15px/1.2 var(--font);
-	letter-spacing: -0.01em;
+	padding: 0.6em 1.3em;
+	background: transparent;
+	color: var(--orange);
+	border: 1.5px solid var(--orange);
+	border-radius: 2px;
+	font: 500 14px/1.2 var(--mono);
+	letter-spacing: 0.02em;
 	text-decoration: none;
 	cursor: pointer;
 	transition:
-		transform 0.12s ease,
-		box-shadow 0.12s ease;
+		background-color 0.12s ease,
+		color 0.12s ease;
 }
 
 .btn:hover {
-	transform: translateY(-1px);
-	box-shadow: 0 5px 0 rgba(29, 26, 24, 0.5);
+	background: var(--orange);
+	color: var(--on-hi);
 }
 
 .btn:active {
-	transform: translateY(3px);
-	box-shadow: 0 1px 0 rgba(29, 26, 24, 0.5);
+	transform: translateY(1px);
 }
 
 .btn:focus-visible {
-	outline: 3px solid var(--ink);
+	outline: 2px dashed var(--accent);
 	outline-offset: 3px;
 }
 
 .btn-ghost {
-	background: var(--cream);
+	color: var(--ink);
+	border-color: var(--line);
+}
+
+.btn-ghost:hover {
+	background: var(--cream-deep);
+	color: var(--ink);
+}
+
+/* pressed toggles */
+.btn[aria-pressed='true'] {
+	background: var(--orange);
+	border-color: var(--orange);
+	color: var(--on-hi);
+}
+
+:root[data-theme='light'] .btn:not(.btn-ghost):not([aria-pressed='true']) {
+	color: #8a5a00;
+	border-color: #c98f00;
 }
 
 .btn-row {
@@ -185,18 +251,47 @@ svg {
 	gap: 10px;
 }
 
-/* ─── Cards (reference: cream, dark outline, heavy bottom shadow) ─── */
+/* ─── Cards: a drawing sheet with corner registration marks ─── */
 
 .card {
+	position: relative;
 	background: var(--cream);
-	border: 2px solid var(--ink);
+	border: 1px solid var(--line);
 	border-radius: var(--radius);
-	box-shadow: var(--shadow);
+}
+
+.card::before,
+.card::after {
+	content: '';
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	border: 0 solid var(--orange);
+	pointer-events: none;
+}
+
+.card::before {
+	top: -4px;
+	left: -4px;
+	border-top-width: 2px;
+	border-left-width: 2px;
+}
+
+.card::after {
+	bottom: -4px;
+	right: -4px;
+	border-bottom-width: 2px;
+	border-right-width: 2px;
 }
 
 .panel {
-	background: var(--pink-panel);
-	border-radius: 6px;
+	background-color: var(--pink-panel);
+	background-image:
+		linear-gradient(var(--grid-major) 1px, transparent 1px),
+		linear-gradient(90deg, var(--grid-major) 1px, transparent 1px);
+	background-size: 16px 16px;
+	border: 1px solid var(--cream-deep);
+	border-radius: 2px;
 }
 
 /* ─── Level dots / pills ─────────────────────────────────── */
@@ -206,7 +301,7 @@ svg {
 	width: 0.72em;
 	height: 0.72em;
 	border-radius: 50%;
-	border: 1.5px solid var(--ink);
+	border: 1px solid var(--line);
 	vertical-align: 0.02em;
 	margin: 0 0.1em;
 }
@@ -220,7 +315,7 @@ svg {
 }
 
 .lvl-skip {
-	background: #fff;
+	background: transparent;
 }
 
 .pill {
@@ -228,11 +323,10 @@ svg {
 	align-items: center;
 	gap: 6px;
 	padding: 2px 10px;
-	border: 1.5px solid var(--ink);
-	border-radius: 999px;
-	font-size: 12.5px;
-	font-weight: 700;
-	background: #fff;
+	border: 1px solid var(--line);
+	border-radius: 2px;
+	font: 500 12px var(--mono);
+	background: var(--surface);
 	white-space: nowrap;
 }
 
@@ -240,10 +334,9 @@ svg {
 	display: inline-block;
 	padding: 1px 9px;
 	margin: 2px 4px 2px 0;
-	border: 1.5px solid var(--ink);
-	border-radius: 999px;
-	font-size: 12.5px;
-	font-weight: 700;
+	border: 1px solid var(--line);
+	border-radius: 2px;
+	font: 500 12px var(--mono);
 }
 
 .chip-good {
@@ -256,6 +349,6 @@ svg {
 
 .site-foot {
 	padding: 48px 0 56px;
-	font-size: 14px;
-	color: var(--ink-soft);
+	font: 13px var(--mono);
+	color: var(--muted);
 }

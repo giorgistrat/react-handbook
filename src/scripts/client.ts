@@ -38,7 +38,8 @@ function wrapTables() {
 
 function setupTheme() {
 	const root = document.documentElement
-	const isDark = () => (root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches)
+	// Blueprint (dark) is the default; the toggle switches to the whiteprint theme.
+	const isDark = () => root.dataset.theme !== 'light'
 	document.querySelector('[data-theme-toggle]')?.addEventListener('click', () => {
 		const next = isDark() ? 'light' : 'dark'
 		root.dataset.theme = next
