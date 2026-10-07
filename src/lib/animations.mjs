@@ -1,6 +1,7 @@
 // Step-through animations for the notes. Function names and ordering follow
 // the notes (React 19.2.5 source).
 
+import { MICRO, TASK, MUTATION, event, frames, withStacks } from './stacks.mjs'
 import { anim, node, chip, tree, panel } from './anim.mjs'
 
 const lt = (s) => s.replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -30,10 +31,15 @@ export function rule1Anim() {
 		{ phase: 'commit', fn: 'commitDeletionEffects(div)', say: 'Commit, mutation phase: the deleted <code>Counter</code> runs its effect cleanups and refs are detached…', set: { 'w-counter': 'new', 'c-counter': 'del hl', 'd-old': 'del' } },
 		{ phase: 'commit', fn: 'removeChild(<div>) · appendChild(<span>)', say: '…then the old <code>&lt;div&gt;</code> is removed and the new <code>&lt;span&gt;</code> subtree (built off-screen during <code>completeWork</code>) is inserted in one go. The counter shows <b>0</b>.', set: { 'c-counter': 'del faint', 'c-div': 'del faint', 'd-old': 'hide', 'd-new': 'new' } },
 	]
+	const stacked = withStacks(steps, (() => {
+		const f = frames(MICRO)
+		const single = f.reconcileAfterCall('App', 'reconcileSingleElement')
+		return [f.call('App'), f.reconcileAfterCall('App'), single, single, [...single, 'deleteRemainingChildren'], [...single, 'createFiberFromElement', 'createFiberFromTypeAndProps'], f.reconcile('span'), f.call('Counter', 'mountState'), f.commit(...MUTATION, 'commitDeletionEffects'), f.commit(...MUTATION, 'commitPlacement', 'insertOrAppendPlacementNode')]
+	})())
 	return anim({
 		id: 'rule1',
 		caption: 'Rule 1, animated: one failed type check throws away the entire subtree, including state that “looks” identical.',
-		scenarios: [{ name: 'div → span', intro: 'The parent changes <code>&lt;div&gt;</code> to <code>&lt;span&gt;</code> around an identical <code>&lt;Counter /&gt;</code>. Press <b>Play</b>.', scene, steps }],
+		scenarios: [{ name: 'div → span', intro: 'The parent changes <code>&lt;div&gt;</code> to <code>&lt;span&gt;</code> around an identical <code>&lt;Counter /&gt;</code>. Press <b>Play</b>.', scene, steps: stacked }],
 	})
 }
 
@@ -58,10 +64,15 @@ export function rule2Anim() {
 		{ phase: 'commit', fn: "commitUpdate(dom, 'div', oldProps, newProps)", say: 'Commit compares the old and new props one by one…', set: { 'p-class': 'upd', 'p-title': 'ok' }, txt: { 'p-title': "title: 'stuff' === 'stuff' (skip)" } },
 		{ phase: 'commit', fn: "dom.className = 'after'", say: '…and writes <b>only</b> what changed. <code>title</code> isn’t touched, the node isn’t recreated, and <code>Counter</code> still shows 3.', set: { 'd-class': 'upd' }, txt: { 'd-class': 'after' } },
 	]
+	const stacked = withStacks(steps, (() => {
+		const f = frames(MICRO)
+		const single = f.reconcile('parent', 'reconcileSingleElement')
+		return [single, single, single, [...single, 'useFiber', 'createWorkInProgress'], f.call('Counter'), f.complete('div'), f.commit(...MUTATION, 'commitUpdate'), f.commit(...MUTATION, 'commitUpdate')]
+	})())
 	return anim({
 		id: 'rule2',
 		caption: 'Rule 2, animated: same type keeps the fiber, the DOM node and the state; only changed attributes are written.',
-		scenarios: [{ name: 'className change', intro: '<code>&lt;div className="before"&gt;</code> becomes <code>&lt;div className="after"&gt;</code>. Press <b>Play</b>.', scene, steps }],
+		scenarios: [{ name: 'className change', intro: '<code>&lt;div className="before"&gt;</code> becomes <code>&lt;div className="after"&gt;</code>. Press <b>Play</b>.', scene, steps: stacked }],
 	})
 }
 
@@ -312,10 +323,15 @@ export function doubleBufferAnim() {
 		{ phase: 'render', fn: 'createWorkInProgress(B.counter) → reuses B.alternate (tree A)', say: 'No new allocation this time: the work-in-progress <b>is</b> tree A, recycled. Counter runs on it: count 2.', set: { 'b-counter': 'done', 'a-root': 'new', 'a-counter': 'run', 'a-button': 'new' }, txt: { 'a-counter-sub': 'count: 2', 'a-button-sub': '"2"' } },
 		{ phase: 'commit', fn: 'root.current = finishedWork', say: 'Commit flips the pointer back to A. The two trees keep taking turns.', set: { ptr: 'on', 'a-root': 'done', 'a-counter': 'done', 'a-button': 'done', 'b-root': 'faint', 'b-counter': 'faint', 'b-button': 'faint', screen: 'upd' }, txt: { ptr: 'root.current → tree A', screen: '2' } },
 	]
+	const stacked = withStacks(steps, (() => {
+		const f = frames(MICRO)
+		const reuse = [...f.reconcileAfterCall('Counter', 'reconcileSingleElement', 'useFiber', 'createWorkInProgress')]
+		return [[], event('dispatchSetState'), f.start('createWorkInProgress'), f.call('Counter', 'updateReducer'), reuse, f.commit('flushMutationEffects'), event('dispatchSetState'), f.call('Counter', 'updateReducer'), f.commit('flushMutationEffects')]
+	})())
 	return anim({
 		id: 'double-buffer-anim',
 		caption: 'Double buffering: render builds the other tree off-screen; commit swaps a single pointer.',
-		scenarios: [{ name: 'Two clicks', intro: 'A Counter is clicked twice. Watch which tree is <code>current</code>.', scene, steps }],
+		scenarios: [{ name: 'Two clicks', intro: 'A Counter is clicked twice. Watch which tree is <code>current</code>.', scene, steps: stacked }],
 	})
 }
 
@@ -340,10 +356,14 @@ export function conditionalHooksAnim() {
 		{ phase: 'render', fn: 'useEffect(…) → updateWorkInProgressHook() → takes hook #2', say: 'The effect call takes hook #2, which is a <b>state</b> hook. It reads garbage as effect deps.', set: { c2: '', h1: 'bad', c3: 'hl', h2: 'bad hl', 'r-eff': 'bad' }, txt: { 'r-eff': 'effect reads a state hook ✗' } },
 		{ phase: 'render', fn: 'console.error(…)', say: 'Hook #3 is never used. React warns in development. That’s the whole reason for the Rules of Hooks: hooks are matched <b>by call order</b>.', set: { c3: '', h2: 'bad', h3: 'faint', warn: 'bad' } },
 	]
+	const stacked = withStacks(steps, (() => {
+		const f = frames(MICRO)
+		return [f.call('Form', 'mountState', 'mountWorkInProgressHook'), f.call('Form', 'mountState', 'mountWorkInProgressHook'), f.call('Form', 'mountEffect', 'mountWorkInProgressHook'), f.call('Form'), f.call('Form', 'updateReducer', 'updateWorkInProgressHook'), f.call('Form', 'updateEffect', 'updateWorkInProgressHook'), f.call('Form')]
+	})())
 	return anim({
 		id: 'conditional-anim',
 		caption: 'Hooks are matched purely by call order. Skip one, and every later call reads someone else’s slot.',
-		scenarios: [{ name: 'Conditional hook', intro: '<code>if (showName) { useState(\'Ada\') }</code>, then <code>useState(36)</code> and <code>useEffect</code>.', scene, steps }],
+		scenarios: [{ name: 'Conditional hook', intro: '<code>if (showName) { useState(\'Ada\') }</code>, then <code>useState(36)</code> and <code>useEffect</code>.', scene, steps: stacked }],
 	})
 }
 
@@ -368,10 +388,15 @@ export function setStateQueueAnim() {
 		{ phase: 'render', fn: 'u3: basicStateReducer(2, 42) → 42', say: 'A plain value replaces whatever came before: <b>42</b>.', set: { u1: 'done', u2: 'done hl' }, txt: { state: '42' } },
 		{ phase: 'render', fn: 'u4: basicStateReducer(42, c => c * 2) → 84', say: '42 × 2 = <b>84</b>. One render, all four updates, in order.', set: { u2: 'done', u3: 'done hl', state: 'ok' }, txt: { state: '84' } },
 	]
+	const stacked = withStacks(steps, (() => {
+		const f = frames(MICRO)
+		const ds = event('handleClick', 'dispatchSetState')
+		return [[...ds, 'dispatchSetStateInternal'], [...ds, 'scheduleUpdateOnFiber', 'ensureRootIsScheduled'], [...ds, 'dispatchSetStateInternal'], [...ds, 'dispatchSetStateInternal'], [...ds, 'dispatchSetStateInternal'], f.call('Counter', 'updateReducer'), f.call('Counter', 'updateReducer'), f.call('Counter', 'updateReducer'), f.call('Counter', 'updateReducer'), f.call('Counter', 'updateReducer')]
+	})())
 	return anim({
 		id: 'queue-anim',
 		caption: '<code>setState</code> only queues. The render folds every queued update in order.',
-		scenarios: [{ name: 'Four setCount calls', intro: '<code>count</code> is 0 and <code>handleClick</code> calls <code>setCount</code> four times.', scene, steps }],
+		scenarios: [{ name: 'Four setCount calls', intro: '<code>count</code> is 0 and <code>handleClick</code> calls <code>setCount</code> four times.', scene, steps: stacked }],
 	})
 }
 
@@ -408,10 +433,14 @@ export function workLoopAnim() {
 		prev = nodes
 		return { phase: 'render', fn, say, set }
 	})
+	const stacked = withStacks(steps, (() => {
+		const f = frames(MICRO)
+		return [f.bail('HostRoot'), f.bail('App'), f.bail('Fragment'), f.bail('Header'), [...MICRO, 'renderRootSync', 'workLoopSync', 'performUnitOfWork', 'completeUnitOfWork'], f.call('Counter'), f.reconcile('button'), f.complete('"1"'), f.complete('button'), f.complete('HostRoot')]
+	})())
 	return anim({
 		id: 'workloop-anim',
 		caption: 'The work loop for one <code>setN(1)</code>: down with <code>beginWork</code>, across, and up with <code>completeWork</code>.',
-		scenarios: [{ name: 'setN(1)', intro: 'The button was clicked; <code>setN(1)</code> queued an update with <code>SyncLane</code> and marked <code>childLanes</code> up to the root.', scene, steps }],
+		scenarios: [{ name: 'setN(1)', intro: 'The button was clicked; <code>setN(1)</code> queued an update with <code>SyncLane</code> and marked <code>childLanes</code> up to the root.', scene, steps: stacked }],
 	})
 }
 
@@ -546,9 +575,9 @@ export function e2eAnim() {
 	const steps = [
 		{ phase: 'event', fn: 'dispatchDiscreteEvent("click") → onClick', say: 'One listener on the root container catches the click, finds the button’s fiber and calls your <code>onClick</code>.', set: { button: 'hl' } },
 		{ phase: 'schedule', fn: 'dispatchSetState → requestUpdateLane() = SyncLane', say: 'A discrete event, so <code>SyncLane</code>. The eager check: 1 ≠ 0, so a render is needed.', set: { button: '', lane: 'upd', queue: 'upd' }, txt: { lane: 'lane: SyncLane', queue: 'Counter queue: [1]' } },
-		{ phase: 'schedule', fn: 'markUpdateLaneFromFiberToRoot', say: '<code>Counter.lanes |= Sync</code>, and every ancestor gets <code>childLanes |= Sync</code>: a trail back from the root.', set: { lane: '', queue: '', 'counter-flag': '', 'main-flag': '', 'app-flag': '', 'root-flag': '' }, txt: { 'counter-flag': 'lanes', 'main-flag': 'childLanes', 'app-flag': 'childLanes', 'root-flag': 'childLanes' } },
 		{ phase: 'schedule', fn: 'ensureRootIsScheduled → queueMicrotask', say: 'The handler returns. Nothing has rendered yet.', set: { micro: 'on' }, txt: { micro: 'microtask: scheduled' } },
-		{ phase: 'render', fn: 'performSyncWorkOnRoot → workLoopSync · beginWork(HostRoot, App, main)', say: 'The microtask renders. HostRoot, App and main only have <code>childLanes</code> → <b>bail out</b> and continue down. <code>App()</code> is not called.', set: { micro: 'done', root: 'bail', app: 'bail', main: 'bail', 'root-flag': 'ghost', 'app-flag': 'ghost', 'main-flag': 'ghost' } },
+		{ phase: 'render', fn: 'performSyncWorkOnRoot → prepareFreshStack → markUpdateLaneFromFiberToRoot', say: 'The microtask starts the render. First the queued update is linked into the hook, then <code>Counter.lanes |= Sync</code> and every ancestor gets <code>childLanes |= Sync</code>: a trail back from the root.', set: { lane: '', queue: '', 'counter-flag': '', 'main-flag': '', 'app-flag': '', 'root-flag': '' }, txt: { 'counter-flag': 'lanes', 'main-flag': 'childLanes', 'app-flag': 'childLanes', 'root-flag': 'childLanes' } },
+		{ phase: 'render', fn: 'workLoopSync · beginWork(HostRoot, App, main)', say: 'Now the work loop. HostRoot, App and main only have <code>childLanes</code> → <b>bail out</b> and continue down. <code>App()</code> is not called.', set: { micro: 'done', root: 'bail', app: 'bail', main: 'bail', 'root-flag': 'ghost', 'app-flag': 'ghost', 'main-flag': 'ghost' } },
 		{ phase: 'render', fn: 'beginWork(Header) → null', say: '<code>Header</code> has no work at all (<code>childLanes === 0</code>): the whole subtree is <b>skipped</b>.', set: { header: 'skip', h1: 'skip' } },
 		{ phase: 'render', fn: 'Counter() → updateReducer → count = 1', say: 'Counter has its own lane → it <b>renders</b>. Both effects’ deps changed (<code>[0]</code> → <code>[1]</code>), so they are flagged.', set: { counter: 'run hl', 'counter-flag': '' }, txt: { 'counter-sub': 'count: 1', 'counter-flag': 'Update · Passive' } },
 		{ phase: 'render', fn: 'useFiber(button) · completeWork(button) → markUpdate', say: 'The button fiber is reused with new props and flagged <b>Update</b>. Then <code>completeWork</code> climbs back up, bubbling flags.', set: { counter: 'run', button: 'upd', 'button-flag': '' }, txt: { 'button-sub': '"1"', 'button-flag': 'Update' } },
@@ -557,10 +586,14 @@ export function e2eAnim() {
 		{ phase: 'commit', fn: 'flushPendingEffects() (SyncLane) → useEffect', say: 'For a discrete update, passive effects are flushed <b>synchronously</b> at the end of the commit: <code>document.title</code> updates.', set: { w: '', title: 'upd', counter: 'done' }, txt: { title: 'Clicks: 1' } },
 		{ phase: 'paint', fn: 'microtask ends → style · layout · paint', say: 'Finally the browser paints: the user sees <b>1</b> in a 50px button. Only <code>Counter()</code> ran, and there were 2 DOM writes.', set: { title: '', txt: 'ok', w: 'ok' } },
 	]
+	const stacked = withStacks(steps, (() => {
+		const f = frames(MICRO)
+		return [event(), event('dispatchSetState', 'requestUpdateLane'), event('dispatchSetState', 'scheduleUpdateOnFiber', 'ensureRootIsScheduled'), f.start('finishQueueingConcurrentUpdates', 'markUpdateLaneFromFiberToRoot'), f.bail('main'), f.bail('Header'), f.call('Counter', 'updateReducer'), f.complete('button'), f.commit(...MUTATION, 'commitUpdate'), f.commit('flushLayoutEffects', 'commitLayoutEffectOnFiber', 'commitHookEffectListMount'), f.commit('flushPassiveEffects', 'commitHookEffectListMount'), []]
+	})())
 	return anim({
 		id: 'e2e-anim',
 		caption: 'One click, end to end: event → schedule → render → commit → paint.',
-		scenarios: [{ name: 'One click', intro: 'The app from above. The user clicks the button once.', scene, steps }],
+		scenarios: [{ name: 'One click', intro: 'The app from above. The user clicks the button once.', scene, steps: stacked }],
 	})
 }
 
@@ -591,10 +624,14 @@ export function renderCommitStepsAnim() {
 		{ phase: 'effects', fn: 'flushPassiveEffects() (SyncLane: at the end of the commit)', say: 'Normally <code>useEffect</code> runs after paint. For a discrete event like a click, React 18+ flushes it synchronously at the end of the commit: <code>document.title = "Clicked 1"</code>.', set: { 'st-commit': '', 'st-effects': 'on', title: 'upd' }, txt: { title: '"Clicked 1"' } },
 		{ phase: 'paint', fn: 'browser: style → layout → paint', say: 'The microtask ends and the browser paints. Only now do the <b>pixels</b> show 1.', set: { 'st-effects': '', 'st-paint': 'on', title: '', px: 'ok' }, txt: { px: '1' } },
 	]
+	const stacked = withStacks(steps, (() => {
+		const f = frames(MICRO)
+		return [event('dispatchSetState'), f.bail('HostRoot'), f.call('Counter', 'updateReducer'), f.reconcileAfterCall('Counter', 'reconcileSingleElement', 'useFiber'), f.complete('"1"'), f.commit(...MUTATION, 'commitTextUpdate'), f.commit('flushMutationEffects'), f.commit('flushPassiveEffects', 'commitHookEffectListMount'), []]
+	})())
 	return anim({
 		id: 'rc-steps-anim',
 		caption: 'Render works on a copy and only records changes; commit writes the DOM; the browser paints afterwards.',
-		scenarios: [{ name: 'One click', intro: 'The <code>Counter</code> above is clicked once. Watch the two trees, the DOM, and what is actually on screen.', scene, steps }],
+		scenarios: [{ name: 'One click', intro: 'The <code>Counter</code> above is clicked once. Watch the two trees, the DOM, and what is actually on screen.', scene, steps: stacked }],
 	})
 }
 

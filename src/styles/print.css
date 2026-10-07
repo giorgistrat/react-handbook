@@ -127,6 +127,11 @@
 	}
 
 	.toolbar,
+	.phase-bar-wrap,
+	.gl-pop,
+	.map-filter,
+	.flashcards,
+	.anim-stack,
 	.toc-mobile,
 	.read-row,
 	.qa-tools,
@@ -213,5 +218,11 @@
 
 	.source a {
 		overflow-wrap: anywhere;
+	}
+}
+
+@media print {
+	.gl {
+		text-decoration: none;
 	}
 }

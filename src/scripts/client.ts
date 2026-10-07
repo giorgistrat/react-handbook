@@ -1,6 +1,7 @@
 // Small progressive enhancements for the rendered notes.
 
 import { setupAnims } from './anim'
+import { markNames, setupCards, setupFlashcards, setupNamesToggle, setupPhaseBar } from './glossary'
 
 const store = {
 	get<T>(key: string, fallback: T): T {
@@ -321,7 +322,51 @@ function setupChecklists() {
 	})
 }
 
+// ─── Traces: fold a call and everything it called ──────────────────────────
+
+function setupTraceFolding() {
+	document.querySelectorAll<HTMLElement>('pre.trace').forEach((pre) => {
+		const lines = [...pre.querySelectorAll<HTMLElement>('.tr-l')]
+		const depth = (el: HTMLElement) => Number(el.style.getPropertyValue('--d')) || 0
+		const apply = () => {
+			let hideBelow = Infinity
+			for (const l of lines) {
+				const d = depth(l)
+				if (d <= hideBelow) hideBelow = Infinity
+				l.classList.toggle('fold-hidden', d > hideBelow)
+				if (hideBelow === Infinity && l.classList.contains('folded')) hideBelow = d
+			}
+		}
+		pre.addEventListener('click', (e) => {
+			const line = (e.target as HTMLElement).closest('.tr-fold')?.closest<HTMLElement>('.tr-l.has-kids')
+			if (!line) return
+			line.classList.toggle('folded')
+			apply()
+		})
+	})
+}
+
+// ─── Engine map: dim the names below a chosen importance ────────────────────
+
+function setupEngineMap() {
+	document.querySelectorAll<HTMLElement>('[data-engine-map]').forEach((map) => {
+		map.addEventListener('click', (e) => {
+			const btn = (e.target as HTMLElement).closest<HTMLElement>('[data-map-level]')
+			if (!btn) return
+			map.dataset.filter = btn.dataset.mapLevel
+			map.querySelectorAll<HTMLElement>('[data-map-level]').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)))
+		})
+	})
+}
+
 wrapTables()
+setupEngineMap()
+markNames()
+setupCards()
+setupNamesToggle()
+setupPhaseBar()
+setupFlashcards()
+setupTraceFolding()
 setupTheme()
 setupChecklists()
 setupSearch()

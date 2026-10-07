@@ -176,6 +176,16 @@ const ILLUSTRATIONS = {
 		)
 		return frame(scene(rows) + `<path d="M186 96 l14 -8" stroke="${INK}" stroke-width="2"/><polygon points="200,88 192,86 196,94" fill="${INK}"/>`)
 	},
+	map() {
+		const lane = (y, color, n) =>
+			`<rect x="26" y="${y}" width="188" height="22" rx="6" fill="${color}" stroke="${INK}" stroke-width="1.6"/>` +
+			Array.from({ length: n }, (_, i) => `<rect x="${40 + i * 44}" y="${y + 5}" width="30" height="12" rx="3" fill="#fff" stroke="${INK}" stroke-width="1.4"/>`).join('')
+		return frame(
+			lane(16, C.mustard[0], 4) + lane(50, C.pink[0], 4) + lane(84, C.teal[0], 4) + lane(118, C.orange[0], 4) +
+				`<g stroke="${INK}" stroke-width="1.6" fill="none"><path d="M55 38 v12"/><path d="M99 72 v12"/><path d="M143 106 v12"/></g>` +
+				`<circle cx="190" cy="61" r="8" fill="${C.orange[1]}" stroke="${INK}" stroke-width="1.6"/><path d="M190 69 l-5 9 h10 z" fill="${C.orange[1]}" stroke="${INK}" stroke-width="1.6"/>`,
+		)
+	},
 	browser() {
 		const o = { ox: 176, oy: 70, s: 7 }
 		const cubes = [

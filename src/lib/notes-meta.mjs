@@ -84,6 +84,15 @@ export const NOTES = [
 		illus: 'browser',
 		summary: 'A real 2-page app followed from JSX to pixels: Babel output, element objects, every component call, commit, clicks, lists and a page switch.',
 	},
+	{
+		// Site-only reference card
+		file: 'React Engine Map.md',
+		site: true,
+		slug: 'engine-map',
+		level: 'must',
+		illus: 'map',
+		summary: 'Lost in function names? The map of React’s internals: what calls what, which names matter, a plain-English glossary and flashcards.',
+	},
 ]
 
 export const LEVELS = {

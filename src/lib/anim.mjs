@@ -5,7 +5,7 @@
 //
 // scene: HTML. Elements that change carry data-k="key" (and optionally an
 //        initial data-s="state tokens").
-// steps: [{ phase, fn, say, set: { key: 'tokens' }, txt: { key: 'html' }, css: { key: { prop: value } } }]
+// steps: [{ phase, fn, say, stack?: ['outer', …, 'current'], set: { key: 'tokens' }, txt: { key: 'html' }, css: { key: { prop: value } } }]
 //        Steps are applied cumulatively, so going back replays from the start.
 //        `fn` is shown as code (plain text, escaped); `say` is HTML.
 
@@ -70,7 +70,9 @@ export function anim({ id, caption, scenarios, delay }) {
 			const printSteps = s.steps
 				.map(
 					(st) =>
-						`<li>${st.phase ? `<span class="anim-phase ph-${st.phase}">${PHASES[st.phase] ?? st.phase}</span>` : ''}${st.fn ? `<code>${esc(st.fn)}</code>` : ''}<span>${st.say ?? ''}</span></li>`,
+						`<li>${st.phase ? `<span class="anim-phase ph-${st.phase}">${PHASES[st.phase] ?? st.phase}</span>` : ''}${st.fn ? `<code>${esc(st.fn)}</code>` : ''}<span>${st.say ?? ''}</span>${
+							st.stack ? `<span class="anim-print-stack">stack: ${st.stack.map(esc).join(' › ')}</span>` : ''
+						}</li>`,
 				)
 				.join('')
 			return `<div class="anim-scn" data-anim-scn="${i}" ${i ? 'hidden' : ''} data-steps="${attr(JSON.stringify(s.steps))}" data-intro="${attr(s.intro ?? '')}">
@@ -88,6 +90,7 @@ export function anim({ id, caption, scenarios, delay }) {
 			<div class="anim-hud" aria-live="polite">
 				<div class="anim-call"><span class="anim-phase" hidden></span><code class="anim-fn" hidden></code></div>
 				<p class="anim-say"></p>
+				<div class="anim-stack" hidden><span class="as-title">Call stack <small>(outermost first; the last line is running now)</small></span><ol class="as-frames"></ol></div>
 			</div>
 			<div class="anim-controls">
 				<button type="button" class="btn btn-ghost anim-btn" data-act="restart" aria-label="Restart">↺</button>

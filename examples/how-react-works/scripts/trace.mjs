@@ -78,6 +78,28 @@ const TRACED = [
 // Helpers available to the logpoints
 const HELPERS = `
 window.__TRACE__ = [];
+Error.stackTraceLimit = Infinity;
+window.__frameName = (line) => {
+	const m = line.match(/at (?:new )?([^\\s(]+)/);
+	if (!m) return null;
+	let n = m[1].replace(/^exports\\./, '');
+	if (/Root\\.(prototype\\.)?render$/.test(n) || /^ReactDOM.*render$/.test(n)) return 'root.render';
+	return n.split('.').pop();
+};
+// How many traced React functions (and app components) are running above this call
+window.__depth = (self) => {
+	const lines = new Error().stack.split('\\n').slice(1);
+	let i = lines.findIndex((l) => window.__frameName(l) === self);
+	if (i < 0) i = 0;
+	let d = 0;
+	for (const l of lines.slice(i + 1)) {
+		const n = window.__frameName(l);
+		if (!n) continue;
+		if (window.__TRACED.has(n)) d++;
+		else if (/\\/src\\//.test(l) && /^[A-Z]/.test(n)) d++;
+	}
+	return d;
+};
 window.__tn = (t) => typeof t === 'string' ? t : typeof t === 'function' ? (t.displayName || t.name) : t == null ? String(t) : (t.displayName || (t.$$typeof && t.$$typeof.description) || typeof t);
 window.__n = (f) => { if (!f) return 'null'; if (f.tag === 3) return 'HostRoot'; if (f.tag === 6) return 'text ' + JSON.stringify(f.pendingProps); if (f.tag === 7) return 'Fragment'; return window.__tn(f.type) + (f.key != null ? '[key=' + f.key + ']' : ''); };
 window.__v = (v) => { try { return typeof v === 'function' ? 'updater fn' : JSON.stringify(v).slice(0, 60); } catch (e) { return String(v); } };
@@ -130,10 +152,11 @@ try {
 	const locations = findLocations()
 	const page = await browser.newPage()
 	await page.evaluateOnNewDocument(HELPERS)
+	await page.evaluateOnNewDocument((names) => (window.__TRACED = new Set(names)), [...locations.map((l) => l.name), 'reconcileChildFibersImpl', 'insertOrAppendPlacementNodeIntoContainer'])
 	const cdp = await page.createCDPSession()
 	await cdp.send('Debugger.enable')
 	for (const loc of locations) {
-		const expr = `(window.__TRACE__ && (() => { try { return ${loc.when} } catch (e) { return true } })() && window.__TRACE__.push(['react', ${JSON.stringify(loc.name)}, (() => { try { return String(${loc.info}) } catch (e) { return '?' } })()]), false)`
+		const expr = `(window.__TRACE__ && (() => { try { return ${loc.when} } catch (e) { return true } })() && window.__TRACE__.push(['react', ${JSON.stringify(loc.name)}, (() => { try { return String(${loc.info}) } catch (e) { return '?' } })(), (() => { try { return window.__depth(${JSON.stringify(loc.name)}) } catch (e) { return 0 } })()]), false)`
 		await cdp.send('Debugger.setBreakpointByUrl', {
 			urlRegex: loc.file.replace(/[.]/g, '\\.') + '(\\?|$)',
 			lineNumber: loc.line,
@@ -226,7 +249,7 @@ try {
 		if (e[0] === 'mark') {
 			phases.push(current)
 			current = { label: e[1], events: [] }
-		} else current.events.push(e[0] === 'app' ? { app: e[1] } : { fn: e[1], info: e[2] })
+		} else current.events.push(e[0] === 'app' ? { app: e[1], d: e[2] ?? 0 } : { fn: e[1], info: e[2], d: e[3] ?? 0 })
 	}
 	phases.push(current)
 

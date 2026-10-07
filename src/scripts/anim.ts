@@ -1,6 +1,9 @@
 // Runtime for the step-through animations built by src/lib/anim.mjs.
 
+import { linkifyText } from './glossary'
+
 type Step = {
+	stack?: string[]
 	phase?: string
 	fn?: string
 	say?: string
@@ -90,6 +93,9 @@ class Anim {
 	play: HTMLButtonElement
 	speedBtn: HTMLButtonElement
 	speed = 1
+	stackBox: HTMLElement
+	frames: HTMLOListElement
+	shownStack: string[] = []
 
 	constructor(public root: HTMLElement) {
 		this.scenarios = [...root.querySelectorAll<HTMLElement>('[data-anim-scn]')].map((el) => new Scenario(el))
@@ -100,6 +106,8 @@ class Anim {
 		this.range = root.querySelector('.anim-range')!
 		this.play = root.querySelector('.anim-play')!
 		this.speedBtn = root.querySelector('.anim-speed')!
+		this.stackBox = root.querySelector('.anim-stack')!
+		this.frames = root.querySelector('.as-frames')!
 
 		// Drag or click the slider to jump to any step
 		this.range.addEventListener('input', () => {
@@ -156,6 +164,8 @@ class Anim {
 		const st = this.i ? this.scn.steps[this.i - 1] : undefined
 		this.fn.hidden = !st?.fn
 		this.fn.textContent = st?.fn ?? ''
+		linkifyText(this.fn)
+		this.renderStack(st?.stack ?? [])
 		this.phase.hidden = !st?.phase
 		this.phase.className = `anim-phase ph-${st?.phase ?? ''}`
 		this.phase.textContent = st?.phase ? (PHASE_LABEL[st.phase] ?? st.phase) : ''
@@ -183,6 +193,29 @@ class Anim {
 		this.timer = undefined
 		this.play.textContent = this.i >= this.scn.steps.length && this.i > 0 ? '↺ Replay' : '▶ Play'
 		this.root.classList.remove('playing')
+	}
+
+	/** Frames shared with the previous step stay; new ones slide in (a "push"). */
+	renderStack(stack: string[]) {
+		const hasStacks = this.scn.steps.some((s) => s.stack)
+		this.stackBox.hidden = !hasStacks
+		if (!hasStacks) return
+		let same = 0
+		while (same < stack.length && same < this.shownStack.length && stack[same] === this.shownStack[same]) same++
+		this.frames.innerHTML = ''
+		stack.forEach((name, k) => {
+			const li = document.createElement('li')
+			li.style.setProperty('--k', String(k))
+			const code = document.createElement('code')
+			code.textContent = name
+			linkifyText(code)
+			li.append(code)
+			if (k >= same) li.classList.add('as-push')
+			if (k === stack.length - 1) li.classList.add('as-top')
+			this.frames.append(li)
+		})
+		if (!stack.length) this.frames.innerHTML = '<li class="as-empty">(empty: nothing from React is running)</li>'
+		this.shownStack = stack
 	}
 
 	cycleSpeed() {

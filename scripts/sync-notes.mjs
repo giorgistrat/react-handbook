@@ -30,6 +30,7 @@ import { NOTES, MOC_FILE } from '../src/lib/notes-meta.mjs'
 import * as D from '../src/lib/diagrams.mjs'
 import * as A from '../src/lib/animations.mjs'
 import * as H from '../src/lib/animations-hrw.mjs'
+import * as M from '../src/lib/engine-map.mjs'
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const OUT_DIR = path.join(ROOT, 'src/content/notes')
@@ -283,18 +284,20 @@ const NOISY_EVENTS = /^(pointer|mouse|focus|selection|key|textInput)/
 function traceLines(trace, { phase, from, to, all }) {
 	const p = trace.phases.find((x) => x.label === phase)
 	if (!p) throw new Error(`trace: no phase "${phase}"`)
-	const text = (e) => (e.app ? `[app] ${e.app}` : `${e.fn}${e.info ? `  ${e.info}` : ''}`)
 	let events = p.events
 	if (!all)
 		events = events.filter(
 			(e) => !(e.fn === 'dispatchDiscreteEvent' && NOISY_EVENTS.test(e.info)) && !(e.fn === 'reconcileChildFibersImpl' && / ← (null|undefined)$/.test(e.info)),
 		)
-	const lines = events.map(text)
-	const start = from ? lines.findIndex((l) => l.startsWith(from)) : 0
+	// "[app] render X" is logged from inside X(): show it as the X() call itself
+	const lines = events.map((e) =>
+		e.app ? { text: `[app] ${e.app}`, d: (e.d ?? 0) - (e.app.startsWith('render ') ? 1 : 0), app: true } : { text: `${e.fn}${e.info ? `  ${e.info}` : ''}`, fn: e.fn, info: e.info, d: e.d ?? 0 },
+	)
+	const start = from ? lines.findIndex((l) => l.text.startsWith(from)) : 0
 	if (start < 0) throw new Error(`trace: "${from}" not found in phase "${phase}"`)
 	let end = lines.length - 1
 	if (to) {
-		end = lines.findIndex((l, i) => i >= start && l.startsWith(to))
+		end = lines.findIndex((l, i) => i >= start && l.text.startsWith(to))
 		if (end < 0) throw new Error(`trace: "${to}" not found after "${from}" in phase "${phase}"`)
 	}
 	return lines.slice(start, end + 1)
@@ -328,19 +331,22 @@ const TRACE_LEGEND = [
 	['app', 'your component’s log()'],
 ]
 
-/** A recorded trace as coloured HTML: one line per call, tagged by kind. */
+/** A recorded trace as a coloured, indented, foldable call tree. */
 function traceHtml(lines) {
 	const esc = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+	const min = Math.min(...lines.map((l) => l.d))
 	const body = lines
-		.map((l) => {
-			if (l.startsWith('[app] ')) return `<span class="tr-l tr-app">${esc(l)}</span>`
-			const [fn, ...rest] = l.split('  ')
-			const kind = TRACE_KIND.find(([, re]) => re.test(fn))?.[0] ?? 'render'
-			return `<span class="tr-l tr-${kind}"><b>${esc(fn)}</b>${rest.length ? `  <i>${esc(rest.join('  '))}</i>` : ''}</span>`
+		.map((l, i) => {
+			const d = Math.max(0, l.d - min)
+			const kids = i + 1 < lines.length && lines[i + 1].d > l.d ? ' has-kids' : ''
+			const fold = kids ? '<button type="button" class="tr-fold" aria-label="Fold or unfold the calls below">▾</button>' : ''
+			if (l.app) return `<span class="tr-l tr-app${kids}" style="--d:${d}">${fold}${esc(l.text)}</span>`
+			const kind = TRACE_KIND.find(([, re]) => re.test(l.fn))?.[0] ?? 'render'
+			return `<span class="tr-l tr-${kind}${kids}" style="--d:${d}" data-fn="${esc(l.fn)}">${fold}<b>${esc(l.fn)}</b>${l.info ? `  <i>${esc(l.info)}</i>` : ''}</span>`
 		})
 		.join('')
 	const legend = TRACE_LEGEND.map(([k, label]) => `<span><i class="trl-${k}"></i>${label}</span>`).join('')
-	return `\n<div class="trace-legend">${legend}</div>\n<pre class="trace">${body}</pre>\n`
+	return `\n<div class="trace-legend">${legend}<span class="trace-hint">indent = called by the line above · ▾ folds · tap a name for its card</span></div>\n<pre class="trace">${body}</pre>\n`
 }
 
 function expandMarkers(md) {
@@ -368,7 +374,7 @@ function expandMarkers(md) {
 				return fence('js', JSON.stringify(value, null, 2).replace(/^(\s*)"([$\w]+)":/gm, '$1$2:'))
 			}
 			case 'figure': {
-				const build = H[a.name] ?? A[a.name] ?? D[a.name]
+				const build = M[a.name] ?? H[a.name] ?? A[a.name] ?? D[a.name]
 				if (!build) throw new Error(`figure: unknown "${a.name}"`)
 				return '\n' + build() + '\n'
 			}

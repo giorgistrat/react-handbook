@@ -1,6 +1,7 @@
 // Animations for "How React Works, Start to Finish". Every step follows the
 // real call order recorded by examples/how-react-works/scripts/trace.mjs.
 
+import { MICRO, TASK, MUTATION, event, frames, withStacks } from './stacks.mjs'
 import { anim, node, chip, tree, panel } from './anim.mjs'
 
 const lt = (s) => s.replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -63,10 +64,14 @@ export function jsxElementsAnim() {
 		{ phase: 'render', fn: 'jsx(ThemeContext, { value: "light", children: layoutEl })', say: 'The outermost call runs last. Its object holds the whole description.', set: { 'c-layout': '', 'c-ctx': 'hl', 'e-ctx': 'new' } },
 		{ phase: 'render', fn: 'return { type: ThemeContext, … }', say: '<code>App</code> returns <b>one object</b> (with others nested inside). Only <code>App</code> has run so far: <code>Nav</code>, <code>Layout</code> and <code>CounterPage</code> are still just references, and React decides when to call them.', set: { 'c-ctx': '', 'e-ctx': 'new hl' } },
 	]
+	const stacked = withStacks(steps, (() => {
+		const app = frames(TASK).call('App')
+		return [app, [...app, 'jsxDEV'], [...app, 'jsxDEV'], [...app, 'jsxDEV'], [...app, 'jsxDEV'], [...app, 'jsxDEV'], app]
+	})())
 	return anim({
 		id: 'hrw-jsx-anim',
 		caption: 'Inside App’s render: each JSX expression is a function call that returns a plain object, innermost first.',
-		scenarios: [{ name: 'App’s return', intro: 'What happens when <code>App()</code> reaches its <code>return (…)</code>, in the compiled form.', scene, steps }],
+		scenarios: [{ name: 'App’s return', intro: 'What happens when <code>App()</code> reaches its <code>return (…)</code>, in the compiled form.', scene, steps: stacked }],
 	})
 }
 
@@ -103,10 +108,14 @@ export function bootAnim() {
 		{ phase: 'schedule', fn: 'processRootScheduleInMicrotask → Scheduler task', say: 'The microtask sees a <b>Default</b> lane (not Sync), so it asks the Scheduler for a task. The Scheduler posts it as a macrotask (via <code>MessageChannel</code>).', set: { sched: 'upd' }, txt: { sched: 'scheduled: Scheduler task (Normal priority)' } },
 		{ phase: 'render', fn: 'performWorkOnRootViaSchedulerTask → performWorkOnRoot(root, 32) → renderRootSync', say: 'The task runs and rendering starts. Default is a “blocking” lane, so it renders with the synchronous loop, without time slicing. The next chapter follows it.', set: { sched: 'done', cpu: 'upd' }, txt: { sched: 'running: render', cpu: 'main thread: React render' } },
 	]
+	const stacked = withStacks(steps, (() => {
+		const m = ['main.jsx (module)']
+		return [m, m, [...m, 'createRoot', 'createFiberRoot'], [...m, 'createRoot', 'listenToAllSupportedEvents'], [...m, 'jsxDEV'], [...m, 'root.render', 'requestUpdateLane'], [...m, 'root.render', 'updateContainerImpl', 'scheduleUpdateOnFiber'], [...m, 'root.render', 'updateContainerImpl', 'scheduleUpdateOnFiber', 'ensureRootIsScheduled', 'scheduleImmediateRootScheduleTask'], ['processRootScheduleInMicrotask', 'scheduleCallback'], [...TASK, 'renderRootSync']]
+	})())
 	return anim({
 		id: 'hrw-boot-anim',
 		caption: 'From script load to the first render being scheduled. Note how much happens before any component runs.',
-		scenarios: [{ name: 'Page load', intro: 'The browser has parsed <code>index.html</code> and starts the <code>main.jsx</code> module.', scene, steps }],
+		scenarios: [{ name: 'Page load', intro: 'The browser has parsed <code>index.html</code> and starts the <code>main.jsx</code> module.', scene, steps: stacked }],
 	})
 }
 
@@ -134,11 +143,15 @@ export function firstRenderAnim() {
 		S('The last leaf: the “Add one” button.', 'beginWork(button) → completeWork(button)', { add: 'done' }),
 		S('No more siblings: React climbs to the root, completing each parent. <code>workInProgress</code> becomes <code>null</code>. <b>The render is finished, but nothing is on screen yet.</b>', 'completeWork(section, CounterPage, main, div, Layout, ThemeContext, App, HostRoot)', { section: 'done', page: 'done', main: 'done', div: 'done', layout: 'done', ctx: 'done', app: 'done', root: 'done' }),
 	]
+	const stacked = withStacks(steps, (() => {
+		const f = frames(TASK)
+		return [f.reconcile('HostRoot'), f.reconcile('HostRoot', 'reconcileSingleElement', 'createFiberFromTypeAndProps'), f.call('App', 'mountState'), f.reconcileAfterCall('App', 'reconcileSingleElement', 'createFiberFromTypeAndProps'), f.reconcile('ThemeContext', 'reconcileSingleElement', 'createFiberFromTypeAndProps'), f.call('Layout'), f.reconcile('div', 'reconcileChildrenArray', 'createFiberFromTypeAndProps'), f.complete('h1'), f.reconcile('main', 'reconcileChildrenArray', 'createFiberFromTypeAndProps'), f.call('Nav'), f.complete('button'), f.call('CounterPage', 'mountState'), f.reconcile('section', 'reconcileChildrenArray', 'createFiberFromTypeAndProps'), f.call('Display'), f.complete('p'), f.complete('button'), f.complete('HostRoot')]
+	})())
 	return anim({
 		id: 'hrw-render-anim',
 		delay: 2300,
 		caption: 'The first render: one fiber at a time, down with <code>beginWork</code>, across, and up with <code>completeWork</code>. Orange = a component being called.',
-		scenarios: [{ name: 'First render', intro: 'The Scheduler task has started <code>renderRootSync</code>. The fiber tree doesn’t exist yet.', scene, steps }],
+		scenarios: [{ name: 'First render', intro: 'The Scheduler task has started <code>renderRootSync</code>. The fiber tree doesn’t exist yet.', scene, steps: stacked }],
 	})
 }
 
@@ -169,10 +182,14 @@ export function firstCommitAnim() {
 		{ phase: 'paint', fn: 'task ends → style · layout · paint', say: 'The Scheduler task returns and the browser paints: the user sees the app.', set: { pixels: 'ok' }, txt: { pixels: 'pixels: the app is visible' } },
 		{ phase: 'effects', fn: 'flushPassiveEffects → commitHookEffectListMount(CounterPage, Passive)', say: 'This render used the Default lane, so <code>useEffect</code> runs in a <b>later task, after paint</b>. (For a click it runs at the end of the commit: see chapter 5.)', set: { log1: 'done' } },
 	]
+	const stacked = withStacks(steps, (() => {
+		const f = frames(TASK)
+		return [f.complete('h1'), f.complete('nav'), f.complete('section'), f.complete('div'), f.commit(...MUTATION, 'commitPlacement'), f.commit(...MUTATION, 'commitPlacement', 'insertOrAppendPlacementNode'), f.commit('flushLayoutEffects', 'commitLayoutEffectOnFiber', 'commitHookEffectListMount'), [], ['(Scheduler task)', 'flushPassiveEffects', 'commitHookEffectListMount']]
+	})())
 	return anim({
 		id: 'hrw-commit-anim',
 		caption: 'The DOM is built off-screen during render, inserted with one appendChild during commit, then painted.',
-		scenarios: [{ name: 'First commit', intro: 'The render phase from the previous animation, seen from the DOM’s side.', scene, steps }],
+		scenarios: [{ name: 'First commit', intro: 'The render phase from the previous animation, seen from the DOM’s side.', scene, steps: stacked }],
 	})
 }
 
@@ -201,11 +218,15 @@ export function clickAnim() {
 		{ phase: 'effects', fn: 'commitHookEffectListMount(CounterPage, Passive)', say: '…then the new effect with <code>count = 1</code>.', set: { log1: 'done' } },
 		{ phase: 'paint', fn: 'microtask ends → paint', say: 'The browser paints “Count: 1”.', set: { scr: 'ok' }, txt: { scr: 'screen: Count: 1' } },
 	]
+	const stacked = withStacks(steps, (() => {
+		const f = frames(MICRO)
+		return [event(), event('dispatchSetState'), event('dispatchSetState', 'scheduleUpdateOnFiber', 'ensureRootIsScheduled'), f.start('finishQueueingConcurrentUpdates', 'markUpdateLaneFromFiberToRoot'), f.bail('main'), f.bail('Nav'), f.call('CounterPage', 'updateReducer'), f.reconcile('section', 'reconcileChildrenArray', 'useFiber'), f.call('Display'), f.complete('HostRoot'), f.commit(...MUTATION, 'commitTextUpdate'), f.commit('flushLayoutEffects', 'commitLayoutEffectOnFiber', 'commitHookEffectListMount'), f.commit('flushPassiveEffects', 'commitHookEffectListUnmount'), f.commit('flushPassiveEffects', 'commitHookEffectListMount'), []]
+	})())
 	return anim({
 		id: 'hrw-click-anim',
 		delay: 2400,
 		caption: 'One click on “Add one”: only the component that owns the state and its children run. Everything above bails out.',
-		scenarios: [{ name: 'Add one', intro: 'The app is on screen, count is 0. The user clicks “Add one”.', scene, steps }],
+		scenarios: [{ name: 'Add one', intro: 'The app is on screen, count is 0. The user clicks “Add one”.', scene, steps: stacked }],
 	})
 }
 
@@ -238,11 +259,15 @@ export function pageSwitchAnim() {
 		{ phase: 'effects', fn: 'flushPassiveEffects → commitHookEffectListUnmount(CounterPage, Passive)', say: 'Passive effects: <b>unmount cleanups first</b>. The deleted CounterPage’s title effect cleans up…', set: { log0: 'upd' } },
 		{ phase: 'effects', fn: 'commitHookEffectListMount(TodosPage, Passive)', say: '…then the new page’s effect runs and subscribes to <code>resize</code>.', set: { log1: 'done', tp: 'done', ts: 'done', tf: 'done', tu: 'done', t1: 'done', t2: 'done' } },
 	]
+	const stacked = withStacks(steps, (() => {
+		const f = frames(MICRO)
+		return [event('dispatchSetState'), f.call('App', 'jsxDEV'), f.call('Nav'), f.reconcile('main', 'reconcileChildrenArray'), f.reconcile('main', 'reconcileChildrenArray', 'deleteChild'), f.call('TodosPage', 'mountState'), f.call('TodoItem'), f.commit(...MUTATION, 'commitDeletionEffects'), f.commit(...MUTATION, 'commitDeletionEffects', 'removeChild'), f.commit(...MUTATION, 'commitPlacement', 'insertOrAppendPlacementNode'), f.commit('flushPassiveEffects', 'commitHookEffectListUnmount'), f.commit('flushPassiveEffects', 'commitHookEffectListMount')]
+	})())
 	return anim({
 		id: 'hrw-switch-anim',
 		delay: 2400,
 		caption: 'Switching pages is Rule 1 of reconciliation: a different type at the same position deletes one subtree and mounts another.',
-		scenarios: [{ name: 'Counter → Todos', intro: 'The Counter page is showing with <code>count: 1</code>. The user clicks “Todos”.', scene, steps }],
+		scenarios: [{ name: 'Counter → Todos', intro: 'The Counter page is showing with <code>count: 1</code>. The user clicks “Todos”.', scene, steps: stacked }],
 	})
 }
 

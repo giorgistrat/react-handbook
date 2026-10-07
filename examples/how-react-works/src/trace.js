@@ -6,5 +6,5 @@ export function log(...args) {
 	if (!enabled) return
 	console.log('%c[app]', 'color:#d9539f;font-weight:bold', ...args)
 	// scripts/trace.mjs collects these alongside React's own calls
-	globalThis.__TRACE__?.push(['app', args.join(' ')])
+	globalThis.__TRACE__?.push(['app', args.join(' '), globalThis.__depth?.('log') ?? 0])
 }

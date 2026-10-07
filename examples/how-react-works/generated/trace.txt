@@ -723,7 +723,6 @@
   dispatchDiscreteEvent  focusout (bubble listener)
   dispatchDiscreteEvent  focusin (capture listener)
   dispatchDiscreteEvent  focusin (bubble listener)
-  dispatchDiscreteEvent  selectionchange (bubble listener)
   dispatchDiscreteEvent  keydown (capture listener)
   dispatchDiscreteEvent  keydown (bubble listener)
   dispatchDiscreteEvent  keypress (capture listener)
