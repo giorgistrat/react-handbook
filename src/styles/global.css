@@ -1,119 +1,120 @@
 @import '@fontsource-variable/inter';
-@import '@fontsource/ibm-plex-mono/400.css';
-@import '@fontsource/ibm-plex-mono/500.css';
-@import '@fontsource/ibm-plex-mono/600.css';
+@import '@fontsource-variable/jetbrains-mono';
 
-/* ─── Blueprint (default) ─────────────────────────────────────
-   An engineering drawing: blue paper, chalk-white lines, yellow
-   pencil for what matters. The names below are kept from the first
-   design; their values are the blueprint ones.
+/* ─── Catppuccin Mocha (default) ──────────────────────────────
+   Palette: https://catppuccin.com/palette (crust → base → text).
+   The names below are kept from the first design:
    - soft tints (*-soft, cream*) are backgrounds for ink text
-   - strong colors (orange, mustard, red, green) are backgrounds for
-     --on-hi text, or lines/marks */
+   - strong colors (orange, mustard, red, green, primary) are backgrounds
+     for --on-hi text, or lines/marks */
 
 :root {
-	--page: #0e2a4f;
-	--grid: rgba(150, 196, 255, 0.07);
-	--grid-major: rgba(150, 196, 255, 0.13);
-	--cream: #11345f;
-	--surface: #153d6c;
-	--cream-deep: #24548a;
-	--line: #8fb9e8;
-	--ink: #eaf3ff;
-	--ink-soft: #c2d7f0;
-	--muted: #8eaed4;
-	--accent: #7fd1ff;
-	--hl: #ff9ecf;
-	--on-hi: #0b2240;
-	--on-ink: #0e2a4f;
+	--ctp-base: #1e1e2e;
+	--page: #11111b;
+	--grid: transparent;
+	--grid-major: transparent;
+	--cream: #1e1e2e;
+	--surface: #181825;
+	--cream-deep: #313244;
+	--line: #45475a;
+	--ink: #cdd6f4;
+	--ink-soft: #bac2de;
+	--muted: #a6adc8;
+	--accent: #89b4fa;
+	--primary: #cba6f7;
+	--hl: #f5c2e7;
+	--on-hi: #1e1e2e;
+	--on-ink: #1e1e2e;
 
-	--orange: #ffd166;
-	--mustard: #ffd166;
-	--red: #ff7b7b;
-	--green: #6ee2a0;
-	--teal: #6ee7d2;
-	--plum: #c4a7ff;
-	--pink: #7d4a9a;
-	--pink-panel: #0f2e57;
-	--orange-soft: #574420;
-	--mustard-soft: #4f4a1f;
-	--pink-soft: #4a3266;
-	--teal-soft: #145259;
-	--plum-soft: #363478;
-	--green-soft: #1b5545;
-	--red-soft: #5d2638;
-	--gray-soft: #2a4a72;
+	--orange: #fab387;
+	--mustard: #f9e2af;
+	--red: #f38ba8;
+	--green: #a6e3a1;
+	--teal: #94e2d5;
+	--plum: #cba6f7;
+	--pink: color-mix(in srgb, #f5c2e7 26%, var(--ctp-base));
+	--pink-panel: #313244;
+	--orange-soft: color-mix(in srgb, #fab387 20%, var(--ctp-base));
+	--mustard-soft: color-mix(in srgb, #f9e2af 18%, var(--ctp-base));
+	--pink-soft: color-mix(in srgb, #f5c2e7 18%, var(--ctp-base));
+	--teal-soft: color-mix(in srgb, #94e2d5 18%, var(--ctp-base));
+	--plum-soft: color-mix(in srgb, #cba6f7 20%, var(--ctp-base));
+	--green-soft: color-mix(in srgb, #a6e3a1 18%, var(--ctp-base));
+	--red-soft: color-mix(in srgb, #f38ba8 20%, var(--ctp-base));
+	--gray-soft: #45475a;
 
-	--hue-amber: #ffb347;
-	--hue-yellow: #ffd166;
-	--hue-pink: #ff9ecf;
-	--hue-teal: #6ee7d2;
-	--hue-plum: #c4a7ff;
-	--hue-chalk: #eaf3ff;
+	--hue-amber: #fab387;
+	--hue-yellow: #f9e2af;
+	--hue-pink: #f5c2e7;
+	--hue-teal: #94e2d5;
+	--hue-plum: #cba6f7;
+	--hue-chalk: #b4befe;
 
-	--tr-event: rgba(255, 179, 71, 0.1);
-	--tr-schedule: rgba(255, 209, 102, 0.08);
-	--tr-commit: rgba(110, 231, 210, 0.08);
-	--tr-render-ink: #ffb3dc;
-	--tr-elements-ink: #ffe08a;
-	--tr-commit-ink: #8ff0df;
+	--tr-event: color-mix(in srgb, #fab387 9%, transparent);
+	--tr-schedule: color-mix(in srgb, #f9e2af 7%, transparent);
+	--tr-commit: color-mix(in srgb, #94e2d5 7%, transparent);
+	--tr-render-ink: #f5c2e7;
+	--tr-elements-ink: #f9e2af;
+	--tr-commit-ink: #94e2d5;
 
-	--radius: 4px;
+	--radius: 8px;
 	--shadow: none;
 	--btn-shadow: none;
 	--font: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, sans-serif;
-	--mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+	--mono: 'JetBrains Mono Variable', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 	color-scheme: dark;
 }
 
-/* ─── Whiteprint (theme toggle, and always for print / PDF) ─── */
+/* ─── Catppuccin Latte (theme toggle, and always for print / PDF) ─── */
 
 :root[data-theme='light'] {
-	--page: #f3f7fc;
-	--grid: rgba(13, 61, 120, 0.05);
-	--grid-major: rgba(13, 61, 120, 0.09);
-	--cream: #ffffff;
-	--surface: #f6f9fd;
-	--cream-deep: #d3e0f0;
-	--line: #4f7fb8;
-	--ink: #0c2d57;
-	--ink-soft: #2c4c75;
-	--muted: #5b7497;
-	--accent: #0b63c5;
-	--hl: #c2307f;
-	--on-hi: #0b2240;
-	--on-ink: #ffffff;
+	--ctp-base: #eff1f5;
+	--page: #dce0e8;
+	--grid: transparent;
+	--grid-major: transparent;
+	--cream: #eff1f5;
+	--surface: #e6e9ef;
+	--cream-deep: #ccd0da;
+	--line: #bcc0cc;
+	--ink: #4c4f69;
+	--ink-soft: #5c5f77;
+	--muted: #6c6f85;
+	--accent: #1e66f5;
+	--primary: #8839ef;
+	--hl: #ea76cb;
+	--on-hi: #eff1f5;
+	--on-ink: #eff1f5;
 
-	--orange: #ffc53d;
-	--mustard: #ffc53d;
-	--red: #e5484d;
-	--green: #2f9e66;
-	--teal: #1f9e8f;
-	--plum: #7a5cc4;
-	--pink: #f1b3e2;
-	--pink-panel: #e8f0fa;
-	--orange-soft: #ffe6c4;
-	--mustard-soft: #fff0bf;
-	--pink-soft: #f6def0;
-	--teal-soft: #d2f1eb;
-	--plum-soft: #e5dcf7;
-	--green-soft: #d3f4de;
-	--red-soft: #ffdcdc;
-	--gray-soft: #e2e6ec;
+	--orange: #fe640b;
+	--mustard: #df8e1d;
+	--red: #d20f39;
+	--green: #40a02b;
+	--teal: #179299;
+	--plum: #8839ef;
+	--pink: color-mix(in srgb, #ea76cb 28%, var(--ctp-base));
+	--pink-panel: #e6e9ef;
+	--orange-soft: color-mix(in srgb, #fe640b 16%, var(--ctp-base));
+	--mustard-soft: color-mix(in srgb, #df8e1d 20%, var(--ctp-base));
+	--pink-soft: color-mix(in srgb, #ea76cb 18%, var(--ctp-base));
+	--teal-soft: color-mix(in srgb, #179299 16%, var(--ctp-base));
+	--plum-soft: color-mix(in srgb, #8839ef 14%, var(--ctp-base));
+	--green-soft: color-mix(in srgb, #40a02b 16%, var(--ctp-base));
+	--red-soft: color-mix(in srgb, #d20f39 14%, var(--ctp-base));
+	--gray-soft: #ccd0da;
 
-	--hue-amber: #ff9d2e;
-	--hue-yellow: #f5c542;
-	--hue-pink: #e58ccb;
-	--hue-teal: #3fbfae;
-	--hue-plum: #9d7cc9;
-	--hue-chalk: #9fb8d6;
+	--hue-amber: #fe640b;
+	--hue-yellow: #df8e1d;
+	--hue-pink: #ea76cb;
+	--hue-teal: #179299;
+	--hue-plum: #8839ef;
+	--hue-chalk: #7287fd;
 
-	--tr-event: #fff4e8;
-	--tr-schedule: #fffbea;
-	--tr-commit: #eefaf8;
-	--tr-render-ink: #b0307a;
-	--tr-elements-ink: #8a6d00;
-	--tr-commit-ink: #1f7a71;
+	--tr-event: color-mix(in srgb, #fe640b 8%, transparent);
+	--tr-schedule: color-mix(in srgb, #df8e1d 8%, transparent);
+	--tr-commit: color-mix(in srgb, #179299 8%, transparent);
+	--tr-render-ink: #ea76cb;
+	--tr-elements-ink: #df8e1d;
+	--tr-commit-ink: #179299;
 	color-scheme: light;
 }
 
@@ -133,17 +134,9 @@ html {
 
 body {
 	margin: 0;
-	background-color: var(--page);
-	background-image:
-		linear-gradient(var(--grid-major) 1px, transparent 1px),
-		linear-gradient(90deg, var(--grid-major) 1px, transparent 1px),
-		linear-gradient(var(--grid) 1px, transparent 1px),
-		linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-	background-size:
-		100px 100px,
-		100px 100px,
-		20px 20px,
-		20px 20px;
+	/* keep === , !== and => as typed: no merged code ligatures */
+	font-variant-ligatures: no-contextual;
+	background: var(--page);
 	color: var(--ink);
 	font-family: var(--font);
 	font-size: 17px;
@@ -156,8 +149,7 @@ h2,
 h3,
 h4,
 h5 {
-	font-family: var(--mono);
-	font-weight: 600;
+	font-weight: 650;
 	letter-spacing: -0.03em;
 	line-height: 1.15;
 	margin: 0;
@@ -195,13 +187,12 @@ svg {
 	align-items: center;
 	justify-content: center;
 	gap: 0.4em;
-	padding: 0.6em 1.3em;
-	background: transparent;
-	color: var(--orange);
-	border: 1.5px solid var(--orange);
-	border-radius: 2px;
-	font: 500 14px/1.2 var(--mono);
-	letter-spacing: 0.02em;
+	padding: 0.6em 1.25em;
+	background: var(--primary);
+	color: var(--on-hi);
+	border: 1px solid var(--primary);
+	border-radius: var(--radius);
+	font: 600 14px/1.2 var(--font);
 	text-decoration: none;
 	cursor: pointer;
 	transition:
@@ -210,8 +201,7 @@ svg {
 }
 
 .btn:hover {
-	background: var(--orange);
-	color: var(--on-hi);
+	filter: brightness(1.08);
 }
 
 .btn:active {
@@ -219,30 +209,27 @@ svg {
 }
 
 .btn:focus-visible {
-	outline: 2px dashed var(--accent);
-	outline-offset: 3px;
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
 }
 
 .btn-ghost {
+	background: transparent;
 	color: var(--ink);
 	border-color: var(--line);
 }
 
 .btn-ghost:hover {
+	filter: none;
 	background: var(--cream-deep);
 	color: var(--ink);
 }
 
 /* pressed toggles */
 .btn[aria-pressed='true'] {
-	background: var(--orange);
-	border-color: var(--orange);
+	background: var(--primary);
+	border-color: var(--primary);
 	color: var(--on-hi);
-}
-
-:root[data-theme='light'] .btn:not(.btn-ghost):not([aria-pressed='true']) {
-	color: #8a5a00;
-	border-color: #c98f00;
 }
 
 .btn-row {
@@ -251,47 +238,18 @@ svg {
 	gap: 10px;
 }
 
-/* ─── Cards: a drawing sheet with corner registration marks ─── */
+/* ─── Cards ─────────────────────────────────────────────── */
 
 .card {
-	position: relative;
 	background: var(--cream);
-	border: 1px solid var(--line);
-	border-radius: var(--radius);
-}
-
-.card::before,
-.card::after {
-	content: '';
-	position: absolute;
-	width: 10px;
-	height: 10px;
-	border: 0 solid var(--orange);
-	pointer-events: none;
-}
-
-.card::before {
-	top: -4px;
-	left: -4px;
-	border-top-width: 2px;
-	border-left-width: 2px;
-}
-
-.card::after {
-	bottom: -4px;
-	right: -4px;
-	border-bottom-width: 2px;
-	border-right-width: 2px;
+	border: 1px solid var(--cream-deep);
+	border-radius: 14px;
 }
 
 .panel {
-	background-color: var(--pink-panel);
-	background-image:
-		linear-gradient(var(--grid-major) 1px, transparent 1px),
-		linear-gradient(90deg, var(--grid-major) 1px, transparent 1px);
-	background-size: 16px 16px;
+	background: var(--surface);
 	border: 1px solid var(--cream-deep);
-	border-radius: 2px;
+	border-radius: 10px;
 }
 
 /* ─── Level dots / pills ─────────────────────────────────── */
@@ -324,8 +282,8 @@ svg {
 	gap: 6px;
 	padding: 2px 10px;
 	border: 1px solid var(--line);
-	border-radius: 2px;
-	font: 500 12px var(--mono);
+	border-radius: 999px;
+	font: 600 12px var(--font);
 	background: var(--surface);
 	white-space: nowrap;
 }
@@ -335,8 +293,8 @@ svg {
 	padding: 1px 9px;
 	margin: 2px 4px 2px 0;
 	border: 1px solid var(--line);
-	border-radius: 2px;
-	font: 500 12px var(--mono);
+	border-radius: 999px;
+	font: 600 12px var(--font);
 }
 
 .chip-good {
@@ -349,6 +307,6 @@ svg {
 
 .site-foot {
 	padding: 48px 0 56px;
-	font: 13px var(--mono);
+	font-size: 13.5px;
 	color: var(--muted);
 }

@@ -215,7 +215,7 @@
 	margin-left: 6px;
 	padding: 1px 10px;
 	border: 1px solid var(--line);
-	border-radius: 2px;
+	border-radius: 999px;
 	font-size: 13px;
 	font-weight: 700;
 }
@@ -454,9 +454,9 @@
 .trl-event { background: var(--hue-amber); }
 .trl-schedule { background: var(--hue-yellow); }
 .trl-render { background: var(--hl); }
-.trl-elements { background: var(--mustard-soft); }
+.trl-elements { background: var(--mustard); }
 .trl-commit { background: var(--teal); }
-.trl-app { background: var(--pink-soft); }
+.trl-app { background: var(--plum); }
 
 /* Foldable call tree */
 .tr-fold {
@@ -561,7 +561,7 @@ code.gl-plain {
 	flex: none;
 	padding: 1px 8px;
 	border: 1px solid var(--line);
-	border-radius: 2px;
+	border-radius: 999px;
 	font-size: 11px;
 	font-weight: 800;
 	text-transform: uppercase;
@@ -667,7 +667,7 @@ code.gl-plain {
 	gap: 4px;
 	padding: 4px 8px;
 	border: 1.5px solid var(--line);
-	border-radius: 2px;
+	border-radius: 999px;
 	background: var(--surface);
 	box-shadow: none;
 	font-size: 12px;
@@ -682,7 +682,7 @@ code.gl-plain {
 
 .pb-seg {
 	padding: 0 8px;
-	border-radius: 2px;
+	border-radius: 999px;
 	font-weight: 700;
 	color: var(--muted);
 	border: 1.5px solid transparent;

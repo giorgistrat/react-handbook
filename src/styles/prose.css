@@ -13,13 +13,13 @@
 	font-size: clamp(24px, 3vw, 30px);
 	margin: 2.2em 0 0.7em;
 	padding-bottom: 0.35em;
-	border-bottom: 1px dashed var(--cream-deep);
+	border-bottom: 1px solid var(--cream-deep);
 	scroll-margin-top: 64px;
 }
 
 .prose h3 {
 	font-size: clamp(18px, 2.2vw, 21px);
-	color: var(--accent);
+	color: var(--plum);
 	margin: 1.8em 0 0.5em;
 	scroll-margin-top: 64px;
 }
@@ -65,7 +65,7 @@
 .prose :not(pre) > code {
 	background: var(--surface);
 	border: 1px solid var(--cream-deep);
-	border-radius: 2px;
+	border-radius: 5px;
 	padding: 0.08em 0.35em;
 	color: var(--accent);
 	overflow-wrap: anywhere;

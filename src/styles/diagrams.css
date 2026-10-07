@@ -162,7 +162,7 @@
 	margin-bottom: 6px;
 	padding: 0 8px;
 	border: 1px solid var(--line);
-	border-radius: 2px;
+	border-radius: 999px;
 	background: var(--surface);
 	font-size: 11.5px;
 	font-weight: 700;
@@ -693,7 +693,7 @@
 	border-radius: 0 8px 8px 0;
 }
 
-/* ─── SVG colors → blueprint tokens ──────────────────────────
+/* ─── SVG colors → theme tokens ──────────────────────────────
    The SVG generators (diagrams.mjs, illustrations.mjs) write fixed hex
    colors; these rules repaint them per theme (CSS beats SVG attributes). */
 
@@ -714,24 +714,26 @@
 .diagram-svg text[fill='#2b2522'],
 .diagram-svg [fill='#ff7a00'] + text { fill: var(--on-hi); }
 
-/* Card illustrations: translucent faces, like a technical drawing.
+/* Card illustrations: translucent faces in the theme's accent colors.
    [top, left, right] faces of each isometric box. */
-.panel svg { --pb: var(--pink-panel); }
-.panel svg [fill='#ffb36b'] { fill: color-mix(in srgb, var(--hue-amber) 46%, var(--pb)); }
-.panel svg [fill='#ff8a1f'] { fill: color-mix(in srgb, var(--hue-amber) 30%, var(--pb)); }
-.panel svg [fill='#d96a0b'] { fill: color-mix(in srgb, var(--hue-amber) 16%, var(--pb)); }
-.panel svg [fill='#f7c4e6'] { fill: color-mix(in srgb, var(--hue-pink) 46%, var(--pb)); }
-.panel svg [fill='#e58ccb'] { fill: color-mix(in srgb, var(--hue-pink) 30%, var(--pb)); }
-.panel svg [fill='#c4679f'] { fill: color-mix(in srgb, var(--hue-pink) 16%, var(--pb)); }
-.panel svg [fill='#a6ece3'] { fill: color-mix(in srgb, var(--hue-teal) 46%, var(--pb)); }
-.panel svg [fill='#62c9bd'] { fill: color-mix(in srgb, var(--hue-teal) 30%, var(--pb)); }
-.panel svg [fill='#3a9d93'] { fill: color-mix(in srgb, var(--hue-teal) 16%, var(--pb)); }
-.panel svg [fill='#ffe08a'] { fill: color-mix(in srgb, var(--hue-yellow) 46%, var(--pb)); }
-.panel svg [fill='#f5c542'] { fill: color-mix(in srgb, var(--hue-yellow) 30%, var(--pb)); }
-.panel svg [fill='#d39f1c'] { fill: color-mix(in srgb, var(--hue-yellow) 16%, var(--pb)); }
-.panel svg [fill='#cdb5e8'] { fill: color-mix(in srgb, var(--hue-plum) 46%, var(--pb)); }
-.panel svg [fill='#9d7cc9'] { fill: color-mix(in srgb, var(--hue-plum) 30%, var(--pb)); }
-.panel svg [fill='#765aa3'] { fill: color-mix(in srgb, var(--hue-plum) 16%, var(--pb)); }
+.panel svg { --pb: var(--surface); }
+.panel svg [stroke='#2b2522'] { stroke: color-mix(in srgb, var(--hue-chalk) 60%, var(--surface)); }
+.panel svg [fill='#2b2522'] { fill: color-mix(in srgb, var(--hue-chalk) 80%, var(--surface)); }
+.panel svg [fill='#ffb36b'] { fill: color-mix(in srgb, var(--hue-amber) 62%, var(--pb)); }
+.panel svg [fill='#ff8a1f'] { fill: color-mix(in srgb, var(--hue-amber) 42%, var(--pb)); }
+.panel svg [fill='#d96a0b'] { fill: color-mix(in srgb, var(--hue-amber) 24%, var(--pb)); }
+.panel svg [fill='#f7c4e6'] { fill: color-mix(in srgb, var(--hue-pink) 62%, var(--pb)); }
+.panel svg [fill='#e58ccb'] { fill: color-mix(in srgb, var(--hue-pink) 42%, var(--pb)); }
+.panel svg [fill='#c4679f'] { fill: color-mix(in srgb, var(--hue-pink) 24%, var(--pb)); }
+.panel svg [fill='#a6ece3'] { fill: color-mix(in srgb, var(--hue-teal) 62%, var(--pb)); }
+.panel svg [fill='#62c9bd'] { fill: color-mix(in srgb, var(--hue-teal) 42%, var(--pb)); }
+.panel svg [fill='#3a9d93'] { fill: color-mix(in srgb, var(--hue-teal) 24%, var(--pb)); }
+.panel svg [fill='#ffe08a'] { fill: color-mix(in srgb, var(--hue-yellow) 62%, var(--pb)); }
+.panel svg [fill='#f5c542'] { fill: color-mix(in srgb, var(--hue-yellow) 42%, var(--pb)); }
+.panel svg [fill='#d39f1c'] { fill: color-mix(in srgb, var(--hue-yellow) 24%, var(--pb)); }
+.panel svg [fill='#cdb5e8'] { fill: color-mix(in srgb, var(--hue-plum) 62%, var(--pb)); }
+.panel svg [fill='#9d7cc9'] { fill: color-mix(in srgb, var(--hue-plum) 42%, var(--pb)); }
+.panel svg [fill='#765aa3'] { fill: color-mix(in srgb, var(--hue-plum) 24%, var(--pb)); }
 .panel svg [fill='#fffaf0'],
 .panel svg [fill='#f2f2f2'],
 .panel svg [fill='#fffdf6'],

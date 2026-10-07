@@ -26,7 +26,7 @@ const short = (t: string) => t.replace('React Internals - ', '')
 			<a class="btn btn-ghost back" href={base}>← All notes</a>
 			<div class="meta">
 				<span class="pill"><span class={`lvl ${lvl.className}`}></span>{lvl.label}</span>
-				<span class="num">Sheet {String(note.data.order).padStart(2, '0')}</span>
+				<span class="num">Note {String(note.data.order).padStart(2, '0')}</span>
 			</div>
 			<h1 data-pagefind-meta="title">{short(note.data.title)}</h1>
 			<p class="summary">{note.data.summary}</p>
@@ -123,9 +123,7 @@ const short = (t: string) => t.replace('React Internals - ', '')
 
 	.num {
 		font: 500 12.5px var(--mono);
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-		color: var(--accent);
+		color: var(--muted);
 	}
 
 	h1 {
