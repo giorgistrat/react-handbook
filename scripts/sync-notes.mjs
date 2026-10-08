@@ -41,6 +41,7 @@ import * as H from '../src/lib/animations-hrw.mjs'
 import * as M from '../src/lib/engine-map.mjs'
 import * as F from '../src/lib/animations-fund.mjs'
 import * as HK from '../src/lib/animations-hooks.mjs'
+import * as AP from '../src/lib/animations-apis.mjs'
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const OUT_DIR = path.join(ROOT, 'src/content/notes')
@@ -450,7 +451,7 @@ function expandStoreMarkers(md) {
 				return fence('js', JSON.stringify(value, null, 2))
 			}
 			case 'figure': {
-				const build = F[a.name] ?? HK[a.name] ?? D[a.name] ?? A[a.name]
+				const build = F[a.name] ?? HK[a.name] ?? AP[a.name] ?? D[a.name] ?? A[a.name]
 				if (!build) throw new Error(`figure: unknown "${a.name}"`)
 				return '\n' + build() + '\n'
 			}
@@ -543,10 +544,22 @@ function introHtml(moc) {
 		.split(/\n\s*\n/)
 		.map((para) => {
 			const quote = para.startsWith('>')
-			let html = inlineHtml(para.replace(/^>\s?/gm, '').replace(/\n/g, ' '))
-				.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
-				.replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>')
-			for (const [emoji, dot] of Object.entries(LEVEL_DOTS)) html = html.split(emoji).join(dot)
+			const inline = (text) => {
+				let html = inlineHtml(text)
+					.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
+					.replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>')
+				for (const [emoji, dot] of Object.entries(LEVEL_DOTS)) html = html.split(emoji).join(dot)
+				return html
+			}
+			// a paragraph that is a "- " list (optionally after a lead-in line) → <p> + <ul>
+			const lines = para.split('\n')
+			const first = lines.findIndex((l) => l.startsWith('- '))
+			if (!quote && first >= 0 && lines.slice(first).every((l) => l.startsWith('- '))) {
+				const lead = lines.slice(0, first).join(' ')
+				const items = lines.slice(first).map((l) => `<li>${inline(l.slice(2))}</li>`).join('')
+				return `${lead ? `<p>${inline(lead)}</p>` : ''}<ul>${items}</ul>`
+			}
+			const html = inline(para.replace(/^>\s?/gm, '').replace(/\n/g, ' '))
 			return quote ? `<p class="callout">${html}</p>` : `<p>${html}</p>`
 		})
 		.join('\n')

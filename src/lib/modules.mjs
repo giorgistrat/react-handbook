@@ -5,6 +5,7 @@
 
 import { NOTES as FUNDAMENTALS } from './notes/fundamentals.mjs'
 import { NOTES as HOOKS } from './notes/hooks.mjs'
+import { NOTES as APIS } from './notes/apis.mjs'
 import { NOTES as INTERNALS } from './notes/internals.mjs'
 
 export const MODULES = [
@@ -26,8 +27,8 @@ export const MODULES = [
 		id: 'apis',
 		title: 'Advanced React APIs',
 		illus: 'bolt',
-		summary: 'useReducer, context with use, portals, layout effects, imperative handles, flushSync and useSyncExternalStore.',
-		notes: [],
+		summary: 'The escape hatches: reducers, context with use, portals, layout effects, imperative handles, flushSync and external stores.',
+		notes: APIS,
 	},
 	{
 		id: 'patterns',

@@ -217,7 +217,7 @@ Why this matters for you:
   until commit.
 - **"Tearing" is only possible with outside stores.** React's own state is
   snapshotted per render. External mutable stores need
-  `useSyncExternalStore` (*useSyncExternalStore*) to stay consistent across
+  `useSyncExternalStore` ([useSyncExternalStore](../../apis/usesyncexternalstore/)) to stay consistent across
   a render that yields.
 
 ## Fiber, step by step

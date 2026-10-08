@@ -79,6 +79,7 @@ const short = (t: string) => t.replace('React Internals - ', '')
 		margin-bottom: 18px;
 		font-size: 14px;
 		color: var(--muted);
+		padding-right: min(310px, 44%); /* room for the toolbar (top right) */
 	}
 
 	.crumbs a {
@@ -109,6 +110,18 @@ const short = (t: string) => t.replace('React Internals - ', '')
 		font-size: 17px;
 		max-width: 70ch;
 		color: var(--ink-soft);
+	}
+
+	.lead :global(ul) {
+		margin: -4px 0 14px;
+		padding-left: 22px;
+		font-size: 17px;
+		max-width: 70ch;
+		color: var(--ink-soft);
+	}
+
+	.lead :global(li) {
+		margin: 2px 0;
 	}
 
 	.lead :global(code) {

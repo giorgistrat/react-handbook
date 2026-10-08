@@ -333,7 +333,7 @@ immediately.
 - **Batching is per tick.** Updates separated by an `await` are in different
   ticks, and therefore separate renders.
 - **`flushSync` breaks batching on purpose.** It renders and commits
-  immediately at `SyncLane`. Use it sparingly (*flushSync*).
+  immediately at `SyncLane`. Use it sparingly ([flushSync](../../apis/flushsync/)).
 - **Time slicing doesn't make work cheaper.** A 300ms render in a transition
   still costs 300ms of CPU. It just stops blocking input. Fix slow renders
   first (*Optimize Rendering*).

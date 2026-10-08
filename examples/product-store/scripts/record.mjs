@@ -387,7 +387,163 @@ async function recordHooks() {
 	return data
 }
 
-const MODULES = { fundamentals: recordFundamentals, hooks: recordHooks }
+async function recordApis() {
+	const P = (lesson) => `apis/${lesson}`
+	const text = (page, sel) => page.$eval(sel, (el) => el.textContent)
+	const data = {}
+
+	const click = async (page, sel) => {
+		await since(page)
+		await page.click(sel)
+		await wait(100)
+		return since(page)
+	}
+
+	data.reducer = {
+		pure: await run(P('01-reducer'), 'pure'),
+		clicks: await run(P('01-reducer'), null, async (page) => {
+			await wait(100)
+			const mount = await since(page)
+			const addMug = await click(page, '#add-mug')
+			const addMugAgain = await click(page, '#add-mug')
+			const addLamp = await click(page, '#add-lamp')
+			const removeMissing = await click(page, '#remove-backpack')
+			const summary = await text(page, '#summary')
+			const clear = await click(page, '#clear')
+			const clearAgain = await click(page, '#clear')
+			return { mount, addMug, addMugAgain, addLamp, removeMissing, summary, clear, clearAgain }
+		}),
+		saved: await run(P('01-reducer'), 'saved', async (page) => {
+			await wait(100)
+			const mount = await since(page)
+			const add1 = await click(page, '#add-mug')
+			const add2 = await click(page, '#add-mug')
+			return { mount, add1, add2, summary: await text(page, '#summary') }
+		}),
+		eager: await run(P('01-reducer'), 'eager', async (page) => {
+			await wait(100)
+			const mount = await since(page)
+			const add1 = await click(page, '#add-mug')
+			const add2 = await click(page, '#add-mug')
+			return { mount, add1, add2 }
+		}),
+		typo: await run(P('01-reducer'), 'typo', async (page) => {
+			await page.click('#typo')
+			await wait(150)
+			return { shown: await text(page, '#root') }
+		}),
+	}
+
+	const contextFlow = async (page) => {
+		await wait(100)
+		const mount = await since(page)
+		const theme = await click(page, '#theme')
+		const classes = await page.$$eval('article', (as) => as.map((a) => a.className))
+		const add = await click(page, '#add')
+		return { mount, theme, classes, add, badge: await text(page, '#badge') }
+	}
+	data.context = {
+		stable: await run(P('02-context'), null, contextFlow),
+		unstable: await run(P('02-context'), 'unstable', contextFlow),
+		noProvider: await run(P('02-context'), 'no-provider', async (page) => ({
+			article: await page.$eval('article', (a) => a.className),
+			sale: await page.$eval('.tag', (t) => t.className),
+			alert: await text(page, '[role=alert]'),
+		})),
+	}
+
+	const portalFlow = async (page) => {
+		await page.click('#open')
+		await wait(100)
+		await since(page)
+		const where = await page.evaluate(() => {
+			const dialog = document.querySelector('[role=dialog]')
+			const close = document.querySelector('#close').getBoundingClientRect()
+			const card = document.querySelector('.clip-card').getBoundingClientRect()
+			const hit = document.elementFromPoint(close.x + close.width / 2, close.y + close.height / 2)
+			const parent = dialog.parentElement
+			return {
+				parent: parent.tagName.toLowerCase() + (parent.className ? `.${parent.className}` : ''),
+				closeButtonVisible: hit?.id === 'close',
+				card: { bottom: Math.round(card.bottom), right: Math.round(card.right) },
+				close: { top: Math.round(close.top), left: Math.round(close.left) },
+				themeClass: dialog.className,
+			}
+		})
+		await page.$eval('#close', (b) => b.click()) // a real click event on the button, wherever it is
+		await wait(100)
+		return { where, clickClose: await since(page), dialogGone: !(await page.$('[role=dialog]')) }
+	}
+	data.portal = {
+		inline: await run(P('03-portal'), null, portalFlow),
+		portal: await run(P('03-portal'), 'portal', portalFlow),
+	}
+
+	const hoverTrials = async (page) => {
+		const trials = []
+		for (let i = 0; i < 20; i++) {
+			await page.mouse.move(400, 400)
+			await wait(150)
+			await since(page)
+			await page.hover('#info')
+			await wait(450)
+			trials.push(await since(page))
+		}
+		const count = new Map()
+		for (const t of trials) count.set(t.join('\n'), (count.get(t.join('\n')) ?? 0) + 1)
+		const typical = [...count].sort((a, b) => b[1] - a[1])[0][0].split('\n')
+		const wrong = trials.filter((t) => t.some((l) => l.includes('covering'))).length
+		return { trials, typical, wrongFrames: wrong, summary: `${wrong} of ${trials.length} hovers painted the tooltip covering the button` }
+	}
+	data.layout = {
+		effect: await run(P('04-layout-effect'), 'effect', hoverTrials),
+		layout: await run(P('04-layout-effect'), null, hoverTrials),
+	}
+
+	const applyTwice = async (page) => {
+		const first = await click(page, '#apply')
+		await page.click('body', { offset: { x: 5, y: 300 } }) // focus leaves the field
+		await wait(100)
+		await since(page)
+		const second = await click(page, '#apply')
+		return { first, second, focused: await page.evaluate(() => document.activeElement.id || document.activeElement.tagName.toLowerCase()) }
+	}
+	data.imperative = {
+		flag: await run(P('05-imperative'), 'flag', applyTwice),
+		handle: await run(P('05-imperative'), null, applyTwice),
+		inspect: await run(P('05-imperative'), 'inspect', async () => (await wait(100), {})),
+	}
+
+	data.flushSync = {
+		rename: await run(P('06-flush-sync'), 'rename', async (page) => ({ click: await click(page, '#edit') })),
+		renameSync: await run(P('06-flush-sync'), 'rename-sync', async (page) => ({ click: await click(page, '#edit') })),
+		list: await run(P('06-flush-sync'), 'list', async (page) => ({ click: await click(page, '#add') })),
+		listSync: await run(P('06-flush-sync'), 'list-sync', async (page) => ({ click: await click(page, '#add') })),
+	}
+
+	data.store = {
+		online: await run(P('07-external-store'), null, async (page) => {
+			const before = await text(page, 'button')
+			await page.setOfflineMode(true)
+			await wait(150)
+			const offline = { text: await text(page, 'button'), disabled: await page.$eval('button', (b) => b.disabled) }
+			await page.setOfflineMode(false)
+			await wait(150)
+			return { before, offline, back: await text(page, 'button') }
+		}),
+		twoRoots: await run(P('07-external-store'), 'store', async (page) => {
+			await wait(100)
+			const mount = await since(page)
+			const add = await click(page, '#add')
+			return { mount, add, badge: await text(page, '#badge') }
+		}),
+		newObject: await run(P('07-external-store'), 'new-object', async () => (await wait(300), {})),
+		server: await run(P('07-external-store'), 'server'),
+	}
+	return data
+}
+
+const MODULES = { fundamentals: recordFundamentals, hooks: recordHooks, apis: recordApis }
 const wanted = process.argv.slice(2).length ? process.argv.slice(2) : Object.keys(MODULES)
 fs.mkdirSync(OUT, { recursive: true })
 try {

@@ -1,0 +1,918 @@
+{
+  "reducer": {
+    "pure": {
+      "logs": [
+        "one → {\"items\":[{\"id\":\"p1\",\"qty\":1}]}",
+        "two → {\"items\":[{\"id\":\"p1\",\"qty\":2}]}",
+        "same === two → true",
+        "empty unchanged → {\"items\":[]}"
+      ],
+      "warnings": []
+    },
+    "clicks": {
+      "logs": [
+        "  loadCart(\"cart\")",
+        "Cart render: 0 items, $0.00",
+        "CartButtons render",
+        "FreeShippingNote render",
+        "Cart render: 1 items, $18.00",
+        "FreeShippingNote render",
+        "Cart render: 2 items, $36.00",
+        "FreeShippingNote render",
+        "Cart render: 3 items, $75.00",
+        "FreeShippingNote render",
+        "Cart render: 3 items, $75.00",
+        "Cart render: 0 items, $0.00",
+        "FreeShippingNote render",
+        "Cart render: 0 items, $0.00"
+      ],
+      "warnings": [],
+      "mount": [
+        "  loadCart(\"cart\")",
+        "Cart render: 0 items, $0.00",
+        "CartButtons render",
+        "FreeShippingNote render"
+      ],
+      "addMug": [
+        "Cart render: 1 items, $18.00",
+        "FreeShippingNote render"
+      ],
+      "addMugAgain": [
+        "Cart render: 2 items, $36.00",
+        "FreeShippingNote render"
+      ],
+      "addLamp": [
+        "Cart render: 3 items, $75.00",
+        "FreeShippingNote render"
+      ],
+      "removeMissing": [
+        "Cart render: 3 items, $75.00"
+      ],
+      "summary": "3 items · $75.00",
+      "clear": [
+        "Cart render: 0 items, $0.00",
+        "FreeShippingNote render"
+      ],
+      "clearAgain": [
+        "Cart render: 0 items, $0.00"
+      ]
+    },
+    "saved": {
+      "logs": [
+        "  loadCart(\"cart\")",
+        "Cart render: 2 items, $78.00",
+        "CartButtons render",
+        "FreeShippingNote render",
+        "Cart render: 3 items, $96.00",
+        "FreeShippingNote render",
+        "Cart render: 4 items, $114.00",
+        "FreeShippingNote render"
+      ],
+      "warnings": [],
+      "mount": [
+        "  loadCart(\"cart\")",
+        "Cart render: 2 items, $78.00",
+        "CartButtons render",
+        "FreeShippingNote render"
+      ],
+      "add1": [
+        "Cart render: 3 items, $96.00",
+        "FreeShippingNote render"
+      ],
+      "add2": [
+        "Cart render: 4 items, $114.00",
+        "FreeShippingNote render"
+      ],
+      "summary": "4 items · $114.00"
+    },
+    "eager": {
+      "logs": [
+        "  loadCart(\"cart\")",
+        "Cart render: 2 items, $78.00",
+        "CartButtons render",
+        "FreeShippingNote render",
+        "  loadCart(\"cart\")",
+        "Cart render: 3 items, $96.00",
+        "FreeShippingNote render",
+        "  loadCart(\"cart\")",
+        "Cart render: 4 items, $114.00",
+        "FreeShippingNote render"
+      ],
+      "warnings": [],
+      "mount": [
+        "  loadCart(\"cart\")",
+        "Cart render: 2 items, $78.00",
+        "CartButtons render",
+        "FreeShippingNote render"
+      ],
+      "add1": [
+        "  loadCart(\"cart\")",
+        "Cart render: 3 items, $96.00",
+        "FreeShippingNote render"
+      ],
+      "add2": [
+        "  loadCart(\"cart\")",
+        "Cart render: 4 items, $114.00",
+        "FreeShippingNote render"
+      ]
+    },
+    "typo": {
+      "logs": [
+        "  loadCart(\"cart\")",
+        "dispatch() returned normally",
+        "ErrorBoundary caught: Unknown action: emptied"
+      ],
+      "warnings": [
+        "Error: Unknown action: emptied"
+      ],
+      "shown": "Cart crashed: Unknown action: emptied"
+    }
+  },
+  "context": {
+    "stable": {
+      "logs": [
+        "render App",
+        "render CartProvider",
+        "render Header",
+        "render CartBadge",
+        "render ProductGrid",
+        "render ProductCard (Ceramic Mug)",
+        "render ProductCard (Wireless Headphones)",
+        "render ProductCard (Trail Backpack)",
+        "render AddButton",
+        "render App",
+        "render CartProvider",
+        "render ProductCard (Ceramic Mug)",
+        "render ProductCard (Wireless Headphones)",
+        "render ProductCard (Trail Backpack)",
+        "render CartProvider",
+        "render CartBadge",
+        "render AddButton"
+      ],
+      "warnings": [],
+      "mount": [
+        "render App",
+        "render CartProvider",
+        "render Header",
+        "render CartBadge",
+        "render ProductGrid",
+        "render ProductCard (Ceramic Mug)",
+        "render ProductCard (Wireless Headphones)",
+        "render ProductCard (Trail Backpack)",
+        "render AddButton"
+      ],
+      "theme": [
+        "render App",
+        "render CartProvider",
+        "render ProductCard (Ceramic Mug)",
+        "render ProductCard (Wireless Headphones)",
+        "render ProductCard (Trail Backpack)"
+      ],
+      "classes": [
+        "product-card dark",
+        "product-card dark",
+        "product-card dark"
+      ],
+      "add": [
+        "render CartProvider",
+        "render CartBadge",
+        "render AddButton"
+      ],
+      "badge": "1 in cart"
+    },
+    "unstable": {
+      "logs": [
+        "render App",
+        "render CartProvider",
+        "render Header",
+        "render CartBadge",
+        "render ProductGrid",
+        "render ProductCard (Ceramic Mug)",
+        "render ProductCard (Wireless Headphones)",
+        "render ProductCard (Trail Backpack)",
+        "render AddButton",
+        "render App",
+        "render CartProvider",
+        "render CartBadge",
+        "render ProductCard (Ceramic Mug)",
+        "render ProductCard (Wireless Headphones)",
+        "render ProductCard (Trail Backpack)",
+        "render AddButton",
+        "render CartProvider",
+        "render CartBadge",
+        "render AddButton"
+      ],
+      "warnings": [],
+      "mount": [
+        "render App",
+        "render CartProvider",
+        "render Header",
+        "render CartBadge",
+        "render ProductGrid",
+        "render ProductCard (Ceramic Mug)",
+        "render ProductCard (Wireless Headphones)",
+        "render ProductCard (Trail Backpack)",
+        "render AddButton"
+      ],
+      "theme": [
+        "render App",
+        "render CartProvider",
+        "render CartBadge",
+        "render ProductCard (Ceramic Mug)",
+        "render ProductCard (Wireless Headphones)",
+        "render ProductCard (Trail Backpack)",
+        "render AddButton"
+      ],
+      "classes": [
+        "product-card dark",
+        "product-card dark",
+        "product-card dark"
+      ],
+      "add": [
+        "render CartProvider",
+        "render CartBadge",
+        "render AddButton"
+      ],
+      "badge": "1 in cart"
+    },
+    "noProvider": {
+      "logs": [
+        "render ProductCard (Desk Lamp)",
+        "render ProductCard (Desk Lamp)"
+      ],
+      "warnings": [
+        "Error: useCart must be used inside <CartProvider>"
+      ],
+      "article": "product-card light",
+      "sale": "tag tag--sale light",
+      "alert": "useCart must be used inside <CartProvider>"
+    }
+  },
+  "portal": {
+    "inline": {
+      "logs": [
+        "card DOM listener ran",
+        "card onClick ran",
+        "card DOM listener ran",
+        "card onClick ran"
+      ],
+      "warnings": [],
+      "where": {
+        "parent": "article.clip-card",
+        "closeButtonVisible": false,
+        "card": {
+          "bottom": 160,
+          "right": 290
+        },
+        "close": {
+          "top": 200,
+          "left": 103
+        },
+        "themeClass": "quick-view dark"
+      },
+      "clickClose": [
+        "card DOM listener ran",
+        "card onClick ran"
+      ],
+      "dialogGone": true
+    },
+    "portal": {
+      "logs": [
+        "card DOM listener ran",
+        "card onClick ran",
+        "card onClick ran"
+      ],
+      "warnings": [],
+      "where": {
+        "parent": "body",
+        "closeButtonVisible": true,
+        "card": {
+          "bottom": 160,
+          "right": 290
+        },
+        "close": {
+          "top": 177,
+          "left": 78
+        },
+        "themeClass": "quick-view dark"
+      },
+      "clickClose": [
+        "card onClick ran"
+      ],
+      "dialogGone": true
+    }
+  },
+  "layout": {
+    "effect": {
+      "logs": [
+        "  render: height 0 → above",
+        "frame 1 painted: covering the button",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 2 painted: below the button",
+        "frame 1 painted: no tooltip yet",
+        "  render: height 0 → above",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 2 painted: below the button",
+        "  render: height 0 → above",
+        "frame 1 painted: covering the button",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 2 painted: below the button",
+        "  render: height 0 → above",
+        "frame 1 painted: covering the button",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 2 painted: below the button",
+        "  render: height 0 → above",
+        "frame 1 painted: covering the button",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 2 painted: below the button",
+        "  render: height 0 → above",
+        "frame 1 painted: covering the button",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 2 painted: below the button",
+        "  render: height 0 → above",
+        "frame 1 painted: covering the button",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 2 painted: below the button",
+        "  render: height 0 → above",
+        "  effect: measured 58px",
+        "frame 1 painted: covering the button",
+        "  render: height 58 → below",
+        "frame 2 painted: below the button",
+        "  render: height 0 → above",
+        "  effect: measured 58px",
+        "frame 1 painted: covering the button",
+        "  render: height 58 → below",
+        "frame 2 painted: below the button",
+        "  render: height 0 → above",
+        "frame 1 painted: covering the button",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 2 painted: below the button",
+        "  render: height 0 → above",
+        "frame 1 painted: covering the button",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 2 painted: below the button",
+        "  render: height 0 → above",
+        "frame 1 painted: covering the button",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 2 painted: below the button",
+        "  render: height 0 → above",
+        "frame 1 painted: covering the button",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 2 painted: below the button",
+        "  render: height 0 → above",
+        "frame 1 painted: covering the button",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 2 painted: below the button",
+        "  render: height 0 → above",
+        "frame 1 painted: covering the button",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 2 painted: below the button",
+        "  render: height 0 → above",
+        "frame 1 painted: covering the button",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 2 painted: below the button",
+        "  render: height 0 → above",
+        "frame 1 painted: covering the button",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 2 painted: below the button",
+        "  render: height 0 → above",
+        "frame 1 painted: covering the button",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 2 painted: below the button",
+        "  render: height 0 → above",
+        "frame 1 painted: covering the button",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 2 painted: below the button",
+        "  render: height 0 → above",
+        "frame 1 painted: covering the button",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 2 painted: below the button"
+      ],
+      "warnings": [
+        "In HTML, <div> cannot be a descendant of <p>.",
+        "<p> cannot contain a nested <div>."
+      ],
+      "trials": [
+        [
+          "  render: height 0 → above",
+          "frame 1 painted: covering the button",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 2 painted: below the button"
+        ],
+        [
+          "frame 1 painted: no tooltip yet",
+          "  render: height 0 → above",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 2 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "frame 1 painted: covering the button",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 2 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "frame 1 painted: covering the button",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 2 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "frame 1 painted: covering the button",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 2 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "frame 1 painted: covering the button",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 2 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "frame 1 painted: covering the button",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 2 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "  effect: measured 58px",
+          "frame 1 painted: covering the button",
+          "  render: height 58 → below",
+          "frame 2 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "  effect: measured 58px",
+          "frame 1 painted: covering the button",
+          "  render: height 58 → below",
+          "frame 2 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "frame 1 painted: covering the button",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 2 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "frame 1 painted: covering the button",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 2 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "frame 1 painted: covering the button",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 2 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "frame 1 painted: covering the button",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 2 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "frame 1 painted: covering the button",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 2 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "frame 1 painted: covering the button",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 2 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "frame 1 painted: covering the button",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 2 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "frame 1 painted: covering the button",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 2 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "frame 1 painted: covering the button",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 2 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "frame 1 painted: covering the button",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 2 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "frame 1 painted: covering the button",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 2 painted: below the button"
+        ]
+      ],
+      "typical": [
+        "  render: height 0 → above",
+        "frame 1 painted: covering the button",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 2 painted: below the button"
+      ],
+      "wrongFrames": 19,
+      "summary": "19 of 20 hovers painted the tooltip covering the button"
+    },
+    "layout": {
+      "logs": [
+        "frame 1 painted: no tooltip yet",
+        "  render: height 0 → above",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 2 painted: below the button",
+        "  render: height 0 → above",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 1 painted: below the button",
+        "  render: height 0 → above",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 1 painted: below the button",
+        "  render: height 0 → above",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 1 painted: below the button",
+        "  render: height 0 → above",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 1 painted: below the button",
+        "  render: height 0 → above",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 1 painted: below the button",
+        "  render: height 0 → above",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 1 painted: below the button",
+        "  render: height 0 → above",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 1 painted: below the button",
+        "  render: height 0 → above",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 1 painted: below the button",
+        "  render: height 0 → above",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 1 painted: below the button",
+        "  render: height 0 → above",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 1 painted: below the button",
+        "  render: height 0 → above",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 1 painted: below the button",
+        "  render: height 0 → above",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 1 painted: below the button",
+        "  render: height 0 → above",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 1 painted: below the button",
+        "  render: height 0 → above",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 1 painted: below the button",
+        "  render: height 0 → above",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 1 painted: below the button",
+        "  render: height 0 → above",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 1 painted: below the button",
+        "  render: height 0 → above",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 1 painted: below the button",
+        "  render: height 0 → above",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 1 painted: below the button",
+        "  render: height 0 → above",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 1 painted: below the button"
+      ],
+      "warnings": [
+        "In HTML, <div> cannot be a descendant of <p>.",
+        "<p> cannot contain a nested <div>."
+      ],
+      "trials": [
+        [
+          "frame 1 painted: no tooltip yet",
+          "  render: height 0 → above",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 2 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 1 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 1 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 1 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 1 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 1 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 1 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 1 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 1 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 1 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 1 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 1 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 1 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 1 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 1 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 1 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 1 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 1 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 1 painted: below the button"
+        ],
+        [
+          "  render: height 0 → above",
+          "  effect: measured 58px",
+          "  render: height 58 → below",
+          "frame 1 painted: below the button"
+        ]
+      ],
+      "typical": [
+        "  render: height 0 → above",
+        "  effect: measured 58px",
+        "  render: height 58 → below",
+        "frame 1 painted: below the button"
+      ],
+      "wrongFrames": 0,
+      "summary": "0 of 20 hovers painted the tooltip covering the button"
+    }
+  },
+  "imperative": {
+    "flag": {
+      "logs": [
+        "  coupon field focused"
+      ],
+      "warnings": [],
+      "first": [
+        "  coupon field focused"
+      ],
+      "second": [],
+      "focused": "apply"
+    },
+    "handle": {
+      "logs": [
+        "  coupon field focused",
+        "  coupon field focused"
+      ],
+      "warnings": [],
+      "first": [
+        "  coupon field focused"
+      ],
+      "second": [
+        "  coupon field focused"
+      ],
+      "focused": "coupon"
+    },
+    "inspect": {
+      "logs": [
+        "keys: [\"focus\",\"clear\"]",
+        "handle.value: undefined · handle.style: undefined",
+        "is it the <input>? false"
+      ],
+      "warnings": []
+    }
+  },
+  "flushSync": {
+    "rename": {
+      "logs": [
+        "render (editing: false)",
+        "click: start",
+        "after setEditing: inputRef.current = null",
+        "focused: button",
+        "render (editing: true)"
+      ],
+      "warnings": [],
+      "click": [
+        "click: start",
+        "after setEditing: inputRef.current = null",
+        "focused: button",
+        "render (editing: true)"
+      ]
+    },
+    "renameSync": {
+      "logs": [
+        "render (editing: false)",
+        "click: start",
+        "render (editing: true)",
+        "after setEditing: inputRef.current = <input>",
+        "focused: input"
+      ],
+      "warnings": [],
+      "click": [
+        "click: start",
+        "render (editing: true)",
+        "after setEditing: inputRef.current = <input>",
+        "focused: input"
+      ]
+    },
+    "list": {
+      "logs": [
+        "last <li> right after the update: Desk Lamp"
+      ],
+      "warnings": [],
+      "click": [
+        "last <li> right after the update: Desk Lamp"
+      ]
+    },
+    "listSync": {
+      "logs": [
+        "last <li> right after the update: Notebook Set"
+      ],
+      "warnings": [],
+      "click": [
+        "last <li> right after the update: Notebook Set"
+      ]
+    }
+  },
+  "store": {
+    "online": {
+      "logs": [],
+      "warnings": [],
+      "before": "Place order",
+      "offline": {
+        "text": "Offline: reconnect to order",
+        "disabled": true
+      },
+      "back": "Place order"
+    },
+    "twoRoots": {
+      "logs": [
+        "render HeaderBadge (0)",
+        "render ProductPage (0)",
+        "render HeaderBadge (1)",
+        "render ProductPage (1)"
+      ],
+      "warnings": [],
+      "mount": [
+        "render HeaderBadge (0)",
+        "render ProductPage (0)"
+      ],
+      "add": [
+        "render HeaderBadge (1)",
+        "render ProductPage (1)"
+      ],
+      "badge": "🛒 1"
+    },
+    "newObject": {
+      "logs": [
+        "uncaught: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops."
+      ],
+      "warnings": [
+        "The result of getSnapshot should be cached to avoid an infinite loop"
+      ]
+    },
+    "server": {
+      "logs": [
+        "with getServerSnapshot: <button>Place order</button>",
+        "without: threw Missing getServerSnapshot, which is required for server-rendered content. Will revert to client rendering."
+      ],
+      "warnings": []
+    }
+  }
+}

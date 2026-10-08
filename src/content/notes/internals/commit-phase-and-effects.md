@@ -233,7 +233,7 @@ renders **and commits** it before `flushSync` returns. So the DOM is
 updated synchronously inside your event handler, which is useful when you
 need to read the new DOM right away (scrolling to a newly added item,
 focusing it). It's the imperative escape hatch for the same guarantee layout
-effects give. See *flushSync*.
+effects give. See [flushSync](../../apis/flushsync/).
 
 ## Rules and caveats
 
