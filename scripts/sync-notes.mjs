@@ -21,6 +21,13 @@
 //   <!-- tree snapshot="0" -->                          a recorded fiber tree
 //   <!-- element which="production.app" -->            a recorded element object
 //   <!-- figure name="bootAnim" -->                     an animation or diagram
+//
+// Notes outside React Internals use the shared demo app (examples/product-store):
+//   <!-- source file="src/lessons/fundamentals/03-jsx.tsx" region="card" -->
+//        a `// #region card` … `// #endregion` block of real source
+//   <!-- compiled file="03-jsx" mode="automatic|classic" region="card" -->
+//   <!-- output from="fundamentals" path="dom.card.logs" as="log|json|text|html" -->
+//        a value recorded by examples/product-store/scripts/record.mjs
 
 import fs from 'node:fs'
 import path from 'node:path'
@@ -32,6 +39,7 @@ import * as D from '../src/lib/diagrams.mjs'
 import * as A from '../src/lib/animations.mjs'
 import * as H from '../src/lib/animations-hrw.mjs'
 import * as M from '../src/lib/engine-map.mjs'
+import * as F from '../src/lib/animations-fund.mjs'
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const OUT_DIR = path.join(ROOT, 'src/content/notes')
@@ -39,6 +47,7 @@ const CONTENT_DIR = path.join(ROOT, 'content')
 // The vault's React folder (override with NEXUS_REACT_DIR)
 const VAULT_ROOT = process.env.NEXUS_REACT_DIR ?? path.join(os.homedir(), 'Nexus/40 Resources/Engineering/JavaScript/React')
 const DEMO = path.join(ROOT, 'examples/how-react-works')
+const STORE = path.join(ROOT, 'examples/product-store')
 
 const byTitle = new Map(ALL_NOTES.map((n) => [n.file.replace(/\.md$/, ''), n]))
 // [[React Suspense]] etc. link to the module page (only for modules that have notes)
@@ -354,7 +363,32 @@ function traceHtml(lines) {
 	return `\n<div class="trace-legend">${legend}<span class="trace-hint">indent = called by the line above · ▾ folds · tap a name for its card</span></div>\n<pre class="trace">${body}</pre>\n`
 }
 
-function expandMarkers(md) {
+// The lines between a "#region name" comment (// or {/* … */} form) and its #endregion, dedented.
+function region(code, name, where) {
+	const lines = code.split('\n')
+	const isStart = (l) => new RegExp(`^\\s*(//|\\{/\\*)\\s*#region ${name}\\b`).test(l)
+	const isMarker = (l) => /^\s*(\/\/|\{\/\*)\s*#(end)?region\b/.test(l)
+	const start = lines.findIndex(isStart)
+	if (start < 0) throw new Error(`${where}: region "${name}" not found`)
+	let depth = 0
+	let end = start
+	for (let i = start; i < lines.length; i++) {
+		if (/#region\b/.test(lines[i]) && isMarker(lines[i])) depth++
+		if (/#endregion\b/.test(lines[i]) && isMarker(lines[i]) && --depth === 0) {
+			end = i
+			break
+		}
+	}
+	const body = lines.slice(start + 1, end).filter((l) => !isMarker(l))
+	const indent = Math.min(...body.filter((l) => l.trim()).map((l) => l.match(/^\s*/)[0].length))
+	return body.map((l) => l.slice(indent)).join('\n')
+}
+
+const recorded = {}
+const getRecorded = (from) => (recorded[from] ??= JSON.parse(fs.readFileSync(path.join(STORE, 'generated', `${from}.json`), 'utf8')))
+
+function expandMarkers(md, note) {
+	if (note.module !== 'internals') return expandStoreMarkers(md)
 	let trace
 	const getTrace = () => (trace ??= JSON.parse(fs.readFileSync(path.join(DEMO, 'generated/trace.json'), 'utf8')))
 	const fence = (lang, body) => '```' + lang + '\n' + body.replace(/\n+$/, '') + '\n```'
@@ -387,10 +421,46 @@ function expandMarkers(md) {
 	})
 }
 
+function expandStoreMarkers(md) {
+	const fence = (lang, body) => '```' + lang + '\n' + String(body).replace(/\n+$/, '') + '\n```'
+	const LANG = { tsx: 'tsx', ts: 'ts', jsx: 'jsx', js: 'js', html: 'html', css: 'css' }
+	return md.replace(/^<!-- (source|compiled|output|figure)((?:\s+\w+="[^"]*")*)\s*-->$/gm, (_, kind, rawAttrs) => {
+		const a = Object.fromEntries([...rawAttrs.matchAll(/(\w+)="([^"]*)"/g)].map((m) => [m[1], m[2].replaceAll('&quot;', '"')]))
+		switch (kind) {
+			case 'source': {
+				let code = fs.readFileSync(path.join(STORE, a.file), 'utf8')
+				if (a.region) code = region(code, a.region, a.file)
+				return fence(LANG[path.extname(a.file).slice(1)] ?? 'text', code)
+			}
+			case 'compiled': {
+				let code = fs.readFileSync(path.join(STORE, 'generated/compiled', a.mode, `${a.file}.js`), 'utf8')
+				if (a.region) code = region(code, a.region, a.file)
+				return fence('js', code)
+			}
+			case 'output': {
+				const value = a.path.split('.').reduce((o, k) => {
+					if (o?.[k] === undefined) throw new Error(`output: ${a.from}.${a.path} not recorded`)
+					return o[k]
+				}, getRecorded(a.from))
+				const as = a.as ?? 'json'
+				if (as === 'log') return fence('text', (Array.isArray(value) ? value : [value]).join('\n'))
+				if (as === 'text') return fence('text', value)
+				if (as === 'html') return fence('html', value)
+				return fence('js', JSON.stringify(value, null, 2))
+			}
+			case 'figure': {
+				const build = F[a.name] ?? D[a.name] ?? A[a.name]
+				if (!build) throw new Error(`figure: unknown "${a.name}"`)
+				return '\n' + build() + '\n'
+			}
+		}
+	})
+}
+
 function convertNote(note, raw, order) {
 	const fm = raw.match(/^---\n([\s\S]*?)\n---\n/)
 	let body = fm ? raw.slice(fm[0].length) : raw
-	if (note.site) body = expandMarkers(body)
+	if (note.site || note.module !== 'internals') body = expandMarkers(body, note)
 	const titleMatch = body.match(/^# (.+)$/m)
 	const title = titleMatch ? titleMatch[1].trim() : note.file.replace(/\.md$/, '')
 	body = body.replace(/^# .+\n/m, '')

@@ -120,8 +120,9 @@ export function glossaryTable() {
 		.join('\n')
 }
 
-export function flashcards() {
-	return oneLine(`<figure class="fig flashcards" data-flashcards data-pagefind-ignore>
+/** scope: '' → React's internals, 'api' → public React APIs */
+export function flashcards(scope = '') {
+	return oneLine(`<figure class="fig flashcards" data-flashcards="${scope}" data-pagefind-ignore>
 		<div class="btn-row fc-top">
 			<button type="button" class="btn" data-fc="must" aria-pressed="true">Must know</button>
 			<button type="button" class="btn btn-ghost" data-fc="all" aria-pressed="false">Must + good to know</button>

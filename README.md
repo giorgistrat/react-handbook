@@ -53,6 +53,25 @@ npm run trace     # React call order via Chrome DevTools logpoints → generated
 
 Its animations live in `src/lib/animations-hrw.mjs`.
 
+## The shared example app: product store
+
+`examples/product-store` is one small Vite + React 19.2.5 app used by every
+module except React Internals. Each topic is a lesson
+(`src/lessons/<module>/<lesson>.tsx`, opened with `/?lesson=…`). The notes in
+`content/<module>/` embed its real code and recorded results with markers
+(`<!-- source region -->`, `<!-- compiled -->`, `<!-- output -->`, documented
+in `scripts/sync-notes.mjs`):
+
+```bash
+cd examples/product-store
+npm install
+npm run dev       # browse the lessons
+npm run record    # Babel output + run every lesson in Chrome → generated/*.json
+```
+
+Mark a snippet with `// #region name` … `// #endregion` (or the `{/* */}` form
+in JSX) to embed only that part.
+
 ## Stack
 
 Astro 7 (static output, Shiki highlighting), Pagefind (static search index,

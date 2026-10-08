@@ -62,7 +62,7 @@ of them.
 
 ## Flashcards
 
-<figure class="fig flashcards" data-flashcards data-pagefind-ignore><div class="btn-row fc-top"><button type="button" class="btn" data-fc="must" aria-pressed="true">Must know</button><button type="button" class="btn btn-ghost" data-fc="all" aria-pressed="false">Must + good to know</button><span class="fc-stats"></span><button type="button" class="btn btn-ghost fc-reset" data-fc="reset">Reset</button></div><div class="fc-card"><div class="fc-front"></div><div class="fc-back" hidden></div></div><div class="btn-row fc-actions"><button type="button" class="btn" data-fc="show">Show answer</button><button type="button" class="btn btn-ghost" data-fc="again" hidden>↻ Again</button><button type="button" class="btn" data-fc="known" hidden>✓ I knew it</button></div><figcaption>Say the answer out loud first, then check. Cards you got wrong come back first. Progress is saved in this browser only.</figcaption></figure>
+<figure class="fig flashcards" data-flashcards="" data-pagefind-ignore><div class="btn-row fc-top"><button type="button" class="btn" data-fc="must" aria-pressed="true">Must know</button><button type="button" class="btn btn-ghost" data-fc="all" aria-pressed="false">Must + good to know</button><span class="fc-stats"></span><button type="button" class="btn btn-ghost fc-reset" data-fc="reset">Reset</button></div><div class="fc-card"><div class="fc-front"></div><div class="fc-back" hidden></div></div><div class="btn-row fc-actions"><button type="button" class="btn" data-fc="show">Show answer</button><button type="button" class="btn btn-ghost" data-fc="again" hidden>↻ Again</button><button type="button" class="btn" data-fc="known" hidden>✓ I knew it</button></div><figcaption>Say the answer out loud first, then check. Cards you got wrong come back first. Progress is saved in this browser only.</figcaption></figure>
 
 ## Glossary
 
@@ -106,8 +106,8 @@ names come first in each group.
 
 | Name | In plain English | What it does |
 |---|---|---|
+| <span class="lvl lvl-must" title="must"></span> `createElement` | create an element | Returns a plain object describing UI: { $$typeof, type, key, props }. What JSX compiled to before the automatic runtime; children go in as extra arguments. |
 | <span class="lvl lvl-must" title="must"></span> `jsx` | create an element object | What JSX compiles to (automatic runtime). Returns a plain object { $$typeof, type, key, ref, props }. It does not call the component. |
-| <span class="lvl lvl-good" title="good"></span> `createElement` | create an element (classic) | The pre-React 17 way JSX compiled: children as extra arguments, props copied to remove key. Produces the same kind of object as jsx. |
 | <span class="lvl lvl-good" title="good"></span> `jsxDEV` | create an element (development) | The development version of jsx: also records where the element was written (file, line) for warnings and DevTools. |
 | <span class="lvl lvl-good" title="good"></span> `jsxs` | create an element with static children | The same as jsx in production; in development it skips the key warning for children written side by side in JSX. |
 

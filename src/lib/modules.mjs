@@ -3,6 +3,7 @@
 // folder of the Obsidian vault; the others are written in this repo
 // (content/<id>/*.md). Modules without notes yet show as "coming soon".
 
+import { NOTES as FUNDAMENTALS } from './notes/fundamentals.mjs'
 import { NOTES as INTERNALS } from './notes/internals.mjs'
 
 export const MODULES = [
@@ -11,7 +12,7 @@ export const MODULES = [
 		title: 'React Fundamentals',
 		illus: 'robot',
 		summary: 'From the raw DOM to JSX, components, props, forms, error boundaries and keys: nothing about React’s core API feels like magic.',
-		notes: [],
+		notes: FUNDAMENTALS,
 	},
 	{
 		id: 'hooks',

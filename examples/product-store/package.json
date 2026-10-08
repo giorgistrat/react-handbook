@@ -1,0 +1,26 @@
+{
+  "name": "product-store-demo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "typecheck": "tsc --noEmit",
+    "compile": "node scripts/compile.mjs",
+    "record": "node scripts/compile.mjs && node scripts/record.mjs"
+  },
+  "dependencies": {
+    "react": "19.2.5",
+    "react-dom": "19.2.5",
+    "react-error-boundary": "6.1.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^8.0.6",
+    "@babel/preset-react": "^8.0.1",
+    "@babel/preset-typescript": "^8.0.1",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.7",
+    "@vitejs/plugin-react": "^6.1.2",
+    "typescript": "6.0.3",
+    "vite": "8.3.2"
+  }
+}

@@ -236,7 +236,9 @@ export function setupPhaseBar() {
 export function setupFlashcards() {
 	const root = document.querySelector<HTMLElement>('[data-flashcards]')
 	if (!root) return
-	const all = Object.values(GLOSSARY).filter((e, i, arr) => arr.findIndex((x) => x.n === e.n) === i && e.l !== 'skip')
+	// data-flashcards="api" → public APIs; otherwise React's internals
+	const api = root.dataset.flashcards === 'api'
+	const all = Object.values(GLOSSARY).filter((e, i, arr) => arr.findIndex((x) => x.n === e.n) === i && e.l !== 'skip' && (e.p === 'api') === api)
 	const key = (n: string) => `fc:${n}`
 	const grade = (n: string) => {
 		try {
@@ -263,7 +265,7 @@ export function setupFlashcards() {
 		const known = deck.filter((e) => grade(e.n) === 'known').length
 		stats.textContent = `${known} of ${deck.length} known`
 		const e = deck[i % deck.length]
-		front.innerHTML = `<span class="fc-count">${(i % deck.length) + 1} / ${deck.length}</span><code>${esc(e.n)}</code><span class="fc-q">What does it do, and in which phase?</span>`
+		front.innerHTML = `<span class="fc-count">${(i % deck.length) + 1} / ${deck.length}</span><code>${esc(e.n)}</code><span class="fc-q">${api ? 'What is it for?' : 'What does it do, and in which phase?'}</span>`
 		back.innerHTML = `<span class="gp-phase ph-${e.p}">${PHASE[e.p]}</span><div class="gp-plain">${esc(e.pl)}</div><p class="gp-what">${esc(e.w)}</p>`
 		back.hidden = true
 		root.querySelector<HTMLElement>('[data-fc="show"]')!.hidden = false

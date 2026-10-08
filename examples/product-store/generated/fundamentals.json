@@ -1,0 +1,341 @@
+{
+  "dom": {
+    "card": {
+      "logs": [
+        "card built. On the page? false",
+        "after append. On the page? true",
+        "html: <article class=\"product-card\"><h2>Ceramic Mug</h2><p class=\"price\">$18.00</p></article>"
+      ],
+      "warnings": []
+    },
+    "escape": {
+      "logs": [
+        "textContent → child elements: 0 · visible text: Mug <img src=\"x\" onerror=\"window.__ran = true\">",
+        "innerHTML → child elements: 1 · first child: IMG",
+        "onerror handler ran? true"
+      ],
+      "warnings": []
+    }
+  },
+  "createElement": {
+    "logs": [
+      "element: {\"$$typeof\":\"Symbol(react.transitional.element)\",\"type\":\"article\",\"key\":null,\"props\":{\"className\":\"product-card\",\"children\":[{\"$$typeof\":\"Symbol(react.transitional.element)\",\"type\":\"h2\",\"key\":null,\"props\":{\"children\":\"Ceramic Mug\"}},{\"$$typeof\":\"Symbol(react.transitional.element)\",\"type\":\"p\",\"key\":null,\"props\":{\"className\":\"price\",\"children\":\"$18.00\"}}]}}",
+      "frozen? true true",
+      "keyed element: {\"key\":\"p1\",\"props\":{\"className\":\"item\",\"children\":\"Ceramic Mug\"}}",
+      "right after render(): \"\"",
+      "a moment later: <article class=\"product-card\"><h2>Ceramic Mug</h2><p class=\"price\">$18.00</p></article>"
+    ],
+    "warnings": [],
+    "element": {
+      "$$typeof": "Symbol(react.transitional.element)",
+      "type": "article",
+      "key": null,
+      "props": {
+        "className": "product-card",
+        "children": [
+          {
+            "$$typeof": "Symbol(react.transitional.element)",
+            "type": "h2",
+            "key": null,
+            "props": {
+              "children": "Ceramic Mug"
+            }
+          },
+          {
+            "$$typeof": "Symbol(react.transitional.element)",
+            "type": "p",
+            "key": null,
+            "props": {
+              "className": "price",
+              "children": "$18.00"
+            }
+          }
+        ]
+      }
+    },
+    "keyed": {
+      "key": "p1",
+      "props": {
+        "className": "item",
+        "children": "Ceramic Mug"
+      }
+    }
+  },
+  "jsx": {
+    "logs": [
+      "card html: <article class=\"product-card\"><h2>Ceramic Mug</h2><p class=\"price\">$18.00</p></article>",
+      "stock && → html: <p>0</p>",
+      "stock > 0 && → html: <p></p>",
+      "spread then explicit: explicit wins",
+      "explicit then spread: from props",
+      "fragment → <dl> children: DT, DD"
+    ],
+    "warnings": []
+  },
+  "components": {
+    "rerender": {
+      "logs": [
+        "render #1",
+        "  ProductCard runs (views = 1)",
+        "  Price runs",
+        "render #2",
+        "  ProductCard runs (views = 1)",
+        "  Price runs",
+        "render #3",
+        "  ProductCard runs (views = 1)",
+        "  Price runs"
+      ],
+      "warnings": []
+    },
+    "called": {
+      "logs": [
+        "1. building elements",
+        "  Price runs",
+        "2. elements built, calling render()",
+        "3. on screen"
+      ],
+      "warnings": []
+    },
+    "element": {
+      "logs": [
+        "1. building elements",
+        "2. elements built, calling render()",
+        "  Price runs",
+        "3. on screen"
+      ],
+      "warnings": []
+    }
+  },
+  "typescript": {
+    "logs": [
+      "rendered: $89.00 · €89.00"
+    ],
+    "warnings": [],
+    "tscErrors": [
+      "05-typescript.bad.tsx(6,10): error TS2322: Type 'string' is not assignable to type 'number'.",
+      "05-typescript.bad.tsx(7,23): error TS2322: Type '\"JPY\"' is not assignable to type '\"USD\" | \"EUR\" | \"GBP\" | undefined'.",
+      "05-typescript.bad.tsx(8,4): error TS2741: Property 'cents' is missing in type '{ currency: \"EUR\"; }' but required in type 'PriceProps'."
+    ]
+  },
+  "styling": {
+    "logs": [
+      "<span class=\"tag tag--sale\" style=\"font-weight: 600;\">-20%</span>",
+      "<span class=\"tag tag--soldout muted\" title=\"Back soon\" style=\"font-weight: 400; margin-left: 8px;\">Sold out</span>"
+    ],
+    "warnings": []
+  },
+  "forms": {
+    "get": {
+      "logs": [],
+      "warnings": [],
+      "url": "/submitted.html?storeName=Mugs+%26+More&email=sam%40example.com&password=hunter2&logo=logo.svg"
+    },
+    "postPlain": {
+      "logs": [],
+      "warnings": [],
+      "request": {
+        "contentType": "application/x-www-form-urlencoded",
+        "body": "storeName=Mugs+%26+More&email=sam%40example.com&password=hunter2&logo=logo.svg",
+        "containsFileBytes": false
+      }
+    },
+    "post": {
+      "logs": [],
+      "warnings": [],
+      "request": {
+        "contentType": "multipart/form-data; boundary=…",
+        "body": "------boundary\nContent-Disposition: form-data; name=\"storeName\"\n\nMugs & More\n------boundary\nContent-Disposition: form-data; name=\"email\"\n\nsam@example.com\n------boundary\nContent-Disposition: form-data; name=\"password\"\n\nhunter2\n------boundary\nContent-Disposition: form-data; name=\"logo\"; filename=\"logo.svg\"\nContent-Type: image/svg+xml\n\n<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><rect width=\"16\" height=\"16\" fill=\"#cba6f7\"/></svg>\n\n------boundary",
+        "containsFileBytes": true
+      }
+    },
+    "action": {
+      "logs": [
+        "action received: {\"storeName\":\"Mugs & More\",\"email\":\"sam@example.com\",\"password\":\"(hidden)\",\"logo\":\"logo.svg\"}"
+      ],
+      "warnings": [],
+      "sameUrl": true,
+      "afterSubmit": ""
+    }
+  },
+  "inputs": {
+    "untouched": {
+      "logs": [
+        "FormData: {\"productId\":\"p1\",\"size\":\"\",\"title\":\"Love it\"}"
+      ],
+      "warnings": []
+    },
+    "filled": {
+      "logs": [
+        "FormData: {\"productId\":\"p1\",\"size\":\"large\",\"rating\":\"5\",\"recommend\":\"on\",\"title\":\"Love it\"}"
+      ],
+      "warnings": []
+    },
+    "controlled": {
+      "logs": [],
+      "warnings": [
+        "You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`."
+      ],
+      "typed": {
+        "pinned": "Ceramic Mug",
+        "prefilled": "Ceramic Mug XL"
+      }
+    }
+  },
+  "errors": {
+    "noBoundary": {
+      "logs": [
+        "ProductDetails renders p404",
+        "ProductDetails renders p404",
+        "root: uncaught → Cannot read properties of undefined (reading 'cents')"
+      ],
+      "warnings": [],
+      "rootHtml": ""
+    },
+    "boundary": {
+      "logs": [
+        "ProductDetails renders p404",
+        "ProductDetails renders p1",
+        "ProductDetails renders p404",
+        "ProductDetails renders p1",
+        "root: caught by a boundary → Cannot read properties of undefined (reading 'cents')"
+      ],
+      "warnings": [],
+      "text": [
+        "Store",
+        "Couldn’t show this product: Cannot read properties of undefined (reading 'cents')",
+        "Try again",
+        "Ceramic Mug",
+        "$18.00"
+      ]
+    },
+    "reset": {
+      "logs": [
+        "ProductDetails renders p404",
+        "ProductDetails renders p404",
+        "root: caught by a boundary → Cannot read properties of undefined (reading 'cents')",
+        "ProductDetails renders p1"
+      ],
+      "warnings": [],
+      "before": [
+        "Couldn’t show this product: Cannot read properties of undefined (reading 'cents')",
+        "Try again"
+      ],
+      "after": [
+        "Ceramic Mug",
+        "$18.00"
+      ]
+    },
+    "unsafe": {
+      "logs": [
+        "window error event → Uncaught Error: Cart service is down"
+      ],
+      "warnings": [],
+      "fallbackShown": false
+    },
+    "safe": {
+      "logs": [
+        "root: caught by a boundary → Cart service is down"
+      ],
+      "warnings": [],
+      "fallbackShown": true,
+      "text": [
+        "Couldn’t show this product: Cart service is down",
+        "Try again"
+      ]
+    }
+  },
+  "arrays": {
+    "none": {
+      "logs": [],
+      "warnings": [
+        "Each child in a list should have a unique \"key\" prop."
+      ],
+      "before": [
+        {
+          "item": "Ceramic Mug",
+          "note": "Gift wrap, please"
+        },
+        {
+          "item": "Wireless Headphones",
+          "note": ""
+        },
+        {
+          "item": "Trail Backpack",
+          "note": ""
+        }
+      ],
+      "after": [
+        {
+          "item": "Wireless Headphones",
+          "note": "Gift wrap, please"
+        },
+        {
+          "item": "Trail Backpack",
+          "note": ""
+        }
+      ]
+    },
+    "index": {
+      "logs": [],
+      "warnings": [],
+      "before": [
+        {
+          "item": "Ceramic Mug",
+          "note": "Gift wrap, please"
+        },
+        {
+          "item": "Wireless Headphones",
+          "note": ""
+        },
+        {
+          "item": "Trail Backpack",
+          "note": ""
+        }
+      ],
+      "after": [
+        {
+          "item": "Wireless Headphones",
+          "note": "Gift wrap, please"
+        },
+        {
+          "item": "Trail Backpack",
+          "note": ""
+        }
+      ]
+    },
+    "id": {
+      "logs": [],
+      "warnings": [],
+      "before": [
+        {
+          "item": "Ceramic Mug",
+          "note": "Gift wrap, please"
+        },
+        {
+          "item": "Wireless Headphones",
+          "note": ""
+        },
+        {
+          "item": "Trail Backpack",
+          "note": ""
+        }
+      ],
+      "after": [
+        {
+          "item": "Wireless Headphones",
+          "note": ""
+        },
+        {
+          "item": "Trail Backpack",
+          "note": ""
+        }
+      ]
+    },
+    "reset": {
+      "logs": [],
+      "warnings": [],
+      "before": "SAVE10",
+      "after": ""
+    }
+  }
+}

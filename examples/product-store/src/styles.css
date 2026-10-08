@@ -1,0 +1,8 @@
+body { font: 16px/1.5 system-ui, sans-serif; margin: 24px; color: #1e1e2e; }
+.product-card { border: 1px solid #ccd0da; border-radius: 10px; padding: 12px 16px; max-width: 280px; margin: 8px 0; }
+.product-card h2 { margin: 0 0 4px; font-size: 18px; }
+.price { font-weight: 600; margin: 0; }
+.tag { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; }
+.tag--sale { background: #fde2e4; } .tag--new { background: #dcfce7; } .tag--soldout { background: #e5e7eb; }
+.cart li { display: flex; gap: 8px; align-items: center; margin: 4px 0; }
+[role='alert'] { color: #d20f39; }

@@ -2,7 +2,7 @@
 // the notes mention. Drives the hover cards, the "names off" reading mode,
 // the engine map and the flashcards.
 //
-// phase: setup · event · schedule · element · render · commit · effects · data
+// phase: setup · event · schedule · element · render · commit · effects · data · api (public APIs, used by the non-internals modules)
 // level: must (explain it out loud) · good (helps) · skip (implementation detail)
 // plain: a short phrase that replaces the name in "names off" mode
 // what:  one or two sentences
@@ -10,6 +10,7 @@
 // best:  the card that explains it best (slug)
 
 const E = (name, phase, level, plain, what, extra = {}) => ({ name, phase, level, plain, what, calls: [], calledBy: [], ...extra })
+const A = (name, plain, what, best, level = 'must') => E(name, 'api', level, plain, what, { best })
 
 export const GLOSSARY = [
 	// ─── Setup ──────────────────────────────────────────────────────────────
@@ -23,7 +24,7 @@ export const GLOSSARY = [
 	E('jsx', 'element', 'must', 'create an element object', 'What JSX compiles to (automatic runtime). Returns a plain object { $$typeof, type, key, ref, props }. It does not call the component.', { calledBy: ['your component'], best: 'how-react-works' }),
 	E('jsxs', 'element', 'good', 'create an element with static children', 'The same as jsx in production; in development it skips the key warning for children written side by side in JSX.', { calledBy: ['your component'], best: 'how-react-works' }),
 	E('jsxDEV', 'element', 'good', 'create an element (development)', 'The development version of jsx: also records where the element was written (file, line) for warnings and DevTools.', { calledBy: ['your component'], best: 'how-react-works' }),
-	E('createElement', 'element', 'good', 'create an element (classic)', 'The pre-React 17 way JSX compiled: children as extra arguments, props copied to remove key. Produces the same kind of object as jsx.', { best: 'how-react-works' }),
+	E('createElement', 'element', 'must', 'create an element', 'Returns a plain object describing UI: { $$typeof, type, key, props }. What JSX compiled to before the automatic runtime; children go in as extra arguments.', { best: 'raw-react-apis' }),
 
 	// ─── Events ─────────────────────────────────────────────────────────────
 	E('dispatchDiscreteEvent', 'event', 'good', 'React’s click/keydown listener', 'The root listener for discrete events (click, keydown, input…). Sets the event priority, finds the target fiber, collects onX props on the path and calls your handlers.', { calls: ['dispatchEvent'], best: 'a-state-update-end-to-end' }),
@@ -113,6 +114,19 @@ export const GLOSSARY = [
 	E('stateNode', 'data', 'skip', 'the real DOM node', 'For a DOM fiber, the DOM element; for a class, the instance; for HostRoot, the FiberRoot.', { best: 'react-fiber' }),
 	E('updateQueue', 'data', 'skip', 'queued effects or updates', 'On function components, the circular list of effects the commit walks.', { best: 'react-fiber' }),
 	E('lastPlacedIndex', 'data', 'good', 'rightmost position kept in place', 'During the list diff: the largest old index kept so far. A reused child with a smaller old index has to move.', { best: 'child-reconciliation-algorithm' }),
+	// ─── Public React APIs (Fundamentals and later modules) ───────────────────
+	A('key', 'element identity', 'A special prop that tells React which element is which among siblings. Not passed to the component: React keeps it on the element. Changing it remounts the element.', 'rendering-arrays'),
+	A('Fragment', 'group without a wrapper', '<>…</> groups siblings into one element without adding a DOM node.', 'using-jsx'),
+	A('dangerouslySetInnerHTML', 'insert raw HTML', 'The opt-in way to set innerHTML. React escapes every string otherwise, so this name is deliberately alarming.', 'hello-world-in-js'),
+	A('defaultValue', 'starting value only', 'Sets an input’s first value; after that the browser owns it and the user can edit it (uncontrolled). defaultChecked does the same for checkboxes and radios.', 'inputs'),
+	A('defaultChecked', 'starting checked state', 'The checkbox/radio version of defaultValue.', 'inputs', 'good'),
+	A('FormData', 'the form’s fields as key/value pairs', 'A browser API that reads every named field of a form. Unchecked checkboxes and empty radio groups are missing from it.', 'forms'),
+	A('ErrorBoundary', 'catch render errors below', 'A component (from react-error-boundary) that shows a fallback when a component below it throws while rendering.', 'error-boundaries'),
+	A('useErrorBoundary', 'reach the nearest boundary', 'Hook from react-error-boundary; showBoundary(error) sends errors from event handlers or async code to the nearest ErrorBoundary.', 'error-boundaries', 'good'),
+	A('showBoundary', 'send an error to the boundary', 'Hands an error the boundary can’t see (event handler, promise) to the nearest ErrorBoundary.', 'error-boundaries', 'good'),
+	A('resetErrorBoundary', 'try again', 'Clears the caught error and mounts the boundary’s children again from scratch (their state is gone).', 'error-boundaries', 'good'),
+	A('satisfies', 'check without widening', 'TypeScript operator: checks a value against a type but keeps the value’s own, narrower type.', 'typescript-with-react', 'good'),
+	A('ComponentProps', 'all props of an element', 'React.ComponentProps<\'span\'> is the full prop type of a native element: handy for components that wrap one.', 'typescript-with-react', 'good'),
 ]
 
 /** name (or alias) → entry */
@@ -131,6 +145,7 @@ export const PHASE_LABEL = {
 	commit: 'commit phase',
 	effects: 'effects',
 	data: 'fiber field',
+	api: 'React API',
 }
 
 /** The compact form shipped to the browser (no relationships that point nowhere). */
