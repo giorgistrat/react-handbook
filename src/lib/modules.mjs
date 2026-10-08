@@ -7,6 +7,7 @@ import { NOTES as FUNDAMENTALS } from './notes/fundamentals.mjs'
 import { NOTES as HOOKS } from './notes/hooks.mjs'
 import { NOTES as APIS } from './notes/apis.mjs'
 import { NOTES as PATTERNS } from './notes/patterns.mjs'
+import { NOTES as PERFORMANCE } from './notes/performance.mjs'
 import { NOTES as INTERNALS } from './notes/internals.mjs'
 
 export const MODULES = [
@@ -42,8 +43,8 @@ export const MODULES = [
 		id: 'performance',
 		title: 'React Performance',
 		illus: 'loop',
-		summary: 'Render less and respond faster: element and context optimization, memo, concurrent rendering, code splitting and windowing.',
-		notes: [],
+		summary: 'Render less and respond faster: element and context optimization, concurrent rendering, code splitting, expensive calculations, memo for lists and windowing.',
+		notes: PERFORMANCE,
 	},
 	{
 		id: 'suspense',

@@ -1,0 +1,587 @@
+{
+  "elements": {
+    "identity": {
+      "logs": [
+        "a === b → false · a === a → true",
+        "a.props === b.props → false",
+        "a → {\"type\":\"StoreFooter\",\"key\":null,\"props\":{}}"
+      ],
+      "warnings": []
+    },
+    "inline": {
+      "logs": [
+        "render Page",
+        "  render StoreFooter",
+        "render Page",
+        "  render StoreFooter",
+        "render Page",
+        "  render StoreFooter"
+      ],
+      "warnings": [],
+      "mount": [
+        "render Page",
+        "  render StoreFooter"
+      ],
+      "qty": [
+        "render Page",
+        "  render StoreFooter",
+        "render Page",
+        "  render StoreFooter"
+      ]
+    },
+    "reuse": {
+      "logs": [
+        "render Page",
+        "  render StoreFooter",
+        "render Page",
+        "render Page"
+      ],
+      "warnings": [],
+      "mount": [
+        "render Page",
+        "  render StoreFooter"
+      ],
+      "qty": [
+        "render Page",
+        "render Page"
+      ]
+    },
+    "prop": {
+      "logs": [
+        "render Page",
+        "  render StoreFooter",
+        "render Page",
+        "render Page"
+      ],
+      "warnings": [],
+      "mount": [
+        "render Page",
+        "  render StoreFooter"
+      ],
+      "qty": [
+        "render Page",
+        "render Page"
+      ]
+    },
+    "memo-element": {
+      "logs": [
+        "render Page",
+        "  render StoreFooter",
+        "render Page",
+        "render Page",
+        "render Page",
+        "  render StoreFooter"
+      ],
+      "warnings": [],
+      "mount": [
+        "render Page",
+        "  render StoreFooter"
+      ],
+      "qty": [
+        "render Page",
+        "render Page"
+      ],
+      "currency": [
+        "render Page",
+        "  render StoreFooter"
+      ]
+    },
+    "memo": {
+      "logs": [
+        "render Page",
+        "  render StoreFooter",
+        "render Page",
+        "render Page",
+        "render Page",
+        "  render StoreFooter"
+      ],
+      "warnings": [],
+      "mount": [
+        "render Page",
+        "  render StoreFooter"
+      ],
+      "qty": [
+        "render Page",
+        "render Page"
+      ],
+      "currency": [
+        "render Page",
+        "  render StoreFooter"
+      ]
+    },
+    "memo-broken": {
+      "logs": [
+        "render Page",
+        "  render StoreFooter",
+        "render Page",
+        "  render StoreFooter",
+        "render Page",
+        "  render StoreFooter"
+      ],
+      "warnings": [],
+      "mount": [
+        "render Page",
+        "  render StoreFooter"
+      ],
+      "qty": [
+        "render Page",
+        "  render StoreFooter",
+        "render Page",
+        "  render StoreFooter"
+      ]
+    }
+  },
+  "context": {
+    "inline": {
+      "logs": [
+        "render App",
+        "  render Main",
+        "  render ColorPicker",
+        "  render Footer",
+        "render App",
+        "  render Main",
+        "  render ColorPicker",
+        "  render Footer",
+        "render App",
+        "  render Main",
+        "  render ColorPicker",
+        "  render Footer"
+      ],
+      "warnings": [],
+      "mount": [
+        "render App",
+        "  render Main",
+        "  render ColorPicker",
+        "  render Footer"
+      ],
+      "count": [
+        "render App",
+        "  render Main",
+        "  render ColorPicker",
+        "  render Footer"
+      ],
+      "color": [
+        "render App",
+        "  render Main",
+        "  render ColorPicker",
+        "  render Footer"
+      ]
+    },
+    "memo-value": {
+      "logs": [
+        "render App",
+        "  render Main",
+        "  render ColorPicker",
+        "  render Footer",
+        "render App",
+        "  render Main",
+        "render App",
+        "  render Main",
+        "  render ColorPicker",
+        "  render Footer"
+      ],
+      "warnings": [],
+      "mount": [
+        "render App",
+        "  render Main",
+        "  render ColorPicker",
+        "  render Footer"
+      ],
+      "count": [
+        "render App",
+        "  render Main"
+      ],
+      "color": [
+        "render App",
+        "  render Main",
+        "  render ColorPicker",
+        "  render Footer"
+      ]
+    },
+    "provider": {
+      "logs": [
+        "render App",
+        "  render ThemeProvider",
+        "  render Main",
+        "  render ColorPicker",
+        "  render Footer",
+        "render App",
+        "  render ThemeProvider",
+        "  render Main",
+        "  render ThemeProvider",
+        "  render ColorPicker",
+        "  render Footer"
+      ],
+      "warnings": [],
+      "mount": [
+        "render App",
+        "  render ThemeProvider",
+        "  render Main",
+        "  render ColorPicker",
+        "  render Footer"
+      ],
+      "count": [
+        "render App",
+        "  render ThemeProvider",
+        "  render Main"
+      ],
+      "color": [
+        "  render ThemeProvider",
+        "  render ColorPicker",
+        "  render Footer"
+      ]
+    },
+    "split": {
+      "logs": [
+        "render App",
+        "  render ThemeProvider",
+        "  render Main",
+        "  render ColorPicker",
+        "  render Footer",
+        "render App",
+        "  render ThemeProvider",
+        "  render Main",
+        "  render ThemeProvider",
+        "  render Footer"
+      ],
+      "warnings": [],
+      "mount": [
+        "render App",
+        "  render ThemeProvider",
+        "  render Main",
+        "  render ColorPicker",
+        "  render Footer"
+      ],
+      "count": [
+        "render App",
+        "  render ThemeProvider",
+        "  render Main"
+      ],
+      "color": [
+        "  render ThemeProvider",
+        "  render Footer"
+      ]
+    }
+  },
+  "deferred": {
+    "plain": {
+      "logs": [
+        "  ProductGrid rendered for \"\"",
+        "  ProductGrid rendered for \"c\"",
+        "keystroke \"c\": next frame after 132 ms",
+        "  ProductGrid rendered for \"ce\"",
+        "keystroke \"e\": next frame after 129 ms",
+        "  ProductGrid rendered for \"cer\"",
+        "keystroke \"r\": next frame after 127 ms"
+      ],
+      "warnings": [],
+      "keystrokes": [
+        "keystroke \"c\": next frame after 132 ms",
+        "keystroke \"e\": next frame after 129 ms",
+        "keystroke \"r\": next frame after 127 ms"
+      ],
+      "renders": [
+        "  ProductGrid rendered for \"c\"",
+        "  ProductGrid rendered for \"ce\"",
+        "  ProductGrid rendered for \"cer\""
+      ],
+      "lines": [
+        "  ProductGrid rendered for \"c\"",
+        "keystroke \"c\": next frame after 132 ms",
+        "  ProductGrid rendered for \"ce\"",
+        "keystroke \"e\": next frame after 129 ms",
+        "  ProductGrid rendered for \"cer\"",
+        "keystroke \"r\": next frame after 127 ms"
+      ]
+    },
+    "deferred-no-memo": {
+      "logs": [
+        "  ProductGrid rendered for \"\"",
+        "  ProductGrid rendered for \"\"",
+        "keystroke \"c\": next frame after 129 ms",
+        "  ProductGrid rendered for \"c\"",
+        "  ProductGrid rendered for \"c\"",
+        "keystroke \"e\": next frame after 124 ms",
+        "  ProductGrid rendered for \"ce\"",
+        "  ProductGrid rendered for \"ce\"",
+        "keystroke \"r\": next frame after 124 ms",
+        "  ProductGrid rendered for \"cer\""
+      ],
+      "warnings": [],
+      "keystrokes": [
+        "keystroke \"c\": next frame after 129 ms",
+        "keystroke \"e\": next frame after 124 ms",
+        "keystroke \"r\": next frame after 124 ms"
+      ],
+      "renders": [
+        "  ProductGrid rendered for \"\"",
+        "  ProductGrid rendered for \"c\"",
+        "  ProductGrid rendered for \"c\"",
+        "  ProductGrid rendered for \"ce\"",
+        "  ProductGrid rendered for \"ce\"",
+        "  ProductGrid rendered for \"cer\""
+      ],
+      "lines": [
+        "  ProductGrid rendered for \"\"",
+        "keystroke \"c\": next frame after 129 ms",
+        "  ProductGrid rendered for \"c\"",
+        "  ProductGrid rendered for \"c\"",
+        "keystroke \"e\": next frame after 124 ms",
+        "  ProductGrid rendered for \"ce\"",
+        "  ProductGrid rendered for \"ce\"",
+        "keystroke \"r\": next frame after 124 ms",
+        "  ProductGrid rendered for \"cer\""
+      ]
+    },
+    "deferred": {
+      "logs": [
+        "  ProductGrid rendered for \"\"",
+        "keystroke \"c\": next frame after 7 ms",
+        "  ProductGrid rendered for \"c\"",
+        "keystroke \"e\": next frame after 1 ms",
+        "  ProductGrid rendered for \"ce\"",
+        "keystroke \"r\": next frame after 14 ms",
+        "  ProductGrid rendered for \"cer\""
+      ],
+      "warnings": [],
+      "keystrokes": [
+        "keystroke \"c\": next frame after 7 ms",
+        "keystroke \"e\": next frame after 1 ms",
+        "keystroke \"r\": next frame after 14 ms"
+      ],
+      "renders": [
+        "  ProductGrid rendered for \"c\"",
+        "  ProductGrid rendered for \"ce\"",
+        "  ProductGrid rendered for \"cer\""
+      ],
+      "lines": [
+        "keystroke \"c\": next frame after 7 ms",
+        "  ProductGrid rendered for \"c\"",
+        "keystroke \"e\": next frame after 1 ms",
+        "  ProductGrid rendered for \"ce\"",
+        "keystroke \"r\": next frame after 14 ms",
+        "  ProductGrid rendered for \"cer\""
+      ]
+    }
+  },
+  "split": {
+    "static": {
+      "logs": [
+        "size-chart.tsx evaluated",
+        "page mounted",
+        "chart shown"
+      ],
+      "warnings": []
+    },
+    "lazy": {
+      "logs": [
+        "page mounted",
+        "import() called",
+        "fallback shown",
+        "size-chart.tsx evaluated",
+        "chart shown"
+      ],
+      "warnings": []
+    },
+    "prefetch": {
+      "logs": [
+        "page mounted",
+        "import() called",
+        "size-chart.tsx evaluated",
+        "import() called",
+        "import() called",
+        "fallback shown",
+        "chart shown"
+      ],
+      "warnings": []
+    },
+    "transitionCold": {
+      "logs": [
+        "page mounted",
+        "import() called",
+        "import() called",
+        "pending ⏳ shown",
+        "import() called",
+        "size-chart.tsx evaluated",
+        "chart shown"
+      ],
+      "warnings": []
+    },
+    "transitionWarm": {
+      "logs": [
+        "page mounted",
+        "import() called",
+        "size-chart.tsx evaluated",
+        "import() called",
+        "pending ⏳ shown",
+        "import() called",
+        "chart shown"
+      ],
+      "warnings": []
+    }
+  },
+  "expensive": {
+    "plain": {
+      "logs": [
+        "  rankProducts(\"\") ran on the main thread: 83 ms",
+        "  rankProducts(\"\") ran on the main thread: 75 ms",
+        "  rankProducts(\"l\") ran on the main thread: 66 ms",
+        "keystroke \"l\": next frame after 70 ms",
+        "  rankProducts(\"la\") ran on the main thread: 46 ms",
+        "keystroke \"a\": next frame after 49 ms",
+        "  rankProducts(\"lam\") ran on the main thread: 20 ms",
+        "keystroke \"m\": next frame after 22 ms",
+        "  rankProducts(\"lamp\") ran on the main thread: 16 ms",
+        "keystroke \"p\": next frame after 17 ms"
+      ],
+      "warnings": [],
+      "mount": [
+        "  rankProducts(\"\") ran on the main thread: 83 ms"
+      ],
+      "refresh": [
+        "  rankProducts(\"\") ran on the main thread: 75 ms"
+      ],
+      "typing": [
+        "  rankProducts(\"l\") ran on the main thread: 66 ms",
+        "keystroke \"l\": next frame after 70 ms",
+        "  rankProducts(\"la\") ran on the main thread: 46 ms",
+        "keystroke \"a\": next frame after 49 ms",
+        "  rankProducts(\"lam\") ran on the main thread: 20 ms",
+        "keystroke \"m\": next frame after 22 ms",
+        "  rankProducts(\"lamp\") ran on the main thread: 16 ms",
+        "keystroke \"p\": next frame after 17 ms"
+      ],
+      "results": [
+        "Desk Lamp 1",
+        "Desk Lamp 10",
+        "Desk Lamp 100",
+        "Desk Lamp 1000",
+        "Desk Lamp 1001"
+      ]
+    },
+    "memo": {
+      "logs": [
+        "  rankProducts(\"\") ran on the main thread: 76 ms",
+        "  rankProducts(\"l\") ran on the main thread: 65 ms",
+        "keystroke \"l\": next frame after 68 ms",
+        "  rankProducts(\"la\") ran on the main thread: 44 ms",
+        "keystroke \"a\": next frame after 46 ms",
+        "  rankProducts(\"lam\") ran on the main thread: 20 ms",
+        "keystroke \"m\": next frame after 23 ms",
+        "  rankProducts(\"lamp\") ran on the main thread: 21 ms",
+        "keystroke \"p\": next frame after 24 ms"
+      ],
+      "warnings": [],
+      "mount": [
+        "  rankProducts(\"\") ran on the main thread: 76 ms"
+      ],
+      "refresh": [],
+      "typing": [
+        "  rankProducts(\"l\") ran on the main thread: 65 ms",
+        "keystroke \"l\": next frame after 68 ms",
+        "  rankProducts(\"la\") ran on the main thread: 44 ms",
+        "keystroke \"a\": next frame after 46 ms",
+        "  rankProducts(\"lam\") ran on the main thread: 20 ms",
+        "keystroke \"m\": next frame after 23 ms",
+        "  rankProducts(\"lamp\") ran on the main thread: 21 ms",
+        "keystroke \"p\": next frame after 24 ms"
+      ],
+      "results": [
+        "Desk Lamp 1",
+        "Desk Lamp 10",
+        "Desk Lamp 100",
+        "Desk Lamp 1000",
+        "Desk Lamp 1001"
+      ]
+    },
+    "worker": {
+      "logs": [
+        "keystroke \"l\": next frame after 17 ms",
+        "keystroke \"a\": next frame after 2 ms",
+        "keystroke \"m\": next frame after 2 ms",
+        "keystroke \"p\": next frame after 4 ms"
+      ],
+      "warnings": [],
+      "typing": [
+        "keystroke \"l\": next frame after 17 ms",
+        "keystroke \"a\": next frame after 2 ms",
+        "keystroke \"m\": next frame after 2 ms",
+        "keystroke \"p\": next frame after 4 ms"
+      ],
+      "results": [
+        "Desk Lamp 1",
+        "Desk Lamp 10",
+        "Desk Lamp 100",
+        "Desk Lamp 1000",
+        "Desk Lamp 1001"
+      ]
+    }
+  },
+  "list": {
+    "plain": {
+      "mount": "ListItem renders: 500",
+      "refresh": "ListItem renders: 500",
+      "hover row 5": "ListItem renders: 500",
+      "hover row 6": "ListItem renders: 500",
+      "highlighted": [
+        "6"
+      ]
+    },
+    "memo": {
+      "mount": "ListItem renders: 500",
+      "refresh": "ListItem renders: 0",
+      "hover row 5": "ListItem renders: 500",
+      "hover row 6": "ListItem renders: 500",
+      "highlighted": [
+        "6"
+      ]
+    },
+    "comparator": {
+      "mount": "ListItem renders: 500",
+      "refresh": "ListItem renders: 0",
+      "hover row 5": "ListItem renders: 1",
+      "hover row 6": "ListItem renders: 2",
+      "highlighted": [
+        "6"
+      ]
+    },
+    "primitive": {
+      "mount": "ListItem renders: 500",
+      "refresh": "ListItem renders: 0",
+      "hover row 5": "ListItem renders: 1",
+      "hover row 6": "ListItem renders: 2",
+      "highlighted": [
+        "6"
+      ]
+    }
+  },
+  "windowing": {
+    "all": {
+      "mount": [
+        "mount: React spent 75 ms rendering the list"
+      ],
+      "rowsInDom": 10000,
+      "refresh": [
+        "update: React spent 73 ms rendering the list"
+      ],
+      "afterScroll": {
+        "rowsInDom": 10000,
+        "firstVisible": "Velvet Kettle 35"
+      }
+    },
+    "virtual": {
+      "mount": [
+        "mount: React spent 2 ms rendering the list",
+        "nested-update: React spent 1 ms rendering the list"
+      ],
+      "rowsInDom": 18,
+      "refresh": [
+        "update: React spent 0 ms rendering the list"
+      ],
+      "afterScroll": {
+        "rowsInDom": 23,
+        "firstVisible": "Velvet Kettle 35"
+      }
+    }
+  }
+}

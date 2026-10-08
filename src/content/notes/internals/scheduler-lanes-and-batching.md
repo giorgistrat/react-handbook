@@ -16,7 +16,7 @@ source: "https://github.com/facebook/react/blob/main/packages/react-reconciler/s
 > `getHighestPriorityLanes`, `ensureRootIsScheduled`, `performWorkOnRoot`,
 > `scheduleTaskForRootDuringMicrotask`) and the `scheduler` package
 > (`scheduler.development.js`). Part of [React Internals](../../internals/). This is the
-> machinery behind *Concurrent Rendering* and
+> machinery behind [Concurrent Rendering](../../performance/concurrent-rendering/) and
 > *useTransition and Avoiding Loading Flicker*. My own notes and
 > clarifications are marked with `> 💬`.
 
@@ -336,7 +336,7 @@ immediately.
   immediately at `SyncLane`. Use it sparingly ([flushSync](../../apis/flushsync/)).
 - **Time slicing doesn't make work cheaper.** A 300ms render in a transition
   still costs 300ms of CPU. It just stops blocking input. Fix slow renders
-  first (*Optimize Rendering*).
+  first ([Optimize Rendering](../../performance/optimize-rendering/)).
 - **Lane numbers are internal** and change between versions (React 19 added
   a gesture lane, for example). Think in categories (sync, continuous,
   default, transition, idle), not values.

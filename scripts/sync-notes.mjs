@@ -43,6 +43,7 @@ import * as F from '../src/lib/animations-fund.mjs'
 import * as HK from '../src/lib/animations-hooks.mjs'
 import * as AP from '../src/lib/animations-apis.mjs'
 import * as PT from '../src/lib/animations-patterns.mjs'
+import * as PF from '../src/lib/animations-performance.mjs'
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const OUT_DIR = path.join(ROOT, 'src/content/notes')
@@ -53,6 +54,9 @@ const DEMO = path.join(ROOT, 'examples/how-react-works')
 const STORE = path.join(ROOT, 'examples/product-store')
 
 const byTitle = new Map(ALL_NOTES.map((n) => [n.file.replace(/\.md$/, ''), n]))
+// Vault notes that were merged into a site note as one of its sections:
+// `aliases: { 'Old title': 'Heading in the site note' }` in src/lib/notes/<module>.mjs
+const aliasOf = new Map(ALL_NOTES.flatMap((n) => Object.entries(n.aliases ?? {}).map(([title, heading]) => [title, { note: n, heading }])))
 // [[React Suspense]] etc. link to the module page (only for modules that have notes)
 const moduleByTitle = new Map(
 	MODULES.filter((m) => m.notes.length).flatMap((m) => [[m.title, m], ...(m.moc ? [[m.moc.replace(/\.md$/, ''), m]] : [])]),
@@ -136,6 +140,11 @@ function convertWikilinks(text, selfSlug) {
 		if (note) {
 			const href = note.slug === selfSlug ? '' : `../../${note.module}/${note.slug}/`
 			return `[${label}](${href}${heading ? '#' + anchor(heading) : ''})`
+		}
+		const merged = aliasOf.get(target)
+		if (merged) {
+			const href = merged.note.slug === selfSlug ? '' : `../../${merged.note.module}/${merged.note.slug}/`
+			return `[${label}](${href}#${anchor(heading || merged.heading)})`
 		}
 		const mod = moduleByTitle.get(target)
 		if (mod) return `[${label}](../../${mod.id}/)`
@@ -452,7 +461,7 @@ function expandStoreMarkers(md) {
 				return fence('js', JSON.stringify(value, null, 2))
 			}
 			case 'figure': {
-				const build = F[a.name] ?? HK[a.name] ?? AP[a.name] ?? PT[a.name] ?? D[a.name] ?? A[a.name]
+				const build = F[a.name] ?? HK[a.name] ?? AP[a.name] ?? PT[a.name] ?? PF[a.name] ?? D[a.name] ?? A[a.name]
 				if (!build) throw new Error(`figure: unknown "${a.name}"`)
 				return '\n' + build() + '\n'
 			}

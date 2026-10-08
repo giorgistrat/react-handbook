@@ -15,7 +15,7 @@ source: "https://github.com/facebook/react/blob/main/packages/react-reconciler/s
 > `performUnitOfWork`, `completeUnitOfWork`, `beginWork` and
 > `bailoutOnAlreadyFinishedWork` in the React 19.2.5 build. Part of
 > [React Internals](../../internals/). It builds on [React Fiber](../../internals/react-fiber/) and explains the mechanism
-> behind the *React Performance* module's optimizations. My own notes and
+> behind the [React Performance](../../performance/) module's optimizations. My own notes and
 > clarifications are marked with `> 💬`.
 
 ## Interview Q&A
@@ -192,7 +192,7 @@ A `memo` component whose parent re-rendered *does* get a new props object, so
 the `!==` check above says "changed". `updateMemoComponent` /
 `updateSimpleMemoComponent` then run a second check,
 `shallowEqual(prevProps, nextProps)` (or your `arePropsEqual`), and bail out if
-it passes. See *Memoize Components*.
+it passes. See [Memoize Components](../../performance/element-optimization/#5-memo-the-component).
 
 ### A second chance after rendering
 
@@ -266,10 +266,10 @@ the root with the new lanes.
   object, which means a render unless `memo` says otherwise.
 - **Reusing an element skips it for free.** `children` passed from a parent
   that didn't re-render carry the *same* props object, so they bail out.
-  This is the basis of *Element Optimization* and *Provider Component*.
+  This is the basis of [Element Optimization](../../performance/element-optimization/) and [Provider Component](../../performance/optimize-context/#3-a-provider-component).
 - **Context bypasses bailouts.** A fiber that reads a changed context renders
   even if its parent bailed out and its props are identical
-  (*Optimize Context*).
+  ([Optimize Context](../../performance/optimize-context/)).
 - **Rendering ≠ committing.** The loop can run a component and then discard
   the result (bailout after render, abandoned transitions).
 

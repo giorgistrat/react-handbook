@@ -9,6 +9,7 @@
     "record": "node scripts/compile.mjs && node scripts/record.mjs"
   },
   "dependencies": {
+    "@tanstack/react-virtual": "3.14.13",
     "react": "19.2.5",
     "react-dom": "19.2.5",
     "react-error-boundary": "6.1.5"

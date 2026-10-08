@@ -136,7 +136,7 @@ the goals Fiber was built for:
 All four are only possible in the render phase. A half-applied DOM mutation
 can't be paused or aborted, so the commit phase never is. That's why the
 render phase must be pure. It's also why React can show a consistent UI while
-rendering concurrently (*Concurrent Rendering*).
+rendering concurrently ([Concurrent Rendering](../../performance/concurrent-rendering/)).
 
 The same doc separates **reconciliation** ("the algorithm React uses to diff
 one tree with another to determine which parts need to be changed") from

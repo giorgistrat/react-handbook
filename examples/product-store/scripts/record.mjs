@@ -41,7 +41,15 @@ const capturePosts = {
 	},
 }
 
-const server = await createServer({ root: ROOT, logLevel: 'silent', plugins: [capturePosts], server: { port: PORT, strictPort: true } })
+// The size chart's code arrives 500 ms after it's requested, like a real network
+const slowChunk = {
+	name: 'slow-chunk',
+	configureServer(s) {
+		s.middlewares.use((req, res, next) => (req.url.includes('size-chart') ? setTimeout(next, 500) : next()))
+	},
+}
+
+const server = await createServer({ root: ROOT, logLevel: 'silent', plugins: [capturePosts, slowChunk], server: { port: PORT, strictPort: true } })
 await server.listen()
 const browser = await puppeteer.launch({ executablePath: CHROME, headless: true })
 
@@ -700,7 +708,164 @@ async function recordPatterns() {
 	return data
 }
 
-const MODULES = { fundamentals: recordFundamentals, hooks: recordHooks, apis: recordApis, patterns: recordPatterns }
+async function recordPerformance() {
+	const P = (lesson) => `performance/${lesson}`
+	const data = {}
+	const click = async (page, sel, ms = 150) => {
+		await since(page)
+		await page.click(sel)
+		await wait(ms)
+		return since(page)
+	}
+
+	// 1. Elements
+	const qtyTwice = async (page) => {
+		await wait(100)
+		const mount = await since(page)
+		await page.click('#qty')
+		await wait(50)
+		const qty = [...(await since(page))]
+		await page.click('#qty')
+		await wait(100)
+		qty.push(...(await since(page)))
+		const currency = (await page.$('#currency')) ? await click(page, '#currency') : undefined
+		return { mount, qty, currency }
+	}
+	data.elements = { identity: await run(P('01-elements'), 'identity') }
+	for (const s of ['inline', 'reuse', 'prop', 'memo-element', 'memo', 'memo-broken']) data.elements[s] = await run(P('01-elements'), s, qtyTwice)
+
+	// 2. Context
+	const contextFlow = async (page) => {
+		await wait(100)
+		const mount = await since(page)
+		return { mount, count: await click(page, '#count'), color: await click(page, '#color') }
+	}
+	data.context = {}
+	for (const s of ['inline', 'memo-value', 'provider', 'split']) data.context[s] = await run(P('02-context'), s, contextFlow)
+
+	// 3. useDeferredValue
+	const typeCer = async (page) => {
+		await wait(200)
+		await since(page)
+		await page.focus('#search')
+		for (const key of 'cer') {
+			await page.keyboard.type(key)
+			await wait(150)
+		}
+		await wait(1200)
+		const lines = await since(page)
+		return { keystrokes: lines.filter((l) => l.startsWith('keystroke')), renders: lines.filter((l) => !l.startsWith('keystroke')), lines }
+	}
+	data.deferred = {}
+	for (const s of ['plain', 'deferred-no-memo', 'deferred']) data.deferred[s] = await run(P('03-deferred'), s, typeCer)
+
+	// 4. Code splitting (the chunk takes 500 ms to arrive)
+	const showChart = async (page) => {
+		await page.click('#show')
+		await wait(1200)
+		return {}
+	}
+	data.split = {
+		static: await run(P('04-static-import'), null, showChart),
+		lazy: await run(P('04-code-splitting'), 'lazy', showChart),
+		prefetch: await run(P('04-code-splitting'), 'prefetch', async (page) => {
+			await page.hover('#show')
+			await wait(1200) // long enough for the download to finish
+			await page.click('#show')
+			await wait(800)
+			return {}
+		}),
+		transitionCold: await run(P('04-code-splitting'), 'transition', showChart),
+		transitionWarm: await run(P('04-code-splitting'), 'transition', async (page) => {
+			await page.hover('#show')
+			await wait(1200)
+			await page.click('#show')
+			await wait(800)
+			return {}
+		}),
+	}
+
+	// 5. Expensive calculations
+	const typeLamp = async (page) => {
+		await page.focus('#search')
+		await since(page)
+		for (const key of 'lamp') {
+			await page.keyboard.type(key)
+			await wait(200)
+		}
+		await wait(500)
+		return since(page)
+	}
+	const calcFlow = async (page) => {
+		await wait(300)
+		const mount = await since(page)
+		const refresh = await click(page, '#refresh', 300)
+		const typing = await typeLamp(page)
+		return { mount, refresh, typing, results: await page.$$eval('#results li', (l) => l.map((x) => x.textContent)) }
+	}
+	data.expensive = {
+		plain: await run(P('05-expensive'), 'plain', calcFlow),
+		memo: await run(P('05-expensive'), 'memo', calcFlow),
+		worker: await run(P('05-expensive'), 'worker', async (page) => {
+			await page.waitForSelector('#results li')
+			const typing = await typeLamp(page)
+			return { typing, results: await page.$$eval('#results li', (l) => l.map((x) => x.textContent)) }
+		}),
+	}
+
+	// 6. List items
+	const count = async (page) => {
+		await page.evaluate(() => window.__countRenders())
+		return (await since(page)).at(-1)
+	}
+	const listFlow = async (page) => {
+		await wait(100)
+		const mount = await count(page)
+		await page.click('#refresh')
+		await wait(150)
+		const refresh = await count(page)
+		await page.hover('li[data-index="5"]')
+		await wait(150)
+		const hover1 = await count(page)
+		await page.hover('li[data-index="6"]')
+		await wait(150)
+		const hover2 = await count(page)
+		const highlighted = await page.$$eval('li.highlighted', (l) => l.map((x) => x.dataset.index))
+		return { mount, refresh, 'hover row 5': hover1, 'hover row 6': hover2, highlighted }
+	}
+	data.list = {}
+	for (const s of ['plain', 'memo', 'comparator', 'primitive']) data.list[s] = await run(P('06-list'), s, listFlow)
+
+	// 7. Windowing
+	const windowFlow = async (page) => {
+		await wait(300)
+		const mount = await since(page)
+		const rowsInDom = await page.$$eval('.scroller li', (l) => l.length)
+		const refresh = await click(page, '#refresh', 300)
+		await page.$eval('.scroller', (el) => (el.scrollTop = 5000 * 24))
+		await wait(400)
+		await since(page)
+		const afterScroll = await page.evaluate(() => {
+			const box = document.querySelector('.scroller').getBoundingClientRect()
+			const first = [...document.querySelectorAll('.scroller li')].find((li) => li.getBoundingClientRect().bottom > box.top + 1)
+			return { rowsInDom: document.querySelectorAll('.scroller li').length, firstVisible: first?.textContent }
+		})
+		return { mount, rowsInDom, refresh, afterScroll }
+	}
+	data.windowing = {
+		all: await run(P('07-windowing'), null, windowFlow),
+		virtual: await run(P('07-windowing'), 'virtual', windowFlow),
+	}
+	// these are shown as whole objects in the notes: keep only the measured fields
+	for (const r of [...Object.values(data.list), ...Object.values(data.windowing)]) {
+		if (r.warnings.length) throw new Error(`unexpected warnings: ${r.warnings}`)
+		delete r.logs
+		delete r.warnings
+	}
+	return data
+}
+
+const MODULES = { fundamentals: recordFundamentals, hooks: recordHooks, apis: recordApis, patterns: recordPatterns, performance: recordPerformance }
 const wanted = process.argv.slice(2).length ? process.argv.slice(2) : Object.keys(MODULES)
 fs.mkdirSync(OUT, { recursive: true })
 try {
