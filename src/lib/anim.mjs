@@ -55,6 +55,7 @@ const PHASES = {
 	commit: 'commit phase',
 	paint: 'browser',
 	effects: 'after paint',
+	effect: 'effects', // timing-neutral: effects may run before or after paint
 	event: 'event',
 }
 

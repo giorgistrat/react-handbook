@@ -72,7 +72,7 @@ There are only two reasons a component renders (react.dev):
 
 > Context changes and a parent re-rendering are really cases of (2):
 > *someone's* state changed and React re-rendered from there downward. Props
-> never trigger anything by themselves. See *React Re-rendering*.
+> never trigger anything by themselves. See [React Re-rendering](../../hooks/react-re-rendering/).
 
 Internally a trigger doesn't start work right away. `setState` creates an
 update object, assigns it a priority (**lane**), marks the path from the

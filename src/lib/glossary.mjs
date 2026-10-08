@@ -127,6 +127,17 @@ export const GLOSSARY = [
 	A('resetErrorBoundary', 'try again', 'Clears the caught error and mounts the boundary’s children again from scratch (their state is gone).', 'error-boundaries', 'good'),
 	A('satisfies', 'check without widening', 'TypeScript operator: checks a value against a type but keeps the value’s own, narrower type.', 'typescript-with-react', 'good'),
 	A('ComponentProps', 'all props of an element', 'React.ComponentProps<\'span\'> is the full prop type of a native element: handy for components that wrap one.', 'typescript-with-react', 'good'),
+	A('useState', 'remembered value', 'Returns [value, setValue]. React keeps the value between renders; calling setValue queues an update and a re-render. Pass a function to compute the first value only once.', 'managing-ui-state'),
+	A('useEffect', 'sync with the outside world', 'Runs your function after React commits a render, and again when a dependency changes. The function it returns (cleanup) runs before the next run and on unmount.', 'side-effects'),
+	A('useLayoutEffect', 'effect before paint', 'Like useEffect, but runs right after the DOM is updated and before the browser paints. For measuring or adjusting the DOM without flicker.', 'react-lifecycle', 'good'),
+	A('useRef', 'a box that survives renders', 'Returns { current }: the same object every render. Changing .current doesn’t re-render. Pass it as ref to get a DOM node.', 'dom-refs-and-effect-dependencies'),
+	A('useId', 'a unique id per component', 'Returns an id that is unique on the page and the same on server and client. For label/input and aria-* pairs, not for list keys.', 'the-useid-hook', 'good'),
+	A('useReducer', 'state with named updates', 'Returns [state, dispatch]. dispatch(action) asks React to compute the next state with your reducer(state, action).', 'usestate-vs-usereducer'),
+	A('useMemo', 'remember a computed value', 'Recomputes only when its dependencies change; otherwise returns the same value (and object identity) as last render.', 'react-re-rendering'),
+	A('useCallback', 'remember a function', 'Returns the same function between renders until a dependency changes. useCallback(fn, deps) is useMemo(() => fn, deps).', 'react-re-rendering'),
+	A('memo', 'skip if props are the same', 'Wraps a component so it doesn’t re-render when its parent does, as long as every prop is Object.is-equal to last time.', 'react-re-rendering'),
+	A('StrictMode', 'development checks', 'In development, renders components twice and runs effects setup → cleanup → setup once more on mount, to expose impure renders and missing cleanups.', 'react-lifecycle', 'good'),
+	A('Object.is', 'React’s equality check', 'How React compares dependencies, memo props and state: by value for primitives, by identity for objects, arrays and functions.', 'dom-refs-and-effect-dependencies', 'good'),
 ]
 
 /** name (or alias) → entry */

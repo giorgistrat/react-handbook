@@ -16,7 +16,7 @@ source: "https://github.com/facebook/react/blob/main/packages/react-reconciler/s
 > `flushSpawnedWork` and `flushPassiveEffects` in the React 19.2.5 build,
 > plus react.dev's [`useLayoutEffect`](https://react.dev/reference/react/useLayoutEffect)
 > and [`useEffect`](https://react.dev/reference/react/useEffect) pages. Part
-> of [React Internals](../../internals/), and a lower-level companion to *React Lifecycle*.
+> of [React Internals](../../internals/), and a lower-level companion to [React Lifecycle](../../hooks/react-lifecycle/).
 > My own notes and clarifications are marked with `> 💬`.
 
 ## Interview Q&A

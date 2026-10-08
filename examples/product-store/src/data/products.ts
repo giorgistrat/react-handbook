@@ -19,3 +19,11 @@ export const products: Product[] = [
 ]
 
 export const formatUSD = (cents: number) => `$${(cents / 100).toFixed(2)}`
+
+export const categories = ['audio', 'home', 'outdoor', 'office'] as const
+
+/** Products whose name or category contains every word of the query. */
+export function searchProducts(query: string) {
+	const words = query.toLowerCase().split(' ').filter(Boolean)
+	return products.filter((p) => words.every((w) => p.name.toLowerCase().includes(w) || p.category === w))
+}

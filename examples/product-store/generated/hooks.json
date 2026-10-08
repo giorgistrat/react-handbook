@@ -1,0 +1,506 @@
+{
+  "search": {
+    "uncontrolled": {
+      "logs": [],
+      "warnings": [],
+      "afterCheckbox": {
+        "input": "lamp",
+        "officeChecked": true,
+        "results": "1 products: Desk Lamp"
+      },
+      "typedAudio": {
+        "audioChecked": false,
+        "results": "2 products: Wireless Headphones, Bluetooth Speaker"
+      }
+    },
+    "controlled": {
+      "logs": [],
+      "warnings": [],
+      "afterCheckbox": {
+        "input": "lamp office",
+        "officeChecked": true,
+        "results": "1 products: Desk Lamp"
+      },
+      "typedAudio": {
+        "audioChecked": true,
+        "results": "2 products: Wireless Headphones, Bluetooth Speaker"
+      }
+    },
+    "eager": {
+      "logs": [
+        "getQueryParam() runs",
+        "getQueryParam() runs",
+        "getQueryParam() runs",
+        "getQueryParam() runs"
+      ],
+      "warnings": [],
+      "value": "mug xl"
+    },
+    "lazy": {
+      "logs": [
+        "getQueryParam() runs"
+      ],
+      "warnings": [],
+      "value": "mug xl"
+    }
+  },
+  "effects": {
+    "leak": {
+      "logs": [
+        "popstate listener #1 runs",
+        "popstate listener #2 runs",
+        "popstate listener #3 runs",
+        "popstate listener #4 runs"
+      ],
+      "warnings": [],
+      "afterBack": [
+        "popstate listener #1 runs",
+        "popstate listener #2 runs",
+        "popstate listener #3 runs",
+        "popstate listener #4 runs"
+      ],
+      "input": ""
+    },
+    "cleanup": {
+      "logs": [
+        "popstate listener #4 runs"
+      ],
+      "warnings": [],
+      "afterBack": [
+        "popstate listener #4 runs"
+      ],
+      "input": ""
+    }
+  },
+  "lifecycle": {
+    "normal": {
+      "logs": [
+        "createRoot().render()",
+        "render (count = 0)",
+        "  layout effect (count = 0)",
+        "  next frame starts (count = 0)",
+        "  effect (count = 0)",
+        "render (count = 1)",
+        "  layout cleanup (count = 0)",
+        "  layout effect (count = 1)",
+        "  effect cleanup (count = 0)",
+        "  effect (count = 1)",
+        "  next frame starts (count = 1)",
+        "  layout cleanup (count = 1)",
+        "  effect cleanup (count = 1)"
+      ],
+      "warnings": [],
+      "mount": [
+        "createRoot().render()",
+        "render (count = 0)",
+        "  layout effect (count = 0)",
+        "  next frame starts (count = 0)",
+        "  effect (count = 0)"
+      ],
+      "update": [
+        "render (count = 1)",
+        "  layout cleanup (count = 0)",
+        "  layout effect (count = 1)",
+        "  effect cleanup (count = 0)",
+        "  effect (count = 1)",
+        "  next frame starts (count = 1)"
+      ],
+      "unmount": [
+        "  layout cleanup (count = 1)",
+        "  effect cleanup (count = 1)"
+      ]
+    },
+    "strict": {
+      "logs": [
+        "createRoot().render()",
+        "render (count = 0)",
+        "render (count = 0)",
+        "  layout effect (count = 0)",
+        "  effect (count = 0)",
+        "  layout cleanup (count = 0)",
+        "  effect cleanup (count = 0)",
+        "  layout effect (count = 0)",
+        "  effect (count = 0)",
+        "  next frame starts (count = 0)",
+        "  next frame starts (count = 0)"
+      ],
+      "warnings": [],
+      "mount": [
+        "createRoot().render()",
+        "render (count = 0)",
+        "render (count = 0)",
+        "  layout effect (count = 0)",
+        "  effect (count = 0)",
+        "  layout cleanup (count = 0)",
+        "  effect cleanup (count = 0)",
+        "  layout effect (count = 0)",
+        "  effect (count = 0)",
+        "  next frame starts (count = 0)",
+        "  next frame starts (count = 0)"
+      ]
+    }
+  },
+  "lifting": {
+    "lifted": {
+      "logs": [
+        "App renders",
+        "  Search renders",
+        "  ProductGrid renders",
+        "  Card p1 renders",
+        "  Card p2 renders",
+        "  Card p3 renders",
+        "  Card p4 renders",
+        "  Card p5 renders",
+        "  Card p6 renders",
+        "  ProductGrid renders",
+        "  Card p3 renders",
+        "  Card p1 renders",
+        "  Card p2 renders",
+        "  Card p4 renders",
+        "  Card p5 renders",
+        "  Card p6 renders",
+        "App renders",
+        "  Search renders",
+        "  ProductGrid renders",
+        "  Card p1 renders",
+        "  Card p4 renders",
+        "App renders",
+        "  Search renders",
+        "  ProductGrid renders",
+        "  Card p1 renders",
+        "App renders",
+        "  Search renders",
+        "  ProductGrid renders",
+        "  Card p1 renders",
+        "App renders",
+        "  Search renders",
+        "  ProductGrid renders",
+        "  Card p1 renders",
+        "App renders",
+        "  Search renders",
+        "  ProductGrid renders",
+        "  Card p1 renders",
+        "  Card p4 renders",
+        "App renders",
+        "  Search renders",
+        "  ProductGrid renders",
+        "  Card p3 renders",
+        "  Card p1 renders",
+        "  Card p2 renders",
+        "  Card p4 renders",
+        "  Card p5 renders",
+        "  Card p6 renders"
+      ],
+      "warnings": [],
+      "click": [
+        "  ProductGrid renders",
+        "  Card p3 renders",
+        "  Card p1 renders",
+        "  Card p2 renders",
+        "  Card p4 renders",
+        "  Card p5 renders",
+        "  Card p6 renders"
+      ],
+      "order": [
+        "Trail Backpack♥",
+        "Ceramic Mug♡",
+        "Wireless Headphones♡",
+        "Desk Lamp♡",
+        "Bluetooth Speaker♡",
+        "Notebook Set♡"
+      ],
+      "backpackAfterFilter": "Trail Backpack♥"
+    },
+    "colocated": {
+      "logs": [
+        "App renders",
+        "  Search renders",
+        "  ProductGrid renders",
+        "  Card p1 renders",
+        "  Card p2 renders",
+        "  Card p3 renders",
+        "  Card p4 renders",
+        "  Card p5 renders",
+        "  Card p6 renders",
+        "  Card p3 renders",
+        "App renders",
+        "  Search renders",
+        "  ProductGrid renders",
+        "  Card p1 renders",
+        "  Card p4 renders",
+        "App renders",
+        "  Search renders",
+        "  ProductGrid renders",
+        "  Card p1 renders",
+        "App renders",
+        "  Search renders",
+        "  ProductGrid renders",
+        "  Card p1 renders",
+        "App renders",
+        "  Search renders",
+        "  ProductGrid renders",
+        "  Card p1 renders",
+        "App renders",
+        "  Search renders",
+        "  ProductGrid renders",
+        "  Card p1 renders",
+        "  Card p4 renders",
+        "App renders",
+        "  Search renders",
+        "  ProductGrid renders",
+        "  Card p1 renders",
+        "  Card p2 renders",
+        "  Card p3 renders",
+        "  Card p4 renders",
+        "  Card p5 renders",
+        "  Card p6 renders"
+      ],
+      "warnings": [],
+      "click": [
+        "  Card p3 renders"
+      ],
+      "order": [
+        "Ceramic Mug♡",
+        "Wireless Headphones♡",
+        "Trail Backpack♥",
+        "Desk Lamp♡",
+        "Bluetooth Speaker♡",
+        "Notebook Set♡"
+      ],
+      "backpackAfterFilter": "Trail Backpack♡"
+    }
+  },
+  "refs": {
+    "callback": {
+      "logs": [
+        "Object.is(a, b) → false · Object.is(1.2, 1.2) → true",
+        "  attachZoom(scale 1.2)",
+        "  zoom destroyed",
+        "  attachZoom(scale 1.2)",
+        "  zoom destroyed",
+        "  attachZoom(scale 1.2)",
+        "  zoom destroyed",
+        "  attachZoom(scale 1.5)"
+      ],
+      "warnings": [],
+      "mount": [
+        "Object.is(a, b) → false · Object.is(1.2, 1.2) → true",
+        "  attachZoom(scale 1.2)"
+      ],
+      "unrelated": [
+        "  zoom destroyed",
+        "  attachZoom(scale 1.2)",
+        "  zoom destroyed",
+        "  attachZoom(scale 1.2)"
+      ],
+      "scaleChanged": [
+        "  zoom destroyed",
+        "  attachZoom(scale 1.5)"
+      ]
+    },
+    "object": {
+      "logs": [
+        "Object.is(a, b) → false · Object.is(1.2, 1.2) → true",
+        "  attachZoom(scale 1.2)",
+        "  zoom destroyed",
+        "  attachZoom(scale 1.2)",
+        "  zoom destroyed",
+        "  attachZoom(scale 1.2)",
+        "  zoom destroyed",
+        "  attachZoom(scale 1.5)"
+      ],
+      "warnings": [],
+      "mount": [
+        "Object.is(a, b) → false · Object.is(1.2, 1.2) → true",
+        "  attachZoom(scale 1.2)"
+      ],
+      "unrelated": [
+        "  zoom destroyed",
+        "  attachZoom(scale 1.2)",
+        "  zoom destroyed",
+        "  attachZoom(scale 1.2)"
+      ],
+      "scaleChanged": [
+        "  zoom destroyed",
+        "  attachZoom(scale 1.5)"
+      ]
+    },
+    "primitives": {
+      "logs": [
+        "Object.is(a, b) → false · Object.is(1.2, 1.2) → true",
+        "  attachZoom(scale 1.2)",
+        "  zoom destroyed",
+        "  attachZoom(scale 1.5)"
+      ],
+      "warnings": [],
+      "mount": [
+        "Object.is(a, b) → false · Object.is(1.2, 1.2) → true",
+        "  attachZoom(scale 1.2)"
+      ],
+      "unrelated": [],
+      "scaleChanged": [
+        "  zoom destroyed",
+        "  attachZoom(scale 1.5)"
+      ]
+    }
+  },
+  "useId": {
+    "hardcoded": {
+      "logs": [],
+      "warnings": [],
+      "ids": [
+        [
+          "review-title",
+          "review-title"
+        ],
+        [
+          "review-title",
+          "review-title"
+        ]
+      ],
+      "clickedLabel": "Desk Lamp form → \"Your name\"",
+      "focused": {
+        "form": "Ceramic Mug",
+        "field": "title"
+      }
+    },
+    "useId": {
+      "logs": [],
+      "warnings": [],
+      "ids": [
+        [
+          "_r_0_",
+          "_r_1_"
+        ],
+        [
+          "_r_2_",
+          "_r_3_"
+        ]
+      ],
+      "clickedLabel": "Desk Lamp form → \"Your name\"",
+      "focused": {
+        "form": "Desk Lamp",
+        "field": "author"
+      }
+    }
+  },
+  "cart": {
+    "stale": {
+      "logs": [],
+      "warnings": [],
+      "button": "Add 2 (now 2)"
+    },
+    "updater": {
+      "logs": [],
+      "warnings": [],
+      "button": "Add 2 (now 3)"
+    },
+    "mutate": {
+      "logs": [
+        "pushed; items.length = 2",
+        "pushed; items.length = 3"
+      ],
+      "warnings": [],
+      "button": "1 items"
+    },
+    "saved": {
+      "logs": [
+        "readSavedCart() runs"
+      ],
+      "warnings": [],
+      "afterAdds": "Ceramic Mug, Desk Lamp, Ceramic Mug",
+      "afterUndo": "Ceramic Mug, Desk Lamp",
+      "afterNewAdd": "Ceramic Mug, Desk Lamp, Desk Lamp",
+      "stored": {
+        "history": [
+          [],
+          [
+            "Ceramic Mug"
+          ],
+          [
+            "Ceramic Mug",
+            "Desk Lamp"
+          ],
+          [
+            "Ceramic Mug",
+            "Desk Lamp",
+            "Desk Lamp"
+          ]
+        ],
+        "step": 3
+      },
+      "afterReloadItems": "Ceramic Mug, Desk Lamp, Desk Lamp",
+      "logsAfterReloadAndClick": [
+        "readSavedCart() runs"
+      ]
+    }
+  },
+  "reducer": {
+    "states": {
+      "logs": [
+        "historyReducer(s0, undo) → {\"past\":[],\"present\":\"Ceramic Mug\",\"future\":[\"Desk Lamp\"]}",
+        "final state: {\"past\":[\"Ceramic Mug\"],\"present\":\"Trail Backpack\",\"future\":[]}"
+      ],
+      "warnings": []
+    },
+    "reducer": {
+      "logs": [
+        "historyReducer(s0, undo) → {\"past\":[],\"present\":\"Ceramic Mug\",\"future\":[\"Desk Lamp\"]}",
+        "final state: {\"past\":[\"Ceramic Mug\",\"Desk Lamp\"],\"present\":\"Trail Backpack\",\"future\":[]}"
+      ],
+      "warnings": []
+    }
+  },
+  "rerender": {
+    "unstable": {
+      "logs": [
+        "CartPage renders (count 0)",
+        "  Recommendations renders (limit 3)",
+        "  CheckoutButton renders",
+        "  Footer renders",
+        "CartPage renders (count 1)",
+        "  Recommendations renders (limit 3)",
+        "  CheckoutButton renders",
+        "  Footer renders"
+      ],
+      "warnings": [],
+      "click": [
+        "CartPage renders (count 1)",
+        "  Recommendations renders (limit 3)",
+        "  CheckoutButton renders",
+        "  Footer renders"
+      ]
+    },
+    "stable": {
+      "logs": [
+        "CartPage renders (count 0)",
+        "  Recommendations renders (limit 3)",
+        "  CheckoutButton renders",
+        "  Footer renders",
+        "CartPage renders (count 1)",
+        "  Footer renders"
+      ],
+      "warnings": [],
+      "click": [
+        "CartPage renders (count 1)",
+        "  Footer renders"
+      ]
+    },
+    "timerStale": {
+      "logs": [],
+      "warnings": [],
+      "text": "Ticks: 1"
+    },
+    "timerFixed": {
+      "logs": [],
+      "warnings": [],
+      "text": "Ticks: 16"
+    },
+    "inner": {
+      "logs": [],
+      "warnings": [],
+      "before": "mug",
+      "after": ""
+    }
+  }
+}

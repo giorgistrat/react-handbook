@@ -4,6 +4,7 @@
 // (content/<id>/*.md). Modules without notes yet show as "coming soon".
 
 import { NOTES as FUNDAMENTALS } from './notes/fundamentals.mjs'
+import { NOTES as HOOKS } from './notes/hooks.mjs'
 import { NOTES as INTERNALS } from './notes/internals.mjs'
 
 export const MODULES = [
@@ -18,8 +19,8 @@ export const MODULES = [
 		id: 'hooks',
 		title: 'Hooks',
 		illus: 'chain',
-		summary: 'State, effects, refs, lifting state, unique IDs, useState vs useReducer, and when components re-render.',
-		notes: [],
+		summary: 'State, effects and their cleanup, the component lifecycle, lifting state, refs, unique IDs, useState vs useReducer, and what makes components re-render.',
+		notes: HOOKS,
 	},
 	{
 		id: 'apis',
