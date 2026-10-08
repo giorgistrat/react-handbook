@@ -26,7 +26,7 @@ const readJson = <T>(id: string, fallback: T): T => {
 }
 
 export const GLOSSARY = readJson<Record<string, Entry>>('glossary-data', {})
-const TITLES = readJson<Record<string, string>>('note-titles', {})
+const TITLES = readJson<Record<string, { t: string; p: string }>>('note-titles', {})
 const base = document.body.dataset.base ?? '/'
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 
@@ -83,7 +83,7 @@ function cardHtml(e: Entry) {
 					.map((x) => (GLOSSARY[x] ? `<button type="button" class="gp-link" data-goto="${x}">${esc(x)}</button>` : `<em>${esc(x)}</em>`))
 					.join('')}</div>`
 			: ''
-	const best = e.b && TITLES[e.b] ? `<a class="gp-more" href="${base}notes/${e.b}/">Explained in “${esc(TITLES[e.b])}” →</a>` : ''
+	const best = e.b && TITLES[e.b] ? `<a class="gp-more" href="${base}${TITLES[e.b].p}">Explained in “${esc(TITLES[e.b].t)}” →</a>` : ''
 	return `<div class="gp-head"><code>${esc(e.n)}</code><span class="gp-phase ph-${e.p}">${PHASE[e.p] ?? e.p}</span></div>
 		<div class="gp-plain">${esc(e.pl)}</div>
 		<p class="gp-what">${esc(e.w)}</p>

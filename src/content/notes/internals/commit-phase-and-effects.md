@@ -1,6 +1,7 @@
 ---
 title: "Commit Phase and Effects"
 slug: "commit-phase-and-effects"
+module: "internals"
 order: 5
 level: "must"
 illus: "eye"
@@ -15,7 +16,7 @@ source: "https://github.com/facebook/react/blob/main/packages/react-reconciler/s
 > `flushSpawnedWork` and `flushPassiveEffects` in the React 19.2.5 build,
 > plus react.dev's [`useLayoutEffect`](https://react.dev/reference/react/useLayoutEffect)
 > and [`useEffect`](https://react.dev/reference/react/useEffect) pages. Part
-> of [React Internals](../../), and a lower-level companion to *React Lifecycle*.
+> of [React Internals](../../internals/), and a lower-level companion to *React Lifecycle*.
 > My own notes and clarifications are marked with `> 💬`.
 
 ## Interview Q&A
@@ -120,7 +121,7 @@ root.current = finishedWork
 ```
 
 From this line on, the work-in-progress tree is the current tree (see double
-buffering in [React Fiber](../react-fiber/)). It happens **after** mutation and **before**
+buffering in [React Fiber](../../internals/react-fiber/)). It happens **after** mutation and **before**
 layout, so class `componentWillUnmount` still sees the old tree, while
 `componentDidMount`/`useLayoutEffect` see the new one.
 

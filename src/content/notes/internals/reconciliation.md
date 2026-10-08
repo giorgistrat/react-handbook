@@ -1,6 +1,7 @@
 ---
 title: "Reconciliation"
 slug: "reconciliation"
+module: "internals"
 order: 2
 level: "must"
 illus: "diff"
@@ -12,8 +13,8 @@ source: "https://legacy.reactjs.org/docs/reconciliation.html"
 > Notes from the legacy React docs page [Reconciliation](https://legacy.reactjs.org/docs/reconciliation.html),
 > react.dev's [Preserving and Resetting State](https://react.dev/learn/preserving-and-resetting-state),
 > and the React 19.2 source (`updateElement`, `updateSlot`, `useFiber`).
-> Part of [React Internals](../../). It follows [Render and Commit](../render-and-commit/), and the list
-> algorithm itself is in [Child Reconciliation Algorithm](../child-reconciliation-algorithm/). My own notes and
+> Part of [React Internals](../../internals/). It follows [Render and Commit](../../internals/render-and-commit/), and the list
+> algorithm itself is in [Child Reconciliation Algorithm](../../internals/child-reconciliation-algorithm/). My own notes and
 > clarifications are marked with `> 💬`.
 
 ## Interview Q&A
@@ -119,8 +120,8 @@ return created
 
 `useFiber` calls `createWorkInProgress(current, pendingProps)`, which returns
 the **alternate** of the existing fiber with the new props. That's why state
-survives: the hooks list lives on the fiber (see [React Fiber](../react-fiber/) and
-[Hooks Under the Hood](../hooks-under-the-hood/)).
+survives: the hooks list lives on the fiber (see [React Fiber](../../internals/react-fiber/) and
+[Hooks Under the Hood](../../internals/hooks-under-the-hood/)).
 
 ## Rule 2: same type → keep it and update
 
@@ -137,7 +138,7 @@ properties are updated.
 
 **Same component type**: the fiber is kept, so hooks and state are
 preserved. React calls the component with the new props (unless it can bail
-out, see [The Work Loop](../the-work-loop/)) and then reconciles its output against the old
+out, see [The Work Loop](../../internals/the-work-loop/)) and then reconciles its output against the old
 children, going down level by level.
 
 ## Rule 3: keys identify children in a list
@@ -161,7 +162,7 @@ and `<li>Villanova</li>` subtrees intact." With `key`s, React matches
 children by key instead, so it keeps both existing items and inserts one new
 node. The exact matching algorithm (a fast path in order, then a `Map` of the
 remaining keys, then deciding which nodes have to move) is covered in
-[Child Reconciliation Algorithm](../child-reconciliation-algorithm/).
+[Child Reconciliation Algorithm](../../internals/child-reconciliation-algorithm/).
 
 react.dev adds that keys are local: "Keys are not globally unique. They only
 specify the position *within the parent*."
@@ -261,11 +262,11 @@ on every keystroke. Define components at module level.
 | `main` › #0 | `Banner` | `false` | nothing to render → **delete** `Banner` (unmount, effect cleanups) |
 | `main` › #1 | `Header` | `Header` | same type → reuse fiber and state, call `Header` with new props |
 | `main` › #2 | `ul` | `ul` | same type → reuse, reconcile keyed children |
-| `ul` › keys | `a, b` | `b, a` | both keys found → reuse both fibers. One of them gets a **Placement** (move) flag. See [Child Reconciliation Algorithm](../child-reconciliation-algorithm/) |
+| `ul` › keys | `a, b` | `b, a` | both keys found → reuse both fibers. One of them gets a **Placement** (move) flag. See [Child Reconciliation Algorithm](../../internals/child-reconciliation-algorithm/) |
 
 The render phase only *records* these decisions as flags (`ChildDeletion`,
 `Placement`, `Update`). The commit phase applies them
-([Commit Phase and Effects](../commit-phase-and-effects/)).
+([Commit Phase and Effects](../../internals/commit-phase-and-effects/)).
 
 ## Rules and caveats
 

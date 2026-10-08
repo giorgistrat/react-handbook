@@ -1,6 +1,7 @@
 ---
 title: "Scheduler, Lanes and Batching"
 slug: "scheduler-lanes-and-batching"
+module: "internals"
 order: 7
 level: "good"
 illus: "bolt"
@@ -14,7 +15,7 @@ source: "https://github.com/facebook/react/blob/main/packages/react-reconciler/s
 > Read from the React 19.2.5 build (`requestUpdateLane`, `getEventPriority`,
 > `getHighestPriorityLanes`, `ensureRootIsScheduled`, `performWorkOnRoot`,
 > `scheduleTaskForRootDuringMicrotask`) and the `scheduler` package
-> (`scheduler.development.js`). Part of [React Internals](../../). This is the
+> (`scheduler.development.js`). Part of [React Internals](../../internals/). This is the
 > machinery behind *Concurrent Rendering* and
 > *useTransition and Avoiding Loading Flicker*. My own notes and
 > clarifications are marked with `> 💬`.
@@ -151,12 +152,12 @@ function resolveUpdatePriority() {
 
 1. `dispatchSetState` creates an update `{ lane, action, next }` and stashes
    it in a module-level `concurrentQueues` array, together with its fiber and
-   hook queue ([Hooks Under the Hood](../hooks-under-the-hood/)). `getRootForUpdatedFiber` walks
+   hook queue ([Hooks Under the Hood](../../internals/hooks-under-the-hood/)). `getRootForUpdatedFiber` walks
    `return` pointers up to find the root.
 2. Later, when the next render starts (`prepareFreshStack` →
    `finishQueueingConcurrentUpdates`), each stashed update is linked into its
    hook's circular queue, and `markUpdateLaneFromFiberToRoot` ORs the lane
-   into `fiber.lanes` and into `childLanes` of every ancestor. [The Work Loop](../the-work-loop/)
+   into `fiber.lanes` and into `childLanes` of every ancestor. [The Work Loop](../../internals/the-work-loop/)
    uses that trail to find the changed fiber.
 3. Right away, `scheduleUpdateOnFiber` → `markRootUpdated` (adds the lane to
    `root.pendingLanes`) → `ensureRootIsScheduled(root)` adds the root to

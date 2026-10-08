@@ -53,7 +53,7 @@ function setupTheme() {
 
 // ─── Search (Pagefind, built by `npm run build`) ────────────────────────────
 
-type PagefindResult = { url: string; excerpt: string; meta: { title?: string }; sub_results?: { title: string; url: string; excerpt: string }[] }
+type PagefindResult = { url: string; excerpt: string; meta: { title?: string; module?: string }; sub_results?: { title: string; url: string; excerpt: string }[] }
 type Pagefind = { debouncedSearch(q: string): Promise<{ results: { data(): Promise<PagefindResult> }[] } | null> }
 
 function setupSearch() {
@@ -110,8 +110,9 @@ function setupSearch() {
 		list.innerHTML = results
 			.map((r) => {
 				const subs = (r.sub_results ?? []).filter((s) => s.url.includes('#')).slice(0, 3)
-				const title = (r.meta.title ?? '').replace(' · React Internals', '')
-				const main = `<li><a href="${r.url}"><span class="sr-title">${title}</span><span class="sr-excerpt">${r.excerpt}</span></a></li>`
+				const title = (r.meta.title ?? '').replace(' · React Handbook', '')
+				const mod = r.meta.module ? `<span class="sr-module">${r.meta.module}</span>` : ''
+				const main = `<li><a href="${r.url}">${mod}<span class="sr-title">${title}</span><span class="sr-excerpt">${r.excerpt}</span></a></li>`
 				return main + subs.map((s) => `<li><a href="${s.url}"><span class="sr-section">${title} › ${s.title}</span><span class="sr-excerpt">${s.excerpt}</span></a></li>`).join('')
 			})
 			.join('')
@@ -173,6 +174,37 @@ function setupReadState() {
 			io.observe(end)
 		}
 		render()
+	}
+
+	// Remember the last note opened, for "Continue" on the home page
+	if (slug) store.set('last', { href: location.pathname, title: document.querySelector('h1')?.textContent?.trim() ?? '' })
+	const cont = document.querySelector<HTMLAnchorElement>('[data-continue]')
+	const last = store.get<{ href: string; title: string } | null>('last', null)
+	if (cont && last?.href) {
+		cont.href = last.href
+		cont.textContent = `Continue: ${last.title}`
+		cont.hidden = false
+	}
+
+	// Module cards on the home page: "3 of 12 read"
+	const modules = document.querySelectorAll<HTMLElement>('[data-module-notes]')
+	let readTotal = 0
+	let noteTotal = 0
+	modules.forEach((m) => {
+		const slugs = m.dataset.moduleNotes!.split(',').filter(Boolean)
+		const n = slugs.filter((s) => read.has(s)).length
+		readTotal += n
+		noteTotal += slugs.length
+		const pill = m.querySelector<HTMLElement>('.read-pill')!
+		pill.hidden = !n
+		pill.textContent = n === slugs.length ? '✓ Done' : `${n} read`
+	})
+	if (modules.length && readTotal) {
+		const progress = document.querySelector<HTMLElement>('[data-read-progress]')
+		if (progress) {
+			progress.hidden = false
+			progress.textContent = `${readTotal} of ${noteTotal} notes read`
+		}
 	}
 
 	const cards = document.querySelectorAll<HTMLElement>('[data-card]')

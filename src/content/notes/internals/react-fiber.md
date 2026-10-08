@@ -1,6 +1,7 @@
 ---
 title: "React Fiber"
 slug: "react-fiber"
+module: "internals"
 order: 3
 level: "must"
 illus: "fiber"
@@ -12,8 +13,8 @@ source: "https://github.com/acdlite/react-fiber-architecture"
 > Notes from Andrew Clark's [React Fiber Architecture](https://github.com/acdlite/react-fiber-architecture),
 > Lin Clark's talk [A Cartoon Intro to Fiber](https://www.youtube.com/watch?v=ZCuYPiUIONs),
 > and the `FiberNode` / `createWorkInProgress` code in the React 19.2.5
-> source. Part of [React Internals](../../). How React walks these fibers is covered
-> in [The Work Loop](../the-work-loop/). My own notes and clarifications are marked with `> 💬`.
+> source. Part of [React Internals](../../internals/). How React walks these fibers is covered
+> in [The Work Loop](../../internals/the-work-loop/). My own notes and clarifications are marked with `> 💬`.
 
 ## Interview Q&A
 
@@ -131,12 +132,12 @@ Grouped by purpose:
 
 | Group | Fields | Used for |
 |---|---|---|
-| **Identity** | `tag`, `type`, `elementType`, `key` | reconciliation: "is this the same thing as last time?" ([Reconciliation](../reconciliation/)) |
-| **Tree links** | `return`, `child`, `sibling`, `index` | walking the tree without recursion ([The Work Loop](../the-work-loop/)) |
+| **Identity** | `tag`, `type`, `elementType`, `key` | reconciliation: "is this the same thing as last time?" ([Reconciliation](../../internals/reconciliation/)) |
+| **Tree links** | `return`, `child`, `sibling`, `index` | walking the tree without recursion ([The Work Loop](../../internals/the-work-loop/)) |
 | **Inputs** | `pendingProps`, `memoizedProps` | bailout: if they're the same object and nothing else changed, skip |
-| **State** | `memoizedState`, `updateQueue`, `dependencies` | hooks list, effect list, context subscriptions ([Hooks Under the Hood](../hooks-under-the-hood/)) |
-| **Output** | `stateNode`, `flags`, `subtreeFlags`, `deletions` | what the commit must do ([Commit Phase and Effects](../commit-phase-and-effects/)) |
-| **Scheduling** | `lanes`, `childLanes` | which updates are pending here or below ([Scheduler, Lanes and Batching](../scheduler-lanes-and-batching/)) |
+| **State** | `memoizedState`, `updateQueue`, `dependencies` | hooks list, effect list, context subscriptions ([Hooks Under the Hood](../../internals/hooks-under-the-hood/)) |
+| **Output** | `stateNode`, `flags`, `subtreeFlags`, `deletions` | what the commit must do ([Commit Phase and Effects](../../internals/commit-phase-and-effects/)) |
+| **Scheduling** | `lanes`, `childLanes` | which updates are pending here or below ([Scheduler, Lanes and Batching](../../internals/scheduler-lanes-and-batching/)) |
 | **Double buffering** | `alternate` | pairing current and work-in-progress |
 
 Some common `tag` values: `0` FunctionComponent, `1` ClassComponent, `3`
@@ -146,7 +147,7 @@ SuspenseComponent.
 
 > Fibers are the "instances" of function components. A function component
 > has no `this`. Its state lives on its fiber, in `memoizedState`. That's why
-> state survives exactly as long as the fiber does, and why [Reconciliation](../reconciliation/)
+> state survives exactly as long as the fiber does, and why [Reconciliation](../../internals/reconciliation/)
 > decisions ("reuse this fiber or not") decide whether state survives.
 
 ## The tree is a linked list
@@ -243,7 +244,7 @@ What exists at each moment for a `Counter` whose button is clicked:
 - **"Fiber" doesn't mean faster by default.** It makes *scheduling* possible.
   Most updates (clicks, typing) still render synchronously. Only transitions
   and deferred values are time-sliced. See
-  [Scheduler, Lanes and Batching](../scheduler-lanes-and-batching/).
+  [Scheduler, Lanes and Batching](../../internals/scheduler-lanes-and-batching/).
 
 ### Sources
 - [Andrew Clark: React Fiber Architecture](https://github.com/acdlite/react-fiber-architecture)

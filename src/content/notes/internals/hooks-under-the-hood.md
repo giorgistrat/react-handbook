@@ -1,6 +1,7 @@
 ---
 title: "Hooks Under the Hood"
 slug: "hooks-under-the-hood"
+module: "internals"
 order: 4
 level: "must"
 illus: "chain"
@@ -15,7 +16,7 @@ source: "https://github.com/facebook/react/blob/main/packages/react-reconciler/s
 > `mountRef` and `pushSimpleEffect` in the React 19.2.5 build, plus react.dev's
 > [Rules of Hooks](https://react.dev/reference/rules/rules-of-hooks) and
 > [Queueing a Series of State Updates](https://react.dev/learn/queueing-a-series-of-state-updates).
-> Part of [React Internals](../../). It builds on [React Fiber](../react-fiber/) (hooks live on
+> Part of [React Internals](../../internals/). It builds on [React Fiber](../../internals/react-fiber/) (hooks live on
 > the fiber). My own notes and clarifications are marked with `> 💬`.
 
 ## Interview Q&A
@@ -62,7 +63,7 @@ instead, so three of them add 3.
 If the fiber has no other pending work, `setState` computes the new state
 **eagerly** and compares it with `Object.is`. If it's equal, React doesn't
 schedule a render at all. Otherwise it renders, and if the result is still
-equal, it bails out of the children ([The Work Loop](../the-work-loop/)).
+equal, it bails out of the children ([The Work Loop](../../internals/the-work-loop/)).
 
 </details>
 
@@ -193,7 +194,7 @@ function mountState(initialState) {
 ```
 
 Calling `dispatch(action)` → `dispatchSetState` picks a lane
-(`requestUpdateLane`, see [Scheduler, Lanes and Batching](../scheduler-lanes-and-batching/)) → then
+(`requestUpdateLane`, see [Scheduler, Lanes and Batching](../../internals/scheduler-lanes-and-batching/)) → then
 `dispatchSetStateInternal`, simplified from the source:
 
 ```js

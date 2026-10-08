@@ -1,50 +1,55 @@
 ---
-import { getCollection } from 'astro:content'
 import Base from '../layouts/Base.astro'
-import NoteCard from '../components/NoteCard.astro'
-import { pipeline } from '../lib/diagrams.mjs'
-import moc from '../lib/moc-intro.json'
+import { illustration } from '../lib/illustrations.mjs'
+import { MODULES } from '../lib/modules.mjs'
 
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/')
-const notes = (await getCollection('notes')).sort((a, b) => a.data.order - b.data.order)
-const hrefFor = (slug: string) => `${base}notes/${slug}/`
-const intro = moc.introHtml.replace(/href="notes\//g, `href="${base}notes/`)
+const first = MODULES.find((m) => m.notes.length)!
 ---
 
-<Base title="React Internals">
+<Base title="React Handbook">
 	<header class="intro wrap">
 		<p class="eyebrow">Notes · React 19.2.5</p>
-		<h1>React Internals</h1>
-		<p class="tagline">How React actually works under the hood…kinda deep.</p>
-		<div class="lead" set:html={intro} />
+		<h1>React Handbook</h1>
+		<p class="tagline">Everything a React developer should know, from JSX to the fiber tree.</p>
+		<p class="lead">
+			Each topic is explained in plain English first, then shown: diagrams, step-through animations and real output
+			recorded from one small example app. Every note ends with interview questions you can quiz yourself on.
+		</p>
 		<div class="btn-row">
-			<a class="btn" href={hrefFor('start-here')}>Start reading</a>
-			<a class="btn btn-ghost" href="#notes">All notes</a>
-			<a class="btn btn-ghost" href={hrefFor('engine-map')}>Lost in function names? Engine map</a>
+			<a class="btn" href={`${base}${first.id}/`}>Start learning</a>
+			<a class="btn btn-ghost" href="#path">The learning path</a>
+			<a class="btn btn-ghost" data-continue hidden href="#">Continue</a>
 		</div>
 	</header>
 
-	<section class="wrap section">
-		<h2>The pipeline</h2>
-		<Fragment set:html={pipeline({ hrefFor })} />
-	</section>
-
-	<section class="wrap section" id="notes">
-		<h2>The notes</h2>
-		<p class="section-sub">Read them in order. Each one builds on the ones before it. <span class="read-progress" data-read-progress hidden></span></p>
-		<div class="grid">
-			{notes.map((n, i) => (
-				<NoteCard
-					slug={n.data.slug}
-					href={hrefFor(n.data.slug)}
-					index={i}
-					title={n.data.title.replace('React Internals - ', '')}
-					summary={n.data.summary}
-					level={n.data.level}
-					illus={n.data.illus}
-				/>
-			))}
-		</div>
+	<section class="wrap section" id="path">
+		<h2>The learning path</h2>
+		<p class="section-sub">Seven modules, from the basics to how React works inside. <span class="read-progress" data-read-progress hidden></span></p>
+		<ol class="modules">
+			{
+				MODULES.map((m, i) => {
+					const ready = m.notes.length > 0
+					const Tag = ready ? 'a' : 'div'
+					return (
+						<li>
+							<Tag class:list={['module card', { soon: !ready }]} href={ready ? `${base}${m.id}/` : undefined} data-module-notes={m.notes.map((n) => n.slug).join(',')}>
+								<div class="panel module-art" set:html={illustration(m.illus)} />
+								<div class="module-body">
+									<div class="module-meta">
+										<span class="module-num">{String(i + 1).padStart(2, '0')}</span>
+										{ready ? <span class="pill">{m.notes.length} notes</span> : <span class="pill pill-soon">Coming soon</span>}
+										<span class="pill read-pill" hidden />
+									</div>
+									<h3>{m.title}</h3>
+									<p>{m.summary}</p>
+								</div>
+							</Tag>
+						</li>
+					)
+				})
+			}
+		</ol>
 	</section>
 </Base>
 
@@ -59,7 +64,7 @@ const intro = moc.introHtml.replace(/href="notes\//g, `href="${base}notes/`)
 	.eyebrow {
 		display: inline-block;
 		margin: 0 0 18px;
-		padding: 3px 10px;
+		padding: 3px 12px;
 		border: 1px solid var(--line);
 		border-radius: 999px;
 		background: var(--plum-soft);
@@ -74,39 +79,22 @@ const intro = moc.introHtml.replace(/href="notes\//g, `href="${base}notes/`)
 	}
 
 	.tagline {
-		margin: 14px 0 22px;
+		margin: 14px 0 18px;
 		font-size: clamp(18px, 2.3vw, 24px);
 		font-weight: 600;
 		letter-spacing: -0.02em;
 		color: var(--ink-soft);
 	}
 
-	.lead :global(p) {
-		margin: 0 0 14px;
+	.lead {
+		margin: 0;
 		font-size: 17px;
-		max-width: 70ch;
-	}
-
-	.lead :global(code) {
-		color: var(--accent);
-		padding: 0 2px;
-	}
-
-	.lead :global(.callout) {
-		padding: 12px 16px;
-		background: var(--cream);
-		border: 1.5px solid var(--line);
-		border-radius: var(--radius);
-	}
-
-	.lead :global(a) {
-		font-weight: 700;
-		text-decoration-color: var(--accent);
-		text-decoration-thickness: 2px;
+		max-width: 66ch;
+		color: var(--ink-soft);
 	}
 
 	.btn-row {
-		margin-top: 22px;
+		margin-top: 24px;
 	}
 
 	.section {
@@ -125,14 +113,74 @@ const intro = moc.introHtml.replace(/href="notes\//g, `href="${base}notes/`)
 		color: var(--ink-soft);
 	}
 
-	.section :global(.fig-pipeline) {
-		margin-top: 28px;
-		background: var(--cream);
+	.modules {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
+		gap: 24px 22px;
 	}
 
-	.grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
-		gap: 28px 22px;
+	.module {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		padding: 14px;
+		text-decoration: none;
+		color: inherit;
+		transition: border-color 0.15s ease;
+	}
+
+	a.module:hover {
+		border-color: var(--plum);
+	}
+
+	.module.soon {
+		opacity: 0.6;
+	}
+
+	.module-art {
+		aspect-ratio: 240 / 130;
+		overflow: hidden;
+	}
+
+	.module-art :global(svg) {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	.module-body {
+		padding: 16px 6px 6px;
+	}
+
+	.module-meta {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		margin-bottom: 10px;
+	}
+
+	.module-num {
+		margin-right: auto;
+		font: 500 12.5px var(--mono);
+		color: var(--muted);
+	}
+
+	.pill-soon {
+		color: var(--muted);
+	}
+
+	h3 {
+		font-size: clamp(21px, 2.3vw, 25px);
+		margin-bottom: 8px;
+	}
+
+	.module-body p {
+		margin: 0;
+		font-size: 14.5px;
+		line-height: 1.6;
+		color: var(--muted);
 	}
 </style>

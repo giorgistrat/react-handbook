@@ -1,6 +1,7 @@
 ---
 title: "How React Works, Start to Finish"
 slug: "how-react-works"
+module: "internals"
 order: 10
 level: "must"
 illus: "browser"
@@ -693,14 +694,14 @@ function updateContainerImpl(rootFiber, lane, element, container, parentComponen
 Why did a *Default* lane render with `renderRootSync`? Only transition,
 retry and idle lanes are time-sliced; Sync, InputContinuous and Default are
 "blocking" lanes rendered by the synchronous loop (see
-[Scheduler, Lanes and Batching](../scheduler-lanes-and-batching/)).
+[Scheduler, Lanes and Batching](../../internals/scheduler-lanes-and-batching/)).
 
 </details>
 
 ## 4. The first render: how React decides what to call
 
 React now walks the tree **one fiber at a time**: down with `beginWork`,
-across to siblings, up with `completeWork` ([The Work Loop](../the-work-loop/)). There's no
+across to siblings, up with `completeWork` ([The Work Loop](../../internals/the-work-loop/)). There's no
 fiber tree yet, so each step **creates** the fibers for the children it
 finds.
 
@@ -828,7 +829,7 @@ HostRoot  (tag 3)
 ```
 
 Note `Layout`'s empty hook list: `useContext` reads from the context stack
-and doesn't create a hook object (see [Hooks Under the Hood](../hooks-under-the-hood/)). And `h1` has
+and doesn't create a hook object (see [Hooks Under the Hood](../../internals/hooks-under-the-hood/)). And `h1` has
 no text fiber: a single text child is set directly as the element's text
 content.
 
@@ -841,7 +842,7 @@ node and appended its children's DOM nodes to it**. By the time the render
 reaches the root, the whole UI exists as **one detached `<div>`**. The
 document hasn't been touched.
 
-Then the **commit** runs in one synchronous pass ([Commit Phase and Effects](../commit-phase-and-effects/)):
+Then the **commit** runs in one synchronous pass ([Commit Phase and Effects](../../internals/commit-phase-and-effects/)):
 
 1. **Mutation.** The `App` fiber carries the `Placement` flag. It isn't a DOM
    node, so React descends (App → ThemeContext → Layout) until it finds one,
@@ -902,7 +903,7 @@ The user clicks "Add one". Here is everything that happens:
 
 Elements vs fibers on this click: **every element under `CounterPage` was
 recreated** (they always are), but **no fiber was created**. Every fiber was
-the old one, updated in place through its alternate ([React Fiber](../react-fiber/)).
+the old one, updated in place through its alternate ([React Fiber](../../internals/react-fiber/)).
 
 <details class="deep"><summary>Under the hood: the recorded click</summary>
 
@@ -955,7 +956,7 @@ change.
 On the Todos page, `todos.map(todo => <TodoItem key={todo.id} … />)`
 produces an array of elements, and each one carries a `key` (compiled to the
 third argument of `jsx`). React matches old and new children **by key**
-([Child Reconciliation Algorithm](../child-reconciliation-algorithm/)).
+([Child Reconciliation Algorithm](../../internals/child-reconciliation-algorithm/)).
 
 **Typing in the input.** Every keystroke calls `setText`, re-renders
 `TodosPage`, and with it both `TodoItem`s, because they get new props
@@ -994,7 +995,7 @@ and 2 and creates key 3:
 `Layout`'s children, returns `<TodosPage />` where there used to be
 `<CounterPage />`. Same position, **different type**: React doesn't compare
 inside. It deletes the whole `CounterPage` subtree (with `count`) and mounts
-`TodosPage` from scratch ([Reconciliation](../reconciliation/), Rule 1).
+`TodosPage` from scratch ([Reconciliation](../../internals/reconciliation/), Rule 1).
 
 The order of effects is the part people get wrong:
 

@@ -1,6 +1,7 @@
 ---
 title: "React Engine Map"
 slug: "engine-map"
+module: "internals"
 order: 11
 level: "must"
 illus: "map"

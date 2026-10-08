@@ -1,10 +1,10 @@
 // @ts-check
 import { defineConfig } from 'astro/config'
 
-// Published to GitHub Pages at https://giorgistrat.github.io/react-internals/
+// Published to GitHub Pages at https://giorgistrat.github.io/react-handbook/
 export default defineConfig({
 	site: 'https://giorgistrat.github.io',
-	base: '/react-internals',
+	base: '/react-handbook',
 	markdown: {
 		shikiConfig: {
 			// Both themes are emitted as CSS variables; prose.css picks one per site theme.

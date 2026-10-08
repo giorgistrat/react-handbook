@@ -105,6 +105,13 @@
 	outline: none;
 }
 
+.search-results .sr-module {
+	display: block;
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--plum);
+}
+
 .search-results .sr-title {
 	display: block;
 	font-weight: 800;

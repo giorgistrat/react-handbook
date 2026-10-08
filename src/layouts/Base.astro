@@ -6,15 +6,16 @@ import '../styles/anim.css'
 import '../styles/ui.css'
 import '../styles/print.css'
 import { glossaryJson } from '../lib/glossary.mjs'
-import { NOTES } from '../lib/notes-meta.mjs'
+import { ALL_NOTES, noteTitle, notePath } from '../lib/modules.mjs'
 
 interface Props {
 	title: string
 	description?: string
 }
-const { title, description = 'How React works under the hood: fiber, reconciliation, the work loop, commit, scheduling and hooks.' } = Astro.props
+const { title, description = 'Everything a React developer should know, from JSX to the fiber tree: plain-English notes with diagrams, animations and real output.' } = Astro.props
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/')
-const noteTitles = JSON.stringify(Object.fromEntries(NOTES.map((n) => [n.slug, n.file.replace(/\.md$/, '').replace('React Internals - ', '')])))
+// slug → { t: title, p: path below the base } for glossary cards and search
+const noteTitles = JSON.stringify(Object.fromEntries(ALL_NOTES.map((n) => [n.slug, { t: noteTitle(n), p: notePath(n) }])))
 const canonical = new URL(Astro.url.pathname, Astro.site).href
 const ogImage = new URL(`${base}og.png`, Astro.site).href
 ---
@@ -28,7 +29,7 @@ const ogImage = new URL(`${base}og.png`, Astro.site).href
 		<meta name="theme-color" content="#11111b" />
 		<link rel="canonical" href={canonical} />
 		<meta property="og:type" content="article" />
-		<meta property="og:site_name" content="React Internals" />
+		<meta property="og:site_name" content="React Handbook" />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:url" content={canonical} />
@@ -63,7 +64,7 @@ const ogImage = new URL(`${base}og.png`, Astro.site).href
 		<slot />
 
 		<footer class="site-foot wrap">
-			Built from the <em>React Internals</em> notes in the Nexus vault · checked against the React 19.2.5 source.
+			React Handbook · notes from the Nexus vault, rewritten with pictures and a shared example app · React 19.2.5
 		</footer>
 
 		<dialog class="search-dlg island" aria-label="Search the notes" data-pagefind-ignore>

@@ -1,0 +1,258 @@
+---
+import { getCollection, render } from 'astro:content'
+import Base from '../../layouts/Base.astro'
+import { illustration } from '../../lib/illustrations.mjs'
+import { LEVELS, moduleById } from '../../lib/modules.mjs'
+
+export async function getStaticPaths() {
+	const all = await getCollection('notes')
+	return all.map((note) => {
+		// prev / next stay inside the note's module
+		const notes = all.filter((n) => n.data.module === note.data.module).sort((a, b) => a.data.order - b.data.order)
+		const i = notes.indexOf(note)
+		return {
+			params: { module: note.data.module, slug: note.data.slug },
+			props: { note, prev: notes[i - 1], next: notes[i + 1] },
+		}
+	})
+}
+
+const { note, prev, next } = Astro.props
+const mod = moduleById(note.data.module)!
+const href = (n: typeof note) => `${base}${n.data.module}/${n.data.slug}/`
+const { Content, headings } = await render(note)
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/')
+const lvl = LEVELS[note.data.level]
+const toc = headings.filter((h) => h.depth === 2)
+const short = (t: string) => t.replace('React Internals - ', '')
+---
+
+<Base title={`${short(note.data.title)} · React Handbook`} description={note.data.summary}>
+	<header class="note-head wrap">
+		<div class="head-text">
+			<nav class="crumbs" aria-label="Breadcrumb">
+				<a href={base}>Handbook</a><span aria-hidden="true">/</span><a href={`${base}${mod.id}/`}>{mod.title}</a>
+			</nav>
+			<div class="meta">
+				<span class="pill"><span class={`lvl ${lvl.className}`}></span>{lvl.label}</span>
+				<span class="num">{mod.title} · {String(note.data.order + 1).padStart(2, '0')}</span>
+			</div>
+			<h1 data-pagefind-meta="title">{short(note.data.title)}</h1>
+			<p class="summary">{note.data.summary}</p>
+		</div>
+		<div class="head-art card">
+			<div class="panel" set:html={illustration(note.data.illus)} />
+		</div>
+	</header>
+
+	<div class="phase-bar-wrap" data-pagefind-ignore hidden={mod.id !== 'internals'}>
+		<div class="wrap">
+			<div class="phase-bar island" aria-label="Which phases this section is about">
+				<span class="pb-label">This section:</span>
+				<span class="pb-seg" data-pb="trigger">trigger</span>
+				<span class="pb-arrow">→</span>
+				<span class="pb-seg" data-pb="schedule">schedule</span>
+				<span class="pb-arrow">→</span>
+				<span class="pb-seg" data-pb="render">render</span>
+				<span class="pb-arrow">→</span>
+				<span class="pb-seg" data-pb="commit">commit</span>
+				<span class="pb-arrow">→</span>
+				<span class="pb-seg" data-pb="effects">effects</span>
+			</div>
+		</div>
+	</div>
+
+	<div class="wrap layout">
+		<aside class="toc">
+			<nav class="card toc-card" aria-label="On this page">
+				<p class="toc-title">On this page</p>
+				<ol>
+					{toc.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}
+				</ol>
+			</nav>
+		</aside>
+		<details class="toc-mobile card" data-pagefind-ignore>
+			<summary>On this page <span>· {toc.length} sections</span></summary>
+			<ol>
+				{toc.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}
+			</ol>
+		</details>
+		<article class="card prose" data-pagefind-body data-slug={note.data.slug} data-module={mod.id}>
+			<span hidden data-pagefind-meta="module">{mod.title}</span>
+			<Content />
+			{note.data.source && (
+				<p class="source">
+					Primary source: <a href={note.data.source}>{note.data.source.replace(/^https?:\/\//, '')}</a>
+				</p>
+			)}
+		</article>
+	</div>
+
+	<div class="wrap read-row" data-pagefind-ignore>
+		<button type="button" class="btn btn-ghost" data-mark-read={note.data.slug} aria-pressed="false">Mark as read</button>
+	</div>
+
+	<nav class="wrap pager" aria-label="Notes">
+		{prev ? <a class="btn btn-ghost" href={href(prev)}>← {short(prev.data.title)}</a> : <a class="btn btn-ghost" href={`${base}${mod.id}/`}>← {mod.title}</a>}
+		{next ? <a class="btn" href={href(next)}>{short(next.data.title)} →</a> : <a class="btn" href={base}>Back to the handbook</a>}
+	</nav>
+</Base>
+
+<style>
+	.note-head {
+		display: grid;
+		grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+		gap: 32px;
+		align-items: center;
+		padding-top: clamp(28px, 5vw, 56px);
+		padding-bottom: clamp(28px, 4vw, 44px);
+	}
+
+	@media (max-width: 760px) {
+		.note-head {
+			grid-template-columns: 1fr;
+		}
+
+		.head-art {
+			display: none;
+		}
+	}
+
+	.crumbs {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		margin-bottom: 20px;
+		font-size: 14px;
+		color: var(--muted);
+	}
+
+	.crumbs a {
+		color: var(--ink-soft);
+		text-decoration: none;
+	}
+
+	.crumbs a:hover {
+		color: var(--accent);
+	}
+
+	.meta {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		margin-bottom: 12px;
+	}
+
+	.num {
+		font: 500 12.5px var(--mono);
+		color: var(--muted);
+	}
+
+	h1 {
+		font-size: clamp(34px, 5.4vw, 60px);
+		letter-spacing: -0.055em;
+		line-height: 1;
+	}
+
+	.summary {
+		margin: 16px 0 0;
+		font-size: 18px;
+		max-width: 56ch;
+		color: var(--ink-soft);
+	}
+
+	.head-art {
+		padding: 12px;
+	}
+
+	.head-art .panel :global(svg) {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+
+	.layout {
+		display: grid;
+		grid-template-columns: 240px minmax(0, 1fr);
+		gap: 28px;
+		align-items: start;
+	}
+
+	@media (max-width: 1000px) {
+		.layout {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		.toc {
+			display: none;
+		}
+	}
+
+	.toc-mobile {
+		display: none;
+	}
+
+	@media (max-width: 1000px) {
+		.toc-mobile {
+			display: block;
+		}
+	}
+
+	.toc {
+		position: sticky;
+		top: 58px;
+	}
+
+	.toc-card {
+		padding: 16px 16px 12px;
+		max-height: calc(100vh - 78px);
+		overflow-y: auto;
+	}
+
+	.toc-title {
+		margin: 0 0 8px;
+		font: 500 12px var(--mono);
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: var(--accent);
+	}
+
+	.toc ol {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		font-size: 14px;
+		line-height: 1.35;
+	}
+
+	.toc li {
+		margin: 0 0 8px;
+	}
+
+	.toc a {
+		text-decoration: none;
+		font-weight: 600;
+	}
+
+	.toc a:hover {
+		text-decoration: underline;
+		text-decoration-color: var(--accent);
+		text-decoration-thickness: 2px;
+	}
+
+	.source {
+		margin-top: 2.5em;
+		padding-top: 1em;
+		border-top: 2px dashed var(--cream-deep);
+		font-size: 14px;
+		overflow-wrap: anywhere;
+	}
+
+	.pager {
+		display: flex;
+		justify-content: space-between;
+		gap: 12px;
+		flex-wrap: wrap;
+		padding-top: 40px;
+	}
+</style>

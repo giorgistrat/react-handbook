@@ -1,6 +1,7 @@
 ---
 title: "A State Update, End to End"
 slug: "a-state-update-end-to-end"
+module: "internals"
 order: 9
 level: "good"
 illus: "plane"
@@ -12,10 +13,10 @@ source: "https://github.com/facebook/react/tree/main/packages/react-reconciler/s
 > A line-by-line execution trace of one click through React 19.2.5, naming
 > the real functions in `react-dom-client.development.js` at each step. This
 > note is about **invocation order**. The *concepts* are explained in
-> [Render and Commit](../render-and-commit/), [Reconciliation](../reconciliation/), [React Fiber](../react-fiber/),
-> [The Work Loop](../the-work-loop/), [Commit Phase and Effects](../commit-phase-and-effects/),
-> [Scheduler, Lanes and Batching](../scheduler-lanes-and-batching/) and [Hooks Under the Hood](../hooks-under-the-hood/). Part of
-> [React Internals](../../).
+> [Render and Commit](../../internals/render-and-commit/), [Reconciliation](../../internals/reconciliation/), [React Fiber](../../internals/react-fiber/),
+> [The Work Loop](../../internals/the-work-loop/), [Commit Phase and Effects](../../internals/commit-phase-and-effects/),
+> [Scheduler, Lanes and Batching](../../internals/scheduler-lanes-and-batching/) and [Hooks Under the Hood](../../internals/hooks-under-the-hood/). Part of
+> [React Internals](../../internals/).
 
 ## The app
 
@@ -211,7 +212,7 @@ onClick={() => startTransition(() => setCount(count + 1))}
 5. Here the tree is tiny and finishes in one 5ms slice. For a large tree, the
    loop would exit mid-tree, return a continuation, and resume later. If a
    `SyncLane` update arrived in between, `prepareFreshStack` would discard
-   this WIP and restart ([Scheduler, Lanes and Batching](../scheduler-lanes-and-batching/)).
+   this WIP and restart ([Scheduler, Lanes and Batching](../../internals/scheduler-lanes-and-batching/)).
 6. The commit is the same as steps 23–27, except step 29. The lanes aren't
    sync, so passive effects are **scheduled** as a separate Normal-priority
    task and run after the browser paints.

@@ -1,0 +1,162 @@
+---
+import { getCollection } from 'astro:content'
+import Base from '../../layouts/Base.astro'
+import NoteCard from '../../components/NoteCard.astro'
+import { pipeline } from '../../lib/diagrams.mjs'
+import { MODULES } from '../../lib/modules.mjs'
+import intros from '../../lib/module-intros.json'
+
+export async function getStaticPaths() {
+	const notes = await getCollection('notes')
+	return MODULES.filter((m) => notes.some((n) => n.data.module === m.id)).map((mod) => ({
+		params: { module: mod.id },
+		props: { mod, notes: notes.filter((n) => n.data.module === mod.id).sort((a, b) => a.data.order - b.data.order) },
+	}))
+}
+
+const { mod, notes } = Astro.props
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/')
+const hrefFor = (slug: string) => `${base}${mod.id}/${slug}/`
+const intro = ((intros as Record<string, string>)[mod.id] ?? `<p>${mod.summary}</p>`).replace(/href="@base\//g, `href="${base}`)
+const index = MODULES.indexOf(mod) + 1
+const short = (t: string) => t.replace('React Internals - ', '')
+---
+
+<Base title={`${mod.title} · React Handbook`} description={mod.summary}>
+	<header class="intro wrap">
+		<nav class="crumbs" aria-label="Breadcrumb"><a href={base}>Handbook</a><span aria-hidden="true">/</span><span>{mod.title}</span></nav>
+		<p class="eyebrow">Module {index} of {MODULES.length}</p>
+		<h1>{mod.title}</h1>
+		<div class="lead" set:html={intro} />
+		<div class="btn-row">
+			<a class="btn" href={hrefFor(notes[0].data.slug)}>Start with “{short(notes[0].data.title)}”</a>
+			<a class="btn btn-ghost" href="#notes">All notes</a>
+			{mod.id === 'internals' && <a class="btn btn-ghost" href={hrefFor('engine-map')}>Lost in function names? Engine map</a>}
+		</div>
+	</header>
+
+	{
+		mod.id === 'internals' && (
+			<section class="wrap section">
+				<h2>The pipeline</h2>
+				<Fragment set:html={pipeline({ hrefFor })} />
+			</section>
+		)
+	}
+
+	<section class="wrap section" id="notes">
+		<h2>The notes</h2>
+		<p class="section-sub">Read them in order. Each one builds on the ones before it. <span class="read-progress" data-read-progress hidden></span></p>
+		<div class="grid">
+			{
+				notes.map((n, i) => (
+					<NoteCard
+						slug={n.data.slug}
+						href={hrefFor(n.data.slug)}
+						index={i + 1}
+						title={short(n.data.title)}
+						summary={n.data.summary}
+						level={n.data.level}
+						illus={n.data.illus}
+					/>
+				))
+			}
+		</div>
+	</section>
+</Base>
+
+<style>
+	.intro {
+		padding-top: clamp(64px, 8vw, 88px);
+		padding-bottom: 12px;
+		max-width: 880px;
+		margin-left: max(0px, calc((100% - 1120px) / 2));
+	}
+
+	.crumbs {
+		display: flex;
+		gap: 8px;
+		margin-bottom: 18px;
+		font-size: 14px;
+		color: var(--muted);
+	}
+
+	.crumbs a {
+		color: var(--ink-soft);
+		text-decoration: none;
+	}
+
+	.eyebrow {
+		display: inline-block;
+		margin: 0 0 16px;
+		padding: 3px 12px;
+		border: 1px solid var(--line);
+		border-radius: 999px;
+		background: var(--plum-soft);
+		color: var(--plum);
+		font: 600 13px var(--font);
+	}
+
+	h1 {
+		font-size: clamp(40px, 7vw, 80px);
+		letter-spacing: -0.055em;
+		line-height: 0.98;
+		margin-bottom: 22px;
+	}
+
+	.lead :global(p) {
+		margin: 0 0 14px;
+		font-size: 17px;
+		max-width: 70ch;
+		color: var(--ink-soft);
+	}
+
+	.lead :global(code) {
+		color: var(--accent);
+		padding: 0 2px;
+	}
+
+	.lead :global(.callout) {
+		padding: 12px 16px;
+		background: var(--cream);
+		border: 1px solid var(--cream-deep);
+		border-radius: var(--radius);
+	}
+
+	.lead :global(a) {
+		font-weight: 700;
+		text-decoration-color: var(--accent);
+		text-decoration-thickness: 2px;
+	}
+
+	.btn-row {
+		margin-top: 22px;
+	}
+
+	.section {
+		padding-top: clamp(48px, 7vw, 80px);
+	}
+
+	.section h2 {
+		font-size: clamp(28px, 4vw, 40px);
+		text-align: center;
+		margin-bottom: 10px;
+	}
+
+	.section-sub {
+		text-align: center;
+		margin: 0 0 32px;
+		color: var(--ink-soft);
+	}
+
+	.section :global(.fig-pipeline) {
+		margin-top: 28px;
+		background: var(--cream);
+	}
+
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+		gap: 28px 22px;
+	}
+</style>

@@ -1,6 +1,7 @@
 ---
 title: "Render and Commit"
 slug: "render-and-commit"
+module: "internals"
 order: 1
 level: "must"
 illus: "pipeline"
@@ -13,7 +14,7 @@ source: "https://react.dev/learn/render-and-commit"
 > [Render and Commit](https://react.dev/learn/render-and-commit), Andrew
 > Clark's [React Fiber Architecture](https://github.com/acdlite/react-fiber-architecture),
 > and the React 19.2 source (`react-dom-client.development.js`). This is the
-> entry point of [React Internals](../../). The later notes zoom into each box of
+> entry point of [React Internals](../../internals/). The later notes zoom into each box of
 > the diagram below. My own notes and clarifications are marked with `> 💬`.
 
 ## Interview Q&A
@@ -51,7 +52,7 @@ effects, which run once per commit.
 
 No. React compares the new elements with the **previous render's fiber
 tree**, which is its own in-memory record. It never reads the DOM to
-decide what changed. See [Reconciliation](../reconciliation/).
+decide what changed. See [Reconciliation](../../internals/reconciliation/).
 
 </details>
 
@@ -77,7 +78,7 @@ Internally a trigger doesn't start work right away. `setState` creates an
 update object, assigns it a priority (**lane**), marks the path from the
 component to the root, and asks the root to be scheduled. Several
 `setState`s in the same event land in the same lane and produce one render
-(automatic batching). See [Scheduler, Lanes and Batching](../scheduler-lanes-and-batching/).
+(automatic batching). See [Scheduler, Lanes and Batching](../../internals/scheduler-lanes-and-batching/).
 
 ### 2. Render phase
 
@@ -86,17 +87,17 @@ subsequent renders, React will call the function component whose state
 update triggered the render. This process is recursive."
 
 Under the hood React walks the **fiber tree** one fiber at a time
-([The Work Loop](../the-work-loop/)):
+([The Work Loop](../../internals/the-work-loop/)):
 - **Going down** (`beginWork`), React calls the component, or bails out if
   nothing changed, and **reconciles** the returned elements against the
   existing child fibers. Reconciling means deciding what to reuse, update,
-  create or delete ([Reconciliation](../reconciliation/), [Child Reconciliation Algorithm](../child-reconciliation-algorithm/)).
+  create or delete ([Reconciliation](../../internals/reconciliation/), [Child Reconciliation Algorithm](../../internals/child-reconciliation-algorithm/)).
 - **Coming back up** (`completeWork`), React creates DOM nodes for new host
   elements (not yet attached to the document), flags existing ones that got
   new props, and bubbles "something below me needs work" flags to the parent.
 
 Everything in this phase is built on a **work-in-progress** copy of the tree
-([React Fiber](../react-fiber/), double buffering), so the screen keeps showing the old UI
+([React Fiber](../../internals/react-fiber/), double buffering), so the screen keeps showing the old UI
 the whole time. That's what makes the phase safe to interrupt: nothing has
 been shown yet, so there is nothing to undo.
 
@@ -105,7 +106,7 @@ been shown yet, so there is nothing to undo.
 When the work-in-progress tree is complete, React commits it in one
 synchronous pass. It applies the collected DOM mutations, swaps the
 work-in-progress tree to be the current one, attaches refs and runs layout
-effects. See [Commit Phase and Effects](../commit-phase-and-effects/).
+effects. See [Commit Phase and Effects](../../internals/commit-phase-and-effects/).
 
 react.dev: "React only changes the DOM nodes if there's a difference between
 renders. For example, if a component re-renders but the `<input>` element
@@ -191,7 +192,7 @@ function Counter() {
 | 8 | effects | `document.title = 'Clicked 1'`. For a discrete event like a click, React 18+ flushes these passive effects synchronously at the end of the commit rather than waiting for a later task |
 
 The end-to-end version with real function names is in
-[A State Update, End to End](../a-state-update-end-to-end/).
+[A State Update, End to End](../../internals/a-state-update-end-to-end/).
 
 ## Rules and caveats
 

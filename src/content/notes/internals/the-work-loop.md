@@ -1,6 +1,7 @@
 ---
 title: "The Work Loop"
 slug: "the-work-loop"
+module: "internals"
 order: 6
 level: "good"
 illus: "loop"
@@ -13,7 +14,7 @@ source: "https://github.com/facebook/react/blob/main/packages/react-reconciler/s
 > components to skip. Read from `workLoopSync`, `workLoopConcurrentByScheduler`,
 > `performUnitOfWork`, `completeUnitOfWork`, `beginWork` and
 > `bailoutOnAlreadyFinishedWork` in the React 19.2.5 build. Part of
-> [React Internals](../../). It builds on [React Fiber](../react-fiber/) and explains the mechanism
+> [React Internals](../../internals/). It builds on [React Fiber](../../internals/react-fiber/) and explains the mechanism
 > behind the *React Performance* module's optimizations. My own notes and
 > clarifications are marked with `> 💬`.
 
@@ -61,7 +62,7 @@ where to resume. The sync loop never checks.
 ## The problem: walking a tree without the call stack
 
 Recursion is the natural way to walk a tree, but recursion keeps its
-position on the JS call stack ([React Fiber](../react-fiber/) explains why that's a
+position on the JS call stack ([React Fiber](../../internals/react-fiber/) explains why that's a
 problem). Fiber stores the position in a **variable** instead. The whole
 render phase is these few lines:
 
@@ -77,7 +78,7 @@ function workLoopConcurrentByScheduler() {
 
 The only difference between synchronous and concurrent rendering is the
 `!shouldYield()` check. Which loop runs depends on the update's priority.
-See [Scheduler, Lanes and Batching](../scheduler-lanes-and-batching/).
+See [Scheduler, Lanes and Batching](../../internals/scheduler-lanes-and-batching/).
 
 ## One unit of work: begin, then maybe complete
 

@@ -1,5 +1,7 @@
-// Copies the React Internals notes from the Obsidian vault into
-// src/content/notes/, converting Obsidian syntax and injecting diagrams.
+// Builds src/content/notes/<module>/<slug>.md for every module in
+// src/lib/modules.mjs, converting Obsidian syntax and injecting diagrams.
+// Modules with `vault` read their notes from that vault folder; notes with
+// `site: true` (and modules without `vault`) read from content/<module>/.
 //
 //   node scripts/sync-notes.mjs
 //
@@ -11,8 +13,7 @@
 //   - ASCII diagrams → HTML/SVG/Mermaid figures
 //   - extra figures inserted after selected headings
 //
-// Site-only notes (NOTES entries with `site: true`) are read from content/
-// instead of the vault, and may use build-time markers that pull in real
+// Site-only notes may use build-time markers that pull in real
 // output from the demo app (examples/how-react-works):
 //   <!-- source file="App.jsx" -->                      the demo's source
 //   <!-- compiled file="App" mode="automatic" fn="App" --> Babel / Vite output
@@ -26,7 +27,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import GithubSlugger from 'github-slugger'
 import os from 'node:os'
-import { NOTES, MOC_FILE } from '../src/lib/notes-meta.mjs'
+import { MODULES, ALL_NOTES } from '../src/lib/modules.mjs'
 import * as D from '../src/lib/diagrams.mjs'
 import * as A from '../src/lib/animations.mjs'
 import * as H from '../src/lib/animations-hrw.mjs'
@@ -35,13 +36,15 @@ import * as M from '../src/lib/engine-map.mjs'
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const OUT_DIR = path.join(ROOT, 'src/content/notes')
 const CONTENT_DIR = path.join(ROOT, 'content')
-// The Obsidian vault folder these notes come from (override with NEXUS_NOTES_DIR)
-const VAULT_DIR =
-	process.env.NEXUS_NOTES_DIR ?? path.join(os.homedir(), 'Nexus/40 Resources/Engineering/JavaScript/React/React Internals')
+// The vault's React folder (override with NEXUS_REACT_DIR)
+const VAULT_ROOT = process.env.NEXUS_REACT_DIR ?? path.join(os.homedir(), 'Nexus/40 Resources/Engineering/JavaScript/React')
 const DEMO = path.join(ROOT, 'examples/how-react-works')
 
-const byTitle = new Map(NOTES.map((n) => [n.file.replace(/\.md$/, ''), n]))
-const MOC_TITLE = MOC_FILE.replace(/\.md$/, '')
+const byTitle = new Map(ALL_NOTES.map((n) => [n.file.replace(/\.md$/, ''), n]))
+// [[React Suspense]] etc. link to the module page (only for modules that have notes)
+const moduleByTitle = new Map(
+	MODULES.filter((m) => m.notes.length).flatMap((m) => [[m.title, m], ...(m.moc ? [[m.moc.replace(/\.md$/, ''), m]] : [])]),
+)
 
 // ASCII code blocks to replace, keyed by note slug + first non-empty line.
 const REPLACE_BLOCKS = {
@@ -111,6 +114,7 @@ const anchor = (heading) => {
 
 const missing = []
 
+// Links are relative to a note page (/<module>/<slug>/).
 function convertWikilinks(text, selfSlug) {
 	return text.replace(/\[\[([^\]|#]*)(#[^\]|]*)?(\|[^\]]*)?\]\]/g, (_, target, hash, alias) => {
 		const heading = hash ? hash.slice(1) : ''
@@ -118,10 +122,11 @@ function convertWikilinks(text, selfSlug) {
 		if (!target) return `[${label}](#${anchor(heading)})`
 		const note = byTitle.get(target)
 		if (note) {
-			const href = note.slug === selfSlug ? '' : `../${note.slug}/`
+			const href = note.slug === selfSlug ? '' : `../../${note.module}/${note.slug}/`
 			return `[${label}](${href}${heading ? '#' + anchor(heading) : ''})`
 		}
-		if (target === MOC_TITLE) return `[${label}](../../)`
+		const mod = moduleByTitle.get(target)
+		if (mod) return `[${label}](../../${mod.id}/)`
 		missing.push(target)
 		return `*${label}*`
 	})
@@ -419,6 +424,7 @@ function convertNote(note, raw, order) {
 		'---',
 		`title: ${JSON.stringify(title)}`,
 		`slug: ${JSON.stringify(note.slug)}`,
+		`module: ${JSON.stringify(note.module)}`,
 		`order: ${order}`,
 		`level: ${JSON.stringify(note.level)}`,
 		`illus: ${JSON.stringify(note.illus)}`,
@@ -430,41 +436,53 @@ function convertNote(note, raw, order) {
 	return front.join('\n') + lines.join('\n').replace(/\n{3,}/g, '\n\n')
 }
 
-if (!fs.existsSync(VAULT_DIR)) {
-	console.log(`Vault not found at ${VAULT_DIR}; using the committed notes in src/content/notes.`)
+if (!fs.existsSync(VAULT_ROOT)) {
+	console.log(`Vault not found at ${VAULT_ROOT}; using the committed notes in src/content/notes.`)
 	process.exit(0)
 }
 
-fs.mkdirSync(OUT_DIR, { recursive: true })
-for (const f of fs.readdirSync(OUT_DIR)) if (f.endsWith('.md')) fs.rmSync(path.join(OUT_DIR, f))
+fs.rmSync(OUT_DIR, { recursive: true, force: true })
+const intros = {}
 
-NOTES.forEach((note, i) => {
-	const raw = fs.readFileSync(path.join(note.site ? CONTENT_DIR : VAULT_DIR, note.file), 'utf8')
-	fs.writeFileSync(path.join(OUT_DIR, `${note.slug}.md`), convertNote(note, raw, i))
-})
-
-// The MOC intro becomes the home page lead.
-const moc = fs.readFileSync(path.join(VAULT_DIR, MOC_FILE), 'utf8')
-const mocIntro = moc
-	.replace(/^---\n[\s\S]*?\n---\n/, '')
-	.replace(/^# .+\n/m, '')
-	.split(/\n## /)[0]
-	.split(/\n```/)[0]
-	.trim()
-const introHtml = convertWikilinks(mocIntro, '')
-	.replace(/\]\(\.\.\//g, '](notes/')
-	.split(/\n\s*\n/)
-	.map((para) => {
-		const quote = para.startsWith('>')
-		let html = inlineHtml(para.replace(/^>\s?/gm, '').replace(/\n/g, ' '))
-			.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
-			.replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>')
-		for (const [emoji, dot] of Object.entries(LEVEL_DOTS)) html = html.split(emoji).join(dot)
-		return quote ? `<p class="callout">${html}</p>` : `<p>${html}</p>`
+for (const mod of MODULES) {
+	if (!mod.notes.length) continue
+	const dir = path.join(OUT_DIR, mod.id)
+	fs.mkdirSync(dir, { recursive: true })
+	mod.notes.forEach((n, i) => {
+		const note = { ...n, module: mod.id }
+		const from = note.site || !mod.vault ? path.join(CONTENT_DIR, mod.id) : path.join(VAULT_ROOT, mod.vault)
+		const raw = fs.readFileSync(path.join(from, note.file), 'utf8')
+		fs.writeFileSync(path.join(dir, `${note.slug}.md`), convertNote(note, raw, i))
 	})
-	.join('\n')
-fs.writeFileSync(path.join(ROOT, 'src/lib/moc-intro.json'), JSON.stringify({ introHtml }, null, 2))
+	// The module's MOC intro (vault) or content/<module>/_intro.md becomes the module page lead.
+	const introFile = mod.moc ? path.join(VAULT_ROOT, mod.vault, mod.moc) : path.join(CONTENT_DIR, mod.id, '_intro.md')
+	if (fs.existsSync(introFile)) intros[mod.id] = introHtml(fs.readFileSync(introFile, 'utf8'))
+}
+
+function introHtml(moc) {
+	const intro = moc
+		.replace(/^---\n[\s\S]*?\n---\n/, '')
+		.replace(/^# .+\n/m, '')
+		.split(/\n## /)[0]
+		.split(/\n```/)[0]
+		.trim()
+	// note-relative links (../../<module>/<slug>/) → "@base/<module>/<slug>/", resolved by the page
+	return convertWikilinks(intro, '')
+		.replace(/\]\(\.\.\/\.\.\//g, '](@base/')
+		.split(/\n\s*\n/)
+		.map((para) => {
+			const quote = para.startsWith('>')
+			let html = inlineHtml(para.replace(/^>\s?/gm, '').replace(/\n/g, ' '))
+				.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
+				.replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>')
+			for (const [emoji, dot] of Object.entries(LEVEL_DOTS)) html = html.split(emoji).join(dot)
+			return quote ? `<p class="callout">${html}</p>` : `<p>${html}</p>`
+		})
+		.join('\n')
+}
+
+fs.writeFileSync(path.join(ROOT, 'src/lib/module-intros.json'), JSON.stringify(intros, null, 2))
 
 const uniq = [...new Set(missing)]
-console.log(`Synced ${NOTES.length} notes → src/content/notes`)
-if (uniq.length) console.log(`Links to notes outside this folder (rendered as text): ${uniq.join(', ')}`)
+console.log(`Synced ${ALL_NOTES.length} notes in ${Object.keys(intros).length} module(s) → src/content/notes`)
+if (uniq.length) console.log(`Links to notes not on the site (rendered as text): ${uniq.join(', ')}`)

@@ -1,7 +1,9 @@
-# React Internals — illustrated
+# React Handbook
 
-A static site that presents the *React Internals* notes from the Nexus vault
-with diagrams, interactive walkthroughs and highlighted code.
+A static site with everything a React developer should know, organized as a
+learning path of modules (Fundamentals → Hooks → Advanced APIs → Patterns →
+Performance → Suspense → Internals), with diagrams, step-through animations,
+highlighted code and real output recorded from example apps.
 
 ```bash
 npm install
@@ -11,10 +13,16 @@ npm run build    # syncs + builds to dist/
 
 ## How it works
 
-- `scripts/sync-notes.mjs` reads the notes from the vault folder
-  (`VAULT_DIR` in `src/lib/notes-meta.mjs`), converts Obsidian syntax
-  (wikilinks, 🔴/🟡/⚪ labels, Interview Q&A) and injects figures, writing
-  `src/content/notes/*.md`. They are committed so the repo builds without the vault (the sync is skipped when the vault is missing); edit the vault, not them.
+- `src/lib/modules.mjs` lists the modules in learning-path order; each
+  module's notes are in `src/lib/notes/<module>.mjs`. Pages live at
+  `/<module>/` and `/<module>/<slug>/` (old `/notes/<slug>/` URLs redirect).
+- `scripts/sync-notes.mjs` converts every note (wikilinks across modules,
+  🔴/🟡/⚪ labels, Interview Q&A, figures) into
+  `src/content/notes/<module>/<slug>.md`. React Internals comes from the vault
+  (`~/Nexus/40 Resources/Engineering/JavaScript/React`, override with
+  `NEXUS_REACT_DIR`); the other modules are rewritten for the site in
+  `content/<module>/`. The output is committed so the repo builds without the
+  vault (the sync is skipped when the vault is missing).
 - `src/lib/diagrams.mjs` holds every diagram (HTML/SVG, plus two Mermaid
   sequence diagrams). `REPLACE_BLOCKS` and `INSERT_AFTER` in the sync script
   decide where each one goes. The sync fails loudly if a target heading or
@@ -30,7 +38,7 @@ npm run build    # syncs + builds to dist/
 
 ## Site-only card: How React Works, Start to Finish
 
-`content/How React Works, Start to Finish.md` is written in this repo (not the
+`content/internals/How React Works, Start to Finish.md` is written in this repo (not the
 vault). It follows the demo app in `examples/how-react-works` and uses
 build-time markers (`<!-- source -->`, `<!-- compiled -->`, `<!-- trace -->`,
 `<!-- tree -->`, `<!-- element -->`, `<!-- figure -->`, documented at the top of
@@ -56,5 +64,10 @@ regenerates the link-preview image `public/og.png`.
 
 `site` and `base` are set in `astro.config.mjs`; all links are base-aware.
 
-Live: https://giorgistrat.github.io/react-internals/ — redeploy with `npm run deploy`
+Live: https://giorgistrat.github.io/react-handbook/ — redeploy with `npm run deploy`
 (builds, then force-pushes `dist/` to the `gh-pages` branch).
+
+## PDFs
+
+`npm run pdf` builds, then writes one folder per module (each note plus a
+combined PDF) to `~/Desktop/React Handbook PDFs/`, printed in the light theme.

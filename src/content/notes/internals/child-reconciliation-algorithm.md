@@ -1,6 +1,7 @@
 ---
 title: "Child Reconciliation Algorithm"
 slug: "child-reconciliation-algorithm"
+module: "internals"
 order: 8
 level: "good"
 illus: "list"
@@ -13,8 +14,8 @@ source: "https://github.com/facebook/react/blob/main/packages/react-reconciler/s
 > children, read from `reconcileChildrenArray`, `updateSlot`,
 > `mapRemainingChildren` and `placeChild` in the React 19.2.5 build
 > (`react-dom-client.development.js`), whose source is `ReactChildFiber.js`.
-> Part of [React Internals](../../). The rules it implements (type and key) are
-> explained in [Reconciliation](../reconciliation/). My own notes and clarifications are
+> Part of [React Internals](../../internals/). The rules it implements (type and key) are
+> explained in [Reconciliation](../../internals/reconciliation/). My own notes and clarifications are
 > marked with `> 💬`.
 
 ## Interview Q&A

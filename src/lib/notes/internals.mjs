@@ -1,8 +1,7 @@
-// Per-note metadata: the reading order from "React Internals - Start Here",
+// React Internals module: the reading order from "React Internals - Start Here",
 // a one-line summary (from the "React Internals" MOC) and which card
-// illustration to draw. Shared by the sync script and the pages.
-
-export const MOC_FILE = 'React Internals.md'
+// illustration to draw. Notes come from the vault unless `site: true`
+// (then from content/internals/).
 
 export const NOTES = [
 	{
@@ -94,9 +93,3 @@ export const NOTES = [
 		summary: 'Lost in function names? The map of React’s internals: what calls what, which names matter, a plain-English glossary and flashcards.',
 	},
 ]
-
-export const LEVELS = {
-	must: { label: 'Must know', className: 'lvl-must' },
-	good: { label: 'Good to know', className: 'lvl-good' },
-	skip: { label: 'Skip for interviews', className: 'lvl-skip' },
-}

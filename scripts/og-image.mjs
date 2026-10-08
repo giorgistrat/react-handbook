@@ -20,7 +20,7 @@ h1{font:700 104px/.95 -apple-system,system-ui,sans-serif;letter-spacing:-.05em;m
 p{font-size:30px;font-weight:600;letter-spacing:-.02em;margin:0;color:var(--ink-soft)}
 .c{flex:1;background:var(--cream);border:2px solid var(--cream-deep);border-radius:24px;padding:20px}
 .panel{background:var(--surface);border:1px solid var(--cream-deep);border-radius:14px;overflow:hidden}svg{display:block;width:100%;height:auto}
-</style></head><body><div class="t"><span class="eyebrow">Notes · React 19.2.5</span><h1>React<br>Internals</h1><p>Fiber, reconciliation, the work loop, commit, hooks — animated.</p></div>
+</style></head><body><div class="t"><span class="eyebrow">Notes · React 19.2.5</span><h1>React<br>Handbook</h1><p>From JSX to the fiber tree: notes, diagrams and animations.</p></div>
 <div class="c"><div class="panel">${illustration('browser')}</div></div></body></html>`
 
 const browser = await puppeteer.launch({ executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true })
