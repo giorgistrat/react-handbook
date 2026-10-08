@@ -145,6 +145,13 @@ export const GLOSSARY = [
 	A('useImperativeHandle', 'choose what a ref exposes', 'useImperativeHandle(ref, () => ({ focus() {…} })) makes the parent’s ref point to your object instead of the DOM node: a small, deliberate API for commands.', 'useimperativehandle', 'good'),
 	A('flushSync', 'apply this update now', 'flushSync(() => setState(…)) renders and commits before it returns, so the next line sees the updated DOM. Slow if overused; for focus, scroll and third-party DOM code.', 'flushsync', 'good'),
 	A('useSyncExternalStore', 'read a store React doesn’t own', 'useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot?) re-renders when the store’s snapshot changes. getSnapshot must return the same value when nothing changed.', 'usesyncexternalstore', 'good'),
+	A('children', 'what goes between the tags', 'The prop holding the JSX written between a component’s opening and closing tags. The simplest way to pass elements instead of data.', 'composition'),
+	A('ReactNode', 'anything React can render', 'The TypeScript type for a prop that takes JSX, text, numbers, arrays, null… Use it for children and named element props like sidebar.', 'composition', 'good'),
+	A('cloneElement', 'copy an element with new props', 'cloneElement(element, extraProps) returns a copy with props merged in. The old way to wire compound components; it only reaches direct children.', 'compound-components', 'good'),
+	A('Children.map', 'loop over children', 'Maps over the children prop as given, without looking inside nested elements. Used with cloneElement in older compound components.', 'compound-components', 'good'),
+	A('useEffectEvent', 'an effect’s latest-values function', 'Wraps a function so it always sees the latest props and state but never has to be an effect dependency. Call it only from inside effects. Stable since React 19.2.', 'latest-ref', 'good'),
+	A('callAll', 'call several handlers', 'A small helper (not part of React): callAll(a, b) returns one function that calls each one that exists. Prop getters use it to merge onClick handlers.', 'prop-getters', 'good'),
+	A('getTogglerProps', 'a prop getter', 'Example prop getter from useToggle: pass your own props in, get back the props the button needs, with handlers merged.', 'prop-getters', 'good'),
 	A('Object.is', 'React’s equality check', 'How React compares dependencies, memo props and state: by value for primitives, by identity for objects, arrays and functions.', 'dom-refs-and-effect-dependencies', 'good'),
 ]
 

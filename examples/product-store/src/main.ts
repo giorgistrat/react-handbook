@@ -14,7 +14,7 @@ if (load) {
 } else {
 	root.innerHTML = `<h1>Product Store</h1><p>Open a lesson:</p><ul>${Object.keys(lessons)
 		.map((k) => k.replace('./lessons/', '').replace(/\.tsx?$/, ''))
-		.filter((k) => !k.includes('.bad'))
+		.filter((k) => !k.includes('.bad') && /\/\d/.test(k)) // lessons only, not shared helpers
 		.map((k) => `<li><a href="?lesson=${k}">${k}</a></li>`)
 		.join('')}</ul>`
 }

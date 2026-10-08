@@ -1,0 +1,350 @@
+{
+  "composition": {
+    "drilled": {
+      "logs": [
+        "Nav got: user",
+        "Main got: products, selected, onSelect",
+        "Footer got: user",
+        "Nav got: user",
+        "Main got: products, selected, onSelect",
+        "Footer got: user"
+      ],
+      "warnings": [],
+      "mount": [
+        "Nav got: user",
+        "Main got: products, selected, onSelect",
+        "Footer got: user"
+      ],
+      "details": "Desk Lamp: $39.00"
+    },
+    "composed": {
+      "logs": [
+        "Nav got: avatar",
+        "Main got: sidebar, content",
+        "Footer got: children",
+        "Nav got: avatar",
+        "Main got: sidebar, content",
+        "Footer got: children"
+      ],
+      "warnings": [],
+      "mount": [
+        "Nav got: avatar",
+        "Main got: sidebar, content",
+        "Footer got: children"
+      ],
+      "details": "Desk Lamp: $39.00"
+    }
+  },
+  "latestRef": {
+    "rebuild": {
+      "logs": [
+        "saved \"G\" for Desk Lamp",
+        "saved \"Gi\" for Desk Lamp",
+        "saved \"Gif\" for Desk Lamp",
+        "saved \"Gift\" for Desk Lamp"
+      ],
+      "warnings": [],
+      "saves": [
+        "saved \"G\" for Desk Lamp",
+        "saved \"Gi\" for Desk Lamp",
+        "saved \"Gif\" for Desk Lamp",
+        "saved \"Gift\" for Desk Lamp"
+      ]
+    },
+    "once": {
+      "logs": [
+        "saved \"Gift\" for Ceramic Mug"
+      ],
+      "warnings": [],
+      "saves": [
+        "saved \"Gift\" for Ceramic Mug"
+      ]
+    },
+    "latest": {
+      "logs": [
+        "saved \"Gift\" for Desk Lamp"
+      ],
+      "warnings": [],
+      "saves": [
+        "saved \"Gift\" for Desk Lamp"
+      ]
+    },
+    "watchStale": {
+      "logs": [
+        "watch started",
+        "checking stock: Ceramic Mug",
+        "checking stock: Ceramic Mug",
+        "checking stock: Ceramic Mug",
+        "checking stock: Ceramic Mug",
+        "checking stock: Ceramic Mug",
+        "checking stock: Ceramic Mug",
+        "checking stock: Ceramic Mug"
+      ],
+      "warnings": [],
+      "before": [
+        "watch started",
+        "checking stock: Ceramic Mug   (repeats)"
+      ],
+      "after": [
+        "checking stock: Ceramic Mug   (repeats)"
+      ]
+    },
+    "watchRestart": {
+      "logs": [
+        "watch started",
+        "checking stock: Ceramic Mug",
+        "checking stock: Ceramic Mug",
+        "checking stock: Ceramic Mug",
+        "checking stock: Ceramic Mug",
+        "checking stock: Ceramic Mug",
+        "watch stopped",
+        "watch started",
+        "checking stock: Desk Lamp",
+        "checking stock: Desk Lamp"
+      ],
+      "warnings": [],
+      "before": [
+        "watch started",
+        "checking stock: Ceramic Mug   (repeats)"
+      ],
+      "after": [
+        "watch stopped",
+        "watch started",
+        "checking stock: Desk Lamp   (repeats)"
+      ]
+    },
+    "watchEvent": {
+      "logs": [
+        "watch started",
+        "checking stock: Ceramic Mug",
+        "checking stock: Ceramic Mug",
+        "checking stock: Ceramic Mug",
+        "checking stock: Ceramic Mug",
+        "checking stock: Ceramic Mug",
+        "checking stock: Desk Lamp",
+        "checking stock: Desk Lamp"
+      ],
+      "warnings": [],
+      "before": [
+        "watch started",
+        "checking stock: Ceramic Mug   (repeats)"
+      ],
+      "after": [
+        "checking stock: Desk Lamp   (repeats)"
+      ]
+    }
+  },
+  "compound": {
+    "context": {
+      "logs": [
+        "scenario: context"
+      ],
+      "warnings": [],
+      "before": "No gift wrap",
+      "after": "We'll wrap it in recycled paper 🎁",
+      "switch": "true"
+    },
+    "clone": {
+      "logs": [
+        "scenario: clone"
+      ],
+      "warnings": [],
+      "before": "No gift wrap",
+      "after": "No gift wrap",
+      "switch": "true"
+    },
+    "outside": {
+      "logs": [
+        "scenario: outside"
+      ],
+      "warnings": [
+        "TypeError: Cannot destructure property 'on' of 'use(...)' as it is null.",
+        "Error: Toggle components must be rendered inside <Toggle>"
+      ],
+      "alerts": [
+        "Cannot destructure property 'on' of 'use(...)' as it is null.",
+        "Toggle components must be rendered inside <Toggle>"
+      ]
+    }
+  },
+  "slots": {
+    "slots": {
+      "logs": [
+        "scenario: slots"
+      ],
+      "warnings": [],
+      "field": {
+        "label for": "_r_0_",
+        "input id": "_r_0_",
+        "input aria-describedby": "_r_0_-description",
+        "description id": "_r_0_-description",
+        "aria-describedby points to": "We only use it for this order.",
+        "label for === input id": true
+      },
+      "labelClickFocused": "input#_r_0_",
+      "toggleLabelMatchesSwitch": true,
+      "before": [
+        "Wrapped in recycled paper 🎁 (hidden)",
+        "No gift wrap"
+      ],
+      "after": [
+        "Wrapped in recycled paper 🎁",
+        "No gift wrap (hidden)"
+      ]
+    },
+    "typo": {
+      "logs": [
+        "scenario: typo"
+      ],
+      "warnings": [],
+      "field": {
+        "label for": "_r_0_",
+        "input id": "_r_0_",
+        "input aria-describedby": "_r_0_-description",
+        "description id": null,
+        "aria-describedby points to": "(nothing)",
+        "label for === input id": true
+      }
+    }
+  },
+  "propGetters": {
+    "spreadFirst": {
+      "logs": [
+        "analytics: gift wrap clicked",
+        "analytics: gift wrap clicked"
+      ],
+      "warnings": [],
+      "afterEachClick": [
+        "Gift wrap: off (aria-checked=false)",
+        "Gift wrap: off (aria-checked=false)"
+      ]
+    },
+    "spreadLast": {
+      "logs": [],
+      "warnings": [],
+      "afterEachClick": [
+        "Gift wrap: on (aria-checked=true)",
+        "Gift wrap: off (aria-checked=false)"
+      ]
+    },
+    "getter": {
+      "logs": [
+        "analytics: gift wrap clicked",
+        "analytics: gift wrap clicked"
+      ],
+      "warnings": [],
+      "afterEachClick": [
+        "Gift wrap: on (aria-checked=true)",
+        "Gift wrap: off (aria-checked=false)"
+      ],
+      "id": "gift-wrap"
+    },
+    "tscErrors": [
+      "05-prop-getters.bad.tsx(10,25): error TS2783: 'onClick' is specified more than once, so this usage will be overwritten."
+    ]
+  },
+  "initializer": {
+    "plain": {
+      "logs": [
+        "scenario: plain"
+      ],
+      "warnings": [],
+      "steps": [
+        "mount (setting on): true",
+        "click switch: false",
+        "untick \"by default\": false",
+        "click Reset: false"
+      ]
+    },
+    "stable": {
+      "logs": [
+        "scenario: stable"
+      ],
+      "warnings": [],
+      "steps": [
+        "mount (setting on): true",
+        "click switch: false",
+        "untick \"by default\": false",
+        "click Reset: true"
+      ]
+    }
+  },
+  "stateReducer": {
+    "logs": [
+      "render GiftOptions (on: false)",
+      "render WrapNote",
+      "render GiftOptions (on: true)",
+      "render WrapNote",
+      "render GiftOptions (on: true)",
+      "render WrapNote",
+      "render GiftOptions (on: true)"
+    ],
+    "warnings": [],
+    "mount": [
+      "render GiftOptions (on: false)",
+      "render WrapNote"
+    ],
+    "toggleBefore": [
+      "render GiftOptions (on: true)",
+      "render WrapNote"
+    ],
+    "place": [
+      "render GiftOptions (on: true)",
+      "render WrapNote"
+    ],
+    "toggleAfter": [
+      "render GiftOptions (on: true)"
+    ],
+    "final": "true"
+  },
+  "controlProps": {
+    "logs": [
+      "render Checkout",
+      "render Toggle \"Cart\" (on: false)",
+      "render Toggle \"Checkout\" (on: false)",
+      "render Toggle \"Newsletter\" (on: false)",
+      "Checkout: setGiftWrap(true)",
+      "render Checkout",
+      "render Toggle \"Cart\" (on: true)",
+      "render Toggle \"Checkout\" (on: true)",
+      "render Toggle \"Newsletter\" (on: false)",
+      "newsletter onChange: true",
+      "render Toggle \"Newsletter\" (on: true)",
+      "render Checkout",
+      "render Toggle \"Cart\" (on: true)",
+      "render Toggle \"Checkout\" (on: true)",
+      "render Toggle \"Newsletter\" (on: true)",
+      "Checkout: ignored the change (order placed)"
+    ],
+    "warnings": [],
+    "mount": [
+      "render Checkout",
+      "render Toggle \"Cart\" (on: false)",
+      "render Toggle \"Checkout\" (on: false)",
+      "render Toggle \"Newsletter\" (on: false)"
+    ],
+    "clickCart": [
+      "Checkout: setGiftWrap(true)",
+      "render Checkout",
+      "render Toggle \"Cart\" (on: true)",
+      "render Toggle \"Checkout\" (on: true)",
+      "render Toggle \"Newsletter\" (on: false)"
+    ],
+    "afterCart": "cart: true, checkout: true",
+    "clickNewsletter": [
+      "newsletter onChange: true",
+      "render Toggle \"Newsletter\" (on: true)"
+    ],
+    "newsletter": "true",
+    "place": [
+      "render Checkout",
+      "render Toggle \"Cart\" (on: true)",
+      "render Toggle \"Checkout\" (on: true)",
+      "render Toggle \"Newsletter\" (on: true)"
+    ],
+    "clickCheckout": [
+      "Checkout: ignored the change (order placed)"
+    ],
+    "final": "cart: true, checkout: true"
+  }
+}

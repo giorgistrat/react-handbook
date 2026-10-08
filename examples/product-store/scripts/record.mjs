@@ -543,7 +543,164 @@ async function recordApis() {
 	return data
 }
 
-const MODULES = { fundamentals: recordFundamentals, hooks: recordHooks, apis: recordApis }
+async function recordPatterns() {
+	const P = (lesson) => `patterns/${lesson}`
+	const text = (page, sel) => page.$eval(sel, (el) => el.textContent)
+	const checked = (page, sel) => page.$eval(sel, (el) => el.getAttribute('aria-checked'))
+	const click = async (page, sel) => {
+		await since(page)
+		await page.click(sel)
+		await wait(100)
+		return since(page)
+	}
+	const data = {}
+
+	const pick = async (page) => {
+		await wait(100)
+		const mount = await since(page)
+		await page.click('li:nth-child(4) button') // Desk Lamp
+		await wait(100)
+		return { mount, details: await text(page, '#details') }
+	}
+	data.composition = {
+		drilled: await run(P('01-composition'), 'drilled', pick),
+		composed: await run(P('01-composition'), null, pick),
+	}
+
+	const typeNote = async (page) => {
+		await page.select('#product', 'Desk Lamp')
+		await wait(100)
+		await since(page)
+		await page.type('#note', 'Gift', { delay: 60 }) // faster than the 300 ms debounce
+		await wait(800)
+		return { saves: await since(page) }
+	}
+	// the interval ticks every 200 ms, so collapse repeats ("… (repeats)")
+	const collapse = (lines) => lines.filter((l, i) => l !== lines[i - 1]).map((l) => (lines.filter((x) => x === l).length > 1 ? `${l}   (repeats)` : l))
+	const watch = async (page) => {
+		await wait(330)
+		const before = collapse(await since(page))
+		await page.click('#switch')
+		await wait(450)
+		return { before, after: collapse(await since(page)) }
+	}
+	data.latestRef = {
+		rebuild: await run(P('02-latest-ref'), 'rebuild', typeNote),
+		once: await run(P('02-latest-ref'), 'once', typeNote),
+		latest: await run(P('02-latest-ref'), null, typeNote),
+		watchStale: await run(P('02-latest-ref'), 'watch-stale', watch),
+		watchRestart: await run(P('02-latest-ref'), 'watch-restart', watch),
+		watchEvent: await run(P('02-latest-ref'), 'watch-event', watch),
+	}
+
+	const flip = async (page) => {
+		const before = await text(page, '.note')
+		await page.click('[role=switch]')
+		await wait(100)
+		return { before, after: await text(page, '.note'), switch: await checked(page, '[role=switch]') }
+	}
+	data.compound = {
+		context: await run(P('03-compound'), null, flip),
+		clone: await run(P('03-compound'), 'clone', flip),
+		outside: await run(P('03-compound'), 'outside', async (page) => ({ alerts: await page.$$eval('[role=alert]', (as) => as.map((a) => a.textContent)) })),
+	}
+
+	const wiring = (page) =>
+		page.evaluate(() => {
+			const a = (sel, name) => document.querySelector(sel)?.getAttribute(name) ?? null
+			const label = document.querySelector('label')
+			const input = document.querySelector('input')
+			const describedBy = a('input', 'aria-describedby')
+			return {
+				'label for': a('label', 'for'),
+				'input id': a('input', 'id'),
+				'input aria-describedby': describedBy,
+				'description id': a('span', 'id'),
+				'aria-describedby points to': describedBy ? document.getElementById(describedBy)?.textContent ?? '(nothing)' : '(not set)',
+				'label for === input id': label.htmlFor === input.id,
+			}
+		})
+	data.slots = {
+		slots: await run(P('04-slots'), null, async (page) => {
+			const field = await wiring(page)
+			await page.click('label') // clicking the email label…
+			const focused = await page.evaluate(() => document.activeElement.tagName.toLowerCase() + '#' + document.activeElement.id)
+			const shown = () => page.$$eval('span', (ss) => ss.slice(1).map((s) => `${s.textContent}${s.hidden ? ' (hidden)' : ''}`))
+			const toggleLabel = await page.evaluate(() => document.querySelectorAll('label')[1].htmlFor === document.querySelector('[role=switch]').id)
+			const before = await shown()
+			await page.click('[role=switch]')
+			await wait(100)
+			return { field, labelClickFocused: focused, toggleLabelMatchesSwitch: toggleLabel, before, after: await shown() }
+		}),
+		typo: await run(P('04-slots'), 'typo', async (page) => ({ field: await wiring(page) })),
+	}
+
+	const clickTwice = async (page) => {
+		const states = []
+		for (let i = 0; i < 2; i++) {
+			await page.click('[role=switch]')
+			await wait(100)
+			states.push(`${await text(page, '[role=switch]')} (aria-checked=${await checked(page, '[role=switch]')})`)
+		}
+		return { afterEachClick: states }
+	}
+	data.propGetters = {
+		spreadFirst: await run(P('05-prop-getters'), 'spread-first', clickTwice),
+		spreadLast: await run(P('05-prop-getters.bad'), null, clickTwice),
+		getter: await run(P('05-prop-getters'), null, async (page) => ({ ...(await clickTwice(page)), id: await page.$eval('[role=switch]', (b) => b.id) })),
+		tscErrors: (() => {
+			try {
+				execFileSync('npx', ['tsc', '--ignoreConfig', '--noEmit', '--strict', '--jsx', 'react-jsx', '--moduleResolution', 'bundler', '--module', 'esnext', '--target', 'es2022', '--lib', 'es2022,dom', '--types', 'vite/client', '--skipLibCheck', 'src/lessons/patterns/05-prop-getters.bad.tsx'], { cwd: ROOT, encoding: 'utf8' })
+				return []
+			} catch (e) {
+				return e.stdout.trim().split('\n').map((l) => l.replace('src/lessons/patterns/', ''))
+			}
+		})(),
+	}
+
+	const resetFlow = async (page) => {
+		const steps = [`mount (setting on): ${await checked(page, '#gift')}`]
+		await page.click('#gift')
+		await wait(100)
+		steps.push(`click switch: ${await checked(page, '#gift')}`)
+		await page.click('#setting')
+		await wait(100)
+		steps.push(`untick "by default": ${await checked(page, '#gift')}`)
+		await page.click('#reset')
+		await wait(100)
+		steps.push(`click Reset: ${await checked(page, '#gift')}`)
+		return { steps }
+	}
+	data.initializer = {
+		plain: await run(P('06-state-initializer'), 'plain', resetFlow),
+		stable: await run(P('06-state-initializer'), null, resetFlow),
+	}
+
+	data.stateReducer = await run(P('07-state-reducer'), null, async (page) => {
+		await wait(100)
+		const mount = await since(page)
+		const toggleBefore = await click(page, '#gift')
+		const place = await click(page, '#place')
+		const toggleAfter = await click(page, '#gift')
+		return { mount, toggleBefore, place, toggleAfter, final: await checked(page, '#gift') }
+	})
+
+	const both = async (page) => `cart: ${await checked(page, '#cart')}, checkout: ${await checked(page, '#checkout')}`
+	data.controlProps = await run(P('08-control-props'), null, async (page) => {
+		await wait(100)
+		const mount = await since(page)
+		const clickCart = await click(page, '#cart')
+		const afterCart = await both(page)
+		const clickNewsletter = await click(page, '#newsletter')
+		const newsletter = await checked(page, '#newsletter')
+		const place = await click(page, '#place')
+		const clickCheckout = await click(page, '#checkout')
+		return { mount, clickCart, afterCart, clickNewsletter, newsletter, place, clickCheckout, final: await both(page) }
+	})
+	return data
+}
+
+const MODULES = { fundamentals: recordFundamentals, hooks: recordHooks, apis: recordApis, patterns: recordPatterns }
 const wanted = process.argv.slice(2).length ? process.argv.slice(2) : Object.keys(MODULES)
 fs.mkdirSync(OUT, { recursive: true })
 try {

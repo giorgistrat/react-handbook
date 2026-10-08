@@ -6,6 +6,7 @@
 import { NOTES as FUNDAMENTALS } from './notes/fundamentals.mjs'
 import { NOTES as HOOKS } from './notes/hooks.mjs'
 import { NOTES as APIS } from './notes/apis.mjs'
+import { NOTES as PATTERNS } from './notes/patterns.mjs'
 import { NOTES as INTERNALS } from './notes/internals.mjs'
 
 export const MODULES = [
@@ -34,8 +35,8 @@ export const MODULES = [
 		id: 'patterns',
 		title: 'Advanced React Patterns',
 		illus: 'list',
-		summary: 'Component API design: composition, compound components, slots, prop getters, state initializers, state reducers and control props.',
-		notes: [],
+		summary: 'Component API design: composition, latest ref, compound components, slots, prop getters, state initializers, state reducers and control props.',
+		notes: PATTERNS,
 	},
 	{
 		id: 'performance',
