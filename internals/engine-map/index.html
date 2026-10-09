@@ -1,0 +1,619 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Lost in function names? The map of React’s internals: what calls what, which names matter, a plain-English glossary and flashcards."><meta name="theme-color" content="#11111b"><link rel="canonical" href="https://giorgistrat.github.io/react-handbook/internals/engine-map/"><meta property="og:type" content="article"><meta property="og:site_name" content="React Handbook"><meta property="og:title" content="React Engine Map · React Handbook"><meta property="og:description" content="Lost in function names? The map of React’s internals: what calls what, which names matter, a plain-English glossary and flashcards."><meta property="og:url" content="https://giorgistrat.github.io/react-handbook/internals/engine-map/"><meta property="og:image" content="https://giorgistrat.github.io/react-handbook/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/react-handbook/favicon.svg" type="image/svg+xml"><title>React Engine Map · React Handbook</title><script>
+			// Apply the saved theme before the first paint (no flash).
+			try {
+				const t = localStorage.getItem('theme')
+				if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t
+			} catch (e) {}
+		</script><link rel="stylesheet" href="/react-handbook/_astro/illustrations.BuzmFIPF.css"><style>.note-head[data-astro-cid-jw3tkfuh]{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);align-items:center;gap:32px;padding-top:clamp(28px,5vw,56px);padding-bottom:clamp(28px,4vw,44px);display:grid}@media (width<=760px){.note-head[data-astro-cid-jw3tkfuh]{grid-template-columns:1fr}.head-art[data-astro-cid-jw3tkfuh]{display:none}}.crumbs[data-astro-cid-jw3tkfuh]{color:var(--muted);flex-wrap:wrap;gap:8px;margin-bottom:20px;padding-right:min(310px,44%);font-size:14px;display:flex}.crumbs[data-astro-cid-jw3tkfuh] a[data-astro-cid-jw3tkfuh]{color:var(--ink-soft);text-decoration:none}.crumbs[data-astro-cid-jw3tkfuh] a[data-astro-cid-jw3tkfuh]:hover{color:var(--accent)}.meta[data-astro-cid-jw3tkfuh]{align-items:center;gap:12px;margin-bottom:12px;display:flex}.num[data-astro-cid-jw3tkfuh]{font:500 12.5px var(--mono);color:var(--muted)}h1[data-astro-cid-jw3tkfuh]{letter-spacing:-.055em;font-size:clamp(34px,5.4vw,60px);line-height:1}.summary[data-astro-cid-jw3tkfuh]{max-width:56ch;color:var(--ink-soft);margin:16px 0 0;font-size:18px}.head-art[data-astro-cid-jw3tkfuh]{padding:12px}.head-art[data-astro-cid-jw3tkfuh] .panel[data-astro-cid-jw3tkfuh] svg{width:100%;height:auto;display:block}.layout[data-astro-cid-jw3tkfuh]{grid-template-columns:240px minmax(0,1fr);align-items:start;gap:28px;display:grid}@media (width<=1000px){.layout[data-astro-cid-jw3tkfuh]{grid-template-columns:minmax(0,1fr)}.toc[data-astro-cid-jw3tkfuh]{display:none}}.toc-mobile[data-astro-cid-jw3tkfuh]{display:none}@media (width<=1000px){.toc-mobile[data-astro-cid-jw3tkfuh]{display:block}}.toc[data-astro-cid-jw3tkfuh]{position:sticky;top:58px}.toc-card[data-astro-cid-jw3tkfuh]{max-height:calc(100vh - 78px);padding:16px 16px 12px;overflow-y:auto}.toc-title[data-astro-cid-jw3tkfuh]{font:500 12px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin:0 0 8px}.toc[data-astro-cid-jw3tkfuh] ol[data-astro-cid-jw3tkfuh]{margin:0;padding:0;font-size:14px;line-height:1.35;list-style:none}.toc[data-astro-cid-jw3tkfuh] li[data-astro-cid-jw3tkfuh]{margin:0 0 8px}.toc[data-astro-cid-jw3tkfuh] a[data-astro-cid-jw3tkfuh]{font-weight:600;text-decoration:none}.toc[data-astro-cid-jw3tkfuh] a[data-astro-cid-jw3tkfuh]:hover{text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2px}.source[data-astro-cid-jw3tkfuh]{border-top:2px dashed var(--cream-deep);overflow-wrap:anywhere;margin-top:2.5em;padding-top:1em;font-size:14px}.pager[data-astro-cid-jw3tkfuh]{flex-wrap:wrap;justify-content:space-between;gap:12px;padding-top:40px;display:flex}
+</style></head><body data-base="/react-handbook/"><div class="toolbar island" data-pagefind-ignore><button type="button" class="btn btn-ghost tb-btn" data-search-open aria-label="Search the notes (press /)" title="Search (/)"><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2.2"></circle><path d="M13 13l4.5 4.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></path></svg><span class="tb-label">Search</span></button><button type="button" class="btn btn-ghost tb-btn" data-names-toggle aria-pressed="false" title="Replace React’s internal function names with plain English (hover still shows the real name)"><span class="tb-names">fn</span><span class="tb-label" data-names-label>Names on</span></button><button type="button" class="btn btn-ghost tb-btn" data-theme-toggle aria-label="Switch between dark (Mocha) and light (Latte)" title="Dark / light"><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><circle cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="2"></circle><path d="M10 3a7 7 0 0 1 0 14z" fill="currentColor"></path></svg></button></div><header class="note-head wrap" data-astro-cid-jw3tkfuh><div class="head-text" data-astro-cid-jw3tkfuh><nav class="crumbs" aria-label="Breadcrumb" data-astro-cid-jw3tkfuh><a href="/react-handbook/" data-astro-cid-jw3tkfuh>Handbook</a><span aria-hidden="true" data-astro-cid-jw3tkfuh>/</span><a href="/react-handbook/internals/" data-astro-cid-jw3tkfuh>React Internals</a></nav><div class="meta" data-astro-cid-jw3tkfuh><span class="pill" data-astro-cid-jw3tkfuh><span class="lvl lvl-must" data-astro-cid-jw3tkfuh></span>Must know</span><span class="num" data-astro-cid-jw3tkfuh>React Internals · 12</span></div><h1 data-pagefind-meta="title" data-astro-cid-jw3tkfuh>React Engine Map</h1><p class="summary" data-astro-cid-jw3tkfuh>Lost in function names? The map of React’s internals: what calls what, which names matter, a plain-English glossary and flashcards.</p></div><div class="head-art card" data-astro-cid-jw3tkfuh><div class="panel" data-astro-cid-jw3tkfuh><svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true"><line x1="0" y1="78" x2="240" y2="78" stroke="#2b2522" stroke-width="1.4"/><rect x="26" y="16" width="188" height="22" rx="6" fill="#ffe08a" stroke="#2b2522" stroke-width="1.6"/><rect x="40" y="21" width="30" height="12" rx="3" fill="#fff" stroke="#2b2522" stroke-width="1.4"/><rect x="84" y="21" width="30" height="12" rx="3" fill="#fff" stroke="#2b2522" stroke-width="1.4"/><rect x="128" y="21" width="30" height="12" rx="3" fill="#fff" stroke="#2b2522" stroke-width="1.4"/><rect x="172" y="21" width="30" height="12" rx="3" fill="#fff" stroke="#2b2522" stroke-width="1.4"/><rect x="26" y="50" width="188" height="22" rx="6" fill="#f7c4e6" stroke="#2b2522" stroke-width="1.6"/><rect x="40" y="55" width="30" height="12" rx="3" fill="#fff" stroke="#2b2522" stroke-width="1.4"/><rect x="84" y="55" width="30" height="12" rx="3" fill="#fff" stroke="#2b2522" stroke-width="1.4"/><rect x="128" y="55" width="30" height="12" rx="3" fill="#fff" stroke="#2b2522" stroke-width="1.4"/><rect x="172" y="55" width="30" height="12" rx="3" fill="#fff" stroke="#2b2522" stroke-width="1.4"/><rect x="26" y="84" width="188" height="22" rx="6" fill="#a6ece3" stroke="#2b2522" stroke-width="1.6"/><rect x="40" y="89" width="30" height="12" rx="3" fill="#fff" stroke="#2b2522" stroke-width="1.4"/><rect x="84" y="89" width="30" height="12" rx="3" fill="#fff" stroke="#2b2522" stroke-width="1.4"/><rect x="128" y="89" width="30" height="12" rx="3" fill="#fff" stroke="#2b2522" stroke-width="1.4"/><rect x="172" y="89" width="30" height="12" rx="3" fill="#fff" stroke="#2b2522" stroke-width="1.4"/><rect x="26" y="118" width="188" height="22" rx="6" fill="#ffb36b" stroke="#2b2522" stroke-width="1.6"/><rect x="40" y="123" width="30" height="12" rx="3" fill="#fff" stroke="#2b2522" stroke-width="1.4"/><rect x="84" y="123" width="30" height="12" rx="3" fill="#fff" stroke="#2b2522" stroke-width="1.4"/><rect x="128" y="123" width="30" height="12" rx="3" fill="#fff" stroke="#2b2522" stroke-width="1.4"/><rect x="172" y="123" width="30" height="12" rx="3" fill="#fff" stroke="#2b2522" stroke-width="1.4"/><g stroke="#2b2522" stroke-width="1.6" fill="none"><path d="M55 38 v12"/><path d="M99 72 v12"/><path d="M143 106 v12"/></g><circle cx="190" cy="61" r="8" fill="#ff8a1f" stroke="#2b2522" stroke-width="1.6"/><path d="M190 69 l-5 9 h10 z" fill="#ff8a1f" stroke="#2b2522" stroke-width="1.6"/></svg></div></div></header><div class="phase-bar-wrap" data-pagefind-ignore data-astro-cid-jw3tkfuh><div class="wrap" data-astro-cid-jw3tkfuh><div class="phase-bar island" aria-label="Which phases this section is about" data-astro-cid-jw3tkfuh><span class="pb-label" data-astro-cid-jw3tkfuh>This section:</span><span class="pb-seg" data-pb="trigger" data-astro-cid-jw3tkfuh>trigger</span><span class="pb-arrow" data-astro-cid-jw3tkfuh>→</span><span class="pb-seg" data-pb="schedule" data-astro-cid-jw3tkfuh>schedule</span><span class="pb-arrow" data-astro-cid-jw3tkfuh>→</span><span class="pb-seg" data-pb="render" data-astro-cid-jw3tkfuh>render</span><span class="pb-arrow" data-astro-cid-jw3tkfuh>→</span><span class="pb-seg" data-pb="commit" data-astro-cid-jw3tkfuh>commit</span><span class="pb-arrow" data-astro-cid-jw3tkfuh>→</span><span class="pb-seg" data-pb="effects" data-astro-cid-jw3tkfuh>effects</span></div></div></div><div class="wrap layout" data-astro-cid-jw3tkfuh><aside class="toc" data-astro-cid-jw3tkfuh><nav class="card toc-card" aria-label="On this page" data-astro-cid-jw3tkfuh><p class="toc-title" data-astro-cid-jw3tkfuh>On this page</p><ol data-astro-cid-jw3tkfuh><li data-astro-cid-jw3tkfuh><a href="#how-to-read-reacts-function-names" data-astro-cid-jw3tkfuh>How to read React’s function names</a></li><li data-astro-cid-jw3tkfuh><a href="#the-map" data-astro-cid-jw3tkfuh>The map</a></li><li data-astro-cid-jw3tkfuh><a href="#the-ten-names-worth-knowing" data-astro-cid-jw3tkfuh>The ten names worth knowing</a></li><li data-astro-cid-jw3tkfuh><a href="#flashcards" data-astro-cid-jw3tkfuh>Flashcards</a></li><li data-astro-cid-jw3tkfuh><a href="#glossary" data-astro-cid-jw3tkfuh>Glossary</a></li></ol></nav></aside><details class="toc-mobile card" data-pagefind-ignore data-astro-cid-jw3tkfuh><summary data-astro-cid-jw3tkfuh>On this page <span data-astro-cid-jw3tkfuh>· 5 sections</span></summary><ol data-astro-cid-jw3tkfuh><li data-astro-cid-jw3tkfuh><a href="#how-to-read-reacts-function-names" data-astro-cid-jw3tkfuh>How to read React’s function names</a></li><li data-astro-cid-jw3tkfuh><a href="#the-map" data-astro-cid-jw3tkfuh>The map</a></li><li data-astro-cid-jw3tkfuh><a href="#the-ten-names-worth-knowing" data-astro-cid-jw3tkfuh>The ten names worth knowing</a></li><li data-astro-cid-jw3tkfuh><a href="#flashcards" data-astro-cid-jw3tkfuh>Flashcards</a></li><li data-astro-cid-jw3tkfuh><a href="#glossary" data-astro-cid-jw3tkfuh>Glossary</a></li></ol></details><article class="card prose" data-pagefind-body data-slug="engine-map" data-module="internals" data-astro-cid-jw3tkfuh><span hidden data-pagefind-meta="module" data-astro-cid-jw3tkfuh>React Internals</span><blockquote>
+<p>React’s source has hundreds of functions, and the notes mention about 90 of
+them. You don’t need most of them. This card is the map: where each
+function sits, what calls what, which ones are worth remembering, and a
+deck of flashcards for the important ones. Anywhere on the site, tap a
+function name to see its card, or switch <strong>Names off</strong> in the top-right
+corner to read the notes in plain English.</p>
+</blockquote>
+<h2 id="how-to-read-reacts-function-names">How to read React’s function names</h2>
+<p>Almost every internal function belongs to one of four steps, and the name
+usually tells you which:</p>
+<table>
+<thead>
+<tr>
+<th>If the name starts with…</th>
+<th>It belongs to</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dispatch…</code>, <code>schedule…</code>, <code>ensure…</code>, <code>request…Lane</code></td>
+<td><strong>scheduling</strong>: an update was requested</td>
+<td><code>dispatchSetState</code></td>
+</tr>
+<tr>
+<td><code>perform…</code>, <code>render…</code>, <code>workLoop…</code>, <code>begin…</code>, <code>complete…</code>, <code>reconcile…</code>, <code>create…Fiber…</code>, <code>bailout…</code></td>
+<td><strong>render phase</strong>: working out what changed</td>
+<td><code>beginWork</code></td>
+</tr>
+<tr>
+<td><code>commit…</code>, <code>flush…Effects</code></td>
+<td><strong>commit phase</strong>: changing the DOM, running effects</td>
+<td><code>commitRoot</code></td>
+</tr>
+<tr>
+<td><code>mount…</code> / <code>update…</code></td>
+<td>the <strong>first render</strong> of something vs. a <strong>re-render</strong></td>
+<td><code>mountState</code> / <code>updateReducer</code></td>
+</tr>
+</tbody>
+</table>
+<p>And three rules cover most of the nesting:</p>
+<ul>
+<li>Everything in a render happens inside <strong><code>workLoopSync</code></strong> (or its concurrent
+twin), one fiber at a time: <strong><code>beginWork</code></strong> on the way down,
+<strong><code>completeWork</code></strong> on the way up.</li>
+<li><strong>Your component</strong> is called from <strong><code>renderWithHooks</code></strong>, which is called
+from <strong><code>beginWork</code></strong>. Your <code>jsx()</code> calls and hooks run inside it.</li>
+<li>Everything in a commit happens inside <strong><code>commitRoot</code></strong>, in a fixed order:
+mutation (<code>flushMutationEffects</code>) → layout (<code>flushLayoutEffects</code>) → passive
+(<code>flushPassiveEffects</code>).</li>
+</ul>
+<h2 id="the-map">The map</h2>
+<figure class="fig engine-map" data-engine-map data-pagefind-ignore><div class="btn-row map-filter" role="group" aria-label="Show"><button type="button" class="btn" data-map-level="all" aria-pressed="true">Everything</button><button type="button" class="btn btn-ghost" data-map-level="good" aria-pressed="false">Must + good to know</button><button type="button" class="btn btn-ghost" data-map-level="must" aria-pressed="false">Only must know</button></div><div class="map-legend"><span><i class="lvl lvl-must"></i>must know</span><span><i class="lvl lvl-good"></i>good to know</span><span><i class="lvl lvl-skip"></i>implementation detail</span><span>· indented = called by the line above · tap a name for its card</span></div><section class="map-lane lane-setup"><header><b>1 · Setup and events</b><span>Once at start-up, then every time the user does something</span></header><ul class="map-tree"><li><button type="button" class="map-node gl gl-must" data-gl="createRoot" data-level="must"><code>createRoot</code><small>set up React on a DOM node</small></button><ul><li><button type="button" class="map-node gl gl-skip" data-gl="createFiberRoot" data-level="skip"><code>createFiberRoot</code><small>create the root’s records</small></button></li><li><button type="button" class="map-node gl gl-good" data-gl="listenToAllSupportedEvents" data-level="good"><code>listenToAllSupportedEvents</code><small>listen for every event on the root</small></button></li></ul></li><li><button type="button" class="map-node gl gl-must" data-gl="root.render" data-level="must"><code>root.render</code><small>ask React to render this element</small></button><ul><li><button type="button" class="map-node gl gl-good" data-gl="requestUpdateLane" data-level="good"><code>requestUpdateLane</code><small>pick the update’s priority</small></button></li><li><button type="button" class="map-node gl gl-skip" data-gl="updateContainerImpl" data-level="skip"><code>updateContainerImpl</code><small>queue the root update</small></button><ul><li><button type="button" class="map-node gl gl-good" data-gl="scheduleUpdateOnFiber" data-level="good"><code>scheduleUpdateOnFiber</code><small>mark the root as having work</small></button></li></ul></li></ul></li><li><button type="button" class="map-node gl gl-good" data-gl="dispatchDiscreteEvent" data-level="good"><code>dispatchDiscreteEvent</code><small>React’s click/keydown listener</small></button><ul><li><button type="button" class="map-node gl gl-skip" data-gl="dispatchEvent" data-level="skip"><code>dispatchEvent</code><small>route a native event to handlers</small></button><ul><li><span class="map-node map-plain" data-level="must"><code>your onClick</code></span><ul><li><button type="button" class="map-node gl gl-must" data-gl="dispatchSetState" data-level="must"><code>dispatchSetState</code><small>setState</small></button></li></ul></li></ul></li></ul></li></ul></section><div class="map-between" aria-hidden="true">↓</div><section class="map-lane lane-schedule"><header><b>2 · Scheduling</b><span>setState never renders: it queues and schedules</span></header><ul class="map-tree"><li><button type="button" class="map-node gl gl-must" data-gl="dispatchSetState" data-level="must"><code>dispatchSetState</code><small>setState</small></button><ul><li><button type="button" class="map-node gl gl-good" data-gl="requestUpdateLane" data-level="good"><code>requestUpdateLane</code><small>pick the update’s priority</small></button></li><li><button type="button" class="map-node gl gl-skip" data-gl="dispatchSetStateInternal" data-level="skip"><code>dispatchSetStateInternal</code><small>queue the state update</small></button><ul><li><button type="button" class="map-node gl gl-skip" data-gl="enqueueConcurrentHookUpdate" data-level="skip"><code>enqueueConcurrentHookUpdate</code><small>stash the update</small></button></li></ul></li><li><button type="button" class="map-node gl gl-good" data-gl="scheduleUpdateOnFiber" data-level="good"><code>scheduleUpdateOnFiber</code><small>mark the root as having work</small></button><ul><li><button type="button" class="map-node gl gl-good" data-gl="ensureRootIsScheduled" data-level="good"><code>ensureRootIsScheduled</code><small>make sure a render is coming</small></button><ul><li><button type="button" class="map-node gl gl-skip" data-gl="scheduleImmediateRootScheduleTask" data-level="skip"><code>scheduleImmediateRootScheduleTask</code><small>queue the microtask</small></button></li></ul></li></ul></li></ul></li></ul><div class="map-then">↓ microtask ↓</div><ul class="map-tree"><li><button type="button" class="map-node gl gl-good" data-gl="processRootScheduleInMicrotask" data-level="good"><code>processRootScheduleInMicrotask</code><small>decide when to render</small></button><ul><li><button type="button" class="map-node gl gl-skip" data-gl="performSyncWorkOnRoot" data-level="skip"><code>performSyncWorkOnRoot</code><small>render now (Sync lane)</small></button><ul><li><button type="button" class="map-node gl gl-good" data-gl="performWorkOnRoot" data-level="good"><code>performWorkOnRoot</code><small>render, then commit, the root</small></button></li></ul></li><li><button type="button" class="map-node gl gl-good" data-gl="scheduleCallback" data-level="good"><code>scheduleCallback</code><small>ask the Scheduler for a task</small></button><ul><li><button type="button" class="map-node gl gl-skip" data-gl="performWorkOnRootViaSchedulerTask" data-level="skip"><code>performWorkOnRootViaSchedulerTask</code><small>render in a Scheduler task</small></button><ul><li><button type="button" class="map-node gl gl-good" data-gl="performWorkOnRoot" data-level="good"><code>performWorkOnRoot</code><small>render, then commit, the root</small></button></li></ul></li></ul></li></ul></li></ul></section><div class="map-between" aria-hidden="true">↓</div><section class="map-lane lane-render"><header><b>3 · Render phase</b><span>Pure, off-screen, can be paused or thrown away</span></header><ul class="map-tree"><li><button type="button" class="map-node gl gl-good" data-gl="performWorkOnRoot" data-level="good"><code>performWorkOnRoot</code><small>render, then commit, the root</small></button><ul><li><button type="button" class="map-node gl gl-good" data-gl="renderRootSync" data-level="good"><code>renderRootSync</code><small>render without pausing</small></button><ul><li><button type="button" class="map-node gl gl-good" data-gl="prepareFreshStack" data-level="good"><code>prepareFreshStack</code><small>start a render from the root</small></button><ul><li><button type="button" class="map-node gl gl-good" data-gl="createWorkInProgress" data-level="good"><code>createWorkInProgress</code><small>make the draft copy of a fiber</small></button></li><li><button type="button" class="map-node gl gl-skip" data-gl="finishQueueingConcurrentUpdates" data-level="skip"><code>finishQueueingConcurrentUpdates</code><small>link stashed updates into queues</small></button><ul><li><button type="button" class="map-node gl gl-good" data-gl="markUpdateLaneFromFiberToRoot" data-level="good"><code>markUpdateLaneFromFiberToRoot</code><small>leave a trail to the updated fiber</small></button></li></ul></li></ul></li><li><button type="button" class="map-node gl gl-must" data-gl="workLoopSync" data-level="must"><code>workLoopSync</code><small>process fibers until done</small></button><ul><li><button type="button" class="map-node gl gl-good" data-gl="performUnitOfWork" data-level="good"><code>performUnitOfWork</code><small>work on one fiber</small></button><ul><li><button type="button" class="map-node gl gl-must" data-gl="beginWork" data-level="must"><code>beginWork</code><small>start work on a fiber (going down)</small></button><ul><li><button type="button" class="map-node gl gl-must" data-gl="bailoutOnAlreadyFinishedWork" data-level="must"><code>bailoutOnAlreadyFinishedWork</code><small>skip this component</small></button></li><li><button type="button" class="map-node gl gl-good" data-gl="updateFunctionComponent" data-level="good"><code>updateFunctionComponent</code><small>render a function component</small></button><ul><li><button type="button" class="map-node gl gl-must" data-gl="renderWithHooks" data-level="must"><code>renderWithHooks</code><small>call your component</small></button><ul><li><span class="map-node map-plain" data-level="must"><code>YourComponent()</code></span><ul><li><button type="button" class="map-node gl gl-good" data-gl="mountState" data-level="good"><code>mountState</code><small>useState on the first render</small></button></li><li><button type="button" class="map-node gl gl-good" data-gl="updateReducer" data-level="good"><code>updateReducer</code><small>useState on a re-render</small></button></li><li><button type="button" class="map-node gl gl-must" data-gl="jsx" data-level="must"><code>jsx</code><small>create an element object</small></button></li></ul></li></ul></li><li><button type="button" class="map-node gl gl-must" data-gl="reconcileChildren" data-level="must"><code>reconcileChildren</code><small>compare new elements with old fibers</small></button></li></ul></li><li><button type="button" class="map-node gl gl-must" data-gl="reconcileChildren" data-level="must"><code>reconcileChildren</code><small>compare new elements with old fibers</small></button><ul><li><button type="button" class="map-node gl gl-good" data-gl="reconcileChildFibers" data-level="good"><code>reconcileChildFibers</code><small>diff the children</small></button><ul><li><button type="button" class="map-node gl gl-good" data-gl="reconcileSingleElement" data-level="good"><code>reconcileSingleElement</code><small>diff one child</small></button><ul><li><button type="button" class="map-node gl gl-good" data-gl="useFiber" data-level="good"><code>useFiber</code><small>reuse an existing fiber</small></button><ul><li><button type="button" class="map-node gl gl-good" data-gl="createWorkInProgress" data-level="good"><code>createWorkInProgress</code><small>make the draft copy of a fiber</small></button></li></ul></li><li><button type="button" class="map-node gl gl-good" data-gl="createFiberFromTypeAndProps" data-level="good"><code>createFiberFromTypeAndProps</code><small>create a fiber for an element</small></button></li></ul></li><li><button type="button" class="map-node gl gl-must" data-gl="reconcileChildrenArray" data-level="must"><code>reconcileChildrenArray</code><small>diff a list of children</small></button><ul><li><button type="button" class="map-node gl gl-good" data-gl="mapRemainingChildren" data-level="good"><code>mapRemainingChildren</code><small>index old children by key</small></button></li><li><button type="button" class="map-node gl gl-good" data-gl="placeChild" data-level="good"><code>placeChild</code><small>decide stay, move or insert</small></button></li><li><button type="button" class="map-node gl gl-good" data-gl="deleteChild" data-level="good"><code>deleteChild</code><small>mark a child for deletion</small></button></li></ul></li></ul></li></ul></li></ul></li><li><button type="button" class="map-node gl gl-good" data-gl="completeUnitOfWork" data-level="good"><code>completeUnitOfWork</code><small>finish a fiber and climb</small></button><ul><li><button type="button" class="map-node gl gl-must" data-gl="completeWork" data-level="must"><code>completeWork</code><small>finish a fiber (going up)</small></button></li></ul></li></ul></li></ul></li></ul></li><li><button type="button" class="map-node gl gl-good" data-gl="renderRootConcurrent" data-level="good"><code>renderRootConcurrent</code><small>render in 5ms slices</small></button><ul><li><button type="button" class="map-node gl gl-good" data-gl="workLoopConcurrentByScheduler" data-level="good"><code>workLoopConcurrentByScheduler</code><small>process fibers until time’s up</small></button><ul><li><button type="button" class="map-node gl gl-good" data-gl="shouldYield" data-level="good"><code>shouldYield</code><small>is my 5ms slice used up?</small></button></li><li><button type="button" class="map-node gl gl-good" data-gl="performUnitOfWork" data-level="good"><code>performUnitOfWork</code><small>work on one fiber</small></button></li></ul></li></ul></li></ul></li></ul></section><div class="map-between" aria-hidden="true">↓</div><section class="map-lane lane-commit"><header><b>4 · Commit phase</b><span>Synchronous, all at once, then effects</span></header><ul class="map-tree"><li><button type="button" class="map-node gl gl-must" data-gl="commitRoot" data-level="must"><code>commitRoot</code><small>apply the finished render</small></button><ul><li><button type="button" class="map-node gl gl-skip" data-gl="commitBeforeMutationEffects" data-level="skip"><code>commitBeforeMutationEffects</code><small>read the DOM before it changes</small></button></li><li><button type="button" class="map-node gl gl-good" data-gl="flushMutationEffects" data-level="good"><code>flushMutationEffects</code><small>write the DOM</small></button><ul><li><button type="button" class="map-node gl gl-skip" data-gl="commitMutationEffectsOnFiber" data-level="skip"><code>commitMutationEffectsOnFiber</code><small>apply one fiber’s DOM changes</small></button><ul><li><button type="button" class="map-node gl gl-good" data-gl="commitPlacement" data-level="good"><code>commitPlacement</code><small>insert into the DOM</small></button><ul><li><button type="button" class="map-node gl gl-skip" data-gl="insertOrAppendPlacementNode" data-level="skip"><code>insertOrAppendPlacementNode</code><small>append or insert the real nodes</small></button></li></ul></li><li><button type="button" class="map-node gl gl-good" data-gl="commitUpdate" data-level="good"><code>commitUpdate</code><small>update a DOM node’s attributes</small></button></li><li><button type="button" class="map-node gl gl-good" data-gl="commitDeletionEffects" data-level="good"><code>commitDeletionEffects</code><small>tear down a deleted subtree</small></button><ul><li><button type="button" class="map-node gl gl-skip" data-gl="removeChild" data-level="skip"><code>removeChild</code><small>remove a DOM node</small></button></li></ul></li></ul></li><li><span class="map-node map-plain" data-level="must"><code>root.current = finishedWork</code></span></li></ul></li><li><button type="button" class="map-node gl gl-good" data-gl="flushLayoutEffects" data-level="good"><code>flushLayoutEffects</code><small>run layout effects</small></button><ul><li><button type="button" class="map-node gl gl-skip" data-gl="commitLayoutEffectOnFiber" data-level="skip"><code>commitLayoutEffectOnFiber</code><small>one fiber’s layout work</small></button><ul><li><button type="button" class="map-node gl gl-good" data-gl="commitHookEffectListMount" data-level="good"><code>commitHookEffectListMount</code><small>run effect setups</small></button></li></ul></li></ul></li><li><button type="button" class="map-node gl gl-must" data-gl="flushPassiveEffects" data-level="must"><code>flushPassiveEffects</code><small>run useEffect</small></button><ul><li><button type="button" class="map-node gl gl-good" data-gl="commitHookEffectListUnmount" data-level="good"><code>commitHookEffectListUnmount</code><small>run effect cleanups</small></button></li><li><button type="button" class="map-node gl gl-good" data-gl="commitHookEffectListMount" data-level="good"><code>commitHookEffectListMount</code><small>run effect setups</small></button></li></ul></li></ul></li></ul></section><figcaption>The main functions of React DOM 19.2.5, nested the way they call each other. Each lane is one step of every update: setup/event → scheduling → render → commit.</figcaption></figure>
+<h2 id="the-ten-names-worth-knowing">The ten names worth knowing</h2>
+<p>If you only remember ten, make it these. Everything else is a helper of one
+of them.</p>
+<ol>
+<li><code>dispatchSetState</code>: what your <code>setState</code> really is. It queues and schedules.</li>
+<li><code>ensureRootIsScheduled</code>: makes sure one render is coming (batching happens here).</li>
+<li><code>performWorkOnRoot</code>: renders, then commits, the root.</li>
+<li><code>workLoopSync</code>: the loop that processes one fiber at a time.</li>
+<li><code>beginWork</code>: going down: bail out, or render this fiber.</li>
+<li><code>renderWithHooks</code>: calls your component.</li>
+<li><code>reconcileChildren</code>: compares the new elements with the old fibers.</li>
+<li><code>completeWork</code>: going up: create DOM nodes, bubble flags.</li>
+<li><code>commitRoot</code>: applies everything to the DOM, all at once.</li>
+<li><code>flushPassiveEffects</code>: runs your <code>useEffect</code>s.</li>
+</ol>
+<h2 id="flashcards">Flashcards</h2>
+<figure class="fig flashcards" data-flashcards="" data-pagefind-ignore><div class="btn-row fc-top"><button type="button" class="btn" data-fc="must" aria-pressed="true">Must know</button><button type="button" class="btn btn-ghost" data-fc="all" aria-pressed="false">Must + good to know</button><span class="fc-stats"></span><button type="button" class="btn btn-ghost fc-reset" data-fc="reset">Reset</button></div><div class="fc-card"><div class="fc-front"></div><div class="fc-back" hidden></div></div><div class="btn-row fc-actions"><button type="button" class="btn" data-fc="show">Show answer</button><button type="button" class="btn btn-ghost" data-fc="again" hidden>↻ Again</button><button type="button" class="btn" data-fc="known" hidden>✓ I knew it</button></div><figcaption>Say the answer out loud first, then check. Cards you got wrong come back first. Progress is saved in this browser only.</figcaption></figure>
+<h2 id="glossary">Glossary</h2>
+<p>Every function and fiber field used in the notes, grouped by step. Must-know
+names come first in each group.</p>
+<h3 id="setup">Setup</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>In plain English</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="lvl lvl-must" title="must"></span> <code>createRoot</code></td>
+<td>set up React on a DOM node</td>
+<td>Creates the FiberRoot and the first fiber (HostRoot) for a container, and attaches React’s event listeners to it. Renders nothing.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>listenToAllSupportedEvents</code></td>
+<td>listen for every event on the root</td>
+<td>Attaches one capture and one bubble listener per event type to the root container. This is event delegation: your onClick never becomes an addEventListener on the button.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-skip" title="skip"></span> <code>createFiberRoot</code></td>
+<td>create the root’s records</td>
+<td>Allocates the FiberRoot (bookkeeping for one root) and its HostRoot fiber.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="event">Event</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>In plain English</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>dispatchDiscreteEvent</code></td>
+<td>React’s click/keydown listener</td>
+<td>The root listener for discrete events (click, keydown, input…). Sets the event priority, finds the target fiber, collects onX props on the path and calls your handlers.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-skip" title="skip"></span> <code>dispatchEvent</code></td>
+<td>route a native event to handlers</td>
+<td>Finds the fiber for the event target and runs the plugin event system that builds the SyntheticEvent.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="scheduling">Scheduling</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>In plain English</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="lvl lvl-must" title="must"></span> <code>dispatchSetState</code></td>
+<td>setState</td>
+<td>The function your setState actually is. Creates an update, picks a lane, tries the eager bailout, queues the update and schedules a render.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-must" title="must"></span> <code>root.render</code></td>
+<td>ask React to render this element</td>
+<td>Queues an update whose payload is the element on the HostRoot fiber and schedules a render. Returns before anything renders.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>ensureRootIsScheduled</code></td>
+<td>make sure a render is coming</td>
+<td>Adds the root to the schedule and queues one microtask to process it. Later setStates in the same tick find it already scheduled: that’s batching.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>processRootScheduleInMicrotask</code></td>
+<td>decide when to render</td>
+<td>Runs in the microtask. Sync lanes are rendered right there; other lanes get a Scheduler task at a matching priority.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>requestUpdateLane</code></td>
+<td>pick the update’s priority</td>
+<td>Chooses the lane: SyncLane inside a click, DefaultLane outside events, a transition lane inside startTransition.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>scheduleCallback</code></td>
+<td>ask the Scheduler for a task</td>
+<td>The Scheduler’s API: puts a task on a min-heap ordered by expiration time and runs it in a later macrotask.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>scheduleUpdateOnFiber</code></td>
+<td>mark the root as having work</td>
+<td>Adds the lane to root.pendingLanes and makes sure the root is scheduled.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-skip" title="skip"></span> <code>dispatchSetStateInternal</code></td>
+<td>queue the state update</td>
+<td>Computes the new state eagerly when the fiber has no pending work; if it’s Object.is-equal, it skips scheduling a render.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-skip" title="skip"></span> <code>enqueueConcurrentHookUpdate</code></td>
+<td>stash the update</td>
+<td>Puts the update in a module-level array until the next render links it into the hook’s queue.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-skip" title="skip"></span> <code>performSyncWorkOnRoot</code></td>
+<td>render now (Sync lane)</td>
+<td>The microtask’s entry point for Sync lanes: calls performWorkOnRoot.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-skip" title="skip"></span> <code>performWorkOnRootViaSchedulerTask</code></td>
+<td>render in a Scheduler task</td>
+<td>The Scheduler task’s entry point for non-sync lanes: calls performWorkOnRoot.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-skip" title="skip"></span> <code>scheduleImmediateRootScheduleTask</code></td>
+<td>queue the microtask</td>
+<td>Calls queueMicrotask(processRootScheduleInMicrotask).</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-skip" title="skip"></span> <code>updateContainerImpl</code></td>
+<td>queue the root update</td>
+<td>Creates the root update { element }, enqueues it and calls scheduleUpdateOnFiber.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="elements">Elements</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>In plain English</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="lvl lvl-must" title="must"></span> <code>createElement</code></td>
+<td>create an element</td>
+<td>Returns a plain object describing UI: { $$typeof, type, key, props }. What JSX compiled to before the automatic runtime; children go in as extra arguments.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-must" title="must"></span> <code>jsx</code></td>
+<td>create an element object</td>
+<td>What JSX compiles to (automatic runtime). Returns a plain object { $$typeof, type, key, ref, props }. It does not call the component.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>jsxDEV</code></td>
+<td>create an element (development)</td>
+<td>The development version of jsx: also records where the element was written (file, line) for warnings and DevTools.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>jsxs</code></td>
+<td>create an element with static children</td>
+<td>The same as jsx in production; in development it skips the key warning for children written side by side in JSX.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="render-phase">Render phase</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>In plain English</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="lvl lvl-must" title="must"></span> <code>bailoutOnAlreadyFinishedWork</code></td>
+<td>skip this component</td>
+<td>Skips calling the component. If childLanes says something below has work, the children are cloned and visited; otherwise the whole subtree is skipped.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-must" title="must"></span> <code>beginWork</code></td>
+<td>start work on a fiber (going down)</td>
+<td>Decides what to do with one fiber: bail out if nothing changed, otherwise render it (call the component, or reconcile a DOM tag’s children). Returns the first child.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-must" title="must"></span> <code>completeWork</code></td>
+<td>finish a fiber (going up)</td>
+<td>For DOM tags: creates the DOM node (detached) on mount and appends its children’s nodes, or flags an Update. For every fiber: bubbles subtreeFlags to the parent.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-must" title="must"></span> <code>reconcileChildren</code></td>
+<td>compare new elements with old fibers</td>
+<td>Diffs what the component returned against the existing child fibers and decides what to reuse, create or delete.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-must" title="must"></span> <code>reconcileChildrenArray</code></td>
+<td>diff a list of children</td>
+<td>The list diff: walk in step while keys match, then use a Map by key, and decide moves with lastPlacedIndex.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-must" title="must"></span> <code>renderWithHooks</code></td>
+<td>call your component</td>
+<td>Installs the right hook implementations (mount or update), calls your component function, and returns the elements it produced.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-must" title="must"></span> <code>workLoopSync</code></td>
+<td>process fibers until done</td>
+<td>The render loop: while (workInProgress !== null) performUnitOfWork(workInProgress). No recursion, one pointer.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>completeUnitOfWork</code></td>
+<td>finish a fiber and climb</td>
+<td>Calls completeWork, then moves to the sibling, or up to the parent and completes that.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>createFiberFromTypeAndProps</code></td>
+<td>create a fiber for an element</td>
+<td>Makes a new fiber and picks its tag from element.type: function → FunctionComponent, string → HostComponent, context → provider.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>createWorkInProgress</code></td>
+<td>make the draft copy of a fiber</td>
+<td>Returns the fiber’s alternate, creating it the first time, with new props. This is double buffering.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>deleteChild</code></td>
+<td>mark a child for deletion</td>
+<td>Adds the old fiber to the parent’s deletions list and flags the parent ChildDeletion. The DOM is removed later, in the commit.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>mapRemainingChildren</code></td>
+<td>index old children by key</td>
+<td>Puts the remaining old fibers in a Map keyed by key (or index when there is no key).</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>markUpdateLaneFromFiberToRoot</code></td>
+<td>leave a trail to the updated fiber</td>
+<td>Sets lanes on the updated fiber and childLanes on every ancestor, so the work loop knows which paths to walk down.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>mountState</code></td>
+<td>useState on the first render</td>
+<td>Creates the hook object and its update queue, stores the initial value, returns [state, setState].</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>performUnitOfWork</code></td>
+<td>work on one fiber</td>
+<td>Calls beginWork on the fiber. If it returned a child, that’s next; otherwise completeUnitOfWork climbs up.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>performWorkOnRoot</code></td>
+<td>render, then commit, the root</td>
+<td>Chooses the synchronous or time-sliced loop for the lanes, runs the render, and commits the result.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>placeChild</code></td>
+<td>decide stay, move or insert</td>
+<td>Compares a reused fiber’s old index with lastPlacedIndex: smaller means move (Placement); a new fiber is an insert.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>prepareFreshStack</code></td>
+<td>start a render from the root</td>
+<td>Creates the work-in-progress HostRoot and links queued updates in. If a half-built tree exists for other lanes, it is thrown away.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>propagateContextChanges</code></td>
+<td>find readers of a changed context</td>
+<td>When a provider’s value changed, searches below for fibers that read that context and schedules them, even through memo.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>reconcileChildFibers</code></td>
+<td>diff the children</td>
+<td>The entry point of child reconciliation: dispatches to the single-element, text or array case.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>reconcileSingleElement</code></td>
+<td>diff one child</td>
+<td>Same key and same type → reuse the fiber; otherwise delete the old one and create a new fiber.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>renderRootConcurrent</code></td>
+<td>render in 5ms slices</td>
+<td>Like renderRootSync but runs workLoopConcurrentByScheduler, which can pause.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>renderRootSync</code></td>
+<td>render without pausing</td>
+<td>Prepares a fresh stack if needed and runs workLoopSync to the end.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>shouldYield</code></td>
+<td>is my 5ms slice used up?</td>
+<td>Asked after every fiber in the concurrent loop. True after about 5ms, so React pauses and lets the browser paint and handle input.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>updateFunctionComponent</code></td>
+<td>render a function component</td>
+<td>beginWork’s case for function components: renderWithHooks, then reconcile the returned elements.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>updateReducer</code></td>
+<td>useState on a re-render</td>
+<td>Takes the hook from the current fiber and folds its queued updates into the new state.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>useFiber</code></td>
+<td>reuse an existing fiber</td>
+<td>Same key and type: gets the fiber’s alternate (createWorkInProgress) with the new props. State and the DOM node are kept.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>workLoopConcurrentByScheduler</code></td>
+<td>process fibers until time’s up</td>
+<td>The same loop, but it also stops when shouldYield() says the slice is used up.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-skip" title="skip"></span> <code>attemptEarlyBailoutIfNoScheduledUpdate</code></td>
+<td>try to skip early</td>
+<td>The fast path in beginWork when props, context and the fiber’s own lanes say nothing changed.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-skip" title="skip"></span> <code>createFiberFromElement</code></td>
+<td>create a fiber for an element</td>
+<td>A thin wrapper around createFiberFromTypeAndProps.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-skip" title="skip"></span> <code>createFiberFromText</code></td>
+<td>create a text fiber</td>
+<td>Creates a HostText fiber for a string or number child.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-skip" title="skip"></span> <code>finishQueueingConcurrentUpdates</code></td>
+<td>link stashed updates into queues</td>
+<td>Moves updates stashed by setState into their hooks’ circular queues and marks lanes up to the root.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-skip" title="skip"></span> <code>mountWorkInProgressHook</code></td>
+<td>append a hook</td>
+<td>Creates a hook object and appends it to fiber.memoizedState. Hooks are matched by this order.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-skip" title="skip"></span> <code>readContext</code></td>
+<td>read a context value</td>
+<td>What useContext calls: reads the nearest provider’s value and records a dependency on the fiber.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-skip" title="skip"></span> <code>updateFromMap</code></td>
+<td>find the old child by key</td>
+<td>Looks the new element’s key up in the Map: reuse if found, create if not.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-skip" title="skip"></span> <code>updateSlot</code></td>
+<td>compare one list position</td>
+<td>In the first pass: returns null when keys differ (ends the fast path), otherwise reuses or replaces.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-skip" title="skip"></span> <code>updateWorkInProgressHook</code></td>
+<td>take the next hook</td>
+<td>Walks the current fiber’s hook list in step with the calls. Calling hooks in a different order breaks here.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="commit-phase">Commit phase</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>In plain English</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="lvl lvl-must" title="must"></span> <code>commitRoot</code></td>
+<td>apply the finished render</td>
+<td>Runs the commit: before mutation → mutation (DOM writes) → swap trees → layout effects, then schedules or flushes passive effects.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>commitDeletionEffects</code></td>
+<td>tear down a deleted subtree</td>
+<td>Walks a deleted subtree parent-first: detaches refs, runs layout cleanups, then removes the top DOM node.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>commitPlacement</code></td>
+<td>insert into the DOM</td>
+<td>Inserts a new or moved fiber’s DOM nodes (descending through components to the real nodes) with appendChild or insertBefore.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>commitUpdate</code></td>
+<td>update a DOM node’s attributes</td>
+<td>Compares old and new props of a DOM element and writes only what changed.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>flushLayoutEffects</code></td>
+<td>run layout effects</td>
+<td>The layout phase: attaches refs and runs useLayoutEffect setups and componentDidMount/Update, child before parent, before paint.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>flushMutationEffects</code></td>
+<td>write the DOM</td>
+<td>The mutation phase: inserts, updates and removes DOM nodes as flagged, runs layout cleanups, then sets root.current = finishedWork.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-skip" title="skip"></span> <code>commitBeforeMutationEffects</code></td>
+<td>read the DOM before it changes</td>
+<td>Runs getSnapshotBeforeUpdate and focus bookkeeping while the old UI is still in the DOM.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-skip" title="skip"></span> <code>commitLayoutEffectOnFiber</code></td>
+<td>one fiber’s layout work</td>
+<td>Attaches the ref and runs the layout effects of one fiber.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-skip" title="skip"></span> <code>commitMutationEffectsOnFiber</code></td>
+<td>apply one fiber’s DOM changes</td>
+<td>Walks the flagged fibers and performs their Placement, Update and ChildDeletion work.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-skip" title="skip"></span> <code>commitTextUpdate</code></td>
+<td>change a text node</td>
+<td>Sets a text node’s value.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-skip" title="skip"></span> <code>flushSpawnedWork</code></td>
+<td>schedule what comes after the commit</td>
+<td>Decides whether passive effects run now (Sync lanes) or in a later task.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-skip" title="skip"></span> <code>insertOrAppendPlacementNode</code></td>
+<td>append or insert the real nodes</td>
+<td>For a DOM fiber calls appendChild/insertBefore; for a component fiber descends to its children.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-skip" title="skip"></span> <code>removeChild</code></td>
+<td>remove a DOM node</td>
+<td>The DOM call that removes the top node of a deleted subtree.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="effects">Effects</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>In plain English</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="lvl lvl-must" title="must"></span> <code>flushPassiveEffects</code></td>
+<td>run useEffect</td>
+<td>Runs all useEffect cleanups, then all setups. Normally after paint in a separate task; for discrete events like clicks, at the end of the commit.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>commitHookEffectListMount</code></td>
+<td>run effect setups</td>
+<td>Runs the setup functions of a fiber’s effects that match the flags (Layout or Passive) and changed deps.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>commitHookEffectListUnmount</code></td>
+<td>run effect cleanups</td>
+<td>Runs the cleanup functions of a fiber’s effects that match the flags, before the new setups.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-skip" title="skip"></span> <code>flushPendingEffects</code></td>
+<td>finish leftover commit work</td>
+<td>Flushes any commit phase or passive effects still pending before new work starts.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fiber-field">Fiber field</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>In plain English</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="lvl lvl-must" title="must"></span> <code>workInProgress</code></td>
+<td>the fiber being worked on</td>
+<td>Both the draft tree being rendered and the work loop’s one pointer to the next fiber to process.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>alternate</code></td>
+<td>the fiber’s other copy</td>
+<td>Links a fiber in the current tree to its counterpart in the work-in-progress tree (double buffering).</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>childLanes</code></td>
+<td>work pending below</td>
+<td>A bitmask on each fiber saying that something in its subtree has updates. Zero means the whole subtree can be skipped.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>flags</code></td>
+<td>what the commit must do here</td>
+<td>Bits on a fiber such as Placement, Update, ChildDeletion, Passive: recorded in render, performed in commit.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>lanes</code></td>
+<td>this fiber’s pending priorities</td>
+<td>A bitmask of update priorities pending on the fiber itself.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>lastPlacedIndex</code></td>
+<td>rightmost position kept in place</td>
+<td>During the list diff: the largest old index kept so far. A reused child with a smaller old index has to move.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>memoizedProps</code></td>
+<td>props from the last render</td>
+<td>The props the fiber rendered with last time. Compared by reference to decide whether to bail out.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>memoizedState</code></td>
+<td>the component’s hooks</td>
+<td>On a function component fiber: the head of its hook list. Each hook stores its value here, in call order.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>pendingProps</code></td>
+<td>props for this render</td>
+<td>The new props the fiber is being rendered with.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-good" title="good"></span> <code>subtreeFlags</code></td>
+<td>changes somewhere below</td>
+<td>The flags of all descendants ORed together, so the commit can skip subtrees with nothing to do.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-skip" title="skip"></span> <code>stateNode</code></td>
+<td>the real DOM node</td>
+<td>For a DOM fiber, the DOM element; for a class, the instance; for HostRoot, the FiberRoot.</td>
+</tr>
+<tr>
+<td><span class="lvl lvl-skip" title="skip"></span> <code>updateQueue</code></td>
+<td>queued effects or updates</td>
+<td>On function components, the circular list of effects the commit walks.</td>
+</tr>
+</tbody>
+</table>
+<p class="source" data-astro-cid-jw3tkfuh>Primary source: <a href="https://github.com/facebook/react/tree/v19.2.5/packages/react-reconciler/src" data-astro-cid-jw3tkfuh>github.com/facebook/react/tree/v19.2.5/packages/react-reconciler/src</a></p></article></div><div class="wrap read-row" data-pagefind-ignore data-astro-cid-jw3tkfuh><button type="button" class="btn btn-ghost" data-mark-read="engine-map" aria-pressed="false" data-astro-cid-jw3tkfuh>Mark as read</button></div><nav class="wrap pager" aria-label="Notes" data-astro-cid-jw3tkfuh><a class="btn btn-ghost" href="/react-handbook/internals/how-react-works/" data-astro-cid-jw3tkfuh>← How React Works, Start to Finish</a><a class="btn" href="/react-handbook/" data-astro-cid-jw3tkfuh>Back to the handbook</a></nav><footer class="site-foot wrap">React Handbook · notes from the Nexus vault, rewritten with pictures and a shared example app · React 19.2.5</footer><dialog class="search-dlg island" aria-label="Search the notes" data-pagefind-ignore><form method="dialog" class="search-form" role="search"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2.2"></circle><path d="M13 13l4.5 4.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></path></svg><input type="search" class="search-input" placeholder="Search all notes… e.g. bailout, lanes, useEffect" aria-label="Search" autocomplete="off"><button type="submit" class="btn btn-ghost search-close" aria-label="Close search">Esc</button></form><p class="search-status" aria-live="polite"></p><ol class="search-results"></ol></dialog><div class="gl-pop island" role="tooltip" hidden data-pagefind-ignore></div><script type="application/json" id="glossary-data">{"createRoot":{"n":"createRoot","p":"setup","l":"must","pl":"set up React on a DOM node","w":"Creates the FiberRoot and the first fiber (HostRoot) for a container, and attaches React’s event listeners to it. Renders nothing.","c":["createFiberRoot","listenToAllSupportedEvents"],"cb":[],"b":"how-react-works"},"createFiberRoot":{"n":"createFiberRoot","p":"setup","l":"skip","pl":"create the root’s records","w":"Allocates the FiberRoot (bookkeeping for one root) and its HostRoot fiber.","c":[],"cb":["createRoot"],"b":"how-react-works"},"listenToAllSupportedEvents":{"n":"listenToAllSupportedEvents","p":"setup","l":"good","pl":"listen for every event on the root","w":"Attaches one capture and one bubble listener per event type to the root container. This is event delegation: your onClick never becomes an addEventListener on the button.","c":[],"cb":["createRoot"],"b":"how-react-works"},"root.render":{"n":"root.render","p":"schedule","l":"must","pl":"ask React to render this element","w":"Queues an update whose payload is the element on the HostRoot fiber and schedules a render. Returns before anything renders.","c":["requestUpdateLane","updateContainerImpl"],"cb":[],"b":"how-react-works"},"updateContainerImpl":{"n":"updateContainerImpl","p":"schedule","l":"skip","pl":"queue the root update","w":"Creates the root update { element }, enqueues it and calls scheduleUpdateOnFiber.","c":["scheduleUpdateOnFiber"],"cb":["root.render"],"b":"how-react-works"},"jsx":{"n":"jsx","p":"element","l":"must","pl":"create an element object","w":"What JSX compiles to (automatic runtime). Returns a plain object { $$typeof, type, key, ref, props }. It does not call the component.","c":[],"cb":["your component"],"b":"how-react-works"},"jsxs":{"n":"jsxs","p":"element","l":"good","pl":"create an element with static children","w":"The same as jsx in production; in development it skips the key warning for children written side by side in JSX.","c":[],"cb":["your component"],"b":"how-react-works"},"jsxDEV":{"n":"jsxDEV","p":"element","l":"good","pl":"create an element (development)","w":"The development version of jsx: also records where the element was written (file, line) for warnings and DevTools.","c":[],"cb":["your component"],"b":"how-react-works"},"createElement":{"n":"createElement","p":"element","l":"must","pl":"create an element","w":"Returns a plain object describing UI: { $$typeof, type, key, props }. What JSX compiled to before the automatic runtime; children go in as extra arguments.","c":[],"cb":[],"b":"raw-react-apis"},"dispatchDiscreteEvent":{"n":"dispatchDiscreteEvent","p":"event","l":"good","pl":"React’s click/keydown listener","w":"The root listener for discrete events (click, keydown, input…). Sets the event priority, finds the target fiber, collects onX props on the path and calls your handlers.","c":["dispatchEvent"],"cb":[],"b":"a-state-update-end-to-end"},"dispatchEvent":{"n":"dispatchEvent","p":"event","l":"skip","pl":"route a native event to handlers","w":"Finds the fiber for the event target and runs the plugin event system that builds the SyntheticEvent.","c":[],"cb":["dispatchDiscreteEvent"],"b":"a-state-update-end-to-end"},"dispatchSetState":{"n":"dispatchSetState","p":"schedule","l":"must","pl":"setState","w":"The function your setState actually is. Creates an update, picks a lane, tries the eager bailout, queues the update and schedules a render.","c":["requestUpdateLane","dispatchSetStateInternal","scheduleUpdateOnFiber"],"cb":["your event handler"],"b":"hooks-under-the-hood"},"dispatchSetStateInternal":{"n":"dispatchSetStateInternal","p":"schedule","l":"skip","pl":"queue the state update","w":"Computes the new state eagerly when the fiber has no pending work; if it’s Object.is-equal, it skips scheduling a render.","c":["enqueueConcurrentHookUpdate","scheduleUpdateOnFiber"],"cb":["dispatchSetState"],"b":"hooks-under-the-hood"},"requestUpdateLane":{"n":"requestUpdateLane","p":"schedule","l":"good","pl":"pick the update’s priority","w":"Chooses the lane: SyncLane inside a click, DefaultLane outside events, a transition lane inside startTransition.","c":[],"cb":["dispatchSetState","root.render"],"b":"scheduler-lanes-and-batching"},"enqueueConcurrentHookUpdate":{"n":"enqueueConcurrentHookUpdate","p":"schedule","l":"skip","pl":"stash the update","w":"Puts the update in a module-level array until the next render links it into the hook’s queue.","c":[],"cb":["dispatchSetStateInternal"],"b":"scheduler-lanes-and-batching"},"scheduleUpdateOnFiber":{"n":"scheduleUpdateOnFiber","p":"schedule","l":"good","pl":"mark the root as having work","w":"Adds the lane to root.pendingLanes and makes sure the root is scheduled.","c":["ensureRootIsScheduled"],"cb":["dispatchSetState","updateContainerImpl"],"b":"scheduler-lanes-and-batching"},"ensureRootIsScheduled":{"n":"ensureRootIsScheduled","p":"schedule","l":"good","pl":"make sure a render is coming","w":"Adds the root to the schedule and queues one microtask to process it. Later setStates in the same tick find it already scheduled: that’s batching.","c":["scheduleImmediateRootScheduleTask"],"cb":["scheduleUpdateOnFiber"],"b":"scheduler-lanes-and-batching"},"scheduleImmediateRootScheduleTask":{"n":"scheduleImmediateRootScheduleTask","p":"schedule","l":"skip","pl":"queue the microtask","w":"Calls queueMicrotask(processRootScheduleInMicrotask).","c":[],"cb":["ensureRootIsScheduled"],"b":"scheduler-lanes-and-batching"},"processRootScheduleInMicrotask":{"n":"processRootScheduleInMicrotask","p":"schedule","l":"good","pl":"decide when to render","w":"Runs in the microtask. Sync lanes are rendered right there; other lanes get a Scheduler task at a matching priority.","c":["performSyncWorkOnRoot","scheduleCallback"],"cb":[],"b":"scheduler-lanes-and-batching"},"scheduleCallback":{"n":"scheduleCallback","p":"schedule","l":"good","pl":"ask the Scheduler for a task","w":"The Scheduler’s API: puts a task on a min-heap ordered by expiration time and runs it in a later macrotask.","c":[],"cb":["processRootScheduleInMicrotask"],"b":"scheduler-lanes-and-batching"},"performSyncWorkOnRoot":{"n":"performSyncWorkOnRoot","p":"schedule","l":"skip","pl":"render now (Sync lane)","w":"The microtask’s entry point for Sync lanes: calls performWorkOnRoot.","c":["performWorkOnRoot"],"cb":[],"b":"a-state-update-end-to-end"},"performWorkOnRootViaSchedulerTask":{"n":"performWorkOnRootViaSchedulerTask","p":"schedule","l":"skip","pl":"render in a Scheduler task","w":"The Scheduler task’s entry point for non-sync lanes: calls performWorkOnRoot.","c":["performWorkOnRoot"],"cb":[],"b":"how-react-works"},"shouldYield":{"n":"shouldYield","p":"render","l":"good","pl":"is my 5ms slice used up?","w":"Asked after every fiber in the concurrent loop. True after about 5ms, so React pauses and lets the browser paint and handle input.","c":[],"cb":["workLoopConcurrentByScheduler"],"b":"scheduler-lanes-and-batching"},"performWorkOnRoot":{"n":"performWorkOnRoot","p":"render","l":"good","pl":"render, then commit, the root","w":"Chooses the synchronous or time-sliced loop for the lanes, runs the render, and commits the result.","c":["renderRootSync","renderRootConcurrent","commitRoot"],"cb":[],"b":"scheduler-lanes-and-batching"},"renderRootSync":{"n":"renderRootSync","p":"render","l":"good","pl":"render without pausing","w":"Prepares a fresh stack if needed and runs workLoopSync to the end.","c":["prepareFreshStack","workLoopSync"],"cb":["performWorkOnRoot"],"b":"the-work-loop"},"renderRootConcurrent":{"n":"renderRootConcurrent","p":"render","l":"good","pl":"render in 5ms slices","w":"Like renderRootSync but runs workLoopConcurrentByScheduler, which can pause.","c":["workLoopConcurrentByScheduler"],"cb":["performWorkOnRoot"],"b":"scheduler-lanes-and-batching"},"prepareFreshStack":{"n":"prepareFreshStack","p":"render","l":"good","pl":"start a render from the root","w":"Creates the work-in-progress HostRoot and links queued updates in. If a half-built tree exists for other lanes, it is thrown away.","c":["createWorkInProgress","finishQueueingConcurrentUpdates"],"cb":["renderRootSync"],"b":"scheduler-lanes-and-batching"},"finishQueueingConcurrentUpdates":{"n":"finishQueueingConcurrentUpdates","p":"render","l":"skip","pl":"link stashed updates into queues","w":"Moves updates stashed by setState into their hooks’ circular queues and marks lanes up to the root.","c":["markUpdateLaneFromFiberToRoot"],"cb":["prepareFreshStack"],"b":"hooks-under-the-hood"},"markUpdateLaneFromFiberToRoot":{"n":"markUpdateLaneFromFiberToRoot","p":"render","l":"good","pl":"leave a trail to the updated fiber","w":"Sets lanes on the updated fiber and childLanes on every ancestor, so the work loop knows which paths to walk down.","c":[],"cb":["finishQueueingConcurrentUpdates"],"b":"the-work-loop"},"workLoopSync":{"n":"workLoopSync","p":"render","l":"must","pl":"process fibers until done","w":"The render loop: while (workInProgress !== null) performUnitOfWork(workInProgress). No recursion, one pointer.","c":["performUnitOfWork"],"cb":["renderRootSync"],"b":"the-work-loop"},"workLoopConcurrentByScheduler":{"n":"workLoopConcurrentByScheduler","p":"render","l":"good","pl":"process fibers until time’s up","w":"The same loop, but it also stops when shouldYield() says the slice is used up.","c":["performUnitOfWork","shouldYield"],"cb":["renderRootConcurrent"],"b":"the-work-loop"},"performUnitOfWork":{"n":"performUnitOfWork","p":"render","l":"good","pl":"work on one fiber","w":"Calls beginWork on the fiber. If it returned a child, that’s next; otherwise completeUnitOfWork climbs up.","c":["beginWork","completeUnitOfWork"],"cb":["workLoopSync"],"b":"the-work-loop"},"beginWork":{"n":"beginWork","p":"render","l":"must","pl":"start work on a fiber (going down)","w":"Decides what to do with one fiber: bail out if nothing changed, otherwise render it (call the component, or reconcile a DOM tag’s children). Returns the first child.","c":["bailoutOnAlreadyFinishedWork","updateFunctionComponent","reconcileChildren"],"cb":["performUnitOfWork"],"b":"the-work-loop"},"bailoutOnAlreadyFinishedWork":{"n":"bailoutOnAlreadyFinishedWork","p":"render","l":"must","pl":"skip this component","w":"Skips calling the component. If childLanes says something below has work, the children are cloned and visited; otherwise the whole subtree is skipped.","c":[],"cb":["beginWork"],"b":"the-work-loop"},"attemptEarlyBailoutIfNoScheduledUpdate":{"n":"attemptEarlyBailoutIfNoScheduledUpdate","p":"render","l":"skip","pl":"try to skip early","w":"The fast path in beginWork when props, context and the fiber’s own lanes say nothing changed.","c":["bailoutOnAlreadyFinishedWork"],"cb":["beginWork"],"b":"the-work-loop"},"updateFunctionComponent":{"n":"updateFunctionComponent","p":"render","l":"good","pl":"render a function component","w":"beginWork’s case for function components: renderWithHooks, then reconcile the returned elements.","c":["renderWithHooks","reconcileChildren"],"cb":["beginWork"],"b":"how-react-works"},"renderWithHooks":{"n":"renderWithHooks","p":"render","l":"must","pl":"call your component","w":"Installs the right hook implementations (mount or update), calls your component function, and returns the elements it produced.","c":["your component"],"cb":["updateFunctionComponent"],"b":"hooks-under-the-hood"},"mountState":{"n":"mountState","p":"render","l":"good","pl":"useState on the first render","w":"Creates the hook object and its update queue, stores the initial value, returns [state, setState].","c":["mountWorkInProgressHook"],"cb":["your component"],"b":"hooks-under-the-hood"},"updateReducer":{"n":"updateReducer","p":"render","l":"good","pl":"useState on a re-render","w":"Takes the hook from the current fiber and folds its queued updates into the new state.","c":["updateWorkInProgressHook"],"cb":["your component"],"b":"hooks-under-the-hood"},"mountWorkInProgressHook":{"n":"mountWorkInProgressHook","p":"render","l":"skip","pl":"append a hook","w":"Creates a hook object and appends it to fiber.memoizedState. Hooks are matched by this order.","c":[],"cb":[],"b":"hooks-under-the-hood"},"updateWorkInProgressHook":{"n":"updateWorkInProgressHook","p":"render","l":"skip","pl":"take the next hook","w":"Walks the current fiber’s hook list in step with the calls. Calling hooks in a different order breaks here.","c":[],"cb":[],"b":"hooks-under-the-hood"},"reconcileChildren":{"n":"reconcileChildren","p":"render","l":"must","pl":"compare new elements with old fibers","w":"Diffs what the component returned against the existing child fibers and decides what to reuse, create or delete.","c":["reconcileChildFibers"],"cb":["beginWork","updateFunctionComponent"],"b":"reconciliation"},"reconcileChildFibers":{"n":"reconcileChildFibers","p":"render","l":"good","pl":"diff the children","w":"The entry point of child reconciliation: dispatches to the single-element, text or array case.","c":["reconcileSingleElement","reconcileChildrenArray"],"cb":["reconcileChildren"],"b":"reconciliation"},"reconcileChildFibersImpl":{"n":"reconcileChildFibers","p":"render","l":"good","pl":"diff the children","w":"The entry point of child reconciliation: dispatches to the single-element, text or array case.","c":["reconcileSingleElement","reconcileChildrenArray"],"cb":["reconcileChildren"],"b":"reconciliation"},"reconcileSingleElement":{"n":"reconcileSingleElement","p":"render","l":"good","pl":"diff one child","w":"Same key and same type → reuse the fiber; otherwise delete the old one and create a new fiber.","c":["useFiber","createFiberFromElement"],"cb":["reconcileChildFibers"],"b":"reconciliation"},"reconcileChildrenArray":{"n":"reconcileChildrenArray","p":"render","l":"must","pl":"diff a list of children","w":"The list diff: walk in step while keys match, then use a Map by key, and decide moves with lastPlacedIndex.","c":["updateSlot","mapRemainingChildren","updateFromMap","placeChild","deleteChild"],"cb":["reconcileChildFibers"],"b":"child-reconciliation-algorithm"},"updateSlot":{"n":"updateSlot","p":"render","l":"skip","pl":"compare one list position","w":"In the first pass: returns null when keys differ (ends the fast path), otherwise reuses or replaces.","c":[],"cb":["reconcileChildrenArray"],"b":"child-reconciliation-algorithm"},"mapRemainingChildren":{"n":"mapRemainingChildren","p":"render","l":"good","pl":"index old children by key","w":"Puts the remaining old fibers in a Map keyed by key (or index when there is no key).","c":[],"cb":["reconcileChildrenArray"],"b":"child-reconciliation-algorithm"},"updateFromMap":{"n":"updateFromMap","p":"render","l":"skip","pl":"find the old child by key","w":"Looks the new element’s key up in the Map: reuse if found, create if not.","c":[],"cb":["reconcileChildrenArray"],"b":"child-reconciliation-algorithm"},"placeChild":{"n":"placeChild","p":"render","l":"good","pl":"decide stay, move or insert","w":"Compares a reused fiber’s old index with lastPlacedIndex: smaller means move (Placement); a new fiber is an insert.","c":[],"cb":["reconcileChildrenArray"],"b":"child-reconciliation-algorithm"},"deleteChild":{"n":"deleteChild","p":"render","l":"good","pl":"mark a child for deletion","w":"Adds the old fiber to the parent’s deletions list and flags the parent ChildDeletion. The DOM is removed later, in the commit.","c":[],"cb":["reconcileChildrenArray","reconcileSingleElement"],"b":"child-reconciliation-algorithm"},"createFiberFromTypeAndProps":{"n":"createFiberFromTypeAndProps","p":"render","l":"good","pl":"create a fiber for an element","w":"Makes a new fiber and picks its tag from element.type: function → FunctionComponent, string → HostComponent, context → provider.","c":[],"cb":["reconcileSingleElement","reconcileChildrenArray"],"b":"how-react-works"},"createFiberFromElement":{"n":"createFiberFromElement","p":"render","l":"skip","pl":"create a fiber for an element","w":"A thin wrapper around createFiberFromTypeAndProps.","c":["createFiberFromTypeAndProps"],"cb":[],"b":"reconciliation"},"createFiberFromText":{"n":"createFiberFromText","p":"render","l":"skip","pl":"create a text fiber","w":"Creates a HostText fiber for a string or number child.","c":[],"cb":[],"b":"how-react-works"},"useFiber":{"n":"useFiber","p":"render","l":"good","pl":"reuse an existing fiber","w":"Same key and type: gets the fiber’s alternate (createWorkInProgress) with the new props. State and the DOM node are kept.","c":["createWorkInProgress"],"cb":["reconcileSingleElement","reconcileChildrenArray"],"b":"reconciliation"},"createWorkInProgress":{"n":"createWorkInProgress","p":"render","l":"good","pl":"make the draft copy of a fiber","w":"Returns the fiber’s alternate, creating it the first time, with new props. This is double buffering.","c":[],"cb":["useFiber","prepareFreshStack"],"b":"react-fiber"},"completeUnitOfWork":{"n":"completeUnitOfWork","p":"render","l":"good","pl":"finish a fiber and climb","w":"Calls completeWork, then moves to the sibling, or up to the parent and completes that.","c":["completeWork"],"cb":["performUnitOfWork"],"b":"the-work-loop"},"completeWork":{"n":"completeWork","p":"render","l":"must","pl":"finish a fiber (going up)","w":"For DOM tags: creates the DOM node (detached) on mount and appends its children’s nodes, or flags an Update. For every fiber: bubbles subtreeFlags to the parent.","c":[],"cb":["completeUnitOfWork"],"b":"the-work-loop"},"propagateContextChanges":{"n":"propagateContextChanges","p":"render","l":"good","pl":"find readers of a changed context","w":"When a provider’s value changed, searches below for fibers that read that context and schedules them, even through memo.","c":[],"cb":[],"b":"how-react-works"},"readContext":{"n":"readContext","p":"render","l":"skip","pl":"read a context value","w":"What useContext calls: reads the nearest provider’s value and records a dependency on the fiber.","c":[],"cb":[],"b":"hooks-under-the-hood"},"commitRoot":{"n":"commitRoot","p":"commit","l":"must","pl":"apply the finished render","w":"Runs the commit: before mutation → mutation (DOM writes) → swap trees → layout effects, then schedules or flushes passive effects.","c":["commitBeforeMutationEffects","flushMutationEffects","flushLayoutEffects","flushPassiveEffects"],"cb":["performWorkOnRoot"],"b":"commit-phase-and-effects"},"commitBeforeMutationEffects":{"n":"commitBeforeMutationEffects","p":"commit","l":"skip","pl":"read the DOM before it changes","w":"Runs getSnapshotBeforeUpdate and focus bookkeeping while the old UI is still in the DOM.","c":[],"cb":["commitRoot"],"b":"commit-phase-and-effects"},"flushMutationEffects":{"n":"flushMutationEffects","p":"commit","l":"good","pl":"write the DOM","w":"The mutation phase: inserts, updates and removes DOM nodes as flagged, runs layout cleanups, then sets root.current = finishedWork.","c":["commitMutationEffectsOnFiber"],"cb":["commitRoot"],"b":"commit-phase-and-effects"},"commitMutationEffectsOnFiber":{"n":"commitMutationEffectsOnFiber","p":"commit","l":"skip","pl":"apply one fiber’s DOM changes","w":"Walks the flagged fibers and performs their Placement, Update and ChildDeletion work.","c":["commitPlacement","commitUpdate","commitDeletionEffects"],"cb":["flushMutationEffects"],"b":"commit-phase-and-effects"},"commitPlacement":{"n":"commitPlacement","p":"commit","l":"good","pl":"insert into the DOM","w":"Inserts a new or moved fiber’s DOM nodes (descending through components to the real nodes) with appendChild or insertBefore.","c":["insertOrAppendPlacementNode"],"cb":["commitMutationEffectsOnFiber"],"b":"commit-phase-and-effects"},"insertOrAppendPlacementNode":{"n":"insertOrAppendPlacementNode","p":"commit","l":"skip","pl":"append or insert the real nodes","w":"For a DOM fiber calls appendChild/insertBefore; for a component fiber descends to its children.","c":[],"cb":["commitPlacement"],"b":"how-react-works"},"insertOrAppendPlacementNodeIntoContainer":{"n":"insertOrAppendPlacementNode","p":"commit","l":"skip","pl":"append or insert the real nodes","w":"For a DOM fiber calls appendChild/insertBefore; for a component fiber descends to its children.","c":[],"cb":["commitPlacement"],"b":"how-react-works"},"commitUpdate":{"n":"commitUpdate","p":"commit","l":"good","pl":"update a DOM node’s attributes","w":"Compares old and new props of a DOM element and writes only what changed.","c":[],"cb":["commitMutationEffectsOnFiber"],"b":"reconciliation"},"commitTextUpdate":{"n":"commitTextUpdate","p":"commit","l":"skip","pl":"change a text node","w":"Sets a text node’s value.","c":[],"cb":[],"b":"how-react-works"},"commitDeletionEffects":{"n":"commitDeletionEffects","p":"commit","l":"good","pl":"tear down a deleted subtree","w":"Walks a deleted subtree parent-first: detaches refs, runs layout cleanups, then removes the top DOM node.","c":["removeChild"],"cb":["commitMutationEffectsOnFiber"],"b":"commit-phase-and-effects"},"commitDeletionEffectsOnFiber":{"n":"commitDeletionEffects","p":"commit","l":"good","pl":"tear down a deleted subtree","w":"Walks a deleted subtree parent-first: detaches refs, runs layout cleanups, then removes the top DOM node.","c":["removeChild"],"cb":["commitMutationEffectsOnFiber"],"b":"commit-phase-and-effects"},"removeChild":{"n":"removeChild","p":"commit","l":"skip","pl":"remove a DOM node","w":"The DOM call that removes the top node of a deleted subtree.","c":[],"cb":["commitDeletionEffects"],"b":"how-react-works"},"flushLayoutEffects":{"n":"flushLayoutEffects","p":"commit","l":"good","pl":"run layout effects","w":"The layout phase: attaches refs and runs useLayoutEffect setups and componentDidMount/Update, child before parent, before paint.","c":["commitLayoutEffectOnFiber"],"cb":["commitRoot"],"b":"commit-phase-and-effects"},"commitLayoutEffectOnFiber":{"n":"commitLayoutEffectOnFiber","p":"commit","l":"skip","pl":"one fiber’s layout work","w":"Attaches the ref and runs the layout effects of one fiber.","c":["commitHookEffectListMount"],"cb":["flushLayoutEffects"],"b":"commit-phase-and-effects"},"commitHookEffectListMount":{"n":"commitHookEffectListMount","p":"effects","l":"good","pl":"run effect setups","w":"Runs the setup functions of a fiber’s effects that match the flags (Layout or Passive) and changed deps.","c":[],"cb":[],"b":"commit-phase-and-effects"},"commitHookEffectListUnmount":{"n":"commitHookEffectListUnmount","p":"effects","l":"good","pl":"run effect cleanups","w":"Runs the cleanup functions of a fiber’s effects that match the flags, before the new setups.","c":[],"cb":[],"b":"commit-phase-and-effects"},"flushPassiveEffects":{"n":"flushPassiveEffects","p":"effects","l":"must","pl":"run useEffect","w":"Runs all useEffect cleanups, then all setups. Normally after paint in a separate task; for discrete events like clicks, at the end of the commit.","c":["commitHookEffectListUnmount","commitHookEffectListMount"],"cb":["commitRoot"],"b":"commit-phase-and-effects"},"flushPendingEffects":{"n":"flushPendingEffects","p":"effects","l":"skip","pl":"finish leftover commit work","w":"Flushes any commit phase or passive effects still pending before new work starts.","c":[],"cb":[],"b":"commit-phase-and-effects"},"flushSpawnedWork":{"n":"flushSpawnedWork","p":"commit","l":"skip","pl":"schedule what comes after the commit","w":"Decides whether passive effects run now (Sync lanes) or in a later task.","c":[],"cb":[],"b":"commit-phase-and-effects"},"workInProgress":{"n":"workInProgress","p":"data","l":"must","pl":"the fiber being worked on","w":"Both the draft tree being rendered and the work loop’s one pointer to the next fiber to process.","c":[],"cb":[],"b":"react-fiber"},"alternate":{"n":"alternate","p":"data","l":"good","pl":"the fiber’s other copy","w":"Links a fiber in the current tree to its counterpart in the work-in-progress tree (double buffering).","c":[],"cb":[],"b":"react-fiber"},"memoizedState":{"n":"memoizedState","p":"data","l":"good","pl":"the component’s hooks","w":"On a function component fiber: the head of its hook list. Each hook stores its value here, in call order.","c":[],"cb":[],"b":"hooks-under-the-hood"},"memoizedProps":{"n":"memoizedProps","p":"data","l":"good","pl":"props from the last render","w":"The props the fiber rendered with last time. Compared by reference to decide whether to bail out.","c":[],"cb":[],"b":"react-fiber"},"pendingProps":{"n":"pendingProps","p":"data","l":"good","pl":"props for this render","w":"The new props the fiber is being rendered with.","c":[],"cb":[],"b":"react-fiber"},"childLanes":{"n":"childLanes","p":"data","l":"good","pl":"work pending below","w":"A bitmask on each fiber saying that something in its subtree has updates. Zero means the whole subtree can be skipped.","c":[],"cb":[],"b":"the-work-loop"},"lanes":{"n":"lanes","p":"data","l":"good","pl":"this fiber’s pending priorities","w":"A bitmask of update priorities pending on the fiber itself.","c":[],"cb":[],"b":"scheduler-lanes-and-batching"},"subtreeFlags":{"n":"subtreeFlags","p":"data","l":"good","pl":"changes somewhere below","w":"The flags of all descendants ORed together, so the commit can skip subtrees with nothing to do.","c":[],"cb":[],"b":"the-work-loop"},"flags":{"n":"flags","p":"data","l":"good","pl":"what the commit must do here","w":"Bits on a fiber such as Placement, Update, ChildDeletion, Passive: recorded in render, performed in commit.","c":[],"cb":[],"b":"react-fiber"},"stateNode":{"n":"stateNode","p":"data","l":"skip","pl":"the real DOM node","w":"For a DOM fiber, the DOM element; for a class, the instance; for HostRoot, the FiberRoot.","c":[],"cb":[],"b":"react-fiber"},"updateQueue":{"n":"updateQueue","p":"data","l":"skip","pl":"queued effects or updates","w":"On function components, the circular list of effects the commit walks.","c":[],"cb":[],"b":"react-fiber"},"lastPlacedIndex":{"n":"lastPlacedIndex","p":"data","l":"good","pl":"rightmost position kept in place","w":"During the list diff: the largest old index kept so far. A reused child with a smaller old index has to move.","c":[],"cb":[],"b":"child-reconciliation-algorithm"},"key":{"n":"key","p":"api","l":"must","pl":"element identity","w":"A special prop that tells React which element is which among siblings. Not passed to the component: React keeps it on the element. Changing it remounts the element.","c":[],"cb":[],"b":"rendering-arrays"},"Fragment":{"n":"Fragment","p":"api","l":"must","pl":"group without a wrapper","w":"<>…</> groups siblings into one element without adding a DOM node.","c":[],"cb":[],"b":"using-jsx"},"dangerouslySetInnerHTML":{"n":"dangerouslySetInnerHTML","p":"api","l":"must","pl":"insert raw HTML","w":"The opt-in way to set innerHTML. React escapes every string otherwise, so this name is deliberately alarming.","c":[],"cb":[],"b":"hello-world-in-js"},"defaultValue":{"n":"defaultValue","p":"api","l":"must","pl":"starting value only","w":"Sets an input’s first value; after that the browser owns it and the user can edit it (uncontrolled). defaultChecked does the same for checkboxes and radios.","c":[],"cb":[],"b":"inputs"},"defaultChecked":{"n":"defaultChecked","p":"api","l":"good","pl":"starting checked state","w":"The checkbox/radio version of defaultValue.","c":[],"cb":[],"b":"inputs"},"FormData":{"n":"FormData","p":"api","l":"must","pl":"the form’s fields as key/value pairs","w":"A browser API that reads every named field of a form. Unchecked checkboxes and empty radio groups are missing from it.","c":[],"cb":[],"b":"forms"},"ErrorBoundary":{"n":"ErrorBoundary","p":"api","l":"must","pl":"catch render errors below","w":"A component (from react-error-boundary) that shows a fallback when a component below it throws while rendering.","c":[],"cb":[],"b":"error-boundaries"},"useErrorBoundary":{"n":"useErrorBoundary","p":"api","l":"good","pl":"reach the nearest boundary","w":"Hook from react-error-boundary; showBoundary(error) sends errors from event handlers or async code to the nearest ErrorBoundary.","c":[],"cb":[],"b":"error-boundaries"},"showBoundary":{"n":"showBoundary","p":"api","l":"good","pl":"send an error to the boundary","w":"Hands an error the boundary can’t see (event handler, promise) to the nearest ErrorBoundary.","c":[],"cb":[],"b":"error-boundaries"},"resetErrorBoundary":{"n":"resetErrorBoundary","p":"api","l":"good","pl":"try again","w":"Clears the caught error and mounts the boundary’s children again from scratch (their state is gone).","c":[],"cb":[],"b":"error-boundaries"},"satisfies":{"n":"satisfies","p":"api","l":"good","pl":"check without widening","w":"TypeScript operator: checks a value against a type but keeps the value’s own, narrower type.","c":[],"cb":[],"b":"typescript-with-react"},"ComponentProps":{"n":"ComponentProps","p":"api","l":"good","pl":"all props of an element","w":"React.ComponentProps<'span'> is the full prop type of a native element: handy for components that wrap one.","c":[],"cb":[],"b":"typescript-with-react"},"useState":{"n":"useState","p":"api","l":"must","pl":"remembered value","w":"Returns [value, setValue]. React keeps the value between renders; calling setValue queues an update and a re-render. Pass a function to compute the first value only once.","c":[],"cb":[],"b":"managing-ui-state"},"useEffect":{"n":"useEffect","p":"api","l":"must","pl":"sync with the outside world","w":"Runs your function after React commits a render, and again when a dependency changes. The function it returns (cleanup) runs before the next run and on unmount.","c":[],"cb":[],"b":"side-effects"},"useLayoutEffect":{"n":"useLayoutEffect","p":"api","l":"good","pl":"effect before paint","w":"Like useEffect, but runs right after the DOM is updated and before the browser paints. For measuring or adjusting the DOM without flicker.","c":[],"cb":[],"b":"uselayouteffect"},"useRef":{"n":"useRef","p":"api","l":"must","pl":"a box that survives renders","w":"Returns { current }: the same object every render. Changing .current doesn’t re-render. Pass it as ref to get a DOM node.","c":[],"cb":[],"b":"dom-refs-and-effect-dependencies"},"useId":{"n":"useId","p":"api","l":"good","pl":"a unique id per component","w":"Returns an id that is unique on the page and the same on server and client. For label/input and aria-* pairs, not for list keys.","c":[],"cb":[],"b":"the-useid-hook"},"useReducer":{"n":"useReducer","p":"api","l":"must","pl":"state with named updates","w":"Returns [state, dispatch]. dispatch(action) asks React to compute the next state with your reducer(state, action).","c":[],"cb":[],"b":"usereducer"},"useMemo":{"n":"useMemo","p":"api","l":"must","pl":"remember a computed value","w":"Recomputes only when its dependencies change; otherwise returns the same value (and object identity) as last render.","c":[],"cb":[],"b":"react-re-rendering"},"useCallback":{"n":"useCallback","p":"api","l":"must","pl":"remember a function","w":"Returns the same function between renders until a dependency changes. useCallback(fn, deps) is useMemo(() => fn, deps).","c":[],"cb":[],"b":"react-re-rendering"},"memo":{"n":"memo","p":"api","l":"must","pl":"skip if props are the same","w":"Wraps a component so it doesn’t re-render when its parent does, as long as every prop is Object.is-equal to last time.","c":[],"cb":[],"b":"element-optimization"},"StrictMode":{"n":"StrictMode","p":"api","l":"good","pl":"development checks","w":"In development, renders components twice and runs effects setup → cleanup → setup once more on mount, to expose impure renders and missing cleanups.","c":[],"cb":[],"b":"react-lifecycle"},"dispatch":{"n":"dispatch","p":"api","l":"must","pl":"send an action","w":"The function useReducer returns. dispatch(action) queues the action; React runs your reducer with it during the next render. Same function every render.","c":[],"cb":[],"b":"usereducer"},"createContext":{"n":"createContext","p":"api","l":"must","pl":"declare a shared value","w":"Creates a context object. Render <Ctx value={…}> to provide a value; read it below with use(Ctx). The argument is the value used when no provider is above.","c":[],"cb":[],"b":"context-with-use"},"use":{"n":"use","p":"api","l":"must","pl":"read a context or a promise","w":"Reads a context (like useContext) or the result of a promise (suspending until it resolves). Unlike hooks, it can be called inside if statements and after early returns.","c":[],"cb":[],"b":"data-fetching"},"useContext":{"n":"useContext","p":"api","l":"good","pl":"read a context","w":"The older way to read a context. Same result as use(Ctx), but it must follow the rules of hooks (top level, every render).","c":[],"cb":[],"b":"context-with-use"},"createPortal":{"n":"createPortal","p":"api","l":"must","pl":"render somewhere else in the DOM","w":"createPortal(children, domNode) puts children’s DOM inside domNode, while in React they stay where they were rendered: same context, and events bubble through the React tree.","c":[],"cb":[],"b":"createportal"},"useImperativeHandle":{"n":"useImperativeHandle","p":"api","l":"good","pl":"choose what a ref exposes","w":"useImperativeHandle(ref, () => ({ focus() {…} })) makes the parent’s ref point to your object instead of the DOM node: a small, deliberate API for commands.","c":[],"cb":[],"b":"useimperativehandle"},"flushSync":{"n":"flushSync","p":"api","l":"good","pl":"apply this update now","w":"flushSync(() => setState(…)) renders and commits before it returns, so the next line sees the updated DOM. Slow if overused; for focus, scroll and third-party DOM code.","c":[],"cb":[],"b":"flushsync"},"useSyncExternalStore":{"n":"useSyncExternalStore","p":"api","l":"good","pl":"read a store React doesn’t own","w":"useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot?) re-renders when the store’s snapshot changes. getSnapshot must return the same value when nothing changed.","c":[],"cb":[],"b":"usesyncexternalstore"},"children":{"n":"children","p":"api","l":"must","pl":"what goes between the tags","w":"The prop holding the JSX written between a component’s opening and closing tags. The simplest way to pass elements instead of data.","c":[],"cb":[],"b":"composition"},"ReactNode":{"n":"ReactNode","p":"api","l":"good","pl":"anything React can render","w":"The TypeScript type for a prop that takes JSX, text, numbers, arrays, null… Use it for children and named element props like sidebar.","c":[],"cb":[],"b":"composition"},"cloneElement":{"n":"cloneElement","p":"api","l":"good","pl":"copy an element with new props","w":"cloneElement(element, extraProps) returns a copy with props merged in. The old way to wire compound components; it only reaches direct children.","c":[],"cb":[],"b":"compound-components"},"Children.map":{"n":"Children.map","p":"api","l":"good","pl":"loop over children","w":"Maps over the children prop as given, without looking inside nested elements. Used with cloneElement in older compound components.","c":[],"cb":[],"b":"compound-components"},"useEffectEvent":{"n":"useEffectEvent","p":"api","l":"good","pl":"an effect’s latest-values function","w":"Wraps a function so it always sees the latest props and state but never has to be an effect dependency. Call it only from inside effects. Stable since React 19.2.","c":[],"cb":[],"b":"latest-ref"},"callAll":{"n":"callAll","p":"api","l":"good","pl":"call several handlers","w":"A small helper (not part of React): callAll(a, b) returns one function that calls each one that exists. Prop getters use it to merge onClick handlers.","c":[],"cb":[],"b":"prop-getters"},"getTogglerProps":{"n":"getTogglerProps","p":"api","l":"good","pl":"a prop getter","w":"Example prop getter from useToggle: pass your own props in, get back the props the button needs, with handlers merged.","c":[],"cb":[],"b":"prop-getters"},"useDeferredValue":{"n":"useDeferredValue","p":"api","l":"must","pl":"a value that may lag behind","w":"Returns the previous value during urgent renders, then re-renders in the background with the new one. Pair it with memo on the slow component.","c":[],"cb":[],"b":"concurrent-rendering"},"useTransition":{"n":"useTransition","p":"api","l":"must","pl":"mark an update as non-urgent","w":"Returns [isPending, startTransition]. Updates inside startTransition render in the background, can be interrupted, and keep the current UI instead of showing Suspense fallbacks.","c":[],"cb":[],"b":"code-splitting"},"startTransition":{"n":"startTransition","p":"api","l":"must","pl":"run an update as a transition","w":"The function from useTransition (or imported from react) that marks the state updates inside it as non-urgent.","c":[],"cb":[],"b":"code-splitting"},"isPending":{"n":"isPending","p":"api","l":"good","pl":"a transition is running","w":"The first value from useTransition: true from the moment a transition starts until it commits. Use it for a small pending indicator.","c":[],"cb":[],"b":"code-splitting"},"lazy":{"n":"lazy","p":"api","l":"must","pl":"load a component’s code on demand","w":"lazy(() => import('./x')) returns a component that downloads its module the first time it renders, suspending until it arrives. The module must default-export the component.","c":[],"cb":[],"b":"code-splitting"},"Suspense":{"n":"Suspense","p":"api","l":"must","pl":"show a fallback while waiting","w":"<Suspense fallback={…}> shows the fallback while something inside it is suspended: lazy code, or a promise read with use.","c":[],"cb":[],"b":"data-fetching"},"Profiler":{"n":"Profiler","p":"api","l":"good","pl":"measure render time","w":"<Profiler id onRender={(id, phase, actualDuration) => …}> reports how long React spent rendering the tree inside it.","c":[],"cb":[],"b":"windowing"},"useVirtualizer":{"n":"useVirtualizer","p":"api","l":"good","pl":"compute the visible rows","w":"From @tanstack/react-virtual: given count, the scroll element and a size estimate, it returns the rows to render and each one’s offset.","c":[],"cb":[],"b":"windowing"},"shallowEqual":{"n":"shallowEqual","p":"api","l":"good","pl":"compare props key by key","w":"What memo uses by default: same keys, and every value Object.is-equal. Objects, arrays and functions created during render never pass.","c":[],"cb":[],"b":"element-optimization"},"useOptimistic":{"n":"useOptimistic","p":"api","l":"must","pl":"state shown during an action","w":"useOptimistic(value, update?) returns a value you can change while an action or transition runs; when it ends, it falls back to the real value.","c":[],"cb":[],"b":"optimistic-ui"},"useFormStatus":{"n":"useFormStatus","p":"api","l":"must","pl":"is my form submitting?","w":"From react-dom: called in a component inside a <form>, returns { pending, data, method, action } for that form’s current submission.","c":[],"cb":[],"b":"optimistic-ui"},"preloadImage":{"n":"preloadImage","p":"api","l":"good","pl":"a promise for a loaded picture","w":"A helper (not part of React): returns a cached promise that resolves when the browser has loaded an image, so a component can suspend on it with use.","c":[],"cb":[],"b":"suspending-on-images"},"Cache-Control":{"n":"Cache-Control","p":"api","l":"good","pl":"how long the browser may reuse a response","w":"An HTTP response header. max-age=60 lets the browser reuse the response for 60 seconds without asking the server; no-store forbids storing it.","c":[],"cb":[],"b":"waterfalls-and-caching"},"Object.is":{"n":"Object.is","p":"api","l":"good","pl":"React’s equality check","w":"How React compares dependencies, memo props and state: by value for primitives, by identity for objects, arrays and functions.","c":[],"cb":[],"b":"dom-refs-and-effect-dependencies"}}</script><script type="application/json" id="note-titles">{"hello-world-in-js":{"t":"Hello World in JS","p":"fundamentals/hello-world-in-js/"},"raw-react-apis":{"t":"Raw React APIs","p":"fundamentals/raw-react-apis/"},"using-jsx":{"t":"Using JSX","p":"fundamentals/using-jsx/"},"custom-components":{"t":"Custom Components","p":"fundamentals/custom-components/"},"typescript-with-react":{"t":"TypeScript with React","p":"fundamentals/typescript-with-react/"},"styling":{"t":"Styling","p":"fundamentals/styling/"},"forms":{"t":"Forms","p":"fundamentals/forms/"},"inputs":{"t":"Inputs","p":"fundamentals/inputs/"},"error-boundaries":{"t":"Error Boundaries","p":"fundamentals/error-boundaries/"},"rendering-arrays":{"t":"Rendering Arrays","p":"fundamentals/rendering-arrays/"},"fundamentals-quiz":{"t":"Fundamentals Quiz","p":"fundamentals/fundamentals-quiz/"},"managing-ui-state":{"t":"Managing UI State","p":"hooks/managing-ui-state/"},"side-effects":{"t":"Side Effects","p":"hooks/side-effects/"},"react-lifecycle":{"t":"React Lifecycle","p":"hooks/react-lifecycle/"},"lifting-state":{"t":"Lifting State","p":"hooks/lifting-state/"},"dom-refs-and-effect-dependencies":{"t":"DOM Refs and Effect Dependencies","p":"hooks/dom-refs-and-effect-dependencies/"},"the-useid-hook":{"t":"The useId Hook","p":"hooks/the-useid-hook/"},"building-a-cart":{"t":"Building a Cart","p":"hooks/building-a-cart/"},"usestate-vs-usereducer":{"t":"useState vs useReducer","p":"hooks/usestate-vs-usereducer/"},"react-re-rendering":{"t":"React Re-rendering","p":"hooks/react-re-rendering/"},"usereducer":{"t":"useReducer","p":"apis/usereducer/"},"context-with-use":{"t":"Context with use","p":"apis/context-with-use/"},"createportal":{"t":"createPortal","p":"apis/createportal/"},"uselayouteffect":{"t":"useLayoutEffect","p":"apis/uselayouteffect/"},"useimperativehandle":{"t":"useImperativeHandle","p":"apis/useimperativehandle/"},"flushsync":{"t":"flushSync","p":"apis/flushsync/"},"usesyncexternalstore":{"t":"useSyncExternalStore","p":"apis/usesyncexternalstore/"},"composition":{"t":"Composition and Layout Components","p":"patterns/composition/"},"latest-ref":{"t":"The Latest Ref Pattern","p":"patterns/latest-ref/"},"compound-components":{"t":"Compound Components","p":"patterns/compound-components/"},"slots":{"t":"The Slots Pattern","p":"patterns/slots/"},"prop-getters":{"t":"Prop Collections and Getters","p":"patterns/prop-getters/"},"state-initializers":{"t":"State Initializers","p":"patterns/state-initializers/"},"state-reducer":{"t":"The State Reducer Pattern","p":"patterns/state-reducer/"},"control-props":{"t":"Control Props","p":"patterns/control-props/"},"element-optimization":{"t":"Element Optimization","p":"performance/element-optimization/"},"optimize-context":{"t":"Optimize Context","p":"performance/optimize-context/"},"concurrent-rendering":{"t":"Concurrent Rendering","p":"performance/concurrent-rendering/"},"code-splitting":{"t":"Code Splitting","p":"performance/code-splitting/"},"expensive-calculations":{"t":"Expensive Calculations","p":"performance/expensive-calculations/"},"optimize-rendering":{"t":"Optimize Rendering","p":"performance/optimize-rendering/"},"windowing":{"t":"Windowing","p":"performance/windowing/"},"data-fetching":{"t":"Data Fetching with use","p":"suspense/data-fetching/"},"promise-caching":{"t":"Promise Caching and Transitions","p":"suspense/promise-caching/"},"optimistic-ui":{"t":"Optimistic UI","p":"suspense/optimistic-ui/"},"suspending-on-images":{"t":"Suspending on Images","p":"suspense/suspending-on-images/"},"deferred-search":{"t":"useDeferredValue with Suspense","p":"suspense/deferred-search/"},"waterfalls-and-caching":{"t":"Waterfalls and Caching","p":"suspense/waterfalls-and-caching/"},"start-here":{"t":"Start Here","p":"internals/start-here/"},"render-and-commit":{"t":"Render and Commit","p":"internals/render-and-commit/"},"reconciliation":{"t":"Reconciliation","p":"internals/reconciliation/"},"react-fiber":{"t":"React Fiber","p":"internals/react-fiber/"},"hooks-under-the-hood":{"t":"Hooks Under the Hood","p":"internals/hooks-under-the-hood/"},"commit-phase-and-effects":{"t":"Commit Phase and Effects","p":"internals/commit-phase-and-effects/"},"the-work-loop":{"t":"The Work Loop","p":"internals/the-work-loop/"},"scheduler-lanes-and-batching":{"t":"Scheduler, Lanes and Batching","p":"internals/scheduler-lanes-and-batching/"},"child-reconciliation-algorithm":{"t":"Child Reconciliation Algorithm","p":"internals/child-reconciliation-algorithm/"},"a-state-update-end-to-end":{"t":"A State Update, End to End","p":"internals/a-state-update-end-to-end/"},"how-react-works":{"t":"How React Works, Start to Finish","p":"internals/how-react-works/"},"engine-map":{"t":"React Engine Map","p":"internals/engine-map/"}}</script><script type="module" src="/react-handbook/_astro/Base.astro_astro_type_script_index_0_lang.DnFwL-9m.js"></script></body></html>
