@@ -8,6 +8,7 @@ import { NOTES as HOOKS } from './notes/hooks.mjs'
 import { NOTES as APIS } from './notes/apis.mjs'
 import { NOTES as PATTERNS } from './notes/patterns.mjs'
 import { NOTES as PERFORMANCE } from './notes/performance.mjs'
+import { NOTES as SUSPENSE } from './notes/suspense.mjs'
 import { NOTES as INTERNALS } from './notes/internals.mjs'
 
 export const MODULES = [
@@ -51,7 +52,7 @@ export const MODULES = [
 		title: 'React Suspense',
 		illus: 'plane',
 		summary: 'Data fetching with use, Suspense and error boundaries, transitions, optimistic UI, suspending images and avoiding waterfalls.',
-		notes: [],
+		notes: SUSPENSE,
 	},
 	{
 		id: 'internals',

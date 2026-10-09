@@ -72,6 +72,12 @@ npm run record    # Babel output + run every lesson in Chrome → generated/*.js
 Mark a snippet with `// #region name` … `// #endregion` (or the `{/* */}` form
 in JSX) to embed only that part.
 
+Data for the later modules: `src/data/catalog.ts` generates large catalogs
+(Performance), `src/data/api.ts` is a fake product API that logs when each
+request starts and ends (Suspense), and `vite.config.ts` serves slow product
+pictures (`/img/<id>.svg`) and a cacheable `/api/exchange-rate` endpoint.
+Timings in the recordings are from one machine and vary a little per run.
+
 ## Stack
 
 Astro 7 (static output, Shiki highlighting), Pagefind (static search index,

@@ -1,0 +1,573 @@
+{
+  "fetching": {
+    "promises": {
+      "logs": [
+        "1. promise created, state: pending",
+        "2. after then(): callbacks never run synchronously",
+        "2a. still synchronous",
+        "2b. even an already-resolved promise waits for a microtask: already done",
+        "3. then() callback: Desk Lamp"
+      ],
+      "warnings": []
+    },
+    "use": {
+      "logs": [
+        "0 ms  → GET /products/p4",
+        "  ProductDetails render started",
+        "screen: fallback “Loading product…”",
+        "  ProductDetails render started",
+        "300 ms  ← GET /products/p4",
+        "  ProductDetails render started",
+        "  ProductDetails render finished",
+        "screen: details: Desk Lamp"
+      ],
+      "warnings": []
+    },
+    "error": {
+      "logs": [
+        "0 ms  → GET /products/p999",
+        "  ProductDetails render started",
+        "screen: fallback “Loading product…”",
+        "  ProductDetails render started",
+        "300 ms  ✗ GET /products/p999: No product with id \"p999\"",
+        "  ProductDetails render started",
+        "  ProductDetails render started",
+        "screen: error “Couldn’t load this product.”"
+      ],
+      "warnings": [
+        "Error: No product with id \"p999\""
+      ]
+    },
+    "tryCatch": {
+      "logs": [
+        "0 ms  → GET /products/p4",
+        "caught: Suspense Exception: This is not a real error! It's an implementation detail of `use` to interrupt the current render. You must either rethrow it immediately, or move the `use` call outside of the `try/catch` block. Capturing without rethrowing will lead to unexpected behavior.",
+        "screen: fallback “Loading product…”",
+        "caught: Suspense Exception: This is not a real error! It's an implementation detail of `use` to interrupt the current render. You must either rethrow it immediately, or move the `use` call outside of the `try/catch` block. Capturing without rethrowing will lead to unexpected behavior.",
+        "300 ms  ← GET /products/p4",
+        "screen: details: Desk Lamp"
+      ],
+      "warnings": []
+    },
+    "uncached": {
+      "logs": [
+        "0 ms  → GET /products/p4",
+        "screen: fallback “Loading product…”",
+        "0 ms  → GET /products/p4",
+        "300 ms  ← GET /products/p4",
+        "300 ms  → GET /products/p4",
+        "300 ms  ← GET /products/p4",
+        "600 ms  ← GET /products/p4",
+        "600 ms  → GET /products/p4",
+        "900 ms  ← GET /products/p4",
+        "900 ms  → GET /products/p4",
+        "1200 ms  ← GET /products/p4",
+        "1200 ms  → GET /products/p4",
+        "1500 ms  ← GET /products/p4",
+        "1500 ms  → GET /products/p4",
+        "1800 ms  ← GET /products/p4",
+        "1800 ms  → GET /products/p4",
+        "2100 ms  ← GET /products/p4",
+        "2100 ms  → GET /products/p4",
+        "2450 ms  ← GET /products/p4",
+        "2450 ms  → GET /products/p4",
+        "2750 ms  ← GET /products/p4",
+        "2750 ms  → GET /products/p4",
+        "3050 ms  ← GET /products/p4",
+        "3050 ms  → GET /products/p4"
+      ],
+      "warnings": [],
+      "requestsIn2500ms": 12,
+      "shown": "Loading product…"
+    },
+    "async": {
+      "logs": [
+        "0 ms  → GET /products/p4",
+        "screen: fallback “Loading product…”",
+        "0 ms  → GET /products/p4",
+        "300 ms  ← GET /products/p4",
+        "300 ms  → GET /products/p4",
+        "300 ms  ← GET /products/p4",
+        "300 ms  → GET /products/p4",
+        "600 ms  ← GET /products/p4",
+        "600 ms  ← GET /products/p4",
+        "600 ms  → GET /products/p4",
+        "900 ms  ← GET /products/p4",
+        "900 ms  → GET /products/p4",
+        "1200 ms  ← GET /products/p4",
+        "1200 ms  → GET /products/p4",
+        "1500 ms  ← GET /products/p4",
+        "1500 ms  → GET /products/p4"
+      ],
+      "warnings": [
+        "<ProductDetailsAsync> is an async Client Component. Only Server Components can be async at the moment. This error is often caused by accidentally adding `'use client'` to a module that was originally written for the server."
+      ]
+    }
+  },
+  "dynamic": {
+    "urgent": {
+      "logs": [
+        "mounted",
+        "0 ms  → GET /products/p1",
+        "screen: fallback “Loading product…”",
+        "500 ms  ← GET /products/p1",
+        "screen: details: Ceramic Mug",
+        "1600 ms  → GET /products/p4",
+        "screen: fallback “Loading product…”",
+        "2100 ms  ← GET /products/p4",
+        "screen: details: Desk Lamp",
+        "screen: details: Ceramic Mug",
+        "2850 ms  → GET /products/p6",
+        "screen: fallback “Loading product…”",
+        "2950 ms  ← GET /products/p6",
+        "screen: details: Notebook Set"
+      ],
+      "warnings": [],
+      "mount": [
+        "mounted",
+        "0 ms  → GET /products/p1",
+        "screen: fallback “Loading product…”",
+        "500 ms  ← GET /products/p1",
+        "screen: details: Ceramic Mug"
+      ],
+      "toP4": [
+        "1600 ms  → GET /products/p4",
+        "screen: fallback “Loading product…”",
+        "2100 ms  ← GET /products/p4",
+        "screen: details: Desk Lamp"
+      ],
+      "backToP1": [
+        "screen: details: Ceramic Mug"
+      ],
+      "toFastP6": [
+        "2850 ms  → GET /products/p6",
+        "screen: fallback “Loading product…”",
+        "2950 ms  ← GET /products/p6",
+        "screen: details: Notebook Set"
+      ]
+    },
+    "transition": {
+      "logs": [
+        "mounted",
+        "0 ms  → GET /products/p1",
+        "screen: fallback “Loading product…”",
+        "500 ms  ← GET /products/p1",
+        "screen: details: Ceramic Mug",
+        "screen: pending ⏳ · details: Ceramic Mug (dimmed)",
+        "1650 ms  → GET /products/p4",
+        "2150 ms  ← GET /products/p4",
+        "screen: details: Desk Lamp",
+        "screen: pending ⏳ · details: Desk Lamp (dimmed)",
+        "screen: details: Ceramic Mug",
+        "screen: pending ⏳ · details: Ceramic Mug (dimmed)",
+        "2900 ms  → GET /products/p6",
+        "3000 ms  ← GET /products/p6",
+        "screen: details: Notebook Set"
+      ],
+      "warnings": [],
+      "mount": [
+        "mounted",
+        "0 ms  → GET /products/p1",
+        "screen: fallback “Loading product…”",
+        "500 ms  ← GET /products/p1",
+        "screen: details: Ceramic Mug"
+      ],
+      "toP4": [
+        "screen: pending ⏳ · details: Ceramic Mug (dimmed)",
+        "1650 ms  → GET /products/p4",
+        "2150 ms  ← GET /products/p4",
+        "screen: details: Desk Lamp"
+      ],
+      "backToP1": [
+        "screen: pending ⏳ · details: Desk Lamp (dimmed)",
+        "screen: details: Ceramic Mug"
+      ],
+      "toFastP6": [
+        "screen: pending ⏳ · details: Ceramic Mug (dimmed)",
+        "2900 ms  → GET /products/p6",
+        "3000 ms  ← GET /products/p6",
+        "screen: details: Notebook Set"
+      ]
+    },
+    "spinDelay": {
+      "logs": [
+        "mounted",
+        "0 ms  → GET /products/p1",
+        "screen: fallback “Loading product…”",
+        "500 ms  ← GET /products/p1",
+        "screen: details: Ceramic Mug",
+        "1600 ms  → GET /products/p4",
+        "screen: pending ⏳ · details: Ceramic Mug",
+        "2100 ms  ← GET /products/p4",
+        "screen: pending ⏳ · details: Desk Lamp",
+        "screen: details: Desk Lamp",
+        "screen: details: Ceramic Mug",
+        "2800 ms  → GET /products/p6",
+        "2900 ms  ← GET /products/p6",
+        "screen: details: Notebook Set"
+      ],
+      "warnings": [],
+      "mount": [
+        "mounted",
+        "0 ms  → GET /products/p1",
+        "screen: fallback “Loading product…”",
+        "500 ms  ← GET /products/p1",
+        "screen: details: Ceramic Mug"
+      ],
+      "toP4": [
+        "1600 ms  → GET /products/p4",
+        "screen: pending ⏳ · details: Ceramic Mug",
+        "2100 ms  ← GET /products/p4",
+        "screen: pending ⏳ · details: Desk Lamp",
+        "screen: details: Desk Lamp"
+      ],
+      "backToP1": [
+        "screen: details: Ceramic Mug"
+      ],
+      "toFastP6": [
+        "2800 ms  → GET /products/p6",
+        "2900 ms  ← GET /products/p6",
+        "screen: details: Notebook Set"
+      ]
+    }
+  },
+  "optimistic": {
+    "state": {
+      "logs": [
+        "screen: Ana: Keeps my tea hot. · Post review",
+        "1250 ms  → POST /products/p1/reviews",
+        "screen: Ana: Keeps my tea hot. · Posting…",
+        "2050 ms  ← POST /products/p1/reviews",
+        "screen: Ana: Keeps my tea hot. · You: Great lamp! · Posting…",
+        "screen: Ana: Keeps my tea hot. · You: Great lamp! · Post review"
+      ],
+      "warnings": [],
+      "afterSubmit": [
+        "1250 ms  → POST /products/p1/reviews",
+        "screen: Ana: Keeps my tea hot. · Posting…",
+        "2050 ms  ← POST /products/p1/reviews",
+        "screen: Ana: Keeps my tea hot. · You: Great lamp! · Posting…",
+        "screen: Ana: Keeps my tea hot. · You: Great lamp! · Post review"
+      ]
+    },
+    "optimistic": {
+      "logs": [
+        "screen: Ana: Keeps my tea hot. · Post review",
+        "1250 ms  → POST /products/p1/reviews",
+        "screen: Ana: Keeps my tea hot. · You: Great lamp! (sending…) · Posting…",
+        "2050 ms  ← POST /products/p1/reviews",
+        "screen: Ana: Keeps my tea hot. · You: Great lamp! · You: Great lamp! (sending…) · Posting…",
+        "screen: Ana: Keeps my tea hot. · You: Great lamp! · Post review"
+      ],
+      "warnings": [],
+      "afterSubmit": [
+        "1250 ms  → POST /products/p1/reviews",
+        "screen: Ana: Keeps my tea hot. · You: Great lamp! (sending…) · Posting…",
+        "2050 ms  ← POST /products/p1/reviews",
+        "screen: Ana: Keeps my tea hot. · You: Great lamp! · You: Great lamp! (sending…) · Posting…",
+        "screen: Ana: Keeps my tea hot. · You: Great lamp! · Post review"
+      ]
+    },
+    "fixed": {
+      "logs": [
+        "screen: Ana: Keeps my tea hot. · Post review",
+        "1250 ms  → POST /products/p1/reviews",
+        "screen: Ana: Keeps my tea hot. · You: Great lamp! (sending…) · Posting…",
+        "2050 ms  ← POST /products/p1/reviews",
+        "screen: Ana: Keeps my tea hot. · You: Great lamp! · Post review"
+      ],
+      "warnings": [],
+      "afterSubmit": [
+        "1250 ms  → POST /products/p1/reviews",
+        "screen: Ana: Keeps my tea hot. · You: Great lamp! (sending…) · Posting…",
+        "2050 ms  ← POST /products/p1/reviews",
+        "screen: Ana: Keeps my tea hot. · You: Great lamp! · Post review"
+      ]
+    },
+    "fail": {
+      "logs": [
+        "screen: Ana: Keeps my tea hot. · Post review",
+        "1250 ms  → POST /products/p1/reviews",
+        "screen: Ana: Keeps my tea hot. · You: Great lamp! (sending…) · Posting…",
+        "2100 ms  ✗ POST /products/p1/reviews: Server error, review not saved",
+        "action: the server rejected the review",
+        "screen: Ana: Keeps my tea hot. · Post review"
+      ],
+      "warnings": [],
+      "afterSubmit": [
+        "1250 ms  → POST /products/p1/reviews",
+        "screen: Ana: Keeps my tea hot. · You: Great lamp! (sending…) · Posting…",
+        "2100 ms  ✗ POST /products/p1/reviews: Server error, review not saved",
+        "action: the server rejected the review",
+        "screen: Ana: Keeps my tea hot. · Post review"
+      ]
+    },
+    "steps": {
+      "logs": [
+        "screen: Place order",
+        "1200 ms  → POST /orders",
+        "screen: Reserving stock…",
+        "1600 ms  ← POST /orders",
+        "1600 ms  → POST /payments",
+        "screen: Charging card…",
+        "2000 ms  ← POST /payments",
+        "screen: Place order"
+      ],
+      "warnings": [],
+      "afterSubmit": [
+        "1200 ms  → POST /orders",
+        "screen: Reserving stock…",
+        "1600 ms  ← POST /orders",
+        "1600 ms  → POST /payments",
+        "screen: Charging card…",
+        "2000 ms  ← POST /payments",
+        "screen: Place order"
+      ]
+    }
+  },
+  "images": {
+    "plain": {
+      "logs": [
+        "0 ms  → GET /products/p1",
+        "0 ms  → GET /img/p1.svg",
+        "200 ms  ← GET /products/p1",
+        "600 ms  ← GET /img/p1.svg",
+        "screen: fallback “Loading product…”",
+        "screen: image: p1 · details: Ceramic Mug",
+        "300 ms  <img> finished loading p1",
+        "screen: pending ⏳ · image: p1 · details: Ceramic Mug",
+        "1200 ms  → GET /products/p4",
+        "1400 ms  ← GET /products/p4",
+        "screen: image: p4 · details: Desk Lamp",
+        "2050 ms  <img> finished loading p4",
+        "screen: pending ⏳ · image: p4 · details: Desk Lamp",
+        "2350 ms  → GET /products/p2",
+        "2550 ms  ← GET /products/p2",
+        "screen: image: p2 · details: Wireless Headphones",
+        "3150 ms  <img> failed to load p2 (broken-image icon)"
+      ],
+      "warnings": [],
+      "lamp": [
+        "screen: pending ⏳ · image: p1 · details: Ceramic Mug",
+        "1200 ms  → GET /products/p4",
+        "1400 ms  ← GET /products/p4",
+        "screen: image: p4 · details: Desk Lamp",
+        "2050 ms  <img> finished loading p4"
+      ],
+      "brokenImage": [
+        "screen: pending ⏳ · image: p4 · details: Desk Lamp",
+        "2350 ms  → GET /products/p2",
+        "2550 ms  ← GET /products/p2",
+        "screen: image: p2 · details: Wireless Headphones",
+        "3150 ms  <img> failed to load p2 (broken-image icon)"
+      ]
+    },
+    "suspend": {
+      "logs": [
+        "0 ms  → GET /products/p1",
+        "0 ms  → GET /img/p1.svg",
+        "200 ms  ← GET /products/p1",
+        "600 ms  ← GET /img/p1.svg",
+        "screen: fallback “Loading product…”",
+        "screen: image: p1 · details: Ceramic Mug",
+        "screen: pending ⏳ · image: p1 · details: Ceramic Mug",
+        "1200 ms  → GET /products/p4",
+        "1400 ms  ← GET /products/p4",
+        "1400 ms  → GET /img/p4.svg",
+        "2000 ms  ← GET /img/p4.svg",
+        "screen: image: p4 · details: Desk Lamp",
+        "screen: pending ⏳ · image: p4 · details: Desk Lamp",
+        "2300 ms  → GET /products/p2",
+        "2550 ms  ← GET /products/p2",
+        "2550 ms  → GET /img/p2.svg",
+        "3150 ms  ✗ GET /img/p2.svg",
+        "screen: error “Couldn’t load this product.”"
+      ],
+      "warnings": [
+        "Error: Couldn’t load /img/p2.svg"
+      ],
+      "lamp": [
+        "screen: pending ⏳ · image: p1 · details: Ceramic Mug",
+        "1200 ms  → GET /products/p4",
+        "1400 ms  ← GET /products/p4",
+        "1400 ms  → GET /img/p4.svg",
+        "2000 ms  ← GET /img/p4.svg",
+        "screen: image: p4 · details: Desk Lamp"
+      ],
+      "brokenImage": [
+        "screen: pending ⏳ · image: p4 · details: Desk Lamp",
+        "2300 ms  → GET /products/p2",
+        "2550 ms  ← GET /products/p2",
+        "2550 ms  → GET /img/p2.svg",
+        "3150 ms  ✗ GET /img/p2.svg",
+        "screen: error “Couldn’t load this product.”"
+      ]
+    },
+    "keyed": {
+      "logs": [
+        "0 ms  → GET /products/p1",
+        "0 ms  → GET /img/p1.svg",
+        "200 ms  ← GET /products/p1",
+        "600 ms  ← GET /img/p1.svg",
+        "screen: fallback “Loading product…”",
+        "screen: image: p1 · details: Ceramic Mug",
+        "screen: pending ⏳ · image: p1 · details: Ceramic Mug",
+        "1200 ms  → GET /products/p4",
+        "1400 ms  ← GET /products/p4",
+        "1400 ms  → GET /img/p4.svg",
+        "screen: image: placeholder · details: Desk Lamp",
+        "2000 ms  ← GET /img/p4.svg",
+        "screen: image: p4 · details: Desk Lamp",
+        "screen: pending ⏳ · image: p4 · details: Desk Lamp",
+        "2350 ms  → GET /products/p2",
+        "2550 ms  ← GET /products/p2",
+        "2550 ms  → GET /img/p2.svg",
+        "screen: image: placeholder · details: Wireless Headphones",
+        "3150 ms  ✗ GET /img/p2.svg",
+        "screen: image: unavailable · details: Wireless Headphones"
+      ],
+      "warnings": [
+        "Error: Couldn’t load /img/p2.svg"
+      ],
+      "lamp": [
+        "screen: pending ⏳ · image: p1 · details: Ceramic Mug",
+        "1200 ms  → GET /products/p4",
+        "1400 ms  ← GET /products/p4",
+        "1400 ms  → GET /img/p4.svg",
+        "screen: image: placeholder · details: Desk Lamp",
+        "2000 ms  ← GET /img/p4.svg",
+        "screen: image: p4 · details: Desk Lamp"
+      ],
+      "brokenImage": [
+        "screen: pending ⏳ · image: p4 · details: Desk Lamp",
+        "2350 ms  → GET /products/p2",
+        "2550 ms  ← GET /products/p2",
+        "2550 ms  → GET /img/p2.svg",
+        "screen: image: placeholder · details: Wireless Headphones",
+        "3150 ms  ✗ GET /img/p2.svg",
+        "screen: image: unavailable · details: Wireless Headphones"
+      ]
+    }
+  },
+  "search": {
+    "transition": {
+      "logs": [
+        "0 ms  → GET /search?q=",
+        "400 ms  ← GET /search?q=",
+        "screen: fallback “Searching…”",
+        "screen: details: 6 results for \"\"",
+        "  after \"l\" the input shows \"\"",
+        "500 ms  → GET /search?q=l",
+        "  after \"a\" the input shows \"\"",
+        "650 ms  → GET /search?q=a",
+        "900 ms  ← GET /search?q=l",
+        "1050 ms  ← GET /search?q=a",
+        "screen: details: 5 results for \"a\""
+      ],
+      "warnings": [],
+      "typing": [
+        "  after \"l\" the input shows \"\"",
+        "500 ms  → GET /search?q=l",
+        "  after \"a\" the input shows \"\"",
+        "650 ms  → GET /search?q=a",
+        "900 ms  ← GET /search?q=l",
+        "1050 ms  ← GET /search?q=a",
+        "screen: details: 5 results for \"a\""
+      ],
+      "value": "a"
+    },
+    "deferred": {
+      "logs": [
+        "0 ms  → GET /search?q=",
+        "400 ms  ← GET /search?q=",
+        "screen: fallback “Searching…”",
+        "screen: details: 6 results for \"\"",
+        "screen: details: 6 results for \"\" (dimmed)",
+        "  after \"l\" the input shows \"l\"",
+        "550 ms  → GET /search?q=l",
+        "  after \"a\" the input shows \"la\"",
+        "650 ms  → GET /search?q=la",
+        "950 ms  ← GET /search?q=l",
+        "1050 ms  ← GET /search?q=la",
+        "screen: details: 1 result for \"la\""
+      ],
+      "warnings": [],
+      "typing": [
+        "screen: details: 6 results for \"\" (dimmed)",
+        "  after \"l\" the input shows \"l\"",
+        "550 ms  → GET /search?q=l",
+        "  after \"a\" the input shows \"la\"",
+        "650 ms  → GET /search?q=la",
+        "950 ms  ← GET /search?q=l",
+        "1050 ms  ← GET /search?q=la",
+        "screen: details: 1 result for \"la\""
+      ],
+      "value": "la"
+    }
+  },
+  "waterfall": {
+    "waterfall": {
+      "logs": [
+        "0 ms  → GET /products/p4",
+        "screen: fallback “Loading product…”",
+        "300 ms  ← GET /products/p4",
+        "300 ms  → GET /img/p4.svg",
+        "screen: details: Desk Lamp · fallback “Loading picture and reviews…”",
+        "900 ms  ← GET /img/p4.svg",
+        "900 ms  → GET /products/p4/reviews",
+        "1200 ms  ← GET /products/p4/reviews",
+        "screen: details: Desk Lamp · image: p4 · 0 review(s)"
+      ],
+      "warnings": []
+    },
+    "parallel": {
+      "logs": [
+        "0 ms  → GET /products/p4",
+        "0 ms  → GET /products/p4/reviews",
+        "0 ms  → GET /img/p4.svg",
+        "screen: fallback “Loading product…”",
+        "300 ms  ← GET /products/p4",
+        "300 ms  ← GET /products/p4/reviews",
+        "screen: details: Desk Lamp · fallback “Loading picture and reviews…”",
+        "600 ms  ← GET /img/p4.svg",
+        "screen: details: Desk Lamp · image: p4 · 0 review(s)"
+      ],
+      "warnings": []
+    },
+    "siblings": {
+      "logs": [
+        "0 ms  → GET /products/p4",
+        "screen: fallback “Loading…”",
+        "0 ms  → GET /products/p4/reviews",
+        "300 ms  ← GET /products/p4",
+        "300 ms  ← GET /products/p4/reviews",
+        "screen: details: Desk Lamp · 0 review(s)"
+      ],
+      "warnings": []
+    }
+  },
+  "httpCache": {
+    "noStore": {
+      "logs": [
+        "cache-control: no-store",
+        "server has been hit 2 time(s) · from the browser cache: false"
+      ],
+      "warnings": [],
+      "secondLoad": [
+        "cache-control: no-store",
+        "server has been hit 2 time(s) · from the browser cache: false"
+      ]
+    },
+    "maxAge": {
+      "logs": [
+        "cache-control: max-age=60",
+        "server has been hit 1 time(s) · from the browser cache: true"
+      ],
+      "warnings": [],
+      "secondLoad": [
+        "cache-control: max-age=60",
+        "server has been hit 1 time(s) · from the browser cache: true"
+      ]
+    }
+  }
+}

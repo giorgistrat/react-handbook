@@ -17,7 +17,7 @@ source: "https://github.com/facebook/react/blob/main/packages/react-reconciler/s
 > `scheduleTaskForRootDuringMicrotask`) and the `scheduler` package
 > (`scheduler.development.js`). Part of [React Internals](../../internals/). This is the
 > machinery behind [Concurrent Rendering](../../performance/concurrent-rendering/) and
-> *useTransition and Avoiding Loading Flicker*. My own notes and
+> [useTransition and Avoiding Loading Flicker](../../suspense/promise-caching/#3-a-transition). My own notes and
 > clarifications are marked with `> 💬`.
 
 ## Interview Q&A

@@ -865,7 +865,124 @@ async function recordPerformance() {
 	return data
 }
 
-const MODULES = { fundamentals: recordFundamentals, hooks: recordHooks, apis: recordApis, patterns: recordPatterns, performance: recordPerformance }
+async function recordSuspense() {
+	const S = (lesson) => `suspense/${lesson}`
+	const data = {}
+	const settle = (ms) => async () => (await wait(ms), {})
+
+	data.fetching = {
+		promises: await run(S('01-data-fetching'), 'promises', settle(300)),
+		use: await run(S('01-data-fetching'), null, settle(800)),
+		error: await run(S('01-data-fetching'), 'error', settle(800)),
+		tryCatch: await run(S('01-data-fetching'), 'try-catch', settle(800)),
+		uncached: await run(S('01-data-fetching'), 'uncached', async (page) => {
+			await wait(2500)
+			const lines = await logs(page)
+			const requests = lines.filter((l) => l.includes('→ GET')).length
+			return { requestsIn2500ms: requests, shown: await page.$eval('#root', (r) => r.textContent) }
+		}),
+		async: await run(S('01-data-fetching'), 'async', settle(1000)),
+	}
+
+	// 2. Switching products (p4 takes 500 ms, p6 100 ms; p1 is loaded first)
+	const switchFlow = async (page) => {
+		await wait(800)
+		const mount = await since(page)
+		await page.click('#p4')
+		await wait(900)
+		const toP4 = await since(page)
+		await page.click('#p1')
+		await wait(300)
+		const backToP1 = await since(page)
+		await page.click('#p6')
+		await wait(900)
+		return { mount, toP4, backToP1, toFastP6: await since(page) }
+	}
+	data.dynamic = {
+		urgent: await run(S('02-dynamic'), 'urgent', switchFlow),
+		transition: await run(S('02-dynamic'), null, switchFlow),
+		spinDelay: await run(S('02-dynamic'), 'spin-delay', switchFlow),
+	}
+
+	// 3. Posting a review (the server takes 800 ms)
+	const post = async (page) => {
+		await wait(100)
+		await since(page)
+		await page.type('#text', 'Great lamp!')
+		await page.click('button[type=submit]')
+		await wait(1100)
+		return { afterSubmit: await since(page) }
+	}
+	data.optimistic = {
+		state: await run(S('03-optimistic'), 'state', post),
+		optimistic: await run(S('03-optimistic'), null, post),
+		fixed: await run(S('03-optimistic'), 'fixed', post),
+		fail: await run(S('03-optimistic'), 'fail', post),
+		steps: await run(S('03-optimistic'), 'steps', async (page) => {
+			await wait(100)
+			await since(page)
+			await page.click('button[type=submit]')
+			await wait(1100)
+			return { afterSubmit: await since(page) }
+		}),
+	}
+
+	// 4. Images (data 200 ms, picture 600 ms)
+	const toLamp = async (page) => {
+		await page.waitForSelector('[data-details]')
+		await wait(200)
+		await since(page)
+		await page.click('#p4')
+		await wait(1100)
+		const lamp = await since(page)
+		await page.click('#p2')
+		await wait(1100)
+		return { lamp, brokenImage: await since(page) }
+	}
+	data.images = {
+		plain: await run(S('04-images'), 'plain', toLamp),
+		suspend: await run(S('04-images'), 'suspend', toLamp),
+		keyed: await run(S('04-images'), null, toLamp),
+	}
+
+	// 5. Search (each search takes 400 ms)
+	const typeLa = async (page) => {
+		await page.waitForSelector('#search')
+		await wait(200)
+		await since(page)
+		await page.focus('#search')
+		for (const k of 'la') {
+			await page.keyboard.type(k)
+			await wait(120)
+		}
+		await wait(800)
+		return { typing: await since(page), value: await page.$eval('#search', (i) => i.value) }
+	}
+	data.search = {
+		transition: await run(S('05-search'), 'transition', typeLa),
+		deferred: await run(S('05-search'), null, typeLa),
+	}
+
+	// 6. Waterfalls (product 300 ms, reviews 300 ms, picture 600 ms)
+	data.waterfall = {
+		waterfall: await run(S('06-waterfall'), null, settle(1500)),
+		parallel: await run(S('06-waterfall'), 'parallel', settle(1500)),
+		siblings: await run(S('06-waterfall'), 'siblings', settle(1000)),
+	}
+	const twoLoads = async (page) => {
+		await wait(300)
+		await page.reload({ waitUntil: 'networkidle0' })
+		await wait(300)
+		return { secondLoad: await logs(page) }
+	}
+	data.httpCache = {
+		noStore: await run(S('07-http-cache'), null, twoLoads),
+		maxAge: await run(S('07-http-cache'), 'cache', twoLoads),
+	}
+	return data
+}
+
+const MODULES = { fundamentals: recordFundamentals, hooks: recordHooks, apis: recordApis, patterns: recordPatterns, performance: recordPerformance, suspense: recordSuspense }
 const wanted = process.argv.slice(2).length ? process.argv.slice(2) : Object.keys(MODULES)
 fs.mkdirSync(OUT, { recursive: true })
 try {

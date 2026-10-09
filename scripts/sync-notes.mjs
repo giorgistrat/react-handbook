@@ -44,6 +44,7 @@ import * as HK from '../src/lib/animations-hooks.mjs'
 import * as AP from '../src/lib/animations-apis.mjs'
 import * as PT from '../src/lib/animations-patterns.mjs'
 import * as PF from '../src/lib/animations-performance.mjs'
+import * as SU from '../src/lib/animations-suspense.mjs'
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const OUT_DIR = path.join(ROOT, 'src/content/notes')
@@ -461,7 +462,7 @@ function expandStoreMarkers(md) {
 				return fence('js', JSON.stringify(value, null, 2))
 			}
 			case 'figure': {
-				const build = F[a.name] ?? HK[a.name] ?? AP[a.name] ?? PT[a.name] ?? PF[a.name] ?? D[a.name] ?? A[a.name]
+				const build = F[a.name] ?? HK[a.name] ?? AP[a.name] ?? PT[a.name] ?? PF[a.name] ?? SU[a.name] ?? D[a.name] ?? A[a.name]
 				if (!build) throw new Error(`figure: unknown "${a.name}"`)
 				return '\n' + build() + '\n'
 			}
