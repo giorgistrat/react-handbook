@@ -2,9 +2,11 @@
 import Base from '../layouts/Base.astro'
 import { illustration } from '../lib/illustrations.mjs'
 import { MODULES } from '../lib/modules.mjs'
+import { getEntry } from 'astro:content'
 
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/')
 const first = MODULES.find((m) => m.notes.length)!
+const interviewCount = ((await getEntry('pages', 'interview'))?.body?.match(/<details class="qa">/g) ?? []).length
 ---
 
 <Base title="React Handbook">
@@ -19,6 +21,7 @@ const first = MODULES.find((m) => m.notes.length)!
 		<div class="btn-row">
 			<a class="btn" href={`${base}${first.id}/`}>Start learning</a>
 			<a class="btn btn-ghost" href="#path">The learning path</a>
+			<a class="btn btn-ghost" href={`${base}interview/`}>Interview questions</a>
 			<a class="btn btn-ghost" data-continue hidden href="#">Continue</a>
 		</div>
 	</header>
@@ -50,6 +53,18 @@ const first = MODULES.find((m) => m.notes.length)!
 				})
 			}
 		</ol>
+	</section>
+
+	<section class="wrap section" id="interview">
+		<a class="interview card" href={`${base}interview/`}>
+			<div class="panel interview-art" set:html={illustration('robot')} />
+			<div>
+				<p class="interview-kicker">Practice</p>
+				<h2>Interview questions</h2>
+				<p>{interviewCount} questions across React internals, JSX and fundamentals, optimization, hooks and patterns, answered the way a senior engineer would: a precise definition, then the key points. Quiz yourself and mark what you know.</p>
+				<span class="btn">Start practising →</span>
+			</div>
+		</a>
 	</section>
 </Base>
 
@@ -166,6 +181,61 @@ const first = MODULES.find((m) => m.notes.length)!
 		margin-right: auto;
 		font: 500 12.5px var(--mono);
 		color: var(--muted);
+	}
+
+	.interview {
+		display: grid;
+		grid-template-columns: minmax(0, 240px) minmax(0, 1fr);
+		gap: 28px;
+		align-items: center;
+		padding: 22px;
+		text-decoration: none;
+		color: inherit;
+		transition: border-color 0.15s ease;
+	}
+
+	.interview:hover {
+		border-color: var(--plum);
+	}
+
+	@media (max-width: 640px) {
+		.interview {
+			grid-template-columns: 1fr;
+		}
+
+		.interview-art {
+			display: none;
+		}
+	}
+
+	.interview-art {
+		aspect-ratio: 240 / 130;
+		overflow: hidden;
+	}
+
+	.interview-art :global(svg) {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	.interview h2 {
+		text-align: left;
+		margin: 0 0 8px;
+	}
+
+	.interview p {
+		margin: 0 0 16px;
+		color: var(--ink-soft);
+		max-width: 62ch;
+	}
+
+	.interview-kicker {
+		font: 500 12px var(--mono);
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: var(--accent) !important;
+		margin-bottom: 6px !important;
 	}
 
 	.pill-soon {

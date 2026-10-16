@@ -17,4 +17,10 @@ const notes = defineCollection({
 	}),
 })
 
-export const collections = { notes }
+// src/content/pages/<name>.md (standalone pages such as /interview/), written by scripts/sync-notes.mjs
+const pages = defineCollection({
+	loader: glob({ pattern: '*.md', base: './src/content/pages' }),
+	schema: z.object({ title: z.string(), slug: z.string(), summary: z.string() }),
+})
+
+export const collections = { notes, pages }

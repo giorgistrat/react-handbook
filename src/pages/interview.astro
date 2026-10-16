@@ -1,0 +1,233 @@
+---
+// The interview questions page: content/pages/interview.md, converted by
+// scripts/sync-notes.mjs. The Q&A tools (expand all, quiz me, known / review)
+// come from src/scripts/client.ts, keyed by data-slug.
+import { getEntry, render } from 'astro:content'
+import Base from '../layouts/Base.astro'
+import { illustration } from '../lib/illustrations.mjs'
+
+const page = (await getEntry('pages', 'interview'))!
+const { Content, headings } = await render(page)
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/')
+
+// Sections and how many questions each has
+const sections = page.body!.split(/\n(?=## )/).slice(1)
+const count = (md: string) => (md.match(/<details class="qa">/g) ?? []).length
+const toc = headings
+	.filter((h) => h.depth === 2)
+	.map((h) => ({ ...h, n: count(sections.find((s) => s.startsWith(`## ${h.text}`)) ?? '') }))
+const total = toc.reduce((sum, h) => sum + h.n, 0)
+---
+
+<Base title="Interview Questions · React Handbook" description={page.data.summary}>
+	<header class="note-head wrap">
+		<div class="head-text">
+			<nav class="crumbs" aria-label="Breadcrumb">
+				<a href={base}>Handbook</a><span aria-hidden="true">/</span><span>Interview questions</span>
+			</nav>
+			<div class="meta">
+				<span class="pill">{total} questions</span>
+				<span class="num">{toc.length} topics</span>
+			</div>
+			<h1 data-pagefind-meta="title">{page.data.title}</h1>
+			<p class="summary">{page.data.summary}</p>
+		</div>
+		<div class="head-art card">
+			<div class="panel" set:html={illustration('robot')} />
+		</div>
+	</header>
+
+	<div class="wrap layout">
+		<aside class="toc">
+			<nav class="card toc-card" aria-label="On this page">
+				<p class="toc-title">Topics</p>
+				<ol>
+					{toc.map((h) => <li><a href={`#${h.slug}`}>{h.text}{h.n > 0 && <span class="n">{h.n}</span>}</a></li>)}
+				</ol>
+			</nav>
+		</aside>
+		<details class="toc-mobile card" data-pagefind-ignore>
+			<summary>Topics <span>· {total} questions</span></summary>
+			<ol>
+				{toc.map((h) => <li><a href={`#${h.slug}`}>{h.text}{h.n > 0 && ` (${h.n})`}</a></li>)}
+			</ol>
+		</details>
+		<article class="card prose" data-pagefind-body data-slug="interview">
+			<span hidden data-pagefind-meta="module">Interview questions</span>
+			<Content />
+		</article>
+	</div>
+
+	<nav class="wrap pager" aria-label="Pages">
+		<a class="btn btn-ghost" href={base}>← The handbook</a>
+		<a class="btn" href="#top" onclick="window.scrollTo({ top: 0 }); return false">Back to top ↑</a>
+	</nav>
+</Base>
+
+<style>
+	.note-head {
+		display: grid;
+		grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+		gap: 32px;
+		align-items: center;
+		padding-top: clamp(28px, 5vw, 56px);
+		padding-bottom: clamp(28px, 4vw, 44px);
+	}
+
+	@media (max-width: 760px) {
+		.note-head {
+			grid-template-columns: 1fr;
+		}
+
+		.head-art {
+			display: none;
+		}
+	}
+
+	.crumbs {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		margin-bottom: 20px;
+		font-size: 14px;
+		color: var(--muted);
+		padding-right: min(310px, 44%); /* room for the toolbar (top right) */
+	}
+
+	.crumbs a {
+		color: var(--ink-soft);
+		text-decoration: none;
+	}
+
+	.crumbs a:hover {
+		color: var(--accent);
+	}
+
+	.meta {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		margin-bottom: 12px;
+	}
+
+	.num {
+		font: 500 12.5px var(--mono);
+		color: var(--muted);
+	}
+
+	h1 {
+		font-size: clamp(34px, 5.4vw, 60px);
+		letter-spacing: -0.055em;
+		line-height: 1;
+	}
+
+	.summary {
+		margin: 16px 0 0;
+		font-size: 18px;
+		max-width: 56ch;
+		color: var(--ink-soft);
+	}
+
+	.head-art {
+		padding: 12px;
+	}
+
+	.head-art .panel :global(svg) {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+
+	.layout {
+		display: grid;
+		grid-template-columns: 240px minmax(0, 1fr);
+		gap: 28px;
+		align-items: start;
+	}
+
+	@media (max-width: 1000px) {
+		.layout {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		.toc {
+			display: none;
+		}
+	}
+
+	.toc-mobile {
+		display: none;
+	}
+
+	@media (max-width: 1000px) {
+		.toc-mobile {
+			display: block;
+		}
+	}
+
+	.toc {
+		position: sticky;
+		top: 58px;
+	}
+
+	.toc-card {
+		padding: 16px 16px 12px;
+		max-height: calc(100vh - 78px);
+		overflow-y: auto;
+	}
+
+	.toc-title {
+		margin: 0 0 8px;
+		font: 500 12px var(--mono);
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: var(--accent);
+	}
+
+	.toc ol {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		font-size: 14px;
+		line-height: 1.35;
+	}
+
+	.toc li {
+		margin: 0 0 8px;
+	}
+
+	.toc a {
+		display: flex;
+		justify-content: space-between;
+		gap: 8px;
+		text-decoration: none;
+		font-weight: 600;
+	}
+
+	.toc a:hover {
+		text-decoration: underline;
+		text-decoration-color: var(--accent);
+		text-decoration-thickness: 2px;
+	}
+
+	.n {
+		font: 500 12px var(--mono);
+		color: var(--muted);
+	}
+
+	/* the definition: first paragraph of each answer */
+	.prose :global(details.qa > p:first-of-type) {
+		font-size: 1.04em;
+		color: var(--ink);
+		border-left: 3px solid var(--accent);
+		padding-left: 12px;
+	}
+
+	.pager {
+		display: flex;
+		justify-content: space-between;
+		gap: 12px;
+		flex-wrap: wrap;
+		padding-top: 40px;
+	}
+</style>

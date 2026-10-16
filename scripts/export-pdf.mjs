@@ -42,7 +42,7 @@ const browser = await puppeteer.launch({ executablePath: CHROME, headless: true 
 async function exportNote(mod, note, file) {
 	const page = await browser.newPage()
 	await page.setViewport({ width: 900, height: 1200 })
-	await page.goto(`${origin}${BASE}${mod.id}/${note.slug}/`, { waitUntil: 'networkidle0' })
+	await page.goto(`${origin}${BASE}${note.path ?? `${mod.id}/${note.slug}/`}`, { waitUntil: 'networkidle0' })
 	await page.evaluate(async (live) => {
 		await document.fonts.ready
 		// Static versions of the interactive bits
@@ -93,6 +93,9 @@ try {
 		fs.writeFileSync(all, await merged.save())
 		console.log(`✓ ${mod.title} / ${path.basename(all)} (${merged.getPageCount()} pages)`)
 	}
+	// Standalone pages
+	const interview = await exportNote({ title: 'Interview Questions' }, { path: 'interview/' }, () => path.join(OUT, 'Interview Questions.pdf'))
+	console.log(`✓ ${path.basename(interview)}`)
 } finally {
 	await browser.close()
 	server.close()

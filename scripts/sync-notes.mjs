@@ -192,7 +192,7 @@ function segments(md) {
 }
 
 /** Wrap each "**Q: …**" + answer inside the Interview Q&A section in <details>. */
-function convertQA(lines) {
+function convertQA(lines, { everySection = false } = {}) {
 	const out = []
 	let inQA = false
 	let current = null
@@ -205,7 +205,7 @@ function convertQA(lines) {
 	for (const line of lines) {
 		if (/^#{1,6} /.test(line)) {
 			flush()
-			inQA = /^## Interview Q&A/.test(line)
+			inQA = everySection || /^## Interview Q&A/.test(line)
 			out.push(line)
 			continue
 		}
@@ -540,6 +540,34 @@ for (const mod of MODULES) {
 	// The module's MOC intro (vault) or content/<module>/_intro.md becomes the module page lead.
 	const introFile = mod.moc ? path.join(VAULT_ROOT, mod.vault, mod.moc) : path.join(CONTENT_DIR, mod.id, '_intro.md')
 	if (fs.existsSync(introFile)) intros[mod.id] = introHtml(fs.readFileSync(introFile, 'utf8'))
+}
+
+// Standalone pages (content/pages/<name>.md → src/content/pages/<name>.md), e.g. the
+// interview questions page at /interview/. Every **Q:** under any ## heading becomes
+// a Q&A card. Links are written for a page one level deep (/<name>/).
+function convertPage(name, raw) {
+	const fm = raw.match(/^---\n([\s\S]*?)\n---\n/)
+	let body = fm ? raw.slice(fm[0].length) : raw
+	const title = body.match(/^# (.+)$/m)?.[1].trim() ?? name
+	body = body.replace(/^# .+\n/m, '')
+	const summary = fm?.[1].match(/^summary:\s*(.+)$/m)?.[1].trim() ?? ''
+	const parts = []
+	for (const seg of segments(body)) {
+		if (seg.type === 'code') parts.push(seg.fence + (seg.lang || 'text'), seg.body, seg.fence)
+		else parts.push(...seg.lines.map((l) => convertLine(l, name)))
+	}
+	const lines = convertQA(parts.join('\n').split('\n'), { everySection: true })
+	const text = lines.join('\n').replace(/\]\(\.\.\/\.\.\//g, '](../').replace(/\n{3,}/g, '\n\n')
+	return ['---', `title: ${JSON.stringify(title)}`, `slug: ${JSON.stringify(name)}`, `summary: ${JSON.stringify(summary)}`, '---', '', text].join('\n')
+}
+
+const PAGES_IN = path.join(ROOT, 'content/pages')
+const PAGES_OUT = path.join(ROOT, 'src/content/pages')
+fs.rmSync(PAGES_OUT, { recursive: true, force: true })
+fs.mkdirSync(PAGES_OUT, { recursive: true })
+for (const file of fs.existsSync(PAGES_IN) ? fs.readdirSync(PAGES_IN).filter((f) => f.endsWith('.md')) : []) {
+	const name = file.replace(/\.md$/, '')
+	fs.writeFileSync(path.join(PAGES_OUT, file), convertPage(name, fs.readFileSync(path.join(PAGES_IN, file), 'utf8')))
 }
 
 function introHtml(moc) {

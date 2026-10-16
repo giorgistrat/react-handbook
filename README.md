@@ -53,6 +53,12 @@ npm run trace     # React call order via Chrome DevTools logpoints → generated
 
 Its animations live in `src/lib/animations-hrw.mjs`.
 
+## Standalone pages
+
+`content/pages/<name>.md` is converted by the sync script to `src/content/pages/` and
+rendered by its own route, e.g. `content/pages/interview.md` → `/interview/` (interview
+questions; every `**Q:**` under any `##` heading becomes a Q&A card with quiz mode).
+
 ## The shared example app: product store
 
 `examples/product-store` is one small Vite + React 19.2.5 app used by every

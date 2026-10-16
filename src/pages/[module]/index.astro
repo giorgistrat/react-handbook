@@ -16,6 +16,16 @@ export async function getStaticPaths() {
 
 const { mod, notes } = Astro.props
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/')
+// Which section of /interview/ practises this module
+const INTERVIEW_SECTION: Record<string, string> = {
+	fundamentals: 'jsx--fundamentals',
+	hooks: 'hooks',
+	apis: 'hooks',
+	patterns: 'patterns',
+	performance: 'optimization',
+	suspense: 'hooks',
+	internals: 'react-internals',
+}
 const hrefFor = (slug: string) => `${base}${mod.id}/${slug}/`
 const intro = ((intros as Record<string, string>)[mod.id] ?? `<p>${mod.summary}</p>`).replace(/href="@base\//g, `href="${base}`)
 const index = MODULES.indexOf(mod) + 1
@@ -32,6 +42,7 @@ const short = (t: string) => t.replace('React Internals - ', '')
 			<a class="btn" href={hrefFor(notes[0].data.slug)}>Start with “{short(notes[0].data.title)}”</a>
 			<a class="btn btn-ghost" href="#notes">All notes</a>
 			{mod.id === 'internals' && <a class="btn btn-ghost" href={hrefFor('engine-map')}>Lost in function names? Engine map</a>}
+			<a class="btn btn-ghost" href={`${base}interview/#${INTERVIEW_SECTION[mod.id]}`}>Interview questions</a>
 		</div>
 	</header>
 
