@@ -161,6 +161,7 @@ class Anim {
 		const n = this.scn.steps.length
 		this.i = Math.max(0, Math.min(n, i))
 		this.scn.show(this.i)
+		this.revealLine()
 		const st = this.i ? this.scn.steps[this.i - 1] : undefined
 		this.fn.hidden = !st?.fn
 		this.fn.textContent = st?.fn ?? ''
@@ -174,6 +175,15 @@ class Anim {
 		this.range.max = String(n)
 		this.range.value = String(this.i)
 		this.range.style.setProperty('--fill', `${n ? (this.i / n) * 100 : 0}%`)
+	}
+
+	/** Code animations: keep the highlighted line visible inside its code panel (never scrolls the page). */
+	revealLine() {
+		const line = this.scn.root.querySelector<HTMLElement>('.ca-line[data-s~="hl"]')
+		const box = line?.closest<HTMLElement>('.ca-pre')
+		if (!line || !box) return
+		const top = line.getBoundingClientRect().top - box.getBoundingClientRect().top + box.scrollTop
+		if (top < box.scrollTop || top + line.offsetHeight > box.scrollTop + box.clientHeight) box.scrollTop = top - box.clientHeight / 3
 	}
 
 	start() {

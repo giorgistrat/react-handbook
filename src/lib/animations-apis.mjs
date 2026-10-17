@@ -2,6 +2,7 @@
 // from examples/product-store (src/lessons/apis, scripts/record.mjs → generated/apis.json).
 
 import { anim, chip, tree, panel } from './anim.mjs'
+import { codeAnim } from './anim-code.mjs'
 
 const lt = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 const line = (k, code, s = '') => `<div class="an call" data-k="${k}"${s ? ` data-s="${s}"` : ''}><code>${lt(code)}</code></div>`
@@ -10,29 +11,61 @@ const logLine = (k, text, s = 'ghost') => `<div class="an" data-k="${k}" data-s=
 // ─── useReducer: dispatch → reducer → render (or bail out) ─────────────────
 
 export function reducerAnim() {
-	const scene = `<div class="a-cols">
-		${panel('event handler', `<div class="a-col">${chip('act', 'dispatch(…)', 'faint')}</div>`)}
-		${panel('cartReducer(state, action)', `<div class="a-col">${chip('case', 'switch (action.type)', 'faint')}${chip('ret', 'returns …', 'ghost')}</div>`)}
-		${panel('components', `<div class="a-col">${chip('cart', 'Cart', 'faint')}${chip('note', 'FreeShippingNote', 'faint')}${chip('btns', 'memo(CartButtons)', 'faint')}</div>`)}
-	</div>`
-	const add = [
-		{ phase: 'event', fn: "dispatch({ type: 'added', id: 'p1' })", say: 'The handler only describes <b>what happened</b>. It doesn’t compute the new cart.', set: { act: 'hl' }, txt: { act: "{ type: 'added', id: 'p1' }" } },
-		{ phase: 'render', fn: "cartReducer(state, action)", say: 'React calls your reducer while rendering <code>Cart</code>, with the latest state. The <code>\'added\'</code> case builds a <b>new</b> object.', set: { act: '', case: 'hl', ret: 'new', cart: 'run' }, txt: { case: "case 'added'", ret: 'a new { items: [mug × 1] }' } },
-		{ phase: 'render', fn: 'Object.is(old, new) → false', say: 'The state changed, so the children render too. <code>CartButtons</code> is skipped: it’s memoized and <code>dispatch</code> is the same function every render.', set: { case: '', ret: 'ok', note: 'run', btns: 'skip' } },
-		{ phase: 'commit', fn: 'recorded', say: 'Recorded: <code>Cart render: 1 items, $18.00</code>, <code>FreeShippingNote render</code>.', set: { cart: 'done', note: 'done' } },
-	]
-	const same = [
-		{ phase: 'event', fn: "dispatch({ type: 'removed', id: 'p3' })", say: 'Remove the backpack, which isn’t in the cart.', set: { act: 'hl' }, txt: { act: "{ type: 'removed', id: 'p3' }" } },
-		{ phase: 'render', fn: "cartReducer(state, action)", say: 'There’s nothing to remove, so the reducer returns <code>state</code> itself: the <b>same object</b>.', set: { act: '', case: 'hl', ret: 'keep', cart: 'run' }, txt: { case: "case 'removed'", ret: 'return state (same object)' } },
-		{ phase: 'render', fn: 'Object.is(old, new) → true', say: '<code>Cart</code> already ran (React calls the reducer during its render), but React sees the same state and <b>bails out</b>: no children render.', set: { case: '', ret: 'ok', cart: 'bail', note: 'skip', btns: 'skip' } },
-		{ phase: 'commit', fn: 'recorded', say: 'Recorded: only <code>Cart render: 3 items, $75.00</code>. <code>FreeShippingNote</code> didn’t render.', set: {} },
-	]
-	return anim({
+	return codeAnim({
 		id: 'apis-reducer-anim',
-		caption: 'Two clicks on the cart (both recorded): a real change, and an action that changes nothing.',
+		caption: 'A cart keeps its items in a reducer. Click a button and follow which line runs, what renders and what changes on screen (both runs recorded).',
+		file: 'cart.tsx (simplified)',
+		code: `
+// CartButtons (a memo component), on click:
+dispatch({ type: 'added', id: 'p1' })   // mug
+dispatch({ type: 'removed', id: 'p3' }) // backpack
+
+function Cart() {
+  const [cart, dispatch] =
+    useReducer(cartReducer, initial)
+  return (<>
+    <FreeShippingNote total={total(cart)} />
+    <CartButtons dispatch={dispatch} />
+  </>)
+}
+
+function cartReducer(state, action) {
+  switch (action.type) {
+    case 'added':
+      return { items: [...state.items, newItem] }
+    case 'removed':
+      if (!inCart(state, action.id)) return state
+      return { items: without(state, action.id) }
+  }
+}`,
+		screen: [
+			['total', 'Cart: 0 items · $0.00'],
+			['add', 'Add mug', 'button'],
+			['remove', 'Remove backpack', 'button'],
+			['ship', '$50.00 to free shipping', 'muted'],
+		],
+		renders: ['Cart', 'FreeShippingNote', 'CartButtons (memo)'],
 		scenarios: [
-			{ name: 'Add mug', intro: 'An action that changes the cart.', scene, steps: add },
-			{ name: 'Remove what isn’t there', intro: 'The reducer returns the state it was given.', scene, steps: same },
+			{
+				name: 'Add mug',
+				intro: 'An action that changes the cart. Press <b>Play</b> or step with the arrows.',
+				steps: [
+					{ at: "type: 'added'", phase: 'event', say: 'The shopper clicks <b>Add mug</b>. The handler doesn’t change anything itself: it only <b>dispatches an action</b>, a plain object that says what happened.', screen: { add: [null, 'upd'] } },
+					{ at: ["case 'added'", 'return { items: [...state.items'], phase: 'render', say: 'React calls <b>your reducer</b> with the current state and that action. The <code>\'added\'</code> case returns a <b>new</b> object.', rendered: { Cart: 'ran' } },
+					{ at: 'useReducer(cartReducer', phase: 'render', say: 'The new state isn’t the same object as the old one, so <code>Cart</code> renders with it, and so does its child <code>FreeShippingNote</code>. <code>CartButtons</code> is skipped: it’s <code>memo</code>, and <code>dispatch</code> is the same function on every render.', rendered: { Cart: 'ran', FreeShippingNote: 'ran', CartButtons: 'skipped' } },
+					{ phase: 'commit', say: 'React updates the page. Recorded: <code>Cart render: 1 items, $18.00</code>, then <code>FreeShippingNote render</code>.', screen: { total: ['Cart: 1 item · $18.00', 'ok'], ship: ['$32.00 to free shipping', 'ok'] } },
+				],
+			},
+			{
+				name: 'Remove what isn’t there',
+				intro: 'An action that changes nothing: there’s no backpack in the cart.',
+				steps: [
+					{ at: "type: 'removed'", phase: 'event', say: 'The shopper clicks <b>Remove backpack</b>, but the cart has no backpack.', screen: { remove: [null, 'upd'] } },
+					{ at: 'return state', phase: 'render', say: 'The <code>\'removed\'</code> case finds nothing to remove and returns <code>state</code> itself: the <b>same object</b>.', rendered: { Cart: 'ran' } },
+					{ at: 'useReducer(cartReducer', phase: 'render', say: '<code>Cart</code> has already run (React runs the reducer while rendering it). Now React sees the same state object and <b>bails out</b>: no children render.', rendered: { Cart: 'bailed out', FreeShippingNote: 'skipped', CartButtons: 'skipped' } },
+					{ phase: 'commit', say: 'Nothing changes on the page. Recorded: only <code>Cart render</code> was logged, no <code>FreeShippingNote render</code>.' },
+				],
+			},
 		],
 	})
 }

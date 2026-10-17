@@ -851,3 +851,182 @@
 		transform: rotate(90deg);
 	}
 }
+
+/* ─── "Code + screen" animations (src/lib/anim-code.mjs) ──────────────── */
+
+.anim-code .anim-stage {
+	container-type: inline-size;
+}
+
+.ca {
+	display: grid;
+	grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+	gap: 14px;
+	align-items: start;
+}
+
+/* side by side only when the figure is wide; otherwise code on top, screen + renders below */
+@container (max-width: 760px) {
+	.ca {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.ca-side {
+		grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+		align-items: start;
+	}
+}
+
+.ca-code {
+	min-width: 0;
+	border: 1.5px solid var(--line);
+	border-radius: var(--radius);
+	background: var(--surface);
+	overflow: hidden;
+}
+
+.ca-file {
+	padding: 6px 12px;
+	border-bottom: 1px solid var(--line);
+	font: 500 12px var(--mono);
+	color: var(--muted);
+}
+
+.anim .ca-pre {
+	margin: 0 !important;
+	padding: 8px 0 !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	background: transparent !important;
+	overflow-x: auto;
+	font-size: 13px;
+	line-height: 1.55;
+}
+
+.anim .ca-pre code {
+	display: block;
+	min-width: max-content;
+}
+
+/* one line of code; the running one gets a bar and a tint */
+.anim .ca-line {
+	display: block;
+	padding: 0 14px 0 0;
+	border-left: 3px solid transparent;
+	transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.anim .ca-line[data-s~='hl'] {
+	transform: none;
+	box-shadow: none;
+	background: color-mix(in srgb, var(--accent) 18%, transparent);
+	border-left-color: var(--accent);
+}
+
+.ca-num {
+	display: inline-block;
+	width: 2.6em;
+	padding-right: 0.9em;
+	text-align: right;
+	color: var(--muted) !important;
+	opacity: 0.6;
+	user-select: none;
+}
+
+.ca-side {
+	display: grid;
+	gap: 14px;
+	min-width: 0;
+}
+
+.ca-screen,
+.ca-renders {
+	padding: 10px 12px 12px;
+	border: 1.5px solid var(--line);
+	border-radius: var(--radius);
+	background: var(--surface);
+	display: grid;
+	gap: 8px;
+}
+
+.ca-title {
+	font-size: 11.5px;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--muted);
+}
+
+/* the mock UI: text rows and buttons styled like a tiny app */
+.ca-item {
+	border-radius: 6px;
+	transition: background-color 0.2s ease;
+}
+
+.ca-text {
+	padding: 4px 6px;
+	font-weight: 700;
+}
+
+.ca-muted {
+	padding: 2px 6px;
+	font-size: 14px;
+	color: var(--ink-soft);
+}
+
+.ca-button {
+	justify-self: start;
+	padding: 4px 12px;
+	border: 1.5px solid var(--line);
+	background: var(--cream);
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.anim .ca-item[data-s~='upd'] {
+	background: var(--orange-soft) !important;
+	color: var(--ink) !important;
+}
+
+.ca-r {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 10px;
+	font: 500 13px var(--mono);
+}
+
+.ca-rname {
+	overflow-wrap: anywhere;
+}
+
+.ca-rstate {
+	flex: none;
+	padding: 1px 8px;
+	border-radius: 999px;
+	font: 600 12px var(--font);
+	color: var(--muted);
+}
+
+.anim .ca-rstate[data-s~='run'] {
+	background: var(--orange) !important;
+	color: var(--on-hi) !important;
+}
+
+.anim .ca-rstate[data-s~='skip'] {
+	background: var(--gray-soft) !important;
+	color: var(--ink) !important;
+}
+
+.anim .ca-rstate[data-s~='bail'] {
+	background: var(--mustard-soft) !important;
+	color: var(--ink) !important;
+}
+
+/* the step header repeats the highlighted line; keep it to one line */
+.anim-code .anim-fn {
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}

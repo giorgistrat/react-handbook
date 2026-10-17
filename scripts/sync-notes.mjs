@@ -45,6 +45,11 @@ import * as AP from '../src/lib/animations-apis.mjs'
 import * as PT from '../src/lib/animations-patterns.mjs'
 import * as PF from '../src/lib/animations-performance.mjs'
 import * as SU from '../src/lib/animations-suspense.mjs'
+import { setHighlighter } from '../src/lib/anim-code.mjs'
+import { createHighlighter } from 'shiki'
+
+// "Code + screen" animations highlight their code with the site's Shiki themes
+setHighlighter(await createHighlighter({ themes: ['catppuccin-latte', 'catppuccin-mocha'], langs: ['tsx'] }))
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const OUT_DIR = path.join(ROOT, 'src/content/notes')

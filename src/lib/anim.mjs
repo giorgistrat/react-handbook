@@ -59,7 +59,7 @@ const PHASES = {
 	event: 'event',
 }
 
-export function anim({ id, caption, scenarios, delay }) {
+export function anim({ id, caption, scenarios, delay, legend = true, kind = '' }) {
 	const multi = scenarios.length > 1
 	const tabs = multi
 		? `<div class="btn-row anim-tabs" role="tablist">${scenarios
@@ -84,10 +84,10 @@ export function anim({ id, caption, scenarios, delay }) {
 		})
 		.join('')
 	return oneLine(`
-		<figure class="fig anim fig-${id}" data-anim${delay ? ` data-delay="${delay}"` : ''} data-pagefind-ignore>
+		<figure class="fig anim fig-${id}${kind ? ` anim-${kind}` : ''}" data-anim${delay ? ` data-delay="${delay}"` : ''} data-pagefind-ignore>
 			${tabs}
 			${scns}
-			${legendFor(scenarios)}
+			${legend ? legendFor(scenarios) : ''}
 			<div class="anim-hud" aria-live="polite">
 				<div class="anim-call"><span class="anim-phase" hidden></span><code class="anim-fn" hidden></code></div>
 				<p class="anim-say"></p>
