@@ -1030,3 +1030,69 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
+
+.ca-input {
+	padding: 4px 8px;
+	border: 1.5px solid var(--line);
+	background: var(--cream);
+	font: 500 13.5px var(--mono);
+	min-height: 1.9em;
+}
+
+.ca-box {
+	padding: 6px 8px;
+	border: 1.5px dashed var(--line);
+	font-size: 14px;
+}
+
+.anim .ca-rstate[data-s~='del'] {
+	background: var(--red-soft) !important;
+	color: var(--ink) !important;
+	opacity: 1;
+	text-decoration: none;
+}
+
+.anim .ca-rstate[data-s~='upd'] {
+	background: var(--mustard-soft) !important;
+	color: var(--ink) !important;
+}
+
+.anim .ca-rstate[data-s~='bad'],
+.anim .ca-item[data-s~='bad'] {
+	color: var(--ink) !important;
+}
+
+.ca-console {
+	padding: 10px 12px 12px;
+	border: 1.5px solid var(--line);
+	border-radius: var(--radius);
+	background: var(--surface);
+	display: grid;
+	gap: 4px;
+}
+
+.ca-log {
+	padding: 1px 6px;
+	border-radius: 4px;
+	font: 500 12.5px/1.45 var(--mono);
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+	transition: opacity 0.2s ease, background-color 0.2s ease;
+}
+
+/* not printed yet: keep the space, hide the text */
+.anim .ca-log[data-s~='ghost'] {
+	opacity: 0.12;
+	transform: none;
+}
+
+.anim .ca-log[data-s~='new'] {
+	background: var(--green-soft) !important;
+}
+
+/* with a console, give the side column the full width under the code */
+@container (max-width: 760px) {
+	.ca-side:has(.ca-console) {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
