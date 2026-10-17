@@ -1,0 +1,721 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="React interview questions from every module of the handbook, answered the way a senior engineer would: a precise definition first, then the key points that show real understanding."><meta name="theme-color" content="#11111b"><link rel="canonical" href="https://giorgistrat.github.io/react-handbook/interview/"><meta property="og:type" content="article"><meta property="og:site_name" content="React Handbook"><meta property="og:title" content="Interview Questions · React Handbook"><meta property="og:description" content="React interview questions from every module of the handbook, answered the way a senior engineer would: a precise definition first, then the key points that show real understanding."><meta property="og:url" content="https://giorgistrat.github.io/react-handbook/interview/"><meta property="og:image" content="https://giorgistrat.github.io/react-handbook/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/react-handbook/favicon.svg" type="image/svg+xml"><title>Interview Questions · React Handbook</title><script>
+			// Apply the saved theme before the first paint (no flash).
+			try {
+				const t = localStorage.getItem('theme')
+				if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t
+			} catch (e) {}
+		</script><link rel="stylesheet" href="/react-handbook/_astro/illustrations.1OAmBbbX.css"><style>.note-head[data-astro-cid-yifuyi6y]{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);align-items:center;gap:32px;padding-top:clamp(28px,5vw,56px);padding-bottom:clamp(28px,4vw,44px);display:grid}@media (width<=760px){.note-head[data-astro-cid-yifuyi6y]{grid-template-columns:1fr}.head-art[data-astro-cid-yifuyi6y]{display:none}}.crumbs[data-astro-cid-yifuyi6y]{color:var(--muted);flex-wrap:wrap;gap:8px;margin-bottom:20px;padding-right:min(310px,44%);font-size:14px;display:flex}.crumbs[data-astro-cid-yifuyi6y] a[data-astro-cid-yifuyi6y]{color:var(--ink-soft);text-decoration:none}.crumbs[data-astro-cid-yifuyi6y] a[data-astro-cid-yifuyi6y]:hover{color:var(--accent)}.meta[data-astro-cid-yifuyi6y]{align-items:center;gap:12px;margin-bottom:12px;display:flex}.num[data-astro-cid-yifuyi6y]{font:500 12.5px var(--mono);color:var(--muted)}h1[data-astro-cid-yifuyi6y]{letter-spacing:-.055em;font-size:clamp(34px,5.4vw,60px);line-height:1}.summary[data-astro-cid-yifuyi6y]{max-width:56ch;color:var(--ink-soft);margin:16px 0 0;font-size:18px}.head-art[data-astro-cid-yifuyi6y]{padding:12px}.head-art[data-astro-cid-yifuyi6y] .panel[data-astro-cid-yifuyi6y] svg{width:100%;height:auto;display:block}.layout[data-astro-cid-yifuyi6y]{grid-template-columns:240px minmax(0,1fr);align-items:start;gap:28px;display:grid}@media (width<=1000px){.layout[data-astro-cid-yifuyi6y]{grid-template-columns:minmax(0,1fr)}.toc[data-astro-cid-yifuyi6y]{display:none}}.toc-mobile[data-astro-cid-yifuyi6y]{display:none}@media (width<=1000px){.toc-mobile[data-astro-cid-yifuyi6y]{display:block}}.toc[data-astro-cid-yifuyi6y]{position:sticky;top:58px}.toc-card[data-astro-cid-yifuyi6y]{max-height:calc(100vh - 78px);padding:16px 16px 12px;overflow-y:auto}.toc-title[data-astro-cid-yifuyi6y]{font:500 12px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin:0 0 8px}.toc[data-astro-cid-yifuyi6y] ol[data-astro-cid-yifuyi6y]{margin:0;padding:0;font-size:14px;line-height:1.35;list-style:none}.toc[data-astro-cid-yifuyi6y] li[data-astro-cid-yifuyi6y]{margin:0 0 8px}.toc[data-astro-cid-yifuyi6y] a[data-astro-cid-yifuyi6y]{justify-content:space-between;gap:8px;font-weight:600;text-decoration:none;display:flex}.toc[data-astro-cid-yifuyi6y] a[data-astro-cid-yifuyi6y]:hover{text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2px}.n[data-astro-cid-yifuyi6y]{font:500 12px var(--mono);color:var(--muted)}.prose[data-astro-cid-yifuyi6y] details.qa>p:first-of-type{color:var(--ink);border-left:3px solid var(--accent);padding-left:12px;font-size:1.04em}.pager[data-astro-cid-yifuyi6y]{flex-wrap:wrap;justify-content:space-between;gap:12px;padding-top:40px;display:flex}
+</style></head><body data-base="/react-handbook/"><div class="toolbar island" data-pagefind-ignore><button type="button" class="btn btn-ghost tb-btn" data-search-open aria-label="Search the notes (press /)" title="Search (/)"><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2.2"></circle><path d="M13 13l4.5 4.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></path></svg><span class="tb-label">Search</span></button><button type="button" class="btn btn-ghost tb-btn" data-names-toggle aria-pressed="false" title="Replace React’s internal function names with plain English (hover still shows the real name)"><span class="tb-names">fn</span><span class="tb-label" data-names-label>Names on</span></button><button type="button" class="btn btn-ghost tb-btn" data-theme-toggle aria-label="Switch between dark (Mocha) and light (Latte)" title="Dark / light"><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><circle cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="2"></circle><path d="M10 3a7 7 0 0 1 0 14z" fill="currentColor"></path></svg></button></div><header class="note-head wrap" data-astro-cid-yifuyi6y><div class="head-text" data-astro-cid-yifuyi6y><nav class="crumbs" aria-label="Breadcrumb" data-astro-cid-yifuyi6y><a href="/react-handbook/" data-astro-cid-yifuyi6y>Handbook</a><span aria-hidden="true" data-astro-cid-yifuyi6y>/</span><span data-astro-cid-yifuyi6y>Interview questions</span></nav><div class="meta" data-astro-cid-yifuyi6y><span class="pill" data-astro-cid-yifuyi6y>76 questions</span><span class="num" data-astro-cid-yifuyi6y>5 topics</span></div><h1 data-pagefind-meta="title" data-astro-cid-yifuyi6y>Interview Questions</h1><p class="summary" data-astro-cid-yifuyi6y>React interview questions from every module of the handbook, answered the way a senior engineer would: a precise definition first, then the key points that show real understanding.</p></div><div class="head-art card" data-astro-cid-yifuyi6y><div class="panel" data-astro-cid-yifuyi6y><svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true"><line x1="0" y1="78" x2="240" y2="78" stroke="#2b2522" stroke-width="1.4"/><polygon points="99.2,82.0 126.9,98.0 126.9,90.0 99.2,74.0" fill="#62c9bd" stroke="#2b2522" stroke-width="1.6" stroke-linejoin="round"/><polygon points="147.7,86.0 126.9,98.0 126.9,90.0 147.7,78.0" fill="#3a9d93" stroke="#2b2522" stroke-width="1.6" stroke-linejoin="round"/><polygon points="120.0,62.0 147.7,78.0 126.9,90.0 99.2,74.0" fill="#a6ece3" stroke="#2b2522" stroke-width="1.6" stroke-linejoin="round"/><polygon points="99.2,74.0 161.6,110.0 161.6,78.0 99.2,42.0" fill="#ff8a1f" stroke="#2b2522" stroke-width="1.6" stroke-linejoin="round"/><polygon points="182.4,98.0 161.6,110.0 161.6,78.0 182.4,66.0" fill="#d96a0b" stroke="#2b2522" stroke-width="1.6" stroke-linejoin="round"/><polygon points="120.0,30.0 182.4,66.0 161.6,78.0 99.2,42.0" fill="#ffb36b" stroke="#2b2522" stroke-width="1.6" stroke-linejoin="round"/><polygon points="133.9,102.0 161.6,118.0 161.6,110.0 133.9,94.0" fill="#62c9bd" stroke="#2b2522" stroke-width="1.6" stroke-linejoin="round"/><polygon points="182.4,106.0 161.6,118.0 161.6,110.0 182.4,98.0" fill="#3a9d93" stroke="#2b2522" stroke-width="1.6" stroke-linejoin="round"/><polygon points="154.6,82.0 182.4,98.0 161.6,110.0 133.9,94.0" fill="#a6ece3" stroke="#2b2522" stroke-width="1.6" stroke-linejoin="round"/><polygon points="116.5,48.0 151.2,68.0 151.2,44.0 116.5,24.0" fill="#f5c542" stroke="#2b2522" stroke-width="1.6" stroke-linejoin="round"/><polygon points="165.0,60.0 151.2,68.0 151.2,44.0 165.0,36.0" fill="#d39f1c" stroke="#2b2522" stroke-width="1.6" stroke-linejoin="round"/><polygon points="130.4,16.0 165.0,36.0 151.2,44.0 116.5,24.0" fill="#ffe08a" stroke="#2b2522" stroke-width="1.6" stroke-linejoin="round"/><polygon points="130.4,28.0 144.2,36.0 144.2,24.0 130.4,16.0" fill="#e58ccb" stroke="#2b2522" stroke-width="1.6" stroke-linejoin="round"/><polygon points="151.2,32.0 144.2,36.0 144.2,24.0 151.2,20.0" fill="#c4679f" stroke="#2b2522" stroke-width="1.6" stroke-linejoin="round"/><polygon points="137.3,12.0 151.2,20.0 144.2,24.0 130.4,16.0" fill="#f7c4e6" stroke="#2b2522" stroke-width="1.6" stroke-linejoin="round"/><circle cx="131.78460969082653" cy="52" r="4" fill="#a6ece3" stroke="#2b2522" stroke-width="1.5"/><circle cx="149.78460969082653" cy="56" r="4" fill="#a6ece3" stroke="#2b2522" stroke-width="1.5"/><g stroke="#2b2522" stroke-width="1.3" stroke-linejoin="round"><line x1="44" y1="116" x2="44" y2="128"/><line x1="48" y1="116" x2="48" y2="128"/><polygon points="42,116 50,116 50,106 42,106" fill="#9d7cc9"/><circle cx="46" cy="102" r="3.6" fill="#fff"/></g><g stroke="#2b2522" stroke-width="1.3" stroke-linejoin="round"><line x1="196.2" y1="111.2" x2="196.2" y2="122"/><line x1="199.8" y1="111.2" x2="199.8" y2="122"/><polygon points="194.4,111.2 201.6,111.2 201.6,102.2 194.4,102.2" fill="#62c9bd"/><circle cx="198" cy="98.6" r="3.24" fill="#fff"/></g></svg></div></div></header><div class="wrap layout" data-astro-cid-yifuyi6y><aside class="toc" data-astro-cid-yifuyi6y><nav class="card toc-card" aria-label="On this page" data-astro-cid-yifuyi6y><p class="toc-title" data-astro-cid-yifuyi6y>Topics</p><ol data-astro-cid-yifuyi6y><li data-astro-cid-yifuyi6y><a href="#react-internals" data-astro-cid-yifuyi6y>React Internals<span class="n" data-astro-cid-yifuyi6y>15</span></a></li><li data-astro-cid-yifuyi6y><a href="#jsx--fundamentals" data-astro-cid-yifuyi6y>JSX &amp; Fundamentals<span class="n" data-astro-cid-yifuyi6y>15</span></a></li><li data-astro-cid-yifuyi6y><a href="#optimization" data-astro-cid-yifuyi6y>Optimization<span class="n" data-astro-cid-yifuyi6y>15</span></a></li><li data-astro-cid-yifuyi6y><a href="#hooks" data-astro-cid-yifuyi6y>Hooks<span class="n" data-astro-cid-yifuyi6y>16</span></a></li><li data-astro-cid-yifuyi6y><a href="#patterns" data-astro-cid-yifuyi6y>Patterns<span class="n" data-astro-cid-yifuyi6y>15</span></a></li></ol></nav></aside><details class="toc-mobile card" data-pagefind-ignore data-astro-cid-yifuyi6y><summary data-astro-cid-yifuyi6y>Topics <span data-astro-cid-yifuyi6y>· 76 questions</span></summary><ol data-astro-cid-yifuyi6y><li data-astro-cid-yifuyi6y><a href="#react-internals" data-astro-cid-yifuyi6y>React Internals (15)</a></li><li data-astro-cid-yifuyi6y><a href="#jsx--fundamentals" data-astro-cid-yifuyi6y>JSX &amp; Fundamentals (15)</a></li><li data-astro-cid-yifuyi6y><a href="#optimization" data-astro-cid-yifuyi6y>Optimization (15)</a></li><li data-astro-cid-yifuyi6y><a href="#hooks" data-astro-cid-yifuyi6y>Hooks (16)</a></li><li data-astro-cid-yifuyi6y><a href="#patterns" data-astro-cid-yifuyi6y>Patterns (15)</a></li></ol></details><article class="card prose" data-pagefind-body data-slug="interview" data-astro-cid-yifuyi6y><span hidden data-pagefind-meta="module" data-astro-cid-yifuyi6y>Interview questions</span><p>Each answer follows the same shape: a <strong>precise definition</strong> you could say in the first ten seconds, then the <strong>key points</strong> that separate a senior answer from a memorized one (how it works, the trade-offs, the traps), and a link to the note that explains it in depth. Use <strong>Quiz me</strong> to hide the answers and grade yourself; your “know it” / “review” marks are saved in this browser.</p>
+<blockquote>
+<p>Answer out loud before you open a card. In interviews, structure matters as much as facts: <em>definition → how it works → trade-off or pitfall → when you’d use it</em>.</p>
+</blockquote>
+<h2 id="react-internals">React Internals</h2>
+<details class="qa"><summary>What is React Fiber?</summary>
+<p>Fiber is React’s internal data structure and reconciliation engine: one fiber object per component instance or DOM element, linked into a tree, which holds that node’s props, state, effects and pending work, and lets React split rendering into small, interruptible units.</p>
+<ul>
+<li><strong>A fiber is a unit of work.</strong> It has <code>child</code>, <code>sibling</code> and <code>return</code> pointers, so React can walk the tree with a loop instead of recursion and stop at any fiber.</li>
+<li><strong>It’s where state lives.</strong> A component’s hooks, props (<code>memoizedProps</code>) and pending updates (<code>lanes</code>) are stored on its fiber, not in the function.</li>
+<li><strong>Why it exists:</strong> the old stack reconciler rendered recursively in one go and couldn’t pause. Fiber made priorities, interruption, transitions and Suspense possible.</li>
+<li><strong>Elements vs fibers:</strong> elements are cheap, immutable descriptions recreated every render; fibers are long-lived and reused across renders.</li>
+</ul>
+<p>Read more: <a href="../internals/react-fiber/">React Fiber</a></p>
+</details>
+<details class="qa"><summary>What's the difference between an element, a component, a fiber and a DOM node?</summary>
+<p>A component is your function; an element is the plain object a render returns to describe what to show (<code>{ type, props, key }</code>); a fiber is React’s long-lived record of one rendered element, with its state and work; a DOM node is the real browser object a host fiber manages.</p>
+<ul>
+<li><strong>Elements are immutable and disposable</strong>, created anew on every render.</li>
+<li><strong>Fibers persist</strong> between renders and are what React compares and updates.</li>
+<li><strong>Only host fibers</strong> (<code>div</code>, <code>span</code>…) own DOM nodes; component fibers have none.</li>
+</ul>
+<p>Read more: <a href="../internals/react-fiber/">React Fiber</a>, <a href="../fundamentals/raw-react-apis/">Raw React APIs</a></p>
+</details>
+<details class="qa"><summary>What are the phases of a React update?</summary>
+<p>An update goes through trigger (something calls <code>setState</code> or <code>root.render</code>), schedule (React picks a priority lane and queues the work), render (React calls components and computes what changed), and commit (React applies the changes to the DOM and runs effects).</p>
+<ul>
+<li><strong>Render is pure and interruptible:</strong> it builds a work-in-progress tree and can be thrown away.</li>
+<li><strong>Commit is synchronous and never interrupted</strong>, because it mutates the DOM.</li>
+<li><strong>Effects:</strong> layout effects run during the commit before paint; passive effects (<code>useEffect</code>) run after the commit.</li>
+<li><strong>“Rendering” ≠ updating the DOM.</strong> A render that produces the same output commits nothing.</li>
+</ul>
+<p>Read more: <a href="../internals/render-and-commit/">Render and Commit</a>, <a href="../internals/a-state-update-end-to-end/">A State Update, End to End</a></p>
+</details>
+<details class="qa"><summary>What is reconciliation?</summary>
+<p>Reconciliation is the process of comparing the new element tree from a render with the current fiber tree to decide the minimal set of changes: which fibers to reuse, update, create or delete.</p>
+<ul>
+<li><strong>Heuristic O(n), not optimal O(n³):</strong> React assumes (1) elements of a different type produce different trees, and (2) <code>key</code> identifies children across renders.</li>
+<li><strong>Same type + same position (or key) → update in place</strong>, keeping state and DOM.</li>
+<li><strong>Different type → unmount the whole subtree</strong> and mount a new one; all state below is lost.</li>
+<li><strong>It’s diffed against the previous fiber tree, not the real DOM.</strong></li>
+</ul>
+<p>Read more: <a href="../internals/reconciliation/">Reconciliation</a>, <a href="../internals/child-reconciliation-algorithm/">Child Reconciliation Algorithm</a></p>
+</details>
+<details class="qa"><summary>Is the virtual DOM diffed against the real DOM?</summary>
+<p>No. React compares the new elements with its own previous fiber tree (the last committed state) and only touches the real DOM in the commit phase, for the differences it found.</p>
+<ul>
+<li>Reading the real DOM is slow and could be changed by others; React’s fibers are its source of truth.</li>
+<li>“Virtual DOM” is mostly a marketing term today; the precise terms are <strong>elements</strong>, <strong>fibers</strong> and <strong>reconciliation</strong>.</li>
+<li>This is why manual DOM changes to nodes React manages get overwritten or cause mismatches.</li>
+</ul>
+<p>Read more: <a href="../internals/render-and-commit/">Render and Commit</a></p>
+</details>
+<details class="qa"><summary>Why are keys important, and why are index keys a problem?</summary>
+<p>A key gives a list item a stable identity across renders, so React can match old and new children even when they move, and keep each item’s state and DOM node attached to the right data.</p>
+<ul>
+<li><strong>Without keys (or with index keys), identity is position:</strong> remove the first item and every later item’s state shifts to its neighbor.</li>
+<li>Index keys are fine only for lists that <strong>never reorder, insert or delete</strong> in the middle.</li>
+<li><strong>Changing a key on purpose resets</strong> a component: a new key means a new instance with fresh state.</li>
+<li>Keys must be unique among <strong>siblings</strong>, not globally.</li>
+</ul>
+<p>Read more: <a href="../fundamentals/rendering-arrays/">Rendering Arrays</a>, <a href="../internals/child-reconciliation-algorithm/">Child Reconciliation Algorithm</a></p>
+</details>
+<details class="qa"><summary>How does React traverse the tree during a render?</summary>
+<p>Depth-first, with a loop: <code>beginWork</code> processes a fiber on the way down (calls the component and reconciles its children), and <code>completeWork</code> runs on the way up (prepares host nodes), then React moves to the sibling or back to the parent.</p>
+<ul>
+<li>A single <code>workInProgress</code> pointer marks where to continue, which is what makes <strong>pausing and resuming</strong> possible.</li>
+<li>In the concurrent loop, React checks <code>shouldYield()</code> (about every 5 ms) between fibers.</li>
+<li><strong>Bailout:</strong> if a fiber’s props object is the same, it has no pending update and no context change, React skips it, and the whole subtree if <code>childLanes</code> is empty.</li>
+</ul>
+<p>Read more: <a href="../internals/the-work-loop/">The Work Loop</a></p>
+</details>
+<details class="qa"><summary>What is a bailout, and why does a child re-render when its parent re-renders?</summary>
+<p>A bailout is React skipping a component because it can prove nothing changed. A child normally re-renders with its parent because the parent’s render creates a new element with a new props object, and React compares props by identity, not by content.</p>
+<ul>
+<li><strong>Same props object + no state/context change → bailout.</strong> That happens when the parent passes the same element (e.g. <code>children</code> from above).</li>
+<li><strong><code>memo</code> replaces the identity check with a shallow per-prop comparison.</strong></li>
+<li>A re-render isn’t necessarily expensive: it’s only a problem when it’s slow or multiplied.</li>
+</ul>
+<p>Read more: <a href="../internals/the-work-loop/">The Work Loop</a>, <a href="../performance/element-optimization/">Element Optimization</a></p>
+</details>
+<details class="qa"><summary>What are lanes?</summary>
+<p>Lanes are React’s priority model: each update is assigned a lane, one bit in a 31-bit mask, and every fiber tracks the lanes of its pending work, so React can group, compare and pick the most urgent updates with cheap bitwise operations.</p>
+<ul>
+<li><strong>Discrete input</strong> (click, keypress) gets the <code>SyncLane</code>; transitions get <code>TransitionLanes</code>; there are lanes for continuous input, default updates, retries and idle work.</li>
+<li><strong>Starvation protection:</strong> a lane that waits too long expires and renders synchronously.</li>
+<li>Lanes are what make “urgent first, the rest later” possible.</li>
+</ul>
+<p>Read more: <a href="../internals/scheduler-lanes-and-batching/">Scheduler, Lanes and Batching</a></p>
+</details>
+<details class="qa"><summary>What is automatic batching?</summary>
+<p>Automatic batching means multiple state updates made in the same event or tick are combined into a single render; since React 18 this applies everywhere (promises, timeouts, native listeners), not only inside React event handlers.</p>
+<ul>
+<li><code>setState</code> <strong>doesn’t render immediately</strong>: it queues an update and schedules the root (in a microtask).</li>
+<li>Fewer renders and no half-updated intermediate UI.</li>
+<li><strong>Opt out with <code>flushSync</code></strong> when code needs the DOM updated before the next line (focus, scroll).</li>
+</ul>
+<p>Read more: <a href="../internals/scheduler-lanes-and-batching/">Scheduler, Lanes and Batching</a>, <a href="../apis/flushsync/">flushSync</a></p>
+</details>
+<details class="qa"><summary>Does React always render concurrently since React 18?</summary>
+<p>No. Concurrent, interruptible rendering is opt-in per update: transitions, <code>useDeferredValue</code> and Suspense retries render concurrently, while clicks, typing and ordinary updates still render synchronously.</p>
+<ul>
+<li><strong><code>createRoot</code> enables</strong> concurrent features; it doesn’t make every render concurrent.</li>
+<li>Interruptible renders yield to the browser roughly every 5 ms and can be abandoned when newer input arrives.</li>
+<li><strong>The commit is always synchronous</strong>, even for concurrent renders.</li>
+</ul>
+<p>Read more: <a href="../internals/scheduler-lanes-and-batching/">Scheduler, Lanes and Batching</a>, <a href="../performance/concurrent-rendering/">Concurrent Rendering</a></p>
+</details>
+<details class="qa"><summary>Where does a function component's state live, and why must hooks be called in the same order?</summary>
+<p>State lives on the component’s fiber, as a linked list of hook objects (<code>fiber.memoizedState</code>) in call order; React matches each hook call to its object by position, so the order must be identical on every render.</p>
+<ul>
+<li><strong>No names, only positions:</strong> skip a hook conditionally and every later hook reads the wrong state, or React throws “Rendered more hooks than during the previous render”.</li>
+<li><code>use</code> is the exception: it doesn’t keep a slot in that list, so it can be called conditionally.</li>
+<li><strong>The <code>setState</code> function is stable</strong>: it’s bound once to the fiber and the hook’s queue.</li>
+</ul>
+<p>Read more: <a href="../internals/hooks-under-the-hood/">Hooks Under the Hood</a></p>
+</details>
+<details class="qa"><summary>What happens in the commit phase, and in what order do effects run?</summary>
+<p>The commit applies the finished work-in-progress tree in one synchronous pass: DOM mutations, then the tree swap (<code>root.current = finishedWork</code>), then refs and layout effects; passive effects (<code>useEffect</code>) run afterwards.</p>
+<ul>
+<li><strong>Children before parents</strong>, and for each kind of effect <strong>all cleanups run before any setup</strong>.</li>
+<li><strong>Cleanups run with the values of the render that created them</strong>, during the next commit (not before the next render).</li>
+<li><code>useEffect</code> usually runs after paint, but <strong>not guaranteed</strong>: after a discrete event like a click, React flushes it before the next frame.</li>
+</ul>
+<p>Read more: <a href="../internals/commit-phase-and-effects/">Commit Phase and Effects</a>, <a href="../hooks/react-lifecycle/">React Lifecycle</a></p>
+</details>
+<details class="qa"><summary>What is double buffering in React?</summary>
+<p>React keeps two versions of each fiber, the current one (on screen) and a work-in-progress alternate; a render builds the work-in-progress tree, and the commit swaps it in by pointing <code>root.current</code> at it.</p>
+<ul>
+<li>The two fibers point to each other through <code>alternate</code>, so React <strong>reuses objects</strong> instead of allocating a new tree each render.</li>
+<li>An interrupted or discarded render never affects what’s on screen.</li>
+<li>Like a graphics back buffer: draw off-screen, then flip.</li>
+</ul>
+<p>Read more: <a href="../internals/react-fiber/">React Fiber</a></p>
+</details>
+<details class="qa"><summary>Walk me through what happens when I call <code>setState</code> in a click handler.</summary>
+<p>React queues an update on the hook’s queue with a lane based on the event’s priority, marks the fiber and its ancestors as having pending work, schedules the root, renders from the root while bailing out of untouched subtrees, calls the component that owns the state, reconciles its children, and commits the resulting DOM changes before running effects.</p>
+<ul>
+<li><strong>Batched:</strong> several <code>setState</code> calls in the handler produce one render.</li>
+<li><strong>Eager bailout:</strong> if the new state is <code>Object.is</code>-equal and nothing else is pending, React may skip scheduling entirely.</li>
+<li>A good answer names the path: <strong>trigger → schedule (lane) → render (beginWork/completeWork) → commit → effects</strong>.</li>
+</ul>
+<p>Read more: <a href="../internals/a-state-update-end-to-end/">A State Update, End to End</a>, <a href="../internals/how-react-works/">How React Works, Start to Finish</a></p>
+</details>
+<h2 id="jsx--fundamentals">JSX &amp; Fundamentals</h2>
+<details class="qa"><summary>What is JSX?</summary>
+<p>JSX is a syntax extension for JavaScript that lets you describe UI with HTML-like markup; a compiler turns each tag into a function call (<code>jsx(type, props)</code>) that returns a plain element object, so JSX is just JavaScript expressions.</p>
+<ul>
+<li><strong>Not HTML:</strong> <code>className</code>, <code>htmlFor</code>, camelCase events, <code>{}</code> for expressions, and every tag must close.</li>
+<li><strong>Since React 17, the automatic runtime</strong> imports <code>jsx</code> for you; you don’t need <code>React</code> in scope.</li>
+<li>Because it’s an expression, you can store JSX in variables, pass it as props and return it from functions.</li>
+<li><strong>Text is escaped by default</strong>, which protects against XSS; <code>dangerouslySetInnerHTML</code> is the explicit opt-out.</li>
+</ul>
+<p>Read more: <a href="../fundamentals/using-jsx/">Using JSX</a>, <a href="../fundamentals/raw-react-apis/">Raw React APIs</a></p>
+</details>
+<details class="qa"><summary>What does a React element look like, and is it the same as a component?</summary>
+<p>An element is an immutable plain object, <code>{ $$typeof, type, key, ref, props }</code>, that describes one piece of UI; a component is a function (or class) that React calls to turn props into elements.</p>
+<ul>
+<li><code>&lt;Card title="Mug" /&gt;</code> doesn’t call <code>Card</code>: it creates an element whose <code>type</code> is <code>Card</code>. <strong>React</strong> calls it later.</li>
+<li><strong>Elements are cheap to create</strong>; the expensive part is rendering and committing.</li>
+<li>That’s why you never call components directly like functions: React needs to own the call to manage state and hooks.</li>
+</ul>
+<p>Read more: <a href="../fundamentals/raw-react-apis/">Raw React APIs</a>, <a href="../fundamentals/custom-components/">Custom Components</a></p>
+</details>
+<details class="qa"><summary>What are props?</summary>
+<p>Props are the read-only inputs a parent passes to a component, an object of values, functions and elements that the component uses to decide what to render.</p>
+<ul>
+<li><strong>Read-only:</strong> a component must never mutate its props; it asks the owner to change them through callbacks.</li>
+<li><strong>One-way data flow:</strong> data goes down through props, events go up through callbacks.</li>
+<li><code>children</code> is just a prop: whatever is written between the tags.</li>
+<li>Passing a new object or function each render is fine until you rely on <code>memo</code>.</li>
+</ul>
+<p>Read more: <a href="../fundamentals/custom-components/">Custom Components</a></p>
+</details>
+<details class="qa"><summary>What is state in React?</summary>
+<p>State is data owned by a component that can change over time and that React preserves between renders; updating it through its setter tells React to re-render the component so the UI reflects the new value.</p>
+<ul>
+<li><strong>State is a snapshot:</strong> each render sees its own values; <code>setState</code> schedules a new render rather than changing the current variable.</li>
+<li><strong>Keep it minimal:</strong> anything you can compute from props or other state should be derived during render, not stored.</li>
+<li><strong>Updates are batched</strong>, and updater functions (<code>setCount(c =&gt; c + 1)</code>) avoid stale values when several updates depend on each other.</li>
+<li>State lives with the component’s position in the tree: unmount it or change its <code>key</code> and the state is gone.</li>
+</ul>
+<p>Read more: <a href="../hooks/managing-ui-state/">Managing UI State</a>, <a href="../internals/hooks-under-the-hood/">Hooks Under the Hood</a></p>
+</details>
+<details class="qa"><summary>What's the difference between props and state?</summary>
+<p>Props are inputs passed in by the parent and read-only for the component; state is internal data the component owns and updates itself, which triggers a re-render.</p>
+<ul>
+<li><strong>Who owns it</strong> is the real question: the owner holds state and passes it down as props.</li>
+<li>A parent’s state is the child’s props, which is how <strong>lifting state up</strong> shares data between siblings.</li>
+<li>Copying props into state (“mirroring”) is a common bug: the copy goes stale when the prop changes.</li>
+</ul>
+<p>Read more: <a href="../hooks/lifting-state/">Lifting State</a>, <a href="../hooks/managing-ui-state/">Managing UI State</a></p>
+</details>
+<details class="qa"><summary>How does conditional rendering work, and what's the <code>&amp;&amp;</code> pitfall?</summary>
+<p>Because JSX is an expression, you render conditionally with plain JavaScript: <code>if</code> before the return, the ternary <code>a ? &lt;X /&gt; : &lt;Y /&gt;</code>, or <code>cond &amp;&amp; &lt;X /&gt;</code>.</p>
+<ul>
+<li><strong>The <code>&amp;&amp;</code> trap:</strong> <code>{count &amp;&amp; &lt;Badge /&gt;}</code> renders <code>0</code> when <code>count</code> is 0, because React renders numbers. Use <code>count &gt; 0 &amp;&amp;</code>.</li>
+<li><code>null</code>, <code>undefined</code>, <code>false</code> and <code>true</code> render nothing.</li>
+<li>Prefer early returns for whole-component branches; ternaries for small inline choices.</li>
+</ul>
+<p>Read more: <a href="../fundamentals/using-jsx/">Using JSX</a></p>
+</details>
+<details class="qa"><summary>What are fragments, and why do they exist?</summary>
+<p>A fragment (<code>&lt;&gt;…&lt;/&gt;</code> or <code>&lt;Fragment&gt;</code>) groups several elements without adding a wrapper DOM node, because a component must return a single value.</p>
+<ul>
+<li>Keeps markup valid (table rows, list items, flex/grid children) without extra <code>div</code>s.</li>
+<li><strong>Only the long form takes a <code>key</code></strong>: <code>&lt;Fragment key={id}&gt;</code> when mapping to multiple siblings.</li>
+</ul>
+<p>Read more: <a href="../fundamentals/using-jsx/">Using JSX</a></p>
+</details>
+<details class="qa"><summary>What are controlled and uncontrolled inputs?</summary>
+<p>A controlled input gets its value from React state on every render and reports changes through <code>onChange</code>; an uncontrolled input keeps its own value in the DOM, optionally starting from <code>defaultValue</code>, and you read it when needed (e.g. from <code>FormData</code>).</p>
+<ul>
+<li><strong>Controlled:</strong> single source of truth, instant validation and formatting, at the cost of a render per keystroke.</li>
+<li><strong>Uncontrolled:</strong> less code, ideal with form actions and <code>FormData</code>.</li>
+<li><strong>Never switch between the two</strong> during a component’s life: React warns and the behavior is undefined.</li>
+<li><code>value</code> without <code>onChange</code> makes a read-only field.</li>
+</ul>
+<p>Read more: <a href="../fundamentals/inputs/">Inputs</a>, <a href="../fundamentals/forms/">Forms</a></p>
+</details>
+<details class="qa"><summary>How do forms work in React 19?</summary>
+<p>A <code>&lt;form&gt;</code> can take an <code>action</code> function that receives the form’s <code>FormData</code>; React runs it inside a transition, tracks its pending state and resets uncontrolled fields after it succeeds, so many forms no longer need state per field.</p>
+<ul>
+<li><strong><code>FormData</code></strong> reads every named field; unchecked checkboxes are simply absent.</li>
+<li><strong><code>useFormStatus</code></strong> lets a child (like a submit button) read <code>pending</code>; <code>useActionState</code> returns the action’s result.</li>
+<li>Without an action, <code>onSubmit</code> + <code>e.preventDefault()</code> is still the standard pattern.</li>
+</ul>
+<p>Read more: <a href="../fundamentals/forms/">Forms</a>, <a href="../suspense/optimistic-ui/">Optimistic UI</a></p>
+</details>
+<details class="qa"><summary>What is an error boundary, and what doesn't it catch?</summary>
+<p>An error boundary is a component that catches errors thrown while rendering its children (and in their lifecycle methods and effects) and shows a fallback UI instead of unmounting the whole app.</p>
+<ul>
+<li><strong>It doesn’t catch</strong> errors in event handlers, async code (timeouts, promises outside <code>use</code>) or the boundary itself; route those to it explicitly (e.g. <code>showBoundary</code> from <code>react-error-boundary</code>).</li>
+<li><strong>Built-in boundaries are still class components</strong> (<code>getDerivedStateFromError</code>); in practice teams use <code>react-error-boundary</code>.</li>
+<li><strong>Place them deliberately:</strong> around independent widgets, not only at the root; resetting with a <code>key</code> or <code>resetErrorBoundary</code> gives a retry.</li>
+<li>With Suspense, put the error boundary <strong>outside</strong> the <code>Suspense</code> boundary.</li>
+</ul>
+<p>Read more: <a href="../fundamentals/error-boundaries/">Error Boundaries</a>, <a href="../suspense/data-fetching/">Data Fetching with use</a></p>
+</details>
+<details class="qa"><summary>Why should you never define a component inside another component?</summary>
+<p>Because every render of the outer component creates a new function, which React sees as a different component type, so it unmounts the old subtree and mounts a new one, losing all state and DOM, on every render.</p>
+<ul>
+<li>Symptoms: inputs losing focus after each keystroke, effects re-running, animations restarting.</li>
+<li><strong>Define components at module level</strong>, and pass data through props.</li>
+</ul>
+<p>Read more: <a href="../internals/reconciliation/">Reconciliation</a></p>
+</details>
+<details class="qa"><summary>How do you style React components, and what are the trade-offs?</summary>
+<p>React supports class names (<code>className</code> with CSS, CSS Modules, utility CSS like Tailwind) and inline <code>style</code> objects; most teams use classes for styling and reserve inline styles for truly dynamic values.</p>
+<ul>
+<li><strong><code>style</code> takes an object</strong> with camelCase properties; numbers get <code>px</code> for most properties.</li>
+<li>Inline styles can’t do pseudo-classes, media queries or keyframes.</li>
+<li>CSS-in-JS with runtime injection costs render time; <strong>zero-runtime</strong> solutions (CSS Modules, Tailwind, extracted CSS) are favored with Server Components.</li>
+</ul>
+<p>Read more: <a href="../fundamentals/styling/">Styling</a></p>
+</details>
+<details class="qa"><summary>How do you type React components with TypeScript?</summary>
+<p>Type props as a plain object type and let TypeScript infer the return type; use <code>React.ComponentProps&lt;'button'&gt;</code> to extend native element props, <code>ReactNode</code> for anything renderable, and discriminated unions for props that depend on each other.</p>
+<ul>
+<li><strong>Avoid <code>React.FC</code></strong> for new code: no real benefit, and it used to add implicit <code>children</code>.</li>
+<li>Type event handlers from the element (<code>React.ChangeEvent&lt;HTMLInputElement&gt;</code>); type <code>useState</code> when the initial value doesn’t show the full type (<code>useState&lt;User | null&gt;(null)</code>).</li>
+<li><strong><code>satisfies</code></strong> checks a value against a type without widening it.</li>
+</ul>
+<p>Read more: <a href="../fundamentals/typescript-with-react/">TypeScript with React</a></p>
+</details>
+<details class="qa"><summary>What does <code>ReactDOM.createRoot</code> do, and what's the difference from the old <code>render</code>?</summary>
+<p><code>createRoot(container)</code> creates a React root (the FiberRoot) attached to a DOM node, with event delegation set up on it; <code>root.render(element)</code> schedules the first render. It replaced <code>ReactDOM.render</code> in React 18 and enables concurrent features and automatic batching.</p>
+<ul>
+<li><strong>Nothing renders synchronously</strong> inside <code>root.render</code>: it queues an update.</li>
+<li>React listens for events on the <strong>root container</strong>, not on each element (event delegation).</li>
+<li>Multiple roots on one page are independent React apps.</li>
+</ul>
+<p>Read more: <a href="../fundamentals/hello-world-in-js/">Hello World in JS</a>, <a href="../internals/how-react-works/">How React Works, Start to Finish</a></p>
+</details>
+<details class="qa"><summary>Why must components be pure?</summary>
+<p>A pure component returns the same output for the same props, state and context, and doesn’t change anything outside itself while rendering; React relies on this to render components in any order, more than once, or not at all, and to throw renders away.</p>
+<ul>
+<li><strong>Side effects belong in event handlers or effects</strong>, never in the render body (no mutations of outside variables, no fetching, no DOM writes).</li>
+<li><strong>Strict Mode renders twice in development</strong> to expose impure components.</li>
+<li>Purity is what makes memoization, concurrent rendering and the React Compiler safe.</li>
+</ul>
+<p>Read more: <a href="../internals/render-and-commit/">Render and Commit</a></p>
+</details>
+<h2 id="optimization">Optimization</h2>
+<details class="qa"><summary>How do you approach a performance problem in a React app?</summary>
+<p>Measure first: reproduce it on a realistic device, profile it with the React DevTools Profiler and the browser’s Performance panel on a production build, identify whether the cost is rendering, a calculation, the DOM or loading, and then apply the cheapest fix for that cause.</p>
+<ul>
+<li><strong>Order of fixes:</strong> restructure (move state down, pass elements) → memoize → defer (transitions) → do less (windowing, splitting) → move off the main thread.</li>
+<li><strong>Fix slow renders before unnecessary re-renders.</strong></li>
+<li>Every optimization has a cost in complexity; remove the ones that don’t measurably help.</li>
+</ul>
+<p>Read more: <a href="../performance/optimize-rendering/">Optimize Rendering</a>, <a href="../performance/expensive-calculations/">Expensive Calculations</a></p>
+</details>
+<details class="qa"><summary>What are the reasons a component re-renders?</summary>
+<p>A component re-renders when its own state changes, when a context it reads changes, or when its parent re-renders; a “props change” is really just the parent re-rendering with new props.</p>
+<ul>
+<li>The parent case is the default because React can’t know a child’s output didn’t change.</li>
+<li>An “unnecessary” re-render does render and reconciliation but commits nothing to the DOM.</li>
+<li><strong>It matters when it’s slow or multiplied</strong> (lists, big trees, high-frequency updates).</li>
+</ul>
+<p>Read more: <a href="../hooks/react-re-rendering/">React Re-rendering</a>, <a href="../performance/optimize-rendering/">Optimize Rendering</a></p>
+</details>
+<details class="qa"><summary>How does <code>React.memo</code> work, and what silently breaks it?</summary>
+<p><code>memo(Component)</code> skips re-rendering when every prop is <code>Object.is</code>-equal to the previous render’s, by replacing React’s props-identity check with a shallow, per-prop comparison.</p>
+<ul>
+<li><strong>Broken by props created during render:</strong> inline objects, arrays, arrow functions and JSX children are new references every time.</li>
+<li><strong>Doesn’t stop</strong> re-renders from the component’s own state or from contexts it reads.</li>
+<li><strong>A custom comparator</strong> (second argument) returns <code>true</code> to skip, but it must cover every prop the component uses, or the UI goes stale.</li>
+<li>Recorded in the handbook: one inline <code>onSubscribe={() =&gt; …}</code> made a memoized footer render on every click again.</li>
+</ul>
+<p>Read more: <a href="../performance/element-optimization/">Element Optimization</a>, <a href="../performance/optimize-rendering/">Optimize Rendering</a></p>
+</details>
+<details class="qa"><summary><code>useMemo</code> vs <code>useCallback</code> vs <code>memo</code>?</summary>
+<p><code>useMemo</code> caches a computed value and <code>useCallback</code> caches a function, both by a dependency array; <code>memo</code> caches a component’s rendered result by its props. <code>useCallback(fn, deps)</code> is <code>useMemo(() =&gt; fn, deps)</code>.</p>
+<ul>
+<li><strong><code>useMemo</code>/<code>useCallback</code> are for referential stability</strong> (props to memoized children, effect dependencies) <strong>or expensive calculations</strong> (around 1 ms or more).</li>
+<li>On their own they make nothing faster: a stable function only helps if something compares it.</li>
+<li><strong>The React Compiler</strong> inserts most of this memoization automatically.</li>
+</ul>
+<p>Read more: <a href="../hooks/react-re-rendering/">React Re-rendering</a>, <a href="../performance/expensive-calculations/">Expensive Calculations</a></p>
+</details>
+<details class="qa"><summary>How can you avoid re-renders without using <code>memo</code>?</summary>
+<p>Hand React the same element object across renders: lift static elements out of the component, pass elements in as props or <code>children</code> from a parent that doesn’t re-render, or move the frequently changing state down into a smaller component.</p>
+<ul>
+<li><strong>An element’s identity follows the component that creates it.</strong> Children created above a re-rendering component are reused.</li>
+<li>These are structural fixes: no comparisons, no dependency arrays to maintain.</li>
+<li>This is why “layout” components that take <code>children</code> are cheap.</li>
+</ul>
+<p>Read more: <a href="../performance/element-optimization/">Element Optimization</a>, <a href="../patterns/composition/">Composition and Layout Components</a></p>
+</details>
+<details class="qa"><summary>Why can context cause performance problems, and how do you fix them?</summary>
+<p>When a provider’s value changes by <code>Object.is</code>, every component that reads that context re-renders, memoized or not; an inline object value changes on every render of the provider’s parent, so all consumers re-render even when nothing changed.</p>
+<ul>
+<li><strong>Memoize the value</strong> (<code>useMemo</code>, plus stable setters).</li>
+<li><strong>Move the state into a provider component</strong> that takes <code>children</code>, so changes only re-render the provider and the readers.</li>
+<li><strong>Split contexts</strong> by update frequency (state vs setters/dispatch).</li>
+<li>For high-frequency shared state, a store with selectors (<code>useSyncExternalStore</code>) scales better.</li>
+</ul>
+<p>Read more: <a href="../performance/optimize-context/">Optimize Context</a>, <a href="../apis/context-with-use/">Context with use</a></p>
+</details>
+<details class="qa"><summary>What is concurrent rendering, and how do <code>useTransition</code> and <code>useDeferredValue</code> use it?</summary>
+<p>Concurrent rendering lets React prepare an update in the background, in small interruptible slices that yield to the browser, and abandon it if newer input arrives; <code>useTransition</code> marks a state update as non-urgent, and <code>useDeferredValue</code> gives you a lagging copy of a value for the slow parts of the UI.</p>
+<ul>
+<li><strong>Urgent updates</strong> (typing) render immediately; transitions can wait without blocking them.</li>
+<li><strong><code>useDeferredValue</code> needs <code>memo</code></strong> on the slow component: otherwise the urgent render renders it anyway with the old value. Recorded: ~125 ms per keystroke without <code>memo</code>, about one frame with it.</li>
+<li><strong>It doesn’t make work smaller</strong>, it stops it from blocking. If the component can be made faster, do that first.</li>
+</ul>
+<p>Read more: <a href="../performance/concurrent-rendering/">Concurrent Rendering</a></p>
+</details>
+<details class="qa"><summary>Deferring vs debouncing: which and when?</summary>
+<p>Debouncing waits a fixed time after the last input before doing anything; deferring (<code>useDeferredValue</code>) starts the low-priority render immediately, in interruptible chunks, and drops it when newer input arrives.</p>
+<ul>
+<li><strong>Debounce network requests</strong> (fewer calls); <strong>defer rendering</strong> (responsive UI).</li>
+<li>Deferring adapts to the device: instant on a fast machine, lagging gracefully on a slow one.</li>
+<li>They combine well: debounce the fetch, defer the rendering of results.</li>
+</ul>
+<p>Read more: <a href="../performance/concurrent-rendering/">Concurrent Rendering</a>, <a href="../suspense/deferred-search/">useDeferredValue with Suspense</a></p>
+</details>
+<details class="qa"><summary>What is code splitting, and how do you do it in React?</summary>
+<p>Code splitting divides the JavaScript bundle into chunks loaded on demand, so users download only what the current screen needs; in React you use dynamic <code>import()</code> with <code>lazy</code> and a <code>Suspense</code> boundary for the loading state.</p>
+<ul>
+<li><strong>Split by route and by heavy, rarely used features</strong>, not by small components.</li>
+<li><strong>Prefetch on intent</strong> (hover, focus, idle time) so the chunk is ready before the click.</li>
+<li><strong>Wrap the navigation in a transition</strong> to keep the current screen instead of flashing the fallback.</li>
+<li>Recorded: even after prefetching, <code>lazy</code>’s first render still suspended briefly, because an <code>import()</code> promise never resolves synchronously.</li>
+</ul>
+<p>Read more: <a href="../performance/code-splitting/">Code Splitting</a></p>
+</details>
+<details class="qa"><summary>How do you handle an expensive calculation in a component?</summary>
+<p>Measure it; if it’s slow and re-runs with the same inputs, cache it with <code>useMemo</code>; if it’s slow even when inputs change, make the algorithm faster, defer the render around it, or move it off the main thread into a Web Worker.</p>
+<ul>
+<li><strong><code>useMemo</code> only helps when the inputs didn’t change.</strong> Recorded: it removed the search on an unrelated click, but every keystroke still blocked for tens of milliseconds.</li>
+<li><strong>A Web Worker</strong> keeps the main thread free; results come back as a promise you can read with <code>use</code> inside a transition.</li>
+<li>Data crosses threads by copying (<code>postMessage</code>), so send queries, not huge objects.</li>
+</ul>
+<p>Read more: <a href="../performance/expensive-calculations/">Expensive Calculations</a></p>
+</details>
+<details class="qa"><summary>What is list virtualization (windowing), and when do you need it?</summary>
+<p>Windowing renders only the rows currently visible in a scroll container, plus a few extra (overscan), inside a spacer with the full list’s height, and swaps rows in and out as the user scrolls.</p>
+<ul>
+<li><strong>For large lists</strong> (hundreds to thousands of rows) where even memoized rows are too many: the DOM size itself is the cost.</li>
+<li>Recorded: 10,000 rows took ~75 ms to render; virtualized, 18 rows in the DOM and ~2 ms.</li>
+<li><strong>Trade-offs:</strong> in-page find, screen readers, keyboard navigation and scroll restoration need extra work.</li>
+<li>Libraries: TanStack Virtual, react-window.</li>
+</ul>
+<p>Read more: <a href="../performance/windowing/">Windowing</a></p>
+</details>
+<details class="qa"><summary>Why might <code>memo</code> on list items still not help, and how do you fix it?</summary>
+<p>If every row receives a prop that changes for all rows at once, such as <code>highlightedIndex</code> or <code>selectedId</code>, every row fails the comparison and re-renders, even though only one or two look different.</p>
+<ul>
+<li><strong>Fix by passing derived primitives:</strong> <code>isHighlighted={i === highlightedIndex}</code>, so each row’s prop changes only when its own state does.</li>
+<li><strong>Or a custom comparator</strong> that checks only what the row displays, at the risk of drifting out of sync.</li>
+<li>Recorded: 500 renders per hover with plain <code>memo</code>, 1–2 with primitive props.</li>
+</ul>
+<p>Read more: <a href="../performance/optimize-rendering/">Optimize Rendering</a></p>
+</details>
+<details class="qa"><summary>What does the React Compiler change about manual memoization?</summary>
+<p>The React Compiler analyses components at build time and automatically memoizes values, functions and JSX where it’s safe, which removes most hand-written <code>useMemo</code>, <code>useCallback</code> and <code>memo</code>.</p>
+<ul>
+<li>It <strong>relies on the Rules of React</strong> (pure render, no mutation of props/state); code that breaks them is skipped.</li>
+<li><strong>It doesn’t fix architecture:</strong> heavy calculations, huge lists, waterfalls and bundle size still need the techniques above.</li>
+<li>Knowing how memoization works still matters, to read compiled behavior and debug.</li>
+</ul>
+<p>Read more: <a href="../performance/element-optimization/">Element Optimization</a></p>
+</details>
+<details class="qa"><summary>What is a request waterfall, and how do you avoid it?</summary>
+<p>A waterfall is when requests run one after another although they could run in parallel, typically because a child component only starts its fetch after its parent’s data has loaded (fetch-on-render).</p>
+<ul>
+<li><strong>Start every request a screen needs before waiting on any</strong> (route loaders, click handlers): render-as-you-fetch.</li>
+<li><strong>Starting is cheap, waiting is what blocks:</strong> create all promises first, then <code>use</code> them.</li>
+<li>Recorded: 1,200 ms as a waterfall vs 600 ms in parallel. React 19 pre-warms suspended siblings, but you shouldn’t rely on it.</li>
+</ul>
+<p>Read more: <a href="../suspense/waterfalls-and-caching/">Waterfalls and Caching</a></p>
+</details>
+<details class="qa"><summary>How do you measure React performance?</summary>
+<p>With the React DevTools Profiler (which components rendered, why, and for how long), the browser’s Performance panel (main-thread time, long tasks, layout, paint), and in code with the <code>&lt;Profiler onRender&gt;</code> API, always on a production build and with CPU throttling.</p>
+<ul>
+<li><strong>“Highlight updates”</strong> in DevTools shows unexpected re-renders immediately.</li>
+<li>Look at <strong>interaction latency</strong> (INP), not just render counts.</li>
+<li>Development builds include extra checks and double renders: never draw conclusions from them.</li>
+</ul>
+<p>Read more: <a href="../performance/windowing/">Windowing</a>, <a href="../performance/optimize-rendering/">Optimize Rendering</a></p>
+</details>
+<h2 id="hooks">Hooks</h2>
+<details class="qa"><summary>What are hooks, and what are the rules of hooks?</summary>
+<p>Hooks are functions (named <code>use…</code>) that let function components use React features such as state, effects, context and refs; they must be called at the top level of a component or custom hook, in the same order on every render, and never inside conditions, loops or regular functions.</p>
+<ul>
+<li><strong>The order rule exists because React stores hooks by position</strong> on the fiber.</li>
+<li><strong>Custom hooks</strong> compose built-in hooks to share stateful logic, not state itself: each call gets its own state.</li>
+<li><code>use</code> is the exception: it can be called conditionally.</li>
+<li>The <code>eslint-plugin-react-hooks</code> rules catch most violations.</li>
+</ul>
+<p>Read more: <a href="../internals/hooks-under-the-hood/">Hooks Under the Hood</a></p>
+</details>
+<details class="qa"><summary>How does <code>useState</code> work, and when should you pass a function to it?</summary>
+<p><code>useState(initial)</code> returns the current value and a setter; calling the setter queues an update and schedules a re-render, and React keeps the value on the component’s fiber between renders.</p>
+<ul>
+<li><strong>Updater functions</strong> (<code>setCount(c =&gt; c + 1)</code>) compute from the latest queued state: needed when an update depends on the previous one or several happen in one event.</li>
+<li><strong>Lazy initial state</strong> (<code>useState(() =&gt; readFromStorage())</code>) runs the initializer only on mount.</li>
+<li><strong>Same value → no re-render</strong> (compared with <code>Object.is</code>), so always create new objects and arrays instead of mutating.</li>
+</ul>
+<p>Read more: <a href="../hooks/managing-ui-state/">Managing UI State</a>, <a href="../hooks/building-a-cart/">Building a Cart</a></p>
+</details>
+<details class="qa"><summary>What is <code>useEffect</code> for, and what is the cleanup function?</summary>
+<p><code>useEffect</code> synchronizes a component with something outside React (subscriptions, timers, the DOM, network) after a render is committed; the function it returns is the cleanup, which undoes that synchronization before the effect runs again and when the component unmounts.</p>
+<ul>
+<li><strong>Dependencies</strong> decide when it re-runs; they’re compared with <code>Object.is</code>.</li>
+<li><strong>Missing cleanup leaks:</strong> recorded, three hide/show cycles left four <code>popstate</code> listeners running.</li>
+<li><strong>Cleanup runs during the next commit</strong>, after the new render, with the old render’s values.</li>
+<li><strong>You might not need an effect:</strong> derive values during render, and handle user events in event handlers.</li>
+</ul>
+<p>Read more: <a href="../hooks/side-effects/">Side Effects</a>, <a href="../hooks/react-lifecycle/">React Lifecycle</a></p>
+</details>
+<details class="qa"><summary>In what order do render, effects and cleanups run?</summary>
+<p>On mount: render → layout effects → effects. On update: render first, then the old layout cleanup and new layout effect during the commit, then the old effect cleanup and the new effect. On unmount: only the cleanups.</p>
+<ul>
+<li><strong>Cleanups don’t run before the next render</strong>, they run after it, during the commit.</li>
+<li><strong>Strict Mode</strong> in development runs setup → cleanup → setup once on mount to expose missing cleanups.</li>
+<li><code>useEffect</code> isn’t guaranteed to run after paint: after a click it ran before the next frame (recorded).</li>
+</ul>
+<p>Read more: <a href="../hooks/react-lifecycle/">React Lifecycle</a>, <a href="../internals/commit-phase-and-effects/">Commit Phase and Effects</a></p>
+</details>
+<details class="qa"><summary><code>useEffect</code> vs <code>useLayoutEffect</code>?</summary>
+<p>Both have the same signature; <code>useLayoutEffect</code> runs synchronously during the commit, after the DOM is updated but before the browser paints, and its state updates render before paint too, while <code>useEffect</code> runs after the commit and may run after paint.</p>
+<ul>
+<li><strong>Use <code>useLayoutEffect</code> to measure and adjust layout</strong> (tooltips, scroll position) without a visible flicker. Recorded: with <code>useEffect</code>, most hovers painted a tooltip in the wrong place for one frame.</li>
+<li><strong>It blocks painting</strong>, so default to <code>useEffect</code>.</li>
+<li>Neither runs on the server.</li>
+</ul>
+<p>Read more: <a href="../apis/uselayouteffect/">useLayoutEffect</a></p>
+</details>
+<details class="qa"><summary>What is <code>useRef</code>, and how is it different from state?</summary>
+<p><code>useRef(initial)</code> returns a mutable object <code>{ current }</code> that stays the same for the component’s whole life; changing <code>.current</code> doesn’t trigger a re-render, which makes refs suitable for DOM nodes and for values the UI doesn’t display.</p>
+<ul>
+<li><strong>State is for what’s rendered; refs are for what isn’t</strong> (timers, previous values, DOM handles).</li>
+<li><strong>Don’t read or write refs during render</strong> (except lazy initialization): render must stay pure.</li>
+<li><strong>Ref callbacks</strong> run when a node is attached and can return a cleanup (React 19).</li>
+</ul>
+<p>Read more: <a href="../hooks/dom-refs-and-effect-dependencies/">DOM Refs and Effect Dependencies</a></p>
+</details>
+<details class="qa"><summary>Why does an effect with an object dependency run on every render?</summary>
+<p>Because React compares dependencies with <code>Object.is</code>, and an object or function created during render is a new reference every time, so the dependency always looks “changed”.</p>
+<ul>
+<li><strong>Depend on primitives</strong> (<code>[scale, speed]</code>) and build the object inside the effect.</li>
+<li>Or stabilize it with <code>useMemo</code>/<code>useCallback</code>, or move it outside the component.</li>
+<li><strong>Don’t silence the exhaustive-deps lint rule</strong>: a missing dependency is usually a stale-closure bug.</li>
+</ul>
+<p>Read more: <a href="../hooks/dom-refs-and-effect-dependencies/">DOM Refs and Effect Dependencies</a></p>
+</details>
+<details class="qa"><summary>What is a stale closure in hooks?</summary>
+<p>A stale closure is a function that keeps reading the props and state of the render that created it, after newer renders have happened, because it was never recreated, typically in effects with missing dependencies, intervals and memoized callbacks.</p>
+<ul>
+<li>Each render’s functions capture <strong>that render’s values</strong>, which protects async code from seeing values change mid-flight.</li>
+<li><strong>Fixes:</strong> correct dependencies, updater functions (<code>setX(x =&gt; …)</code>), a reducer, or a ref holding the latest value.</li>
+<li><strong><code>useEffectEvent</code></strong> (React 19.2) gives effects a function that always sees the latest values without being a dependency.</li>
+</ul>
+<p>Read more: <a href="../hooks/react-re-rendering/">React Re-rendering</a>, <a href="../patterns/latest-ref/">The Latest Ref Pattern</a></p>
+</details>
+<details class="qa"><summary><code>useState</code> vs <code>useReducer</code>?</summary>
+<p>Use <code>useState</code> for independent values; use <code>useReducer</code> when several values change together, or the next state depends on the previous one in non-trivial ways, so that all transitions live in one pure <code>reducer(state, action)</code> function.</p>
+<ul>
+<li><strong>A reducer can’t read stale state:</strong> React passes it the latest state for every action. Recorded: three <code>useState</code>s lost a history entry that the reducer kept.</li>
+<li><strong>Reducers are testable without React</strong> (plain function calls).</li>
+<li><strong><code>dispatch</code> is stable</strong>, so it can be passed down without breaking <code>memo</code>.</li>
+<li>Returning the same state object makes React bail out of the children (the component itself still runs once).</li>
+</ul>
+<p>Read more: <a href="../hooks/usestate-vs-usereducer/">useState vs useReducer</a>, <a href="../apis/usereducer/">useReducer</a></p>
+</details>
+<details class="qa"><summary>What is lifting state up, and when do you colocate state instead?</summary>
+<p>Lifting state means moving it to the closest common parent of the components that need it and passing it down as props; colocating means keeping state as close as possible to where it’s used.</p>
+<ul>
+<li><strong>Lift when siblings must share or sync</strong> a value.</li>
+<li><strong>Colocate otherwise:</strong> state high up re-renders everything below it on each change.</li>
+<li>If lifting forces passing props through many layers, consider composition first, then context.</li>
+</ul>
+<p>Read more: <a href="../hooks/lifting-state/">Lifting State</a></p>
+</details>
+<details class="qa"><summary>How do <code>createContext</code> and <code>use</code> work together?</summary>
+<p><code>createContext(default)</code> defines a value that can be provided to a subtree; <code>&lt;Ctx value={…}&gt;</code> provides it; and <code>use(Ctx)</code> (or <code>useContext</code>) reads the nearest provider’s value, re-rendering the component when that value changes.</p>
+<ul>
+<li><strong>Use it for widely read, rarely changing values:</strong> theme, user, locale, feature flags.</li>
+<li><strong>Every reader re-renders on change</strong>, even inside memoized parents.</li>
+<li><strong>Throw a clear error</strong> from a custom hook when a required provider is missing.</li>
+<li>In React 19 the context itself is the provider (<code>&lt;ThemeContext value&gt;</code>).</li>
+</ul>
+<p>Read more: <a href="../apis/context-with-use/">Context with use</a></p>
+</details>
+<details class="qa"><summary>What is <code>useId</code> for?</summary>
+<p><code>useId</code> returns a unique, stable id per component instance that’s the same on the server and the client, for linking labels, inputs and <code>aria-*</code> attributes.</p>
+<ul>
+<li><strong>Not for list keys</strong> (keys come from your data).</li>
+<li>Hard-coded ids break as soon as a component renders twice on a page.</li>
+</ul>
+<p>Read more: <a href="../hooks/the-useid-hook/">The useId Hook</a></p>
+</details>
+<details class="qa"><summary>What is <code>useImperativeHandle</code>?</summary>
+<p><code>useImperativeHandle(ref, () =&gt; handle)</code> lets a component expose a custom object on the ref its parent passes, typically a few methods like <code>focus()</code> or <code>scrollToBottom()</code>, instead of the raw DOM node.</p>
+<ul>
+<li><strong>For commands, not state:</strong> “focus now” doesn’t fit in a prop. Recorded: a <code>shouldFocus</code> prop worked once, then never again.</li>
+<li><strong>Encapsulation:</strong> the parent can only call what you expose.</li>
+<li>In React 19 <code>ref</code> is a regular prop; <code>forwardRef</code> is no longer needed.</li>
+</ul>
+<p>Read more: <a href="../apis/useimperativehandle/">useImperativeHandle</a></p>
+</details>
+<details class="qa"><summary>What is <code>useSyncExternalStore</code>?</summary>
+<p><code>useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot?)</code> subscribes a component to a store React doesn’t own (browser APIs, a plain JS store, a state library) and re-renders it when the snapshot changes, without tearing under concurrent rendering.</p>
+<ul>
+<li><strong><code>getSnapshot</code> must return the same value when nothing changed.</strong> A new object every call causes an infinite loop (recorded).</li>
+<li><strong><code>getServerSnapshot</code></strong> is required for server rendering.</li>
+<li>Redux, Zustand and similar libraries are built on it.</li>
+</ul>
+<p>Read more: <a href="../apis/usesyncexternalstore/">useSyncExternalStore</a></p>
+</details>
+<details class="qa"><summary>How do <code>use</code>, <code>Suspense</code> and error boundaries work together?</summary>
+<p><code>use(promise)</code> returns a fulfilled promise’s value; if the promise is pending, React suspends the component and shows the nearest <code>Suspense</code> fallback, retrying when it settles; if it rejects, the error goes to the nearest error boundary.</p>
+<ul>
+<li><strong>The promise must be stable</strong> (created outside render or cached); a new promise each render suspends forever.</li>
+<li><strong>Pending content is not a thrown promise</strong> in React 19: <code>use</code> throws an internal Suspense Exception and tracks the promise itself (recorded).</li>
+<li><strong>In a transition,</strong> React keeps the current UI instead of showing the fallback.</li>
+</ul>
+<p>Read more: <a href="../suspense/data-fetching/">Data Fetching with use</a>, <a href="../suspense/promise-caching/">Promise Caching and Transitions</a></p>
+</details>
+<details class="qa"><summary>What is <code>useOptimistic</code>?</summary>
+<p><code>useOptimistic</code> returns a value that you can update during an action or transition to show the expected result immediately; when the action ends it falls back to the real state, which also rolls back automatically on failure.</p>
+<ul>
+<li><strong>Needed because ordinary state updates inside a transition are held</strong> until it finishes.</li>
+<li><strong>After an <code>await</code>,</strong> wrap real state updates in <code>startTransition</code>, or they render separately (recorded: a duplicate review).</li>
+<li>Pair with <code>useFormStatus</code> for the button’s pending state.</li>
+</ul>
+<p>Read more: <a href="../suspense/optimistic-ui/">Optimistic UI</a></p>
+</details>
+<h2 id="patterns">Patterns</h2>
+<details class="qa"><summary>What is composition in React, and how does it reduce prop drilling?</summary>
+<p>Composition means building components that accept other elements (through <code>children</code> or named element props) instead of the data needed to create them, so the component that owns the data builds the element and layout components only decide where to place it.</p>
+<ul>
+<li><strong>Prop drilling</strong> passes data through components that don’t use it; composition removes those dependencies.</li>
+<li><strong><code>children</code></strong> for one slot, named props (<code>sidebar</code>, <code>content</code>) for several.</li>
+<li><strong>Reach for composition before context:</strong> no provider, no hidden dependencies, no extra re-renders.</li>
+<li>Bonus: elements passed in from above are skipped when only the layout re-renders.</li>
+</ul>
+<p>Read more: <a href="../patterns/composition/">Composition and Layout Components</a></p>
+</details>
+<details class="qa"><summary>What are compound components?</summary>
+<p>Compound components are a set of components designed to work together (like <code>&lt;select&gt;</code> and <code>&lt;option&gt;</code>) that share state implicitly through context provided by the parent, while the consumer controls the structure and markup.</p>
+<ul>
+<li><strong>Context, not <code>cloneElement</code>:</strong> <code>cloneElement</code> only reaches direct children and breaks when a child is wrapped (recorded).</li>
+<li><strong>Validate usage:</strong> a custom hook that throws “must be used inside <code>&lt;Toggle&gt;</code>” turns a cryptic null error into a clear one.</li>
+<li>Common in headless libraries (Radix, Headless UI, Reach): <code>Tabs</code>, <code>Accordion</code>, <code>Menu</code>.</li>
+</ul>
+<p>Read more: <a href="../patterns/compound-components/">Compound Components</a></p>
+</details>
+<details class="qa"><summary>What is the slots pattern?</summary>
+<p>In the slots pattern, a root component provides, through context, a map of props for each named slot (<code>label</code>, <code>input</code>, <code>description</code>), and generic child components look up their slot and merge those props, so the same <code>Label</code> or <code>Text</code> can fill roles in many components.</p>
+<ul>
+<li><strong>The root owns accessibility wiring</strong> (<code>id</code>, <code>htmlFor</code>, <code>aria-describedby</code>); the consumer only arranges pieces.</li>
+<li><strong>Merge order:</strong> slot props first, explicit props last, so consumers can override.</li>
+<li><strong>Trade-off:</strong> slot names are strings, so a typo fails silently (recorded: <code>aria-describedby</code> pointing at nothing).</li>
+<li>React Aria Components are built this way.</li>
+</ul>
+<p>Read more: <a href="../patterns/slots/">The Slots Pattern</a></p>
+</details>
+<details class="qa"><summary>What are prop collections and prop getters?</summary>
+<p>A prop collection is an object of props a hook returns for a typical element (e.g. <code>aria-checked</code> and <code>onClick</code>); a prop getter is a function (<code>getTogglerProps(userProps)</code>) that merges the consumer’s props with the hook’s and chains event handlers so neither overwrites the other.</p>
+<ul>
+<li><strong>Collections break on custom handlers:</strong> spread order decides which single <code>onClick</code> survives (recorded: either the toggle or the analytics call was lost).</li>
+<li><strong>Getters compose:</strong> <code>onClick: callAll(userOnClick, toggle)</code>.</li>
+<li>Downshift popularized the <code>get…Props</code> convention.</li>
+</ul>
+<p>Read more: <a href="../patterns/prop-getters/">Prop Collections and Getters</a></p>
+</details>
+<details class="qa"><summary>What is the state initializer pattern?</summary>
+<p>The state initializer pattern lets the consumer of a hook or component set its starting state with an <code>initial…</code> option, usually alongside a <code>reset()</code> that returns to it, mirroring <code>useState(initial)</code> and <code>defaultValue</code>.</p>
+<ul>
+<li><strong>Initial means initial:</strong> later changes to the prop are ignored.</li>
+<li><strong>Store the reset target in a ref</strong> captured on mount, otherwise <code>reset</code> follows the current prop (recorded).</li>
+<li>To reset everything, remounting with a new <code>key</code> also works.</li>
+</ul>
+<p>Read more: <a href="../patterns/state-initializers/">State Initializers</a></p>
+</details>
+<details class="qa"><summary>What is the state reducer pattern?</summary>
+<p>The state reducer pattern is inversion of control for state transitions: a hook accepts a <code>reducer</code> from the consumer and uses it instead of its own, so the consumer can modify, veto or extend what each action does while the hook still decides when actions happen.</p>
+<ul>
+<li><strong>Export the default reducer</strong> so consumers override one case and delegate the rest.</li>
+<li><strong>Returning the same state vetoes</strong> an action; React still runs the component once, then bails out of its children (recorded).</li>
+<li><strong>The action types become public API</strong>: renaming one is a breaking change.</li>
+<li>Downshift’s <code>stateReducer</code> is the canonical example.</li>
+</ul>
+<p>Read more: <a href="../patterns/state-reducer/">The State Reducer Pattern</a></p>
+</details>
+<details class="qa"><summary>What are control props?</summary>
+<p>Control props let a parent own a component’s state the way <code>value</code>/<code>onChange</code> control an <code>&lt;input&gt;</code>: when the prop is passed, the component stops updating its internal state and only suggests changes through a callback, which the parent can accept or ignore.</p>
+<ul>
+<li><strong>Use them to sync components, drive state from outside</strong> (URL, server) or veto changes.</li>
+<li><strong>The round trip:</strong> click → <code>onChange(suggestion)</code> → parent <code>setState</code> → new prop. If the parent ignores it, nothing renders (recorded).</li>
+<li><strong>Don’t switch</strong> between controlled and uncontrolled during a component’s life.</li>
+<li><strong>State reducer vs control props:</strong> the former customizes transitions while the component keeps the state; the latter hands the state to the parent.</li>
+</ul>
+<p>Read more: <a href="../patterns/control-props/">Control Props</a></p>
+</details>
+<details class="qa"><summary>What is the latest ref pattern?</summary>
+<p>The latest ref pattern stores the most recent callback (or value) in a ref, updated after every render, so a long-lived function such as a debounced handler or subscription can call the latest version without being recreated.</p>
+<ul>
+<li><strong>Separates identity from content:</strong> the debounced function stays the same (its timers survive), but it reads <code>ref.current</code> when it runs.</li>
+<li>Rebuilding instead loses pending timers (recorded: four saves instead of one); building once around the first callback is stale (recorded: saved for the wrong product).</li>
+<li><strong>Update the ref in an effect,</strong> not during render.</li>
+<li><strong><code>useEffectEvent</code></strong> is the built-in equivalent for functions called from effects.</li>
+</ul>
+<p>Read more: <a href="../patterns/latest-ref/">The Latest Ref Pattern</a></p>
+</details>
+<details class="qa"><summary>What is a portal, and how do events behave inside one?</summary>
+<p><code>createPortal(children, domNode)</code> renders children into a different DOM node (usually <code>document.body</code>) while they stay in the same place in the React tree, so they escape <code>overflow: hidden</code>, <code>z-index</code> and <code>transform</code> traps but keep context and state.</p>
+<ul>
+<li><strong>React events bubble through the React tree</strong>, not the DOM tree: a click in a portaled dialog still triggers the parent component’s <code>onClick</code> (recorded).</li>
+<li>Used for modals, tooltips, menus and toasts.</li>
+<li><strong>Accessibility is still on you:</strong> focus management, <code>aria-modal</code>, Escape to close.</li>
+</ul>
+<p>Read more: <a href="../apis/createportal/">createPortal</a></p>
+</details>
+<details class="qa"><summary>What are custom hooks, and how do they differ from utility functions or HOCs?</summary>
+<p>A custom hook is a function starting with <code>use</code> that calls other hooks to encapsulate reusable stateful logic; each component that calls it gets its own independent state, unlike a utility function (no hooks) or a higher-order component (wraps components).</p>
+<ul>
+<li><strong>Share logic, not state:</strong> two components using <code>useCart()</code> don’t share a cart unless the hook reads a shared context or store.</li>
+<li><strong>Hooks replaced most HOCs and render props:</strong> no wrapper hell, explicit inputs and outputs, easy to compose.</li>
+<li>Name them for what they do (<code>useOnlineStatus</code>), not how.</li>
+</ul>
+<p>Read more: <a href="../apis/usereducer/">useReducer</a>, <a href="../patterns/prop-getters/">Prop Collections and Getters</a></p>
+</details>
+<details class="qa"><summary>Render props vs hooks vs compound components: how do you choose an API?</summary>
+<p>Choose by how much control the consumer needs: hooks expose logic and let the consumer render anything; compound components give a structured, declarative API with implicit wiring; render props are an older way to share rendering logic, mostly replaced by hooks.</p>
+<ul>
+<li><strong>Libraries often ship both:</strong> a headless hook for full control and compound components for convenience.</li>
+<li>Add control layers progressively: initializers → state reducer → control props.</li>
+<li><strong>Optimize for the common case</strong> and keep escape hatches for the rare one.</li>
+</ul>
+<p>Read more: <a href="../patterns/compound-components/">Compound Components</a>, <a href="../patterns/control-props/">Control Props</a></p>
+</details>
+<details class="qa"><summary>What is <code>flushSync</code>, and when is it justified?</summary>
+<p><code>flushSync(() =&gt; setState(…))</code> forces React to render and commit the update synchronously before it returns, so the next line can read the updated DOM, for example to focus or scroll to an element that was just rendered.</p>
+<ul>
+<li><strong>It defeats batching and scheduling</strong>, so it’s a de-optimization: use it only when imperative DOM code needs the result immediately.</li>
+<li>Recorded: without it, <code>inputRef.current</code> was still <code>null</code> right after <code>setEditing(true)</code>.</li>
+<li>Alternatives: <code>autoFocus</code>, ref callbacks, or <code>useLayoutEffect</code>.</li>
+</ul>
+<p>Read more: <a href="../apis/flushsync/">flushSync</a></p>
+</details>
+<details class="qa"><summary>What is a higher-order component, and is it still used?</summary>
+<p>A higher-order component (HOC) is a function that takes a component and returns a new component with added behavior or props, such as <code>withRouter(Component)</code>; hooks have replaced most HOCs, but they still appear for cross-cutting wrappers and in older code.</p>
+<ul>
+<li><strong>Downsides:</strong> wrapper nesting, props colliding by name, unclear where a prop comes from, and static typing friction.</li>
+<li><strong><code>memo</code> is technically a HOC</strong>, and so are many library wrappers (<code>observer</code>, <code>connect</code>).</li>
+<li>Prefer a custom hook when the goal is sharing logic.</li>
+</ul>
+<p>Read more: <a href="../performance/element-optimization/">Element Optimization</a></p>
+</details>
+<details class="qa"><summary>How do you combine these patterns in a real component library?</summary>
+<p>Layer them: a headless hook owns the logic (prop getters, state reducer, control props, initializers), compound components or slots provide the declarative API on top of it, and composition keeps layout flexible, so consumers can pick the level of control they need.</p>
+<ul>
+<li><strong>Start simple:</strong> a component with sensible defaults; add control layers only for real use cases.</li>
+<li><strong>Accessibility lives in the library</strong>, wired through context or slots, so consumers can’t forget it.</li>
+<li>Examples: Downshift (hooks + getters + reducer), Radix (compound components + control props), React Aria (hooks + slots).</li>
+</ul>
+<p>Read more: <a href="../patterns/compound-components/">Compound Components</a>, <a href="../patterns/state-reducer/">The State Reducer Pattern</a></p>
+</details>
+<details class="qa"><summary>How do you design a reusable component's API?</summary>
+<p>Start from the consumer’s code: keep the common case to a few props, make it composable (<code>children</code>, slots), accessible by default, and controllable when needed (<code>value</code>/<code>onChange</code> alongside defaults), and expose escape hatches such as a state reducer or prop getters only where real use cases demand them.</p>
+<ul>
+<li><strong>Prefer composition over configuration:</strong> a growing list of boolean props is a smell.</li>
+<li><strong>Support controlled and uncontrolled</strong> modes the way native inputs do.</li>
+<li><strong>Forward native props</strong> (<code>...rest</code> typed with <code>ComponentProps&lt;'button'&gt;</code>) and <code>ref</code>.</li>
+<li><strong>Document behavior as API:</strong> action types, events and slot names become contracts.</li>
+</ul>
+<p>Read more: <a href="../patterns/composition/">Composition and Layout Components</a>, <a href="../fundamentals/typescript-with-react/">TypeScript with React</a></p>
+</details>
+</article></div><nav class="wrap pager" aria-label="Pages" data-astro-cid-yifuyi6y><a class="btn btn-ghost" href="/react-handbook/" data-astro-cid-yifuyi6y>← The handbook</a><a class="btn" href="#top" onclick="window.scrollTo({ top: 0 }); return false" data-astro-cid-yifuyi6y>Back to top ↑</a></nav><footer class="site-foot wrap">React Handbook · notes from the Nexus vault, rewritten with pictures and a shared example app · React 19.2.5</footer><dialog class="search-dlg island" aria-label="Search the notes" data-pagefind-ignore><form method="dialog" class="search-form" role="search"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2.2"></circle><path d="M13 13l4.5 4.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></path></svg><input type="search" class="search-input" placeholder="Search all notes… e.g. bailout, lanes, useEffect" aria-label="Search" autocomplete="off"><button type="submit" class="btn btn-ghost search-close" aria-label="Close search">Esc</button></form><p class="search-status" aria-live="polite"></p><ol class="search-results"></ol></dialog><div class="gl-pop island" role="tooltip" hidden data-pagefind-ignore></div><script type="application/json" id="glossary-data">{"createRoot":{"n":"createRoot","p":"setup","l":"must","pl":"set up React on a DOM node","w":"Creates the FiberRoot and the first fiber (HostRoot) for a container, and attaches React’s event listeners to it. Renders nothing.","c":["createFiberRoot","listenToAllSupportedEvents"],"cb":[],"b":"how-react-works"},"createFiberRoot":{"n":"createFiberRoot","p":"setup","l":"skip","pl":"create the root’s records","w":"Allocates the FiberRoot (bookkeeping for one root) and its HostRoot fiber.","c":[],"cb":["createRoot"],"b":"how-react-works"},"listenToAllSupportedEvents":{"n":"listenToAllSupportedEvents","p":"setup","l":"good","pl":"listen for every event on the root","w":"Attaches one capture and one bubble listener per event type to the root container. This is event delegation: your onClick never becomes an addEventListener on the button.","c":[],"cb":["createRoot"],"b":"how-react-works"},"root.render":{"n":"root.render","p":"schedule","l":"must","pl":"ask React to render this element","w":"Queues an update whose payload is the element on the HostRoot fiber and schedules a render. Returns before anything renders.","c":["requestUpdateLane","updateContainerImpl"],"cb":[],"b":"how-react-works"},"updateContainerImpl":{"n":"updateContainerImpl","p":"schedule","l":"skip","pl":"queue the root update","w":"Creates the root update { element }, enqueues it and calls scheduleUpdateOnFiber.","c":["scheduleUpdateOnFiber"],"cb":["root.render"],"b":"how-react-works"},"jsx":{"n":"jsx","p":"element","l":"must","pl":"create an element object","w":"What JSX compiles to (automatic runtime). Returns a plain object { $$typeof, type, key, ref, props }. It does not call the component.","c":[],"cb":["your component"],"b":"how-react-works"},"jsxs":{"n":"jsxs","p":"element","l":"good","pl":"create an element with static children","w":"The same as jsx in production; in development it skips the key warning for children written side by side in JSX.","c":[],"cb":["your component"],"b":"how-react-works"},"jsxDEV":{"n":"jsxDEV","p":"element","l":"good","pl":"create an element (development)","w":"The development version of jsx: also records where the element was written (file, line) for warnings and DevTools.","c":[],"cb":["your component"],"b":"how-react-works"},"createElement":{"n":"createElement","p":"element","l":"must","pl":"create an element","w":"Returns a plain object describing UI: { $$typeof, type, key, props }. What JSX compiled to before the automatic runtime; children go in as extra arguments.","c":[],"cb":[],"b":"raw-react-apis"},"dispatchDiscreteEvent":{"n":"dispatchDiscreteEvent","p":"event","l":"good","pl":"React’s click/keydown listener","w":"The root listener for discrete events (click, keydown, input…). Sets the event priority, finds the target fiber, collects onX props on the path and calls your handlers.","c":["dispatchEvent"],"cb":[],"b":"a-state-update-end-to-end"},"dispatchEvent":{"n":"dispatchEvent","p":"event","l":"skip","pl":"route a native event to handlers","w":"Finds the fiber for the event target and runs the plugin event system that builds the SyntheticEvent.","c":[],"cb":["dispatchDiscreteEvent"],"b":"a-state-update-end-to-end"},"dispatchSetState":{"n":"dispatchSetState","p":"schedule","l":"must","pl":"setState","w":"The function your setState actually is. Creates an update, picks a lane, tries the eager bailout, queues the update and schedules a render.","c":["requestUpdateLane","dispatchSetStateInternal","scheduleUpdateOnFiber"],"cb":["your event handler"],"b":"hooks-under-the-hood"},"dispatchSetStateInternal":{"n":"dispatchSetStateInternal","p":"schedule","l":"skip","pl":"queue the state update","w":"Computes the new state eagerly when the fiber has no pending work; if it’s Object.is-equal, it skips scheduling a render.","c":["enqueueConcurrentHookUpdate","scheduleUpdateOnFiber"],"cb":["dispatchSetState"],"b":"hooks-under-the-hood"},"requestUpdateLane":{"n":"requestUpdateLane","p":"schedule","l":"good","pl":"pick the update’s priority","w":"Chooses the lane: SyncLane inside a click, DefaultLane outside events, a transition lane inside startTransition.","c":[],"cb":["dispatchSetState","root.render"],"b":"scheduler-lanes-and-batching"},"enqueueConcurrentHookUpdate":{"n":"enqueueConcurrentHookUpdate","p":"schedule","l":"skip","pl":"stash the update","w":"Puts the update in a module-level array until the next render links it into the hook’s queue.","c":[],"cb":["dispatchSetStateInternal"],"b":"scheduler-lanes-and-batching"},"scheduleUpdateOnFiber":{"n":"scheduleUpdateOnFiber","p":"schedule","l":"good","pl":"mark the root as having work","w":"Adds the lane to root.pendingLanes and makes sure the root is scheduled.","c":["ensureRootIsScheduled"],"cb":["dispatchSetState","updateContainerImpl"],"b":"scheduler-lanes-and-batching"},"ensureRootIsScheduled":{"n":"ensureRootIsScheduled","p":"schedule","l":"good","pl":"make sure a render is coming","w":"Adds the root to the schedule and queues one microtask to process it. Later setStates in the same tick find it already scheduled: that’s batching.","c":["scheduleImmediateRootScheduleTask"],"cb":["scheduleUpdateOnFiber"],"b":"scheduler-lanes-and-batching"},"scheduleImmediateRootScheduleTask":{"n":"scheduleImmediateRootScheduleTask","p":"schedule","l":"skip","pl":"queue the microtask","w":"Calls queueMicrotask(processRootScheduleInMicrotask).","c":[],"cb":["ensureRootIsScheduled"],"b":"scheduler-lanes-and-batching"},"processRootScheduleInMicrotask":{"n":"processRootScheduleInMicrotask","p":"schedule","l":"good","pl":"decide when to render","w":"Runs in the microtask. Sync lanes are rendered right there; other lanes get a Scheduler task at a matching priority.","c":["performSyncWorkOnRoot","scheduleCallback"],"cb":[],"b":"scheduler-lanes-and-batching"},"scheduleCallback":{"n":"scheduleCallback","p":"schedule","l":"good","pl":"ask the Scheduler for a task","w":"The Scheduler’s API: puts a task on a min-heap ordered by expiration time and runs it in a later macrotask.","c":[],"cb":["processRootScheduleInMicrotask"],"b":"scheduler-lanes-and-batching"},"performSyncWorkOnRoot":{"n":"performSyncWorkOnRoot","p":"schedule","l":"skip","pl":"render now (Sync lane)","w":"The microtask’s entry point for Sync lanes: calls performWorkOnRoot.","c":["performWorkOnRoot"],"cb":[],"b":"a-state-update-end-to-end"},"performWorkOnRootViaSchedulerTask":{"n":"performWorkOnRootViaSchedulerTask","p":"schedule","l":"skip","pl":"render in a Scheduler task","w":"The Scheduler task’s entry point for non-sync lanes: calls performWorkOnRoot.","c":["performWorkOnRoot"],"cb":[],"b":"how-react-works"},"shouldYield":{"n":"shouldYield","p":"render","l":"good","pl":"is my 5ms slice used up?","w":"Asked after every fiber in the concurrent loop. True after about 5ms, so React pauses and lets the browser paint and handle input.","c":[],"cb":["workLoopConcurrentByScheduler"],"b":"scheduler-lanes-and-batching"},"performWorkOnRoot":{"n":"performWorkOnRoot","p":"render","l":"good","pl":"render, then commit, the root","w":"Chooses the synchronous or time-sliced loop for the lanes, runs the render, and commits the result.","c":["renderRootSync","renderRootConcurrent","commitRoot"],"cb":[],"b":"scheduler-lanes-and-batching"},"renderRootSync":{"n":"renderRootSync","p":"render","l":"good","pl":"render without pausing","w":"Prepares a fresh stack if needed and runs workLoopSync to the end.","c":["prepareFreshStack","workLoopSync"],"cb":["performWorkOnRoot"],"b":"the-work-loop"},"renderRootConcurrent":{"n":"renderRootConcurrent","p":"render","l":"good","pl":"render in 5ms slices","w":"Like renderRootSync but runs workLoopConcurrentByScheduler, which can pause.","c":["workLoopConcurrentByScheduler"],"cb":["performWorkOnRoot"],"b":"scheduler-lanes-and-batching"},"prepareFreshStack":{"n":"prepareFreshStack","p":"render","l":"good","pl":"start a render from the root","w":"Creates the work-in-progress HostRoot and links queued updates in. If a half-built tree exists for other lanes, it is thrown away.","c":["createWorkInProgress","finishQueueingConcurrentUpdates"],"cb":["renderRootSync"],"b":"scheduler-lanes-and-batching"},"finishQueueingConcurrentUpdates":{"n":"finishQueueingConcurrentUpdates","p":"render","l":"skip","pl":"link stashed updates into queues","w":"Moves updates stashed by setState into their hooks’ circular queues and marks lanes up to the root.","c":["markUpdateLaneFromFiberToRoot"],"cb":["prepareFreshStack"],"b":"hooks-under-the-hood"},"markUpdateLaneFromFiberToRoot":{"n":"markUpdateLaneFromFiberToRoot","p":"render","l":"good","pl":"leave a trail to the updated fiber","w":"Sets lanes on the updated fiber and childLanes on every ancestor, so the work loop knows which paths to walk down.","c":[],"cb":["finishQueueingConcurrentUpdates"],"b":"the-work-loop"},"workLoopSync":{"n":"workLoopSync","p":"render","l":"must","pl":"process fibers until done","w":"The render loop: while (workInProgress !== null) performUnitOfWork(workInProgress). No recursion, one pointer.","c":["performUnitOfWork"],"cb":["renderRootSync"],"b":"the-work-loop"},"workLoopConcurrentByScheduler":{"n":"workLoopConcurrentByScheduler","p":"render","l":"good","pl":"process fibers until time’s up","w":"The same loop, but it also stops when shouldYield() says the slice is used up.","c":["performUnitOfWork","shouldYield"],"cb":["renderRootConcurrent"],"b":"the-work-loop"},"performUnitOfWork":{"n":"performUnitOfWork","p":"render","l":"good","pl":"work on one fiber","w":"Calls beginWork on the fiber. If it returned a child, that’s next; otherwise completeUnitOfWork climbs up.","c":["beginWork","completeUnitOfWork"],"cb":["workLoopSync"],"b":"the-work-loop"},"beginWork":{"n":"beginWork","p":"render","l":"must","pl":"start work on a fiber (going down)","w":"Decides what to do with one fiber: bail out if nothing changed, otherwise render it (call the component, or reconcile a DOM tag’s children). Returns the first child.","c":["bailoutOnAlreadyFinishedWork","updateFunctionComponent","reconcileChildren"],"cb":["performUnitOfWork"],"b":"the-work-loop"},"bailoutOnAlreadyFinishedWork":{"n":"bailoutOnAlreadyFinishedWork","p":"render","l":"must","pl":"skip this component","w":"Skips calling the component. If childLanes says something below has work, the children are cloned and visited; otherwise the whole subtree is skipped.","c":[],"cb":["beginWork"],"b":"the-work-loop"},"attemptEarlyBailoutIfNoScheduledUpdate":{"n":"attemptEarlyBailoutIfNoScheduledUpdate","p":"render","l":"skip","pl":"try to skip early","w":"The fast path in beginWork when props, context and the fiber’s own lanes say nothing changed.","c":["bailoutOnAlreadyFinishedWork"],"cb":["beginWork"],"b":"the-work-loop"},"updateFunctionComponent":{"n":"updateFunctionComponent","p":"render","l":"good","pl":"render a function component","w":"beginWork’s case for function components: renderWithHooks, then reconcile the returned elements.","c":["renderWithHooks","reconcileChildren"],"cb":["beginWork"],"b":"how-react-works"},"renderWithHooks":{"n":"renderWithHooks","p":"render","l":"must","pl":"call your component","w":"Installs the right hook implementations (mount or update), calls your component function, and returns the elements it produced.","c":["your component"],"cb":["updateFunctionComponent"],"b":"hooks-under-the-hood"},"mountState":{"n":"mountState","p":"render","l":"good","pl":"useState on the first render","w":"Creates the hook object and its update queue, stores the initial value, returns [state, setState].","c":["mountWorkInProgressHook"],"cb":["your component"],"b":"hooks-under-the-hood"},"updateReducer":{"n":"updateReducer","p":"render","l":"good","pl":"useState on a re-render","w":"Takes the hook from the current fiber and folds its queued updates into the new state.","c":["updateWorkInProgressHook"],"cb":["your component"],"b":"hooks-under-the-hood"},"mountWorkInProgressHook":{"n":"mountWorkInProgressHook","p":"render","l":"skip","pl":"append a hook","w":"Creates a hook object and appends it to fiber.memoizedState. Hooks are matched by this order.","c":[],"cb":[],"b":"hooks-under-the-hood"},"updateWorkInProgressHook":{"n":"updateWorkInProgressHook","p":"render","l":"skip","pl":"take the next hook","w":"Walks the current fiber’s hook list in step with the calls. Calling hooks in a different order breaks here.","c":[],"cb":[],"b":"hooks-under-the-hood"},"reconcileChildren":{"n":"reconcileChildren","p":"render","l":"must","pl":"compare new elements with old fibers","w":"Diffs what the component returned against the existing child fibers and decides what to reuse, create or delete.","c":["reconcileChildFibers"],"cb":["beginWork","updateFunctionComponent"],"b":"reconciliation"},"reconcileChildFibers":{"n":"reconcileChildFibers","p":"render","l":"good","pl":"diff the children","w":"The entry point of child reconciliation: dispatches to the single-element, text or array case.","c":["reconcileSingleElement","reconcileChildrenArray"],"cb":["reconcileChildren"],"b":"reconciliation"},"reconcileChildFibersImpl":{"n":"reconcileChildFibers","p":"render","l":"good","pl":"diff the children","w":"The entry point of child reconciliation: dispatches to the single-element, text or array case.","c":["reconcileSingleElement","reconcileChildrenArray"],"cb":["reconcileChildren"],"b":"reconciliation"},"reconcileSingleElement":{"n":"reconcileSingleElement","p":"render","l":"good","pl":"diff one child","w":"Same key and same type → reuse the fiber; otherwise delete the old one and create a new fiber.","c":["useFiber","createFiberFromElement"],"cb":["reconcileChildFibers"],"b":"reconciliation"},"reconcileChildrenArray":{"n":"reconcileChildrenArray","p":"render","l":"must","pl":"diff a list of children","w":"The list diff: walk in step while keys match, then use a Map by key, and decide moves with lastPlacedIndex.","c":["updateSlot","mapRemainingChildren","updateFromMap","placeChild","deleteChild"],"cb":["reconcileChildFibers"],"b":"child-reconciliation-algorithm"},"updateSlot":{"n":"updateSlot","p":"render","l":"skip","pl":"compare one list position","w":"In the first pass: returns null when keys differ (ends the fast path), otherwise reuses or replaces.","c":[],"cb":["reconcileChildrenArray"],"b":"child-reconciliation-algorithm"},"mapRemainingChildren":{"n":"mapRemainingChildren","p":"render","l":"good","pl":"index old children by key","w":"Puts the remaining old fibers in a Map keyed by key (or index when there is no key).","c":[],"cb":["reconcileChildrenArray"],"b":"child-reconciliation-algorithm"},"updateFromMap":{"n":"updateFromMap","p":"render","l":"skip","pl":"find the old child by key","w":"Looks the new element’s key up in the Map: reuse if found, create if not.","c":[],"cb":["reconcileChildrenArray"],"b":"child-reconciliation-algorithm"},"placeChild":{"n":"placeChild","p":"render","l":"good","pl":"decide stay, move or insert","w":"Compares a reused fiber’s old index with lastPlacedIndex: smaller means move (Placement); a new fiber is an insert.","c":[],"cb":["reconcileChildrenArray"],"b":"child-reconciliation-algorithm"},"deleteChild":{"n":"deleteChild","p":"render","l":"good","pl":"mark a child for deletion","w":"Adds the old fiber to the parent’s deletions list and flags the parent ChildDeletion. The DOM is removed later, in the commit.","c":[],"cb":["reconcileChildrenArray","reconcileSingleElement"],"b":"child-reconciliation-algorithm"},"createFiberFromTypeAndProps":{"n":"createFiberFromTypeAndProps","p":"render","l":"good","pl":"create a fiber for an element","w":"Makes a new fiber and picks its tag from element.type: function → FunctionComponent, string → HostComponent, context → provider.","c":[],"cb":["reconcileSingleElement","reconcileChildrenArray"],"b":"how-react-works"},"createFiberFromElement":{"n":"createFiberFromElement","p":"render","l":"skip","pl":"create a fiber for an element","w":"A thin wrapper around createFiberFromTypeAndProps.","c":["createFiberFromTypeAndProps"],"cb":[],"b":"reconciliation"},"createFiberFromText":{"n":"createFiberFromText","p":"render","l":"skip","pl":"create a text fiber","w":"Creates a HostText fiber for a string or number child.","c":[],"cb":[],"b":"how-react-works"},"useFiber":{"n":"useFiber","p":"render","l":"good","pl":"reuse an existing fiber","w":"Same key and type: gets the fiber’s alternate (createWorkInProgress) with the new props. State and the DOM node are kept.","c":["createWorkInProgress"],"cb":["reconcileSingleElement","reconcileChildrenArray"],"b":"reconciliation"},"createWorkInProgress":{"n":"createWorkInProgress","p":"render","l":"good","pl":"make the draft copy of a fiber","w":"Returns the fiber’s alternate, creating it the first time, with new props. This is double buffering.","c":[],"cb":["useFiber","prepareFreshStack"],"b":"react-fiber"},"completeUnitOfWork":{"n":"completeUnitOfWork","p":"render","l":"good","pl":"finish a fiber and climb","w":"Calls completeWork, then moves to the sibling, or up to the parent and completes that.","c":["completeWork"],"cb":["performUnitOfWork"],"b":"the-work-loop"},"completeWork":{"n":"completeWork","p":"render","l":"must","pl":"finish a fiber (going up)","w":"For DOM tags: creates the DOM node (detached) on mount and appends its children’s nodes, or flags an Update. For every fiber: bubbles subtreeFlags to the parent.","c":[],"cb":["completeUnitOfWork"],"b":"the-work-loop"},"propagateContextChanges":{"n":"propagateContextChanges","p":"render","l":"good","pl":"find readers of a changed context","w":"When a provider’s value changed, searches below for fibers that read that context and schedules them, even through memo.","c":[],"cb":[],"b":"how-react-works"},"readContext":{"n":"readContext","p":"render","l":"skip","pl":"read a context value","w":"What useContext calls: reads the nearest provider’s value and records a dependency on the fiber.","c":[],"cb":[],"b":"hooks-under-the-hood"},"commitRoot":{"n":"commitRoot","p":"commit","l":"must","pl":"apply the finished render","w":"Runs the commit: before mutation → mutation (DOM writes) → swap trees → layout effects, then schedules or flushes passive effects.","c":["commitBeforeMutationEffects","flushMutationEffects","flushLayoutEffects","flushPassiveEffects"],"cb":["performWorkOnRoot"],"b":"commit-phase-and-effects"},"commitBeforeMutationEffects":{"n":"commitBeforeMutationEffects","p":"commit","l":"skip","pl":"read the DOM before it changes","w":"Runs getSnapshotBeforeUpdate and focus bookkeeping while the old UI is still in the DOM.","c":[],"cb":["commitRoot"],"b":"commit-phase-and-effects"},"flushMutationEffects":{"n":"flushMutationEffects","p":"commit","l":"good","pl":"write the DOM","w":"The mutation phase: inserts, updates and removes DOM nodes as flagged, runs layout cleanups, then sets root.current = finishedWork.","c":["commitMutationEffectsOnFiber"],"cb":["commitRoot"],"b":"commit-phase-and-effects"},"commitMutationEffectsOnFiber":{"n":"commitMutationEffectsOnFiber","p":"commit","l":"skip","pl":"apply one fiber’s DOM changes","w":"Walks the flagged fibers and performs their Placement, Update and ChildDeletion work.","c":["commitPlacement","commitUpdate","commitDeletionEffects"],"cb":["flushMutationEffects"],"b":"commit-phase-and-effects"},"commitPlacement":{"n":"commitPlacement","p":"commit","l":"good","pl":"insert into the DOM","w":"Inserts a new or moved fiber’s DOM nodes (descending through components to the real nodes) with appendChild or insertBefore.","c":["insertOrAppendPlacementNode"],"cb":["commitMutationEffectsOnFiber"],"b":"commit-phase-and-effects"},"insertOrAppendPlacementNode":{"n":"insertOrAppendPlacementNode","p":"commit","l":"skip","pl":"append or insert the real nodes","w":"For a DOM fiber calls appendChild/insertBefore; for a component fiber descends to its children.","c":[],"cb":["commitPlacement"],"b":"how-react-works"},"insertOrAppendPlacementNodeIntoContainer":{"n":"insertOrAppendPlacementNode","p":"commit","l":"skip","pl":"append or insert the real nodes","w":"For a DOM fiber calls appendChild/insertBefore; for a component fiber descends to its children.","c":[],"cb":["commitPlacement"],"b":"how-react-works"},"commitUpdate":{"n":"commitUpdate","p":"commit","l":"good","pl":"update a DOM node’s attributes","w":"Compares old and new props of a DOM element and writes only what changed.","c":[],"cb":["commitMutationEffectsOnFiber"],"b":"reconciliation"},"commitTextUpdate":{"n":"commitTextUpdate","p":"commit","l":"skip","pl":"change a text node","w":"Sets a text node’s value.","c":[],"cb":[],"b":"how-react-works"},"commitDeletionEffects":{"n":"commitDeletionEffects","p":"commit","l":"good","pl":"tear down a deleted subtree","w":"Walks a deleted subtree parent-first: detaches refs, runs layout cleanups, then removes the top DOM node.","c":["removeChild"],"cb":["commitMutationEffectsOnFiber"],"b":"commit-phase-and-effects"},"commitDeletionEffectsOnFiber":{"n":"commitDeletionEffects","p":"commit","l":"good","pl":"tear down a deleted subtree","w":"Walks a deleted subtree parent-first: detaches refs, runs layout cleanups, then removes the top DOM node.","c":["removeChild"],"cb":["commitMutationEffectsOnFiber"],"b":"commit-phase-and-effects"},"removeChild":{"n":"removeChild","p":"commit","l":"skip","pl":"remove a DOM node","w":"The DOM call that removes the top node of a deleted subtree.","c":[],"cb":["commitDeletionEffects"],"b":"how-react-works"},"flushLayoutEffects":{"n":"flushLayoutEffects","p":"commit","l":"good","pl":"run layout effects","w":"The layout phase: attaches refs and runs useLayoutEffect setups and componentDidMount/Update, child before parent, before paint.","c":["commitLayoutEffectOnFiber"],"cb":["commitRoot"],"b":"commit-phase-and-effects"},"commitLayoutEffectOnFiber":{"n":"commitLayoutEffectOnFiber","p":"commit","l":"skip","pl":"one fiber’s layout work","w":"Attaches the ref and runs the layout effects of one fiber.","c":["commitHookEffectListMount"],"cb":["flushLayoutEffects"],"b":"commit-phase-and-effects"},"commitHookEffectListMount":{"n":"commitHookEffectListMount","p":"effects","l":"good","pl":"run effect setups","w":"Runs the setup functions of a fiber’s effects that match the flags (Layout or Passive) and changed deps.","c":[],"cb":[],"b":"commit-phase-and-effects"},"commitHookEffectListUnmount":{"n":"commitHookEffectListUnmount","p":"effects","l":"good","pl":"run effect cleanups","w":"Runs the cleanup functions of a fiber’s effects that match the flags, before the new setups.","c":[],"cb":[],"b":"commit-phase-and-effects"},"flushPassiveEffects":{"n":"flushPassiveEffects","p":"effects","l":"must","pl":"run useEffect","w":"Runs all useEffect cleanups, then all setups. Normally after paint in a separate task; for discrete events like clicks, at the end of the commit.","c":["commitHookEffectListUnmount","commitHookEffectListMount"],"cb":["commitRoot"],"b":"commit-phase-and-effects"},"flushPendingEffects":{"n":"flushPendingEffects","p":"effects","l":"skip","pl":"finish leftover commit work","w":"Flushes any commit phase or passive effects still pending before new work starts.","c":[],"cb":[],"b":"commit-phase-and-effects"},"flushSpawnedWork":{"n":"flushSpawnedWork","p":"commit","l":"skip","pl":"schedule what comes after the commit","w":"Decides whether passive effects run now (Sync lanes) or in a later task.","c":[],"cb":[],"b":"commit-phase-and-effects"},"workInProgress":{"n":"workInProgress","p":"data","l":"must","pl":"the fiber being worked on","w":"Both the draft tree being rendered and the work loop’s one pointer to the next fiber to process.","c":[],"cb":[],"b":"react-fiber"},"alternate":{"n":"alternate","p":"data","l":"good","pl":"the fiber’s other copy","w":"Links a fiber in the current tree to its counterpart in the work-in-progress tree (double buffering).","c":[],"cb":[],"b":"react-fiber"},"memoizedState":{"n":"memoizedState","p":"data","l":"good","pl":"the component’s hooks","w":"On a function component fiber: the head of its hook list. Each hook stores its value here, in call order.","c":[],"cb":[],"b":"hooks-under-the-hood"},"memoizedProps":{"n":"memoizedProps","p":"data","l":"good","pl":"props from the last render","w":"The props the fiber rendered with last time. Compared by reference to decide whether to bail out.","c":[],"cb":[],"b":"react-fiber"},"pendingProps":{"n":"pendingProps","p":"data","l":"good","pl":"props for this render","w":"The new props the fiber is being rendered with.","c":[],"cb":[],"b":"react-fiber"},"childLanes":{"n":"childLanes","p":"data","l":"good","pl":"work pending below","w":"A bitmask on each fiber saying that something in its subtree has updates. Zero means the whole subtree can be skipped.","c":[],"cb":[],"b":"the-work-loop"},"lanes":{"n":"lanes","p":"data","l":"good","pl":"this fiber’s pending priorities","w":"A bitmask of update priorities pending on the fiber itself.","c":[],"cb":[],"b":"scheduler-lanes-and-batching"},"subtreeFlags":{"n":"subtreeFlags","p":"data","l":"good","pl":"changes somewhere below","w":"The flags of all descendants ORed together, so the commit can skip subtrees with nothing to do.","c":[],"cb":[],"b":"the-work-loop"},"flags":{"n":"flags","p":"data","l":"good","pl":"what the commit must do here","w":"Bits on a fiber such as Placement, Update, ChildDeletion, Passive: recorded in render, performed in commit.","c":[],"cb":[],"b":"react-fiber"},"stateNode":{"n":"stateNode","p":"data","l":"skip","pl":"the real DOM node","w":"For a DOM fiber, the DOM element; for a class, the instance; for HostRoot, the FiberRoot.","c":[],"cb":[],"b":"react-fiber"},"updateQueue":{"n":"updateQueue","p":"data","l":"skip","pl":"queued effects or updates","w":"On function components, the circular list of effects the commit walks.","c":[],"cb":[],"b":"react-fiber"},"lastPlacedIndex":{"n":"lastPlacedIndex","p":"data","l":"good","pl":"rightmost position kept in place","w":"During the list diff: the largest old index kept so far. A reused child with a smaller old index has to move.","c":[],"cb":[],"b":"child-reconciliation-algorithm"},"key":{"n":"key","p":"api","l":"must","pl":"element identity","w":"A special prop that tells React which element is which among siblings. Not passed to the component: React keeps it on the element. Changing it remounts the element.","c":[],"cb":[],"b":"rendering-arrays"},"Fragment":{"n":"Fragment","p":"api","l":"must","pl":"group without a wrapper","w":"<>…</> groups siblings into one element without adding a DOM node.","c":[],"cb":[],"b":"using-jsx"},"dangerouslySetInnerHTML":{"n":"dangerouslySetInnerHTML","p":"api","l":"must","pl":"insert raw HTML","w":"The opt-in way to set innerHTML. React escapes every string otherwise, so this name is deliberately alarming.","c":[],"cb":[],"b":"hello-world-in-js"},"defaultValue":{"n":"defaultValue","p":"api","l":"must","pl":"starting value only","w":"Sets an input’s first value; after that the browser owns it and the user can edit it (uncontrolled). defaultChecked does the same for checkboxes and radios.","c":[],"cb":[],"b":"inputs"},"defaultChecked":{"n":"defaultChecked","p":"api","l":"good","pl":"starting checked state","w":"The checkbox/radio version of defaultValue.","c":[],"cb":[],"b":"inputs"},"FormData":{"n":"FormData","p":"api","l":"must","pl":"the form’s fields as key/value pairs","w":"A browser API that reads every named field of a form. Unchecked checkboxes and empty radio groups are missing from it.","c":[],"cb":[],"b":"forms"},"ErrorBoundary":{"n":"ErrorBoundary","p":"api","l":"must","pl":"catch render errors below","w":"A component (from react-error-boundary) that shows a fallback when a component below it throws while rendering.","c":[],"cb":[],"b":"error-boundaries"},"useErrorBoundary":{"n":"useErrorBoundary","p":"api","l":"good","pl":"reach the nearest boundary","w":"Hook from react-error-boundary; showBoundary(error) sends errors from event handlers or async code to the nearest ErrorBoundary.","c":[],"cb":[],"b":"error-boundaries"},"showBoundary":{"n":"showBoundary","p":"api","l":"good","pl":"send an error to the boundary","w":"Hands an error the boundary can’t see (event handler, promise) to the nearest ErrorBoundary.","c":[],"cb":[],"b":"error-boundaries"},"resetErrorBoundary":{"n":"resetErrorBoundary","p":"api","l":"good","pl":"try again","w":"Clears the caught error and mounts the boundary’s children again from scratch (their state is gone).","c":[],"cb":[],"b":"error-boundaries"},"satisfies":{"n":"satisfies","p":"api","l":"good","pl":"check without widening","w":"TypeScript operator: checks a value against a type but keeps the value’s own, narrower type.","c":[],"cb":[],"b":"typescript-with-react"},"ComponentProps":{"n":"ComponentProps","p":"api","l":"good","pl":"all props of an element","w":"React.ComponentProps<'span'> is the full prop type of a native element: handy for components that wrap one.","c":[],"cb":[],"b":"typescript-with-react"},"useState":{"n":"useState","p":"api","l":"must","pl":"remembered value","w":"Returns [value, setValue]. React keeps the value between renders; calling setValue queues an update and a re-render. Pass a function to compute the first value only once.","c":[],"cb":[],"b":"managing-ui-state"},"useEffect":{"n":"useEffect","p":"api","l":"must","pl":"sync with the outside world","w":"Runs your function after React commits a render, and again when a dependency changes. The function it returns (cleanup) runs before the next run and on unmount.","c":[],"cb":[],"b":"side-effects"},"useLayoutEffect":{"n":"useLayoutEffect","p":"api","l":"good","pl":"effect before paint","w":"Like useEffect, but runs right after the DOM is updated and before the browser paints. For measuring or adjusting the DOM without flicker.","c":[],"cb":[],"b":"uselayouteffect"},"useRef":{"n":"useRef","p":"api","l":"must","pl":"a box that survives renders","w":"Returns { current }: the same object every render. Changing .current doesn’t re-render. Pass it as ref to get a DOM node.","c":[],"cb":[],"b":"dom-refs-and-effect-dependencies"},"useId":{"n":"useId","p":"api","l":"good","pl":"a unique id per component","w":"Returns an id that is unique on the page and the same on server and client. For label/input and aria-* pairs, not for list keys.","c":[],"cb":[],"b":"the-useid-hook"},"useReducer":{"n":"useReducer","p":"api","l":"must","pl":"state with named updates","w":"Returns [state, dispatch]. dispatch(action) asks React to compute the next state with your reducer(state, action).","c":[],"cb":[],"b":"usereducer"},"useMemo":{"n":"useMemo","p":"api","l":"must","pl":"remember a computed value","w":"Recomputes only when its dependencies change; otherwise returns the same value (and object identity) as last render.","c":[],"cb":[],"b":"react-re-rendering"},"useCallback":{"n":"useCallback","p":"api","l":"must","pl":"remember a function","w":"Returns the same function between renders until a dependency changes. useCallback(fn, deps) is useMemo(() => fn, deps).","c":[],"cb":[],"b":"react-re-rendering"},"memo":{"n":"memo","p":"api","l":"must","pl":"skip if props are the same","w":"Wraps a component so it doesn’t re-render when its parent does, as long as every prop is Object.is-equal to last time.","c":[],"cb":[],"b":"element-optimization"},"StrictMode":{"n":"StrictMode","p":"api","l":"good","pl":"development checks","w":"In development, renders components twice and runs effects setup → cleanup → setup once more on mount, to expose impure renders and missing cleanups.","c":[],"cb":[],"b":"react-lifecycle"},"dispatch":{"n":"dispatch","p":"api","l":"must","pl":"send an action","w":"The function useReducer returns. dispatch(action) queues the action; React runs your reducer with it during the next render. Same function every render.","c":[],"cb":[],"b":"usereducer"},"createContext":{"n":"createContext","p":"api","l":"must","pl":"declare a shared value","w":"Creates a context object. Render <Ctx value={…}> to provide a value; read it below with use(Ctx). The argument is the value used when no provider is above.","c":[],"cb":[],"b":"context-with-use"},"use":{"n":"use","p":"api","l":"must","pl":"read a context or a promise","w":"Reads a context (like useContext) or the result of a promise (suspending until it resolves). Unlike hooks, it can be called inside if statements and after early returns.","c":[],"cb":[],"b":"data-fetching"},"useContext":{"n":"useContext","p":"api","l":"good","pl":"read a context","w":"The older way to read a context. Same result as use(Ctx), but it must follow the rules of hooks (top level, every render).","c":[],"cb":[],"b":"context-with-use"},"createPortal":{"n":"createPortal","p":"api","l":"must","pl":"render somewhere else in the DOM","w":"createPortal(children, domNode) puts children’s DOM inside domNode, while in React they stay where they were rendered: same context, and events bubble through the React tree.","c":[],"cb":[],"b":"createportal"},"useImperativeHandle":{"n":"useImperativeHandle","p":"api","l":"good","pl":"choose what a ref exposes","w":"useImperativeHandle(ref, () => ({ focus() {…} })) makes the parent’s ref point to your object instead of the DOM node: a small, deliberate API for commands.","c":[],"cb":[],"b":"useimperativehandle"},"flushSync":{"n":"flushSync","p":"api","l":"good","pl":"apply this update now","w":"flushSync(() => setState(…)) renders and commits before it returns, so the next line sees the updated DOM. Slow if overused; for focus, scroll and third-party DOM code.","c":[],"cb":[],"b":"flushsync"},"useSyncExternalStore":{"n":"useSyncExternalStore","p":"api","l":"good","pl":"read a store React doesn’t own","w":"useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot?) re-renders when the store’s snapshot changes. getSnapshot must return the same value when nothing changed.","c":[],"cb":[],"b":"usesyncexternalstore"},"children":{"n":"children","p":"api","l":"must","pl":"what goes between the tags","w":"The prop holding the JSX written between a component’s opening and closing tags. The simplest way to pass elements instead of data.","c":[],"cb":[],"b":"composition"},"ReactNode":{"n":"ReactNode","p":"api","l":"good","pl":"anything React can render","w":"The TypeScript type for a prop that takes JSX, text, numbers, arrays, null… Use it for children and named element props like sidebar.","c":[],"cb":[],"b":"composition"},"cloneElement":{"n":"cloneElement","p":"api","l":"good","pl":"copy an element with new props","w":"cloneElement(element, extraProps) returns a copy with props merged in. The old way to wire compound components; it only reaches direct children.","c":[],"cb":[],"b":"compound-components"},"Children.map":{"n":"Children.map","p":"api","l":"good","pl":"loop over children","w":"Maps over the children prop as given, without looking inside nested elements. Used with cloneElement in older compound components.","c":[],"cb":[],"b":"compound-components"},"useEffectEvent":{"n":"useEffectEvent","p":"api","l":"good","pl":"an effect’s latest-values function","w":"Wraps a function so it always sees the latest props and state but never has to be an effect dependency. Call it only from inside effects. Stable since React 19.2.","c":[],"cb":[],"b":"latest-ref"},"callAll":{"n":"callAll","p":"api","l":"good","pl":"call several handlers","w":"A small helper (not part of React): callAll(a, b) returns one function that calls each one that exists. Prop getters use it to merge onClick handlers.","c":[],"cb":[],"b":"prop-getters"},"getTogglerProps":{"n":"getTogglerProps","p":"api","l":"good","pl":"a prop getter","w":"Example prop getter from useToggle: pass your own props in, get back the props the button needs, with handlers merged.","c":[],"cb":[],"b":"prop-getters"},"useDeferredValue":{"n":"useDeferredValue","p":"api","l":"must","pl":"a value that may lag behind","w":"Returns the previous value during urgent renders, then re-renders in the background with the new one. Pair it with memo on the slow component.","c":[],"cb":[],"b":"concurrent-rendering"},"useTransition":{"n":"useTransition","p":"api","l":"must","pl":"mark an update as non-urgent","w":"Returns [isPending, startTransition]. Updates inside startTransition render in the background, can be interrupted, and keep the current UI instead of showing Suspense fallbacks.","c":[],"cb":[],"b":"code-splitting"},"startTransition":{"n":"startTransition","p":"api","l":"must","pl":"run an update as a transition","w":"The function from useTransition (or imported from react) that marks the state updates inside it as non-urgent.","c":[],"cb":[],"b":"code-splitting"},"isPending":{"n":"isPending","p":"api","l":"good","pl":"a transition is running","w":"The first value from useTransition: true from the moment a transition starts until it commits. Use it for a small pending indicator.","c":[],"cb":[],"b":"code-splitting"},"lazy":{"n":"lazy","p":"api","l":"must","pl":"load a component’s code on demand","w":"lazy(() => import('./x')) returns a component that downloads its module the first time it renders, suspending until it arrives. The module must default-export the component.","c":[],"cb":[],"b":"code-splitting"},"Suspense":{"n":"Suspense","p":"api","l":"must","pl":"show a fallback while waiting","w":"<Suspense fallback={…}> shows the fallback while something inside it is suspended: lazy code, or a promise read with use.","c":[],"cb":[],"b":"data-fetching"},"Profiler":{"n":"Profiler","p":"api","l":"good","pl":"measure render time","w":"<Profiler id onRender={(id, phase, actualDuration) => …}> reports how long React spent rendering the tree inside it.","c":[],"cb":[],"b":"windowing"},"useVirtualizer":{"n":"useVirtualizer","p":"api","l":"good","pl":"compute the visible rows","w":"From @tanstack/react-virtual: given count, the scroll element and a size estimate, it returns the rows to render and each one’s offset.","c":[],"cb":[],"b":"windowing"},"shallowEqual":{"n":"shallowEqual","p":"api","l":"good","pl":"compare props key by key","w":"What memo uses by default: same keys, and every value Object.is-equal. Objects, arrays and functions created during render never pass.","c":[],"cb":[],"b":"element-optimization"},"useOptimistic":{"n":"useOptimistic","p":"api","l":"must","pl":"state shown during an action","w":"useOptimistic(value, update?) returns a value you can change while an action or transition runs; when it ends, it falls back to the real value.","c":[],"cb":[],"b":"optimistic-ui"},"useFormStatus":{"n":"useFormStatus","p":"api","l":"must","pl":"is my form submitting?","w":"From react-dom: called in a component inside a <form>, returns { pending, data, method, action } for that form’s current submission.","c":[],"cb":[],"b":"optimistic-ui"},"preloadImage":{"n":"preloadImage","p":"api","l":"good","pl":"a promise for a loaded picture","w":"A helper (not part of React): returns a cached promise that resolves when the browser has loaded an image, so a component can suspend on it with use.","c":[],"cb":[],"b":"suspending-on-images"},"Cache-Control":{"n":"Cache-Control","p":"api","l":"good","pl":"how long the browser may reuse a response","w":"An HTTP response header. max-age=60 lets the browser reuse the response for 60 seconds without asking the server; no-store forbids storing it.","c":[],"cb":[],"b":"waterfalls-and-caching"},"Object.is":{"n":"Object.is","p":"api","l":"good","pl":"React’s equality check","w":"How React compares dependencies, memo props and state: by value for primitives, by identity for objects, arrays and functions.","c":[],"cb":[],"b":"dom-refs-and-effect-dependencies"}}</script><script type="application/json" id="note-titles">{"hello-world-in-js":{"t":"Hello World in JS","p":"fundamentals/hello-world-in-js/"},"raw-react-apis":{"t":"Raw React APIs","p":"fundamentals/raw-react-apis/"},"using-jsx":{"t":"Using JSX","p":"fundamentals/using-jsx/"},"custom-components":{"t":"Custom Components","p":"fundamentals/custom-components/"},"typescript-with-react":{"t":"TypeScript with React","p":"fundamentals/typescript-with-react/"},"styling":{"t":"Styling","p":"fundamentals/styling/"},"forms":{"t":"Forms","p":"fundamentals/forms/"},"inputs":{"t":"Inputs","p":"fundamentals/inputs/"},"error-boundaries":{"t":"Error Boundaries","p":"fundamentals/error-boundaries/"},"rendering-arrays":{"t":"Rendering Arrays","p":"fundamentals/rendering-arrays/"},"fundamentals-quiz":{"t":"Fundamentals Quiz","p":"fundamentals/fundamentals-quiz/"},"managing-ui-state":{"t":"Managing UI State","p":"hooks/managing-ui-state/"},"side-effects":{"t":"Side Effects","p":"hooks/side-effects/"},"react-lifecycle":{"t":"React Lifecycle","p":"hooks/react-lifecycle/"},"lifting-state":{"t":"Lifting State","p":"hooks/lifting-state/"},"dom-refs-and-effect-dependencies":{"t":"DOM Refs and Effect Dependencies","p":"hooks/dom-refs-and-effect-dependencies/"},"the-useid-hook":{"t":"The useId Hook","p":"hooks/the-useid-hook/"},"building-a-cart":{"t":"Building a Cart","p":"hooks/building-a-cart/"},"usestate-vs-usereducer":{"t":"useState vs useReducer","p":"hooks/usestate-vs-usereducer/"},"react-re-rendering":{"t":"React Re-rendering","p":"hooks/react-re-rendering/"},"usereducer":{"t":"useReducer","p":"apis/usereducer/"},"context-with-use":{"t":"Context with use","p":"apis/context-with-use/"},"createportal":{"t":"createPortal","p":"apis/createportal/"},"uselayouteffect":{"t":"useLayoutEffect","p":"apis/uselayouteffect/"},"useimperativehandle":{"t":"useImperativeHandle","p":"apis/useimperativehandle/"},"flushsync":{"t":"flushSync","p":"apis/flushsync/"},"usesyncexternalstore":{"t":"useSyncExternalStore","p":"apis/usesyncexternalstore/"},"composition":{"t":"Composition and Layout Components","p":"patterns/composition/"},"latest-ref":{"t":"The Latest Ref Pattern","p":"patterns/latest-ref/"},"compound-components":{"t":"Compound Components","p":"patterns/compound-components/"},"slots":{"t":"The Slots Pattern","p":"patterns/slots/"},"prop-getters":{"t":"Prop Collections and Getters","p":"patterns/prop-getters/"},"state-initializers":{"t":"State Initializers","p":"patterns/state-initializers/"},"state-reducer":{"t":"The State Reducer Pattern","p":"patterns/state-reducer/"},"control-props":{"t":"Control Props","p":"patterns/control-props/"},"element-optimization":{"t":"Element Optimization","p":"performance/element-optimization/"},"optimize-context":{"t":"Optimize Context","p":"performance/optimize-context/"},"concurrent-rendering":{"t":"Concurrent Rendering","p":"performance/concurrent-rendering/"},"code-splitting":{"t":"Code Splitting","p":"performance/code-splitting/"},"expensive-calculations":{"t":"Expensive Calculations","p":"performance/expensive-calculations/"},"optimize-rendering":{"t":"Optimize Rendering","p":"performance/optimize-rendering/"},"windowing":{"t":"Windowing","p":"performance/windowing/"},"data-fetching":{"t":"Data Fetching with use","p":"suspense/data-fetching/"},"promise-caching":{"t":"Promise Caching and Transitions","p":"suspense/promise-caching/"},"optimistic-ui":{"t":"Optimistic UI","p":"suspense/optimistic-ui/"},"suspending-on-images":{"t":"Suspending on Images","p":"suspense/suspending-on-images/"},"deferred-search":{"t":"useDeferredValue with Suspense","p":"suspense/deferred-search/"},"waterfalls-and-caching":{"t":"Waterfalls and Caching","p":"suspense/waterfalls-and-caching/"},"start-here":{"t":"Start Here","p":"internals/start-here/"},"render-and-commit":{"t":"Render and Commit","p":"internals/render-and-commit/"},"reconciliation":{"t":"Reconciliation","p":"internals/reconciliation/"},"react-fiber":{"t":"React Fiber","p":"internals/react-fiber/"},"hooks-under-the-hood":{"t":"Hooks Under the Hood","p":"internals/hooks-under-the-hood/"},"commit-phase-and-effects":{"t":"Commit Phase and Effects","p":"internals/commit-phase-and-effects/"},"the-work-loop":{"t":"The Work Loop","p":"internals/the-work-loop/"},"scheduler-lanes-and-batching":{"t":"Scheduler, Lanes and Batching","p":"internals/scheduler-lanes-and-batching/"},"child-reconciliation-algorithm":{"t":"Child Reconciliation Algorithm","p":"internals/child-reconciliation-algorithm/"},"a-state-update-end-to-end":{"t":"A State Update, End to End","p":"internals/a-state-update-end-to-end/"},"how-react-works":{"t":"How React Works, Start to Finish","p":"internals/how-react-works/"},"engine-map":{"t":"React Engine Map","p":"internals/engine-map/"}}</script><script type="module" src="/react-handbook/_astro/Base.astro_astro_type_script_index_0_lang.BL9X75G8.js"></script></body></html>
